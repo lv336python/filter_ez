@@ -15,4 +15,5 @@ manager.add_command('db', MigrateCommand)
 app.secret_key = 'any random string'
 
 
-from .routers import (test)
+from .routers import (test
+                      )
