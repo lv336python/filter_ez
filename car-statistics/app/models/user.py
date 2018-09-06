@@ -1,26 +1,16 @@
-from werkzeug.security import generate_password_hash, check_password_hash
-
 from app import db
 
 
 class User(db.Model):
-    __tablename__ = "user"
+    __tablename__ = 'users'
 
-    id = db.Column(db.Integer, primary_key=True)
-    username = db.Column(db.String(64), index=True, unique=True)
-    password = db.Column(db.String(128))
+    id = db.Column(db.Integer, primary_key=True, autoincrement=True)
+    email = db.Column(db.String, unique=True, nullable=False)
+    password_plaintext = db.Column(db.String, nullable=False)  # TEMPORARY - TO BE DELETED IN FAVOR OF HASHED PASSWORD
 
-    @staticmethod
-    def create (username, password):
-        user = User()
-        user.username = username
-        user.password = generate_password_hash(password)
-        db.session.add(user)
-        db.session.commit()
-
-    def check_password(self, pw):
-        return check_password_hash(self.password, pw)
+    def __init__(self, email, password_plaintext):
+        self.email = email
+        self.password_plaintext = password_plaintext
 
     def __repr__(self):
-        return '<User {}>'.format(self.username)
-
+        return f'<User {self.email}>'

@@ -3,5 +3,5 @@ DATABASE = {
     'POSTGRES_PASSWORD': 'adminadmin12344321',
     'HOST': 'localhost',
     'PORT': 5432,
-    'DB_NAME': 'flaskdb'
+    'DB_NAME': 'flask_db'
 }
