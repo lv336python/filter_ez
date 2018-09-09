@@ -1,15 +1,17 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 
-import { HeroesComponent } from './heroes/heroes.component';
-import { DashboardComponent } from './dashboard/dashboard.component';
-import { HeroDetailComponent } from './hero-detail/hero-detail.component';
+
+import {HomeComponent} from "./home/home.component";
+import {NotfoundComponent} from "./notfound/notfound.component";
+import {RegistrationComponent} from "./registration/registration.component";
+import {AuthGuard} from "./auth.guard";
 
 const routes: Routes = [
-	{path: 'heroes', component:HeroesComponent},
-	{path: 'dashboard', component:DashboardComponent},
-	{path: '', redirectTo: '/dashboard', pathMatch: 'full'},
-	{path: 'detail/:id', component: HeroDetailComponent},
+	{path: '', component:HomeComponent},
+	{path: '404', component:NotfoundComponent},
+	{path: 'register', component: RegistrationComponent, canActivate: [AuthGuard]},
+	{path: '**', redirectTo: '404'},
 ];
 
 @NgModule({

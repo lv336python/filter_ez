@@ -16,12 +16,13 @@ def register():
     """
     if request.method == 'POST':
         regemail = r"(^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$)"
-        email = request.form['email'].strip()
+        data = request.get_json()
+        email = data['email'].strip()
         if not re.match(regemail, email):
             return json.dumps({'status': 401,
-                               'message': 'email is`n correct'})
+                               'message': 'email is`n correct'}), 401
         if not User.query.filter(User.email == email).first():
-            password = generate_password_hash(request.form['password'])
+            password = generate_password_hash(data['password'])
             if email and password:
 
                 new_user = User(email=email, password_plaintext=password)
@@ -29,7 +30,9 @@ def register():
                 db.session.commit()
                 flash('Thanks for registering!',
                       'success')  # if base template has looping through message flash displays
-                return redirect('/')
+                res = new_user.to_dict()
+                res.update({'token': 'supersecrettoken'})
+                return json.dumps(res), 201
             else:
                 return json.dumps({'status': 401,
                                    'message': 'Empty value'})

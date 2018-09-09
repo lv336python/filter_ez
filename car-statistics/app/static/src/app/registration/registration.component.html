@@ -1,0 +1,20 @@
+
+<div class="auth">
+  <div class="form">
+    <form [formGroup]="registerGroup" (ngSubmit)="toRegister()">
+
+      <label>
+        Email:
+        <input type="text" formControlName="email" required>
+      </label>
+
+      <label>
+        Password:
+        <input type="text" formControlName="password" required>
+      </label>
+
+    <button type="submit" [disabled]="!registerGroup.valid">Submit</button>
+
+    </form>
+  </div>
+</div>
