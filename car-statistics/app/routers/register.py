@@ -1,4 +1,4 @@
-from flask import request, redirect, flash, render_template, url_for
+from flask import request, flash, url_for
 from werkzeug.security import generate_password_hash
 
 import json
