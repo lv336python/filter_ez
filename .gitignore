@@ -107,4 +107,4 @@ venv.bak/
 .idea/
 
 #Project
-node-modules/
+car-statistics/app/static/node_modules/
