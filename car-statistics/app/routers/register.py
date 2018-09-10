@@ -20,14 +20,15 @@ def register():
     """
     if request.method == 'POST':
         reg_email = r"(^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$)"
-        email = request.form['email']
+        data = request.get_json()
+        email = data['email']
         if not re.match(reg_email, email):
             return json.dumps({
                 'status': 401,
                 'message': 'invalid email'
             })
         if not User.query.filter(User.email == email).first():
-            password = generate_password_hash(request.form['password'])
+            password = generate_password_hash(data['password'])
             if email and password:
                 new_user = User(email=email, password_plaintext=password, confirmed=False)
                 db.session.add(new_user)
