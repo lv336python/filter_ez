@@ -1,11 +1,12 @@
-from flask import request, redirect, flash,url_for
-from app.routers.registration.token import generate_confirmation_token, confirm_token
-from app.models import User
 from app import app
 from app import db
+from app.routers.registration.token import generate_confirmation_token, confirm_token
+
+
 import json
+from flask import flash
 
-
+from app.models import User
 
 @app.route('/confirm/<token>')
 def confirm_email(token):
@@ -22,4 +23,7 @@ def confirm_email(token):
         db.session.add(user)
         db.session.commit()
         flash('You have confirmed your account. Thanks!', 'success')
-    return json.dumps({'message': 'succesfull'})
+    return json.dumps({
+        'status': 200,
+        'token': token
+    })
