@@ -1,12 +1,18 @@
+'''
+Module for User model describing
+'''
 from app import db
 
 
 class User(db.Model):
+    '''
+    User model for SQL database
+    '''
     __tablename__ = 'users'
 
     id = db.Column(db.Integer, primary_key=True, autoincrement=True)
     email = db.Column(db.String, unique=True, nullable=False)
-    password_plaintext = db.Column(db.String, nullable=False)  # TEMPORARY - TO BE DELETED IN FAVOR OF HASHED PASSWORD
+    password_plaintext = db.Column(db.String, nullable=False)
     confirmed = db.Column(db.Boolean, nullable=False, default=False)
 
     def __init__(self, email, password_plaintext, confirmed):

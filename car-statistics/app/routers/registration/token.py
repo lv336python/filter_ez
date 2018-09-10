@@ -1,23 +1,31 @@
-from itsdangerous import URLSafeTimedSerializer
+'''
+Token generation and validation functions
+'''
 
+import datetime
+import jwt
 from app import app
 
 
 def generate_confirmation_token(email):
-    serializer = URLSafeTimedSerializer(app.config['SECRET_KEY'])
-    print("Confirmation token",serializer.dumps(email, salt=app.config['SECURITY_PASSWORD_SALT']))
-    return serializer.dumps(email, salt=app.config['SECURITY_PASSWORD_SALT'])
+    '''
+    Accept user email and return generated token with expiration date
+    :param email:
+    :return: token
+    '''
+    token = jwt.encode({'email': email,
+                        'exp': datetime.datetime.utcnow() \
+                               + datetime.timedelta(hours=1)},
+                       app.config['SECRET_KEY'],
+                       algorithm='HS256')
+    return token
 
 
-def confirm_token(token, expiration=3600):
-    serializer = URLSafeTimedSerializer(app.config['SECRET_KEY'])
-    print('serializer ',serializer)
-    try:
-        email = serializer.loads(
-            token,
-            salt=app.config['SECURITY_PASSWORD_SALT'],
-            max_age=expiration
-        )
-    except:
-        return False
-    return email
+def confirm_token(token):
+    '''
+    Verify token  and decode it for email returning
+    :param token:
+    :return:
+    '''
+    decoded_token = jwt.decode(token, app.config['SECRET_KEY'], algorithms='HS256')
+    return decoded_token['email']
