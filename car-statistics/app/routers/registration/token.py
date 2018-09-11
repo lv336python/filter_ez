@@ -12,5 +12,4 @@ def generate_confirmation_token(email):
 
 def confirm_token(token):
     decoded_token = jwt.decode(token, app.config['SECRET_KEY'], algorithms='HS256')
-    print(decoded_token)
     return decoded_token['email']

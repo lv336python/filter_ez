@@ -6,7 +6,7 @@ class User(db.Model):
 
     id = db.Column(db.Integer, primary_key=True, autoincrement=True)
     email = db.Column(db.String, unique=True, nullable=False)
-    password_plaintext = db.Column(db.String, nullable=False)  # TEMPORARY - TO BE DELETED IN FAVOR OF HASHED PASSWORD
+    password_plaintext = db.Column(db.String, nullable=False)
     confirmed = db.Column(db.Boolean, nullable=False, default=False)
 
     def to_dict(self):
