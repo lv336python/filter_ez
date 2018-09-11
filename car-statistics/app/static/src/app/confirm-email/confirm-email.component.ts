@@ -9,7 +9,6 @@ import {ActivatedRoute} from "@angular/router";
   styleUrls: ['./confirm-email.component.css']
 })
 export class ConfirmEmailComponent implements OnInit {
-  asf : string = "safasf";
 
   constructor(
     private auth: AuthService,
@@ -19,8 +18,6 @@ export class ConfirmEmailComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.asf = "SAfsaf";
-      console.log('asdsad');
       this.auth.confirmEmail(this.route.snapshot.params["token"])
           .subscribe(
               resp => console.log(resp)
