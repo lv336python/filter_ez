@@ -11,7 +11,7 @@ export class AuthService {
 
   login_api_url = "api/login";
   register_api_url = "api/register";
-  confirm_url = "api/confirm_email/";
+  confirm_url = "api/confirm/";
 
   constructor(
       private _http: HttpClient,
@@ -32,7 +32,8 @@ export class AuthService {
   }
 
   confirmEmail(token: string) : Observable<any> {
-    return this._http.get<any>(this.confirmEmail+token);
+
+    return this._http.get<any>(this.confirm_url+token);
   }
 
 }
