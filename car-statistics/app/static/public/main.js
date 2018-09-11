@@ -266,7 +266,7 @@ var AuthService = /** @class */ (function () {
         this._http = _http;
         this.login_api_url = "api/login";
         this.register_api_url = "api/register";
-        this.confirm_url = "api/confirm_email/";
+        this.confirm_url = "api/confirm/";
     }
     AuthService.prototype.toRegister = function (user) {
         return this._http.post(this.register_api_url, user)
@@ -276,7 +276,7 @@ var AuthService = /** @class */ (function () {
         return this._http.post(this.login_api_url, user);
     };
     AuthService.prototype.confirmEmail = function (token) {
-        return this._http.get(this.confirmEmail + token);
+        return this._http.get(this.confirm_url + token);
     };
     AuthService = __decorate([
         Object(_angular_core__WEBPACK_IMPORTED_MODULE_0__["Injectable"])({
@@ -309,7 +309,7 @@ module.exports = ""
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = "  You have confirmed registration. Proceed to <a routerLink=\"\">home page</a>\n"
+module.exports = "  You have confirmed registration. Proceed to <a routerLink=\"\">home page</a>\n{{asf}} asd sadsa"
 
 /***/ }),
 
@@ -324,6 +324,8 @@ module.exports = "  You have confirmed registration. Proceed to <a routerLink=\"
 __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "ConfirmEmailComponent", function() { return ConfirmEmailComponent; });
 /* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @angular/core */ "./node_modules/@angular/core/fesm5/core.js");
+/* harmony import */ var _auth_service__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../auth.service */ "./src/app/auth.service.ts");
+/* harmony import */ var _angular_router__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @angular/router */ "./node_modules/@angular/router/fesm5/router.js");
 var __decorate = (undefined && undefined.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -334,10 +336,19 @@ var __metadata = (undefined && undefined.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
 
+
+
 var ConfirmEmailComponent = /** @class */ (function () {
-    function ConfirmEmailComponent() {
+    function ConfirmEmailComponent(auth, route) {
+        this.auth = auth;
+        this.route = route;
+        this.asf = "safasf";
     }
     ConfirmEmailComponent.prototype.ngOnInit = function () {
+        this.asf = "SAfsaf";
+        console.log('asdsad');
+        this.auth.confirmEmail(this.route.snapshot.params["token"])
+            .subscribe(function (resp) { return console.log(resp); });
     };
     ConfirmEmailComponent = __decorate([
         Object(_angular_core__WEBPACK_IMPORTED_MODULE_0__["Component"])({
@@ -345,7 +356,8 @@ var ConfirmEmailComponent = /** @class */ (function () {
             template: __webpack_require__(/*! ./confirm-email.component.html */ "./src/app/confirm-email/confirm-email.component.html"),
             styles: [__webpack_require__(/*! ./confirm-email.component.css */ "./src/app/confirm-email/confirm-email.component.css")]
         }),
-        __metadata("design:paramtypes", [])
+        __metadata("design:paramtypes", [_auth_service__WEBPACK_IMPORTED_MODULE_1__["AuthService"],
+            _angular_router__WEBPACK_IMPORTED_MODULE_2__["ActivatedRoute"]])
     ], ConfirmEmailComponent);
     return ConfirmEmailComponent;
 }());
