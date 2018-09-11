@@ -1,7 +1,13 @@
+'''
+Module for User model describing
+'''
 from app import db
 
 
 class User(db.Model):
+    '''
+    User model for SQL database
+    '''
     __tablename__ = 'users'
 
     id = db.Column(db.Integer, primary_key=True, autoincrement=True)
