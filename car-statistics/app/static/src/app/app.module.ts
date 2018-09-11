@@ -11,21 +11,21 @@ import { HomeComponent } from './home/home.component';
 import { ConfirmEmailComponent } from './confirm-email/confirm-email.component';
 
 @NgModule({
-  declarations: [
-    AppComponent,
-    RegistrationComponent,
-    NotfoundComponent,
-    HomeComponent,
-    ConfirmEmailComponent,
-  ],
-  imports: [
-    BrowserModule,
-    FormsModule,
-    AppRoutingModule,
-    HttpClientModule,
-      ReactiveFormsModule
-  ],
-  providers: [],
-  bootstrap: [AppComponent]
+    declarations: [
+        AppComponent,
+        RegistrationComponent,
+        NotfoundComponent,
+        HomeComponent,
+        ConfirmEmailComponent,
+    ],
+    imports: [
+        BrowserModule,
+        FormsModule,
+        AppRoutingModule,
+        HttpClientModule,
+        ReactiveFormsModule
+    ],
+    providers: [],
+    bootstrap: [AppComponent]
 })
 export class AppModule { }

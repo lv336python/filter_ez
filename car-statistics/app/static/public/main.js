@@ -82,7 +82,7 @@ var AppRoutingModule = /** @class */ (function () {
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = "/* AppComponent's private CSS styles */\nh1 {\n  font-size: 1.2em;\n  color: #999;\n  margin-bottom: 0;\n}\nh2 {\n  font-size: 2em;\n  margin-top: 0;\n  padding-top: 0;\n}\nnav a {\n  padding: 5px 10px;\n  text-decoration: none;\n  margin-top: 10px;\n  display: inline-block;\n  background-color: #eee;\n  border-radius: 4px;\n}\nnav a:visited, a:link {\n  color: #607d8b;\n}\nnav a:hover {\n  color: #039be5;\n  background-color: #cfd8dc;\n}\nnav a.active {\n  color: #039be5;\n}"
+module.exports = ""
 
 /***/ }),
 
@@ -117,8 +117,6 @@ var __decorate = (undefined && undefined.__decorate) || function (decorators, ta
 
 var AppComponent = /** @class */ (function () {
     function AppComponent() {
-        this.title = 'Tour of Heroes';
-        this.new_Title = 'safsagfasf';
     }
     AppComponent = __decorate([
         Object(_angular_core__WEBPACK_IMPORTED_MODULE_0__["Component"])({
@@ -309,7 +307,7 @@ module.exports = ""
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = "  You have confirmed registration. Proceed to <a routerLink=\"\">home page</a>\n{{asf}} asd sadsa"
+module.exports = "  You have confirmed registration. Proceed to <a routerLink=\"\">home page</a>\n"
 
 /***/ }),
 
@@ -342,11 +340,8 @@ var ConfirmEmailComponent = /** @class */ (function () {
     function ConfirmEmailComponent(auth, route) {
         this.auth = auth;
         this.route = route;
-        this.asf = "safasf";
     }
     ConfirmEmailComponent.prototype.ngOnInit = function () {
-        this.asf = "SAfsaf";
-        console.log('asdsad');
         this.auth.confirmEmail(this.route.snapshot.params["token"])
             .subscribe(function (resp) { return console.log(resp); });
     };
@@ -404,7 +399,7 @@ module.exports = ""
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = "<p>\n  home works!\n</p>\n"
+module.exports = "<p>\n  TODO: home page which is accessible if user is logged in\n</p>\n"
 
 /***/ }),
 
@@ -489,7 +484,7 @@ module.exports = ""
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = "<p>\n  notfound works!\n</p>\n"
+module.exports = "<p>\n  TODO: Custom error 404 page\n</p>\n"
 
 /***/ }),
 
