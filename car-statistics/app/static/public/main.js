@@ -39,6 +39,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _notfound_notfound_component__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./notfound/notfound.component */ "./src/app/notfound/notfound.component.ts");
 /* harmony import */ var _registration_registration_component__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./registration/registration.component */ "./src/app/registration/registration.component.ts");
 /* harmony import */ var _auth_guard__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./auth.guard */ "./src/app/auth.guard.ts");
+/* harmony import */ var _confirm_email_confirm_email_component__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./confirm-email/confirm-email.component */ "./src/app/confirm-email/confirm-email.component.ts");
 var __decorate = (undefined && undefined.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -51,11 +52,12 @@ var __decorate = (undefined && undefined.__decorate) || function (decorators, ta
 
 
 
+
 var routes = [
     { path: '', component: _home_home_component__WEBPACK_IMPORTED_MODULE_2__["HomeComponent"] },
-    { path: '404', component: _notfound_notfound_component__WEBPACK_IMPORTED_MODULE_3__["NotfoundComponent"] },
     { path: 'register', component: _registration_registration_component__WEBPACK_IMPORTED_MODULE_4__["RegistrationComponent"], canActivate: [_auth_guard__WEBPACK_IMPORTED_MODULE_5__["AuthGuard"]] },
-    { path: '**', redirectTo: '404' },
+    { path: 'confirm/:token', component: _confirm_email_confirm_email_component__WEBPACK_IMPORTED_MODULE_6__["ConfirmEmailComponent"] },
+    { path: '**', component: _notfound_notfound_component__WEBPACK_IMPORTED_MODULE_3__["NotfoundComponent"] },
 ];
 var AppRoutingModule = /** @class */ (function () {
     function AppRoutingModule() {
@@ -91,7 +93,7 @@ module.exports = "/* AppComponent's private CSS styles */\nh1 {\n  font-size: 1.
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = "\n<router-outlet></router-outlet>\n"
+module.exports = "<router-outlet></router-outlet>\n"
 
 /***/ }),
 
@@ -151,12 +153,14 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _registration_registration_component__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./registration/registration.component */ "./src/app/registration/registration.component.ts");
 /* harmony import */ var _notfound_notfound_component__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ./notfound/notfound.component */ "./src/app/notfound/notfound.component.ts");
 /* harmony import */ var _home_home_component__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ./home/home.component */ "./src/app/home/home.component.ts");
+/* harmony import */ var _confirm_email_confirm_email_component__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ./confirm-email/confirm-email.component */ "./src/app/confirm-email/confirm-email.component.ts");
 var __decorate = (undefined && undefined.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
     else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
     return c > 3 && r && Object.defineProperty(target, key, r), r;
 };
+
 
 
 
@@ -176,6 +180,7 @@ var AppModule = /** @class */ (function () {
                 _registration_registration_component__WEBPACK_IMPORTED_MODULE_6__["RegistrationComponent"],
                 _notfound_notfound_component__WEBPACK_IMPORTED_MODULE_7__["NotfoundComponent"],
                 _home_home_component__WEBPACK_IMPORTED_MODULE_8__["HomeComponent"],
+                _confirm_email_confirm_email_component__WEBPACK_IMPORTED_MODULE_9__["ConfirmEmailComponent"],
             ],
             imports: [
                 _angular_platform_browser__WEBPACK_IMPORTED_MODULE_0__["BrowserModule"],
@@ -243,6 +248,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "AuthService", function() { return AuthService; });
 /* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @angular/core */ "./node_modules/@angular/core/fesm5/core.js");
 /* harmony import */ var _angular_common_http__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @angular/common/http */ "./node_modules/@angular/common/fesm5/http.js");
+/* harmony import */ var rxjs_operators__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! rxjs/operators */ "./node_modules/rxjs/_esm5/operators/index.js");
 var __decorate = (undefined && undefined.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -254,17 +260,23 @@ var __metadata = (undefined && undefined.__metadata) || function (k, v) {
 };
 
 
+
 var AuthService = /** @class */ (function () {
     function AuthService(_http) {
         this._http = _http;
-        this.login_api_url = "/login";
-        this.register_api_url = "/register";
+        this.login_api_url = "api/login";
+        this.register_api_url = "api/register";
+        this.confirm_url = "api/confirm_email/";
     }
     AuthService.prototype.toRegister = function (user) {
-        return this._http.post(this.register_api_url, user);
+        return this._http.post(this.register_api_url, user)
+            .pipe(Object(rxjs_operators__WEBPACK_IMPORTED_MODULE_2__["tap"])(function (data) { return console.log(data); }, function (error) { return console.log(error); }));
     };
     AuthService.prototype.toLogin = function (user) {
         return this._http.post(this.login_api_url, user);
+    };
+    AuthService.prototype.confirmEmail = function (token) {
+        return this._http.get(this.confirmEmail + token);
     };
     AuthService = __decorate([
         Object(_angular_core__WEBPACK_IMPORTED_MODULE_0__["Injectable"])({
@@ -273,6 +285,69 @@ var AuthService = /** @class */ (function () {
         __metadata("design:paramtypes", [_angular_common_http__WEBPACK_IMPORTED_MODULE_1__["HttpClient"]])
     ], AuthService);
     return AuthService;
+}());
+
+
+
+/***/ }),
+
+/***/ "./src/app/confirm-email/confirm-email.component.css":
+/*!***********************************************************!*\
+  !*** ./src/app/confirm-email/confirm-email.component.css ***!
+  \***********************************************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+module.exports = ""
+
+/***/ }),
+
+/***/ "./src/app/confirm-email/confirm-email.component.html":
+/*!************************************************************!*\
+  !*** ./src/app/confirm-email/confirm-email.component.html ***!
+  \************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+module.exports = "  You have confirmed registration. Proceed to <a routerLink=\"\">home page</a>\n"
+
+/***/ }),
+
+/***/ "./src/app/confirm-email/confirm-email.component.ts":
+/*!**********************************************************!*\
+  !*** ./src/app/confirm-email/confirm-email.component.ts ***!
+  \**********************************************************/
+/*! exports provided: ConfirmEmailComponent */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "ConfirmEmailComponent", function() { return ConfirmEmailComponent; });
+/* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @angular/core */ "./node_modules/@angular/core/fesm5/core.js");
+var __decorate = (undefined && undefined.__decorate) || function (decorators, target, key, desc) {
+    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
+};
+var __metadata = (undefined && undefined.__metadata) || function (k, v) {
+    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
+};
+
+var ConfirmEmailComponent = /** @class */ (function () {
+    function ConfirmEmailComponent() {
+    }
+    ConfirmEmailComponent.prototype.ngOnInit = function () {
+    };
+    ConfirmEmailComponent = __decorate([
+        Object(_angular_core__WEBPACK_IMPORTED_MODULE_0__["Component"])({
+            selector: 'app-confirm-email',
+            template: __webpack_require__(/*! ./confirm-email.component.html */ "./src/app/confirm-email/confirm-email.component.html"),
+            styles: [__webpack_require__(/*! ./confirm-email.component.css */ "./src/app/confirm-email/confirm-email.component.css")]
+        }),
+        __metadata("design:paramtypes", [])
+    ], ConfirmEmailComponent);
+    return ConfirmEmailComponent;
 }());
 
 
@@ -454,7 +529,7 @@ var NotfoundComponent = /** @class */ (function () {
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = ".ng-valid[required], .ng-valid.required  {\n  border-left: 5px solid #42A948; /* green */\n}\n\n.ng-invalid:not(form)  {\n  border-left: 5px solid #a94442; /* red */\n}"
+module.exports = ".ng-valid[required], .ng-valid.required  {\n    border-radius: 5px;\n  width: 80%;\n  background-color: rgba(240, 210, 200, 0.14);\n  padding-top: 7px;\n  padding-bottom: 7px;\n  margin-top: 3px;\n  border-bottom: 1px solid #42A948; /* green */\n}\n\n.ng-invalid:not(form)  {\n  border-radius: 5px;\n    background-color: rgba(240, 210, 200, 0.14);\n  width: 80%;\n  padding-top: 7px;\n  padding-bottom: 7px;\n    margin-top: 3px;\n  margin-bottom: 3px;\n\n  border-bottom: 2px solid #a94442; /* red */\n}\n\nbutton {\n  margin-top: 15px;\n}\n\n.form {\n  padding-left: 20px;\n  padding-top: 40px;\n}\n\n.auth {\n  position: absolute;\n    top:0;\n    bottom: 0;\n    left: 0;\n    right: 0;\n    margin: auto;\n  height: 340px;\n  width: 400px;\n  background-color: rgba(200, 190, 120, 0.2);\n  border-radius: 5px;\n  border: 2px solid rgba(170, 150, 80, 0.2);\n}\n\nlabel, input {\n  display: block;\n}\n"
 
 /***/ }),
 
@@ -465,7 +540,7 @@ module.exports = ".ng-valid[required], .ng-valid.required  {\n  border-left: 5px
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = "\n\n\n<div>\n  <div>\n    <form [formGroup]=\"registerGroup\" (ngSubmit)=\"toRegister()\">>\n\n      <label>\n        Email:\n        <input type=\"text\" formControlName=\"email\">\n      </label>\n\n      <label>\n        Password:\n        <input type=\"text\" formControlName=\"password\">\n      </label>\n\n    <button type=\"submit\" [disabled]=\"!registerGroup.valid\">Submit</button>\n\n    </form>\n\n\n  </div>\n</div>"
+module.exports = "\n<div class=\"auth\">\n  <div class=\"form\">\n    <form [formGroup]=\"registerGroup\" (ngSubmit)=\"toRegister()\">\n      <label>\n        Email:\n        <input type=\"text\" formControlName=\"email\" required>\n      </label>\n      <div class=\"error\" *ngIf=\"isEmailBusy == true\">Email is taken</div>\n      <label>\n        Password:\n        <input type=\"password\" formControlName=\"password\" required>\n      </label>\n      <div class=\"error\" *ngIf=\"password.invalid && (password.dirty || password.touched)\">\n        <ul>\n          <li *ngIf=\"password.errors.minlength || password.errors.maxlength\">Password must be from 8 to 40 characters long</li>\n          <li *ngIf=\"password.errors.wrongFormat\">Password must contain at least one digit</li>\n        </ul>\n      </div>\n    <button type=\"submit\" [disabled]=\"!registerGroup.valid\">Submit</button>\n    </form>\n  </div>\n</div>\n"
 
 /***/ }),
 
@@ -505,6 +580,7 @@ var RegistrationComponent = /** @class */ (function () {
         this.auth_ = auth_;
         this.router = router;
         this.route = route;
+        this.isEmailBusy = false;
         this.registerGroup = new _angular_forms__WEBPACK_IMPORTED_MODULE_1__["FormGroup"]({
             email: new _angular_forms__WEBPACK_IMPORTED_MODULE_1__["FormControl"]('', [
                 _angular_forms__WEBPACK_IMPORTED_MODULE_1__["Validators"].required,
@@ -522,11 +598,17 @@ var RegistrationComponent = /** @class */ (function () {
         var _this = this;
         this.auth_.toRegister(new _models_user__WEBPACK_IMPORTED_MODULE_4__["User"](this.registerGroup.controls['email'].value, this.registerGroup.controls['password'].value))
             .subscribe(function (res) {
-            console.log(res);
             localStorage.setItem('token', res.token);
             _this.router.navigate([_this.returnUrl]);
+        }, function (error) {
+            _this.isEmailBusy = true;
         });
     };
+    Object.defineProperty(RegistrationComponent.prototype, "password", {
+        get: function () { return this.registerGroup.get('password'); },
+        enumerable: true,
+        configurable: true
+    });
     RegistrationComponent.prototype.ngOnInit = function () {
         this.returnUrl = this.route.snapshot.queryParams['returnUrl'] || '/';
     };

@@ -1,17 +1,17 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 
-
 import {HomeComponent} from "./home/home.component";
 import {NotfoundComponent} from "./notfound/notfound.component";
 import {RegistrationComponent} from "./registration/registration.component";
 import {AuthGuard} from "./auth.guard";
+import {ConfirmEmailComponent} from "./confirm-email/confirm-email.component";
 
 const routes: Routes = [
 	{path: '', component:HomeComponent},
-	{path: '404', component:NotfoundComponent},
 	{path: 'register', component: RegistrationComponent, canActivate: [AuthGuard]},
-	{path: '**', redirectTo: '404'},
+	{path: 'confirm/:token', component: ConfirmEmailComponent},
+	{path: '**', component: NotfoundComponent},
 ];
 
 @NgModule({

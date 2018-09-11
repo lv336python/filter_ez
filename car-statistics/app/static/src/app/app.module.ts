@@ -8,6 +8,7 @@ import { AppRoutingModule } from './app-routing.module';
 import { RegistrationComponent } from './registration/registration.component';
 import { NotfoundComponent } from './notfound/notfound.component';
 import { HomeComponent } from './home/home.component';
+import { ConfirmEmailComponent } from './confirm-email/confirm-email.component';
 
 @NgModule({
   declarations: [
@@ -15,6 +16,7 @@ import { HomeComponent } from './home/home.component';
     RegistrationComponent,
     NotfoundComponent,
     HomeComponent,
+    ConfirmEmailComponent,
   ],
   imports: [
     BrowserModule,

@@ -14,11 +14,13 @@ import {ActivatedRoute, Router} from "@angular/router";
 export class RegistrationComponent implements OnInit {
 
   returnUrl : string;
+  isEmailBusy : boolean = false;
 
   registerGroup =  new FormGroup({
         email: new FormControl('', [
             Validators.required,
             TextFormatDirective(/^[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?$/)
+
         ]),
         password: new FormControl('', [
             Validators.required,
@@ -31,13 +33,18 @@ export class RegistrationComponent implements OnInit {
   toRegister() {
     this.auth_.toRegister(new User(this.registerGroup.controls['email'].value,
         this.registerGroup.controls['password'].value))
-        .subscribe(res => {
-            console.log(res);
-            localStorage.setItem('token', res.token);
-            this.router.navigate([this.returnUrl])
+        .subscribe(
+            res => {
+                localStorage.setItem('token', res.token);
+                this.router.navigate([this.returnUrl]);
+            },
+            error => {
+                this.isEmailBusy = true;
+            })
+      }
 
-        })
-  }
+      get password() { return this.registerGroup.get('password')}
+
 
 
   constructor(
