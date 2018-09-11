@@ -33,7 +33,7 @@ def register():
                 db.session.commit()
 
                 token = generate_confirmation_token(new_user.email)
-                confirm_url = url_for('index') + '/confirm/' + token
+                confirm_url = url_for('index', _external=True) + '/confirm/' + token.decode('UTF-8')
                 html = f'Link: {confirm_url}'
                 subject = "Please confirm your email"
                 send_email(new_user.email, subject, html)
