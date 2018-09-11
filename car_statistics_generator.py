@@ -1,13 +1,15 @@
 """
     Module for creating fake data about cars
 """
+import json
 import sys
+import xlwt
+
 from random import choice
 
-import pandas as pd
 
 
-CAR_CHARACTERISTICS = {
+COL_DATASETS = {
     'Models': ['Mazaro', 'X5', 'Kwid', 'Scorpio', 'Vitara', 'A6', 'X4', 'Spyder'],
     'Make': ['Audi', 'BMW', 'Chevrolet', 'Citroen', 'Dacia', 'Fiat', 'Ford',
              'Honda', 'Kia', 'Lexus', 'Jeep', 'Opel', 'Nissan', 'Toyota', 'Pontiac'],
@@ -36,7 +38,7 @@ CAR_CHARACTERISTICS = {
     'Trim level': ('DX', 'LX', 'LS', 'EX', 'GL', 'SE', 'GT')
 }
 
-COLUMNS = sorted(list(CAR_CHARACTERISTICS.keys()))
+COLUMNS = sorted(list(COL_DATASETS.keys()))
 
 
 def generate_row():
@@ -46,8 +48,14 @@ def generate_row():
     """
     stats = []
     for column in COLUMNS:
-        stats.append(choice(CAR_CHARACTERISTICS[column]))
+        stats.append(choice(COL_DATASETS[column]))
     return stats
+
+def configure():
+    with open(sys.argv[1]) as conf_file:
+        plain_text = conf_file.read()
+        conf_json = json.loads(plain_text)
+        print(conf_json)
 
 
 def generate_data_frame():
@@ -56,13 +64,22 @@ def generate_data_frame():
      cars and writes it to Excel file 'stats.xls'
     :return: None
     """
-    cars_data_frame = pd.DataFrame(columns=COLUMNS)
-    for i in range(5000):
-        cars_data_frame.loc[i] = generate_row()
-    writer = pd.ExcelWriter(sys.argv[1])
-    cars_data_frame.to_excel(writer, sheet_name="Sheet 1", index=False)
-    writer.save()
+    workbook = xlwt.Workbook()
+    sheet = workbook.add_sheet("Sheet 1")
+
+
+
+    for index, column in enumerate(COLUMNS):
+        sheet.write(0, index, column)
+    for row_index in range(1, 50000):
+        for col_index, col_value in enumerate(generate_row()):
+            sheet.write(row_index, col_index, col_value)
+
+
+    workbook.save("result.xls")
 
 
 if __name__ == '__main__':
+    if len(sys.argv) > 1:
+        configure()
     generate_data_frame()
