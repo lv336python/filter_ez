@@ -105,3 +105,6 @@ venv.bak/
 
 #Pycharm
 .idea/
+
+#Project
+car-statistics/app/static/node_modules/

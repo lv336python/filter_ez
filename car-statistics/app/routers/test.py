@@ -2,9 +2,10 @@
 Main view for '/' address
 '''
 from app import app
-from app.models import User
 
+from flask import render_template
 
-@app.route('/')
-def index():
-    return 'Hello!!!'
+@app.route('/', defaults={'path': ''})
+@app.route('/<path:path>')
+def index(path):
+    return render_template('index.html')

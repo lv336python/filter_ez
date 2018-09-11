@@ -21,4 +21,5 @@ app.secret_key = 'any random string'
 
 from .routers import (test,
                       register,
-                      confirm_email)
+                      confirm_email
+                      )
