@@ -1,22 +1,29 @@
+
+'''
+Configuration module for app, mail
+'''
 import os
 
 try:
     from .local_settings import *
-except:
+except EnvironmentError:
     pass
 
 BASEDIR = os.path.abspath(os.path.dirname(__file__))
 
 
 class Config:
+    '''
+    Configuration class to configure app from object
+    '''
     # DEBUG = False
     # TESTING = False
     # CSRF_ENABLED = True
     SECRET_KEY = 'this-really-needs-to-be-changed'
     SECURITY_PASSWORD_SALT = 'my_precious_two'
     SQLALCHEMY_TRACK_MODIFICATIONS = False
-    # SQLALCHEMY_DATABASE_URI = "postgresql:///flask_db"   # Enter your database name
-    SQLALCHEMY_DATABASE_URI = f"postgresql://{DATABASE['POSTGRES_USER']}:{DATABASE['POSTGRES_PASSWORD']}@" \
+    SQLALCHEMY_DATABASE_URI = f"postgresql://{DATABASE['POSTGRES_USER']}:" \
+                              f"{DATABASE['POSTGRES_PASSWORD']}@" \
                               f"{DATABASE['HOST']}:{DATABASE['PORT']}/{DATABASE['DB_NAME']}"
     # mail settings
     MAIL_SERVER = 'smtp.googlemail.com'
