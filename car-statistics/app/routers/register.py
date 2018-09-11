@@ -13,7 +13,7 @@ from app.routers.registration.token import generate_confirmation_token
 from app.routers.registration.email import send_email
 
 
-@app.route('/register', methods=['POST'])
+@app.route('/api/register', methods=['POST'])
 def register():
     """
     POST methods for registration
@@ -33,7 +33,7 @@ def register():
                 db.session.commit()
 
                 token = generate_confirmation_token(new_user.email)
-                confirm_url = url_for('confirm_email', token=token, _external=True)
+                confirm_url = url_for('index') + '/confirm/' + token
                 html = f'Link: {confirm_url}'
                 subject = "Please confirm your email"
                 send_email(new_user.email, subject, html)
