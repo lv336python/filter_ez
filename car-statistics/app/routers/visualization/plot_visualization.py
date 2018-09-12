@@ -1,4 +1,4 @@
-from flask import Flask, render_template
+from flask import Flask
 import json
 import plotly
 from pandas import read_excel
@@ -11,7 +11,7 @@ app = Flask(__name__)
 df = read_excel('car_statistics.xls', sheet_name='Sheet 1')
 
 
-@app.route('/carStatistics')
+@app.route('/api/carStatistics')
 def multiLine():
     count = 500
     xScale = np.linspace(0, 500, count)
@@ -39,6 +39,4 @@ def multiLine():
     )
 
     data = [trace1, trace2, trace3]
-    graphJSON = json.dumps(data, cls=plotly.utils.PlotlyJSONEncoder)
-    return render_template('plot.html',
-                           graphJSON=graphJSON)
+    return json.dumps({'status': 200, 'graph': data, 'message': 'Multi-line chart'}), 200
