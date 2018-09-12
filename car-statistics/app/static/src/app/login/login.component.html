@@ -1,20 +1,23 @@
-<form #loginForm="ngForm" class="col s12 white">
-   <div class="row">
-     <div class="input-field col s12">
-       <i class="material-icons prefix">account_circle</i>
-       <input type="text" #UserName ngModel name="UserName" placeholder="Username" required>
-     </div>
-   </div>
-   <div class="row">
-      <div class="input-field col s12">
-        <i class="material-icons prefix">vpn_key</i>
-        <input type="password" #Password ngModel name="Password" placeholder="Password" required>
+
+<div class="auth">
+  <div class="form">
+    <form [formGroup]="loginGroup" (ngSubmit)="toLogin()">
+      <label>
+        Email:
+        <input type="text" formControlName="email" required>
+      </label>
+      <label>
+        Password:
+        <input type="password" formControlName="password" required>
+      </label>
+      <div class="error" *ngIf="password.invalid && (password.dirty || password.touched)">
+        <ul>
+          <li *ngIf="password.errors.minlength || password.errors.maxlength">Password must be from 8 to 40 characters long</li>
+          <li *ngIf="password.errors.wrongFormat">Password must contain at least one digit</li>
+        </ul>
       </div>
-    </div>
-    <div class="row">
-        <div class="input-field col s12">
-          <button [disabled]="!loginForm.valid" class="btn-large btn-submit" type="submit">Login</button>
-        </div>
-      </div>
-</form>
-<h1>gfgg</h1>
+    <button type="submit" [disabled]="!registerGroup.valid">Submit</button>
+    </form>
+  </div>
+</div>
+<h1>gfdgdfg</h1>
