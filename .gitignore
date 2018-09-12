@@ -108,4 +108,4 @@ venv.bak/
 
 #Project
 car-statistics/app/static/node_modules/
-.result.xls
+result.xls
