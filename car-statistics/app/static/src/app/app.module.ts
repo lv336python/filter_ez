@@ -9,23 +9,28 @@ import { RegistrationComponent } from './registration/registration.component';
 import { NotfoundComponent } from './notfound/notfound.component';
 import { HomeComponent } from './home/home.component';
 import { ConfirmEmailComponent } from './confirm-email/confirm-email.component';
+import { LoginComponent } from './login/login.component';
+import { ResetPasswordComponent } from './reset-password/reset-password.component';
+import { LogoutComponent } from './logout/logout.component';
 
 @NgModule({
-    declarations: [
-        AppComponent,
-        RegistrationComponent,
-        NotfoundComponent,
-        HomeComponent,
-        ConfirmEmailComponent,
-    ],
-    imports: [
-        BrowserModule,
-        FormsModule,
-        AppRoutingModule,
-        HttpClientModule,
-        ReactiveFormsModule
-    ],
-    providers: [],
-    bootstrap: [AppComponent]
+  declarations: [
+    AppComponent,
+    RegistrationComponent,
+    NotfoundComponent,
+    HomeComponent,
+    ConfirmEmailComponent,
+    LoginComponent,
+    LogoutComponent,
+  ],
+  imports: [
+    BrowserModule,
+    FormsModule,
+    AppRoutingModule,
+    HttpClientModule,
+      ReactiveFormsModule
+  ],
+  providers: [],
+  bootstrap: [AppComponent]
 })
 export class AppModule { }
