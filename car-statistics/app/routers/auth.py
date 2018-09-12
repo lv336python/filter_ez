@@ -20,9 +20,12 @@ def login():
         return json.dumps({
             'message': 'Login or password not found'
         }), 400
-
-    session['user_id'] = user.id
-
+    if not 'user_id' in session:
+        session['user_id'] = user.id
+    else:
+        return json.dumps({
+            'message': f'User {user.email} already logged in'
+        }), 400
     return json.dumps({
         'message': f'User: {data["email"]} is logged in'
     }), 200
