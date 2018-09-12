@@ -11,10 +11,7 @@ import {User} from "../models/user";
 export class LogoutComponent implements OnInit {
     returnUrl: string;
     name: string;
-    toLogout(){this.name='fgf'
-        this.auth_.toLogout(null)
 
-    }
     constructor(
         private auth_: AuthService,
         private router: Router,
@@ -23,7 +20,7 @@ export class LogoutComponent implements OnInit {
     }
 
     ngOnInit() {
-        this.returnUrl = this.route.snapshot.queryParams['returnUrl'] || '/';
-    }
+        this.auth_.toLogout(null).subscribe()
 
+    }
 }
