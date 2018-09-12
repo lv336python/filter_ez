@@ -7,12 +7,13 @@ import {RegistrationComponent} from "./registration/registration.component";
 import {AuthGuard} from "./auth.guard";
 import {ConfirmEmailComponent} from "./confirm-email/confirm-email.component";
 import {LoginComponent} from "./login/login.component";
-
+import {LogoutComponent} from "./logout/logout.component"
 const routes: Routes = [
 	{path: '', component:HomeComponent},
 	{path: 'register', component: RegistrationComponent, canActivate: [AuthGuard]},
 	{path: 'confirm/:token', component: ConfirmEmailComponent},
 	{path: 'login', component: LoginComponent},
+	{path: 'logout', component: LogoutComponent},
 	{path: '**', component: NotfoundComponent},
 ];
 
