@@ -1,4 +1,4 @@
-from flask import request, session, url_for
+from flask import request, url_for
 from app.routers.registration.token import generate_confirmation_token
 
 import json
@@ -23,12 +23,10 @@ def reset_password():
         html = f'Reset Password link {recover_url}'
         send_email(user.email, subject, html)
         return json.dumps({
-            'status': 200,
             'message': f'reset password link sent to email {email}'
         }), 200
     else:
         return json.dumps({
-            'status': 404,
             'message': f'User {email} not found'
         }), 404
 
