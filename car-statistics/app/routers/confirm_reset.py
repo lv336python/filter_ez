@@ -26,5 +26,8 @@ def reset_with_token(token):
             user.password_plaintext = password
             db.session.add(user)
             db.session.commit()
-            return json.dumps({'status': 200, 'token': token}), 200
+            return json.dumps({
+                'status': 200,
+                'token': token
+            }), 200
     return json.dumps({'status': 404, 'message': 'user doesnt exist'}), 404

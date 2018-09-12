@@ -24,8 +24,11 @@ def reset_password():
         send_email(user.email, subject, html)
         return json.dumps({
             'status': 200,
-            'message': 'password reset'
+            'message': f'reset password link sent to email {email}'
         }), 200
     else:
-        return 'Incorrect'
+        return json.dumps({
+            'status': 404,
+            'message': f'User {email} not found'
+        }), 404
 

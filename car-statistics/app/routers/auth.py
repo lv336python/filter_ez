@@ -30,7 +30,7 @@ def login():
 
 
 
-@app.route('/api/logout')
+@app.route('/api/logout', methods=['POST'])
 def logout():
     try:
         if session:
