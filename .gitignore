@@ -111,4 +111,4 @@ car-statistics/app/static/node_modules/
 .result.xls
 
 # file_uploads
-uploads_template/
+car-statistics/uploads_temp/
