@@ -1,11 +1,10 @@
 from flask import request, url_for
-from app.routers.registration.token import generate_confirmation_token
+from app.services.token import generate_confirmation_token
 
 import json
 from app import app
 from app.models.user import User
-from app.routers.registration.email import send_email
-
+from app.services.email import send_email
 
 
 @app.route("/api/reset", methods=['POST'])
@@ -16,10 +15,8 @@ def reset_password():
         user = User.query.filter(User.email == email).first()
         token = generate_confirmation_token(user.email)
         subject = "Password reset requested"
-        recover_url = url_for(
-            'reset_with_token',
-            token=token,
-            _external=True)
+        recover_url = url_for('index', _external=True) + 'reset_password_confirm/' + token.decode('utf-8')
+
         html = f'Reset Password link {recover_url}'
         send_email(user.email, subject, html)
         return json.dumps({
@@ -29,4 +26,3 @@ def reset_password():
         return json.dumps({
             'message': f'User {email} not found'
         }), 404
-

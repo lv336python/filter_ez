@@ -5,7 +5,7 @@ import json
 from flask import flash
 from app import app
 from app import db
-from app.routers.registration.token import confirm_token
+from app.services.token import confirm_token
 from app.models import User
 
 
