@@ -103,9 +103,12 @@ venv.bak/
 # mypy
 .mypy_cache/
 
-#Pycharm
+# Pycharm
 .idea/
 
-#Project
+# Project
 car-statistics/app/static/node_modules/
 .result.xls
+
+# file_uploads
+uploads_template

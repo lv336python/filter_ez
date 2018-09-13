@@ -37,3 +37,7 @@ class Config:
 
     # mail accounts
     MAIL_DEFAULT_SENDER = 'from@example.com'
+
+    # uploads params
+    UPLOAD_FOLDER = 'uploads_temp'
+    ALLOWED_EXTENSIONS = ('csv', 'xls', 'xlsx')
