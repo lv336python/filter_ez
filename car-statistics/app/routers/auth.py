@@ -1,14 +1,22 @@
 from werkzeug.security import check_password_hash
+
 from flask import request, session
+# from flask_login import login_required
 import json
+
 from app import app
 from app.models.user import User
+# from .registration.login_required import login_required
+
 
 
 @app.route("/api/login", methods=['POST'])
 def login():
     data = request.get_json()
-
+    if 'user_id' in session:
+        return json.dumps({
+            'message': 'User is logged in'
+        }), 400
     user = User.query.filter(User.email==data['email']).first()
     if not user:
         return json.dumps({
@@ -29,8 +37,8 @@ def login():
 
 
 
-
 @app.route('/api/logout', methods=['POST'])
+# @login_required
 def logout():
     if 'user_id' in  session:
 

@@ -3,8 +3,9 @@ Module for User model describing
 '''
 from app import db
 
+from flask_login import UserMixin
 
-class User(db.Model):
+class User(UserMixin, db.Model):
     '''
     User model for SQL database
     '''
