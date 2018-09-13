@@ -112,3 +112,6 @@ car-statistics/app/static/node_modules/
 
 # file_uploads
 car-statistics/uploads_temp/
+
+# package-lock.json
+car-statistics/app/static/package-lock.json
