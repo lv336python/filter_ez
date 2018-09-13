@@ -1,10 +1,11 @@
-from flask import request, url_for
-from app.routers.registration.token import generate_confirmation_token
-
-import json
+from app.services.token import generate_confirmation_token
+from app.services.email import send_email
 from app import app
 from app.models.user import User
-from app.routers.registration.email import send_email
+
+from flask import request, url_for
+
+import json
 
 
 
