@@ -6,6 +6,7 @@ import os
 from app import app
 import time
 from hashlib import md5
+from app.models import user_files
 
 
 def file_uploader(file, *args, **kwargs):
