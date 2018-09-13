@@ -1,7 +1,7 @@
 
-'''
+"""
 Configuration module for app, mail
-'''
+"""
 import os
 
 try:
@@ -13,9 +13,9 @@ BASEDIR = os.path.abspath(os.path.dirname(__file__))
 
 
 class Config:
-    '''
+    """
     Configuration class to configure app from object
-    '''
+    """
     # DEBUG = False
     # TESTING = False
     # CSRF_ENABLED = True
