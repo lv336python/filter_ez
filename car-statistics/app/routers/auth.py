@@ -1,23 +1,47 @@
-from werkzeug.security import check_password_hash
-
-from flask import request, session
-# from flask_login import login_required
+"""
+This module handles login and logout process
+Also tracks whether user is logged in
+"""
 import json
 
-from app import app
+
+from flask_login import login_user, login_required
+from flask import request, session
+
+from werkzeug.security import check_password_hash
+
+
+from app import app, login_manager
 from app.models.user import User
-# from .registration.login_required import login_required
 
+@login_manager.user_loader
+def load_user(user_id):
+    """
+    Method that tracks logged in user
+    :param user_id:
+    :return: user if is logged in or None
+    """
+    user = User.query.filter_by(id=user_id).first()
 
+    if user:
+        return user
+    else:
+        return None
 
 @app.route("/api/login", methods=['POST'])
 def login():
+    """
+    POST method that handles login process
+    :return: Eather logged in user
+    or incorrect responses
+    """
     data = request.get_json()
+
     if 'user_id' in session:
         return json.dumps({
-            'message': 'User is logged in'
+            'message': 'User is already logged in'
         }), 400
-    user = User.query.filter(User.email==data['email']).first()
+    user = User.query.filter(User.email == data['email']).first()
     if not user:
         return json.dumps({
             'message': 'Login or password not found'
@@ -29,7 +53,7 @@ def login():
             'message': 'Login or password not found'
         }), 400
 
-    session['user_id'] = user.id
+    login_user(user)
 
     return json.dumps({
         'message': f'User: {data["email"]} is logged in'
@@ -38,8 +62,14 @@ def login():
 
 
 @app.route('/api/logout', methods=['POST'])
-# @login_required
+@login_required
 def logout():
+    """
+    POST method that does logout process
+    if user logged in
+    else works decorator
+    :return:
+    """
     if 'user_id' in  session:
 
         user = User.query.filter(User.id == session['user_id']).first()

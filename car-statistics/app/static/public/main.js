@@ -532,7 +532,7 @@ module.exports = ""
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = "<p>\n  TODO: home page which is accessible if user is logged in\n</p>\n<button><a href=\"http://0.0.0.0:8000/logout\">logout</a></button>"
+module.exports = "<p>\n  TODO: home page which is accessible if user is logged in\n</p>\n"
 
 /***/ }),
 

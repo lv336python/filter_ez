@@ -22,10 +22,12 @@ manager = Manager(app)
 manager.add_command('db', MigrateCommand)
 app.secret_key = 'any random string'
 
+
+
 from .routers import (test,
                       register,
                       confirm_email,
-                        auth,
-                        reset_password,
-                    confirm_reset
+                      auth,
+                      reset_password,
+                      confirm_reset
                       )

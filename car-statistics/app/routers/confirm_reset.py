@@ -3,17 +3,23 @@ Module for confirmation view
 '''
 import json
 from flask import flash, request
+
 from app import app
 from app import db
 from app.services.token import confirm_token
 from app.models import User
-from werkzeug.security import generate_password_hash
 
+from werkzeug.security import generate_password_hash
 
 
 
 @app.route('/api/password_reset/<token>', methods=['PUT'])
 def reset_with_token(token):
+    """
+    PUT view tht updates password in our db
+    :param token:
+    :return: updated password for user
+    """
     try:
         email = confirm_token(token)
     except ValueError:

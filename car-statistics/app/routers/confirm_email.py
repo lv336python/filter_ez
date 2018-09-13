@@ -2,17 +2,24 @@
 Module for confirmation view
 '''
 import json
-from flask import flash
+
 from app import app
 from app import db
 from app.services.token import confirm_token
 from app.models import User
 
-
+from flask import flash
 
 
 @app.route('/api/confirm/<token>')
 def confirm_email(token):
+    """
+    View that updates status of our user
+     to confirmed via email
+    :param token:
+    :return: eather change status in bd to True
+    or incorrect responses
+    """
     try:
         email = confirm_token(token)
     except ValueError:
