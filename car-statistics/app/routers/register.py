@@ -3,13 +3,15 @@ Module for register views
 '''
 import re
 import json
+
 from flask import request, flash, url_for
+
 from werkzeug.security import generate_password_hash
 
 from app.models import User
 from app import app
 from app import db
-from app.routers.registration.token import generate_confirmation_token
+from app.services.token import generate_confirmation_token
 from app.services.email import send_email
 
 
@@ -17,20 +19,23 @@ from app.services.email import send_email
 def register():
     """
     POST methods for registration
-    :return: Registered user
+    :return: Registered user or
+     incorrect responses
     """
     if request.method == 'POST':
         reg_email = r"(^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$)"
         data = request.get_json()
         email = data['email']
+
         if not re.match(reg_email, email):
             return json.dumps({'status': 401, 'message': 'invalid email'}), 401
+
         if not User.query.filter(User.email == email).first():
             password = generate_password_hash(data['password'])
             if email and password:
                 new_user = User(email=email, password_plaintext=password, confirmed=False)
-                db.session.add(new_user)
-                db.session.commit()
+                db.session.add(new_user)# pylint: disable=E1101
+                db.session.commit()# pylint: disable=E1101
 
                 token = generate_confirmation_token(new_user.email)
                 confirm_url = url_for('index', _external=True) + 'confirm/' + token.decode('utf-8')

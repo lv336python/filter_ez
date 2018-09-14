@@ -41,6 +41,9 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _auth_guard__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./auth.guard */ "./src/app/auth.guard.ts");
 /* harmony import */ var _confirm_email_confirm_email_component__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./confirm-email/confirm-email.component */ "./src/app/confirm-email/confirm-email.component.ts");
 /* harmony import */ var _login_login_component__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ./login/login.component */ "./src/app/login/login.component.ts");
+/* harmony import */ var _logout_logout_component__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ./logout/logout.component */ "./src/app/logout/logout.component.ts");
+/* harmony import */ var _reset_password_reset_password_component__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ./reset-password/reset-password.component */ "./src/app/reset-password/reset-password.component.ts");
+/* harmony import */ var _confirm_reset_confirm_reset_component__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! ./confirm-reset/confirm-reset.component */ "./src/app/confirm-reset/confirm-reset.component.ts");
 var __decorate = (undefined && undefined.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -55,11 +58,17 @@ var __decorate = (undefined && undefined.__decorate) || function (decorators, ta
 
 
 
+
+
+
 var routes = [
     { path: '', component: _home_home_component__WEBPACK_IMPORTED_MODULE_2__["HomeComponent"] },
     { path: 'register', component: _registration_registration_component__WEBPACK_IMPORTED_MODULE_4__["RegistrationComponent"], canActivate: [_auth_guard__WEBPACK_IMPORTED_MODULE_5__["AuthGuard"]] },
     { path: 'confirm/:token', component: _confirm_email_confirm_email_component__WEBPACK_IMPORTED_MODULE_6__["ConfirmEmailComponent"] },
     { path: 'login', component: _login_login_component__WEBPACK_IMPORTED_MODULE_7__["LoginComponent"] },
+    { path: 'logout', component: _logout_logout_component__WEBPACK_IMPORTED_MODULE_8__["LogoutComponent"] },
+    { path: 'reset', component: _reset_password_reset_password_component__WEBPACK_IMPORTED_MODULE_9__["ResetPasswordComponent"] },
+    { path: 'reset_password_confirm/:token', component: _confirm_reset_confirm_reset_component__WEBPACK_IMPORTED_MODULE_10__["ConfirmResetComponent"] },
     { path: '**', component: _notfound_notfound_component__WEBPACK_IMPORTED_MODULE_3__["NotfoundComponent"] },
 ];
 var AppRoutingModule = /** @class */ (function () {
@@ -156,14 +165,16 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _home_home_component__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ./home/home.component */ "./src/app/home/home.component.ts");
 /* harmony import */ var _confirm_email_confirm_email_component__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ./confirm-email/confirm-email.component */ "./src/app/confirm-email/confirm-email.component.ts");
 /* harmony import */ var _login_login_component__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! ./login/login.component */ "./src/app/login/login.component.ts");
-/* harmony import */ var _logout_logout_component__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! ./logout/logout.component */ "./src/app/logout/logout.component.ts");
-/* harmony import */ var _load_file_load_file_component__WEBPACK_IMPORTED_MODULE_12__ = __webpack_require__(/*! ./load-file/load-file.component */ "./src/app/load-file/load-file.component.ts");
+/* harmony import */ var _reset_password_reset_password_component__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! ./reset-password/reset-password.component */ "./src/app/reset-password/reset-password.component.ts");
+/* harmony import */ var _logout_logout_component__WEBPACK_IMPORTED_MODULE_12__ = __webpack_require__(/*! ./logout/logout.component */ "./src/app/logout/logout.component.ts");
+/* harmony import */ var _confirm_reset_confirm_reset_component__WEBPACK_IMPORTED_MODULE_13__ = __webpack_require__(/*! ./confirm-reset/confirm-reset.component */ "./src/app/confirm-reset/confirm-reset.component.ts");
 var __decorate = (undefined && undefined.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
     else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
     return c > 3 && r && Object.defineProperty(target, key, r), r;
 };
+
 
 
 
@@ -189,8 +200,9 @@ var AppModule = /** @class */ (function () {
                 _home_home_component__WEBPACK_IMPORTED_MODULE_8__["HomeComponent"],
                 _confirm_email_confirm_email_component__WEBPACK_IMPORTED_MODULE_9__["ConfirmEmailComponent"],
                 _login_login_component__WEBPACK_IMPORTED_MODULE_10__["LoginComponent"],
-                _logout_logout_component__WEBPACK_IMPORTED_MODULE_11__["LogoutComponent"],
-                _load_file_load_file_component__WEBPACK_IMPORTED_MODULE_12__["LoadFileComponent"],
+                _logout_logout_component__WEBPACK_IMPORTED_MODULE_12__["LogoutComponent"],
+                _reset_password_reset_password_component__WEBPACK_IMPORTED_MODULE_11__["ResetPasswordComponent"],
+                _confirm_reset_confirm_reset_component__WEBPACK_IMPORTED_MODULE_13__["ConfirmResetComponent"],
             ],
             imports: [
                 _angular_platform_browser__WEBPACK_IMPORTED_MODULE_0__["BrowserModule"],
@@ -278,6 +290,8 @@ var AuthService = /** @class */ (function () {
         this.register_api_url = "api/register";
         this.confirm_url = "api/confirm/";
         this.logout_api_url = "api/logout";
+        this.reset_password_url = "api/reset";
+        this.reset_password_confirm_api = "api/password_reset";
     }
     AuthService.prototype.toRegister = function (user) {
         return this._http.post(this.register_api_url, user)
@@ -288,6 +302,13 @@ var AuthService = /** @class */ (function () {
     };
     AuthService.prototype.toLogout = function (user) {
         return this._http.post(this.logout_api_url, user);
+    };
+    AuthService.prototype.toResetPassword = function (email) {
+        return this._http.post(this.reset_password_url, { 'email': email });
+    };
+    AuthService.prototype.toResetPasswordConfirm = function (token, password) {
+        console.log("asfasfasf");
+        return this._http.put(this.reset_password_confirm_api + '/' + token, { 'password': password });
     };
     AuthService.prototype.confirmEmail = function (token) {
         return this._http.get(this.confirm_url + token);
@@ -377,6 +398,102 @@ var ConfirmEmailComponent = /** @class */ (function () {
 
 /***/ }),
 
+/***/ "./src/app/confirm-reset/confirm-reset.component.css":
+/*!***********************************************************!*\
+  !*** ./src/app/confirm-reset/confirm-reset.component.css ***!
+  \***********************************************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+module.exports = ""
+
+/***/ }),
+
+/***/ "./src/app/confirm-reset/confirm-reset.component.html":
+/*!************************************************************!*\
+  !*** ./src/app/confirm-reset/confirm-reset.component.html ***!
+  \************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+module.exports = "\n<div class=\"auth\">\n  <div class=\"form\">\n    <form [formGroup]=\"resetPasswordGroup\" (ngSubmit)=\"toConfirmReset()\">\n      <label>\n        New password:\n        <input type=\"password\" formControlName=\"password\" required>\n      </label>\n      <label>\n        Confirm password:\n        <input type=\"password\" formControlName=\"password_confirm\" required>\n      </label>\n      <div class=\"error\" *ngIf=\"password.invalid && (password.dirty || password.touched)\">\n        <ul>\n          <li *ngIf=\"password.errors.minlength || password.errors.maxlength\">Password must be from 8 to 40 characters long</li>\n          <li *ngIf=\"password.errors.wrongFormat\">Password must contain at least one digit</li>\n        </ul>\n      </div>\n    <button type=\"submit\" [disabled]=\"!resetPasswordGroup.valid\">Submit</button>\n    </form>\n  </div>\n</div>\n"
+
+/***/ }),
+
+/***/ "./src/app/confirm-reset/confirm-reset.component.ts":
+/*!**********************************************************!*\
+  !*** ./src/app/confirm-reset/confirm-reset.component.ts ***!
+  \**********************************************************/
+/*! exports provided: ConfirmResetComponent */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "ConfirmResetComponent", function() { return ConfirmResetComponent; });
+/* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @angular/core */ "./node_modules/@angular/core/fesm5/core.js");
+/* harmony import */ var _angular_forms__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @angular/forms */ "./node_modules/@angular/forms/fesm5/forms.js");
+/* harmony import */ var _directives_text_format_directive__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../directives/text-format.directive */ "./src/app/directives/text-format.directive.ts");
+/* harmony import */ var _auth_service__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../auth.service */ "./src/app/auth.service.ts");
+/* harmony import */ var _angular_router__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! @angular/router */ "./node_modules/@angular/router/fesm5/router.js");
+var __decorate = (undefined && undefined.__decorate) || function (decorators, target, key, desc) {
+    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
+};
+var __metadata = (undefined && undefined.__metadata) || function (k, v) {
+    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
+};
+
+
+
+
+
+var ConfirmResetComponent = /** @class */ (function () {
+    function ConfirmResetComponent(auth_, router, route) {
+        this.auth_ = auth_;
+        this.router = router;
+        this.route = route;
+        this.resetPasswordGroup = new _angular_forms__WEBPACK_IMPORTED_MODULE_1__["FormGroup"]({
+            password: new _angular_forms__WEBPACK_IMPORTED_MODULE_1__["FormControl"]('', [
+                _angular_forms__WEBPACK_IMPORTED_MODULE_1__["Validators"].required,
+                _angular_forms__WEBPACK_IMPORTED_MODULE_1__["Validators"].minLength(8),
+                _angular_forms__WEBPACK_IMPORTED_MODULE_1__["Validators"].maxLength(40),
+                Object(_directives_text_format_directive__WEBPACK_IMPORTED_MODULE_2__["TextFormatDirective"])(/^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,}$/),
+            ]),
+            password_confirm: new _angular_forms__WEBPACK_IMPORTED_MODULE_1__["FormControl"]('', [
+                _angular_forms__WEBPACK_IMPORTED_MODULE_1__["Validators"].required,
+                _angular_forms__WEBPACK_IMPORTED_MODULE_1__["Validators"].minLength(8),
+                _angular_forms__WEBPACK_IMPORTED_MODULE_1__["Validators"].maxLength(40),
+                Object(_directives_text_format_directive__WEBPACK_IMPORTED_MODULE_2__["TextFormatDirective"])(/^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,}$/),
+            ])
+        });
+    }
+    ConfirmResetComponent.prototype.toConfirmReset = function () {
+        if (this.resetPasswordGroup.controls['password'].value ===
+            this.resetPasswordGroup.controls['password_confirm'].value) {
+            this.auth_.toResetPasswordConfirm(this.route.snapshot.params["token"], this.resetPasswordGroup.controls['password'].value).subscribe(function (res) { return console.log(res); });
+        }
+    };
+    ConfirmResetComponent.prototype.ngOnInit = function () {
+    };
+    ConfirmResetComponent = __decorate([
+        Object(_angular_core__WEBPACK_IMPORTED_MODULE_0__["Component"])({
+            selector: 'app-confirm-reset',
+            template: __webpack_require__(/*! ./confirm-reset.component.html */ "./src/app/confirm-reset/confirm-reset.component.html"),
+            styles: [__webpack_require__(/*! ./confirm-reset.component.css */ "./src/app/confirm-reset/confirm-reset.component.css")]
+        }),
+        __metadata("design:paramtypes", [_auth_service__WEBPACK_IMPORTED_MODULE_3__["AuthService"],
+            _angular_router__WEBPACK_IMPORTED_MODULE_4__["Router"],
+            _angular_router__WEBPACK_IMPORTED_MODULE_4__["ActivatedRoute"]])
+    ], ConfirmResetComponent);
+    return ConfirmResetComponent;
+}());
+
+
+
+/***/ }),
+
 /***/ "./src/app/directives/text-format.directive.ts":
 /*!*****************************************************!*\
   !*** ./src/app/directives/text-format.directive.ts ***!
@@ -415,7 +532,7 @@ module.exports = ""
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = "<p>\n  TODO: home page which is accessible if user is logged in\n</p>\n<app-load-file> </app-load-file>"
+module.exports = "<p>\n  TODO: home page which is accessible if user is logged in\n</p>\n"
 
 /***/ }),
 
@@ -454,86 +571,6 @@ var HomeComponent = /** @class */ (function () {
         __metadata("design:paramtypes", [])
     ], HomeComponent);
     return HomeComponent;
-}());
-
-
-
-/***/ }),
-
-/***/ "./src/app/load-file/load-file.component.css":
-/*!***************************************************!*\
-  !*** ./src/app/load-file/load-file.component.css ***!
-  \***************************************************/
-/*! no static exports found */
-/***/ (function(module, exports) {
-
-module.exports = ""
-
-/***/ }),
-
-/***/ "./src/app/load-file/load-file.component.html":
-/*!****************************************************!*\
-  !*** ./src/app/load-file/load-file.component.html ***!
-  \****************************************************/
-/*! no static exports found */
-/***/ (function(module, exports) {
-
-module.exports = "\n<form>\n    <input type=\"file\" (change)=\"fileChange($event)\" placeholder=\"Upload file\" accept=\".pdf,.doc,.docx\">\n    <input type=\"submit\" value=\"Submit\">\n</form>"
-
-/***/ }),
-
-/***/ "./src/app/load-file/load-file.component.ts":
-/*!**************************************************!*\
-  !*** ./src/app/load-file/load-file.component.ts ***!
-  \**************************************************/
-/*! exports provided: LoadFileComponent */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "LoadFileComponent", function() { return LoadFileComponent; });
-/* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @angular/core */ "./node_modules/@angular/core/fesm5/core.js");
-/* harmony import */ var _angular_common_http__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @angular/common/http */ "./node_modules/@angular/common/fesm5/http.js");
-var __decorate = (undefined && undefined.__decorate) || function (decorators, target, key, desc) {
-    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
-    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
-    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
-    return c > 3 && r && Object.defineProperty(target, key, r), r;
-};
-var __metadata = (undefined && undefined.__metadata) || function (k, v) {
-    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
-};
-
-
-var LoadFileComponent = /** @class */ (function () {
-    function LoadFileComponent(http) {
-        this.http = http;
-    }
-    LoadFileComponent.prototype.fileChange = function (event) {
-        var fileList = event.target.files;
-        if (fileList.length > 0) {
-            var file = fileList[0];
-            var formData = new FormData();
-            formData.append('uploadFile', file, file.name);
-            var headers = new Headers();
-            /** In Angular 5, including the header Content-Type can invalidate your request */
-            headers.append('Content-Type', 'multipart/form-data');
-            headers.append('Accept', 'application/json');
-            this.http.post('api/process_file_and_send_to_email', formData)
-                .subscribe(function (data) { return console.log('success'); }, function (error) { return console.log(error); });
-        }
-    };
-    LoadFileComponent.prototype.ngOnInit = function () {
-    };
-    LoadFileComponent = __decorate([
-        Object(_angular_core__WEBPACK_IMPORTED_MODULE_0__["Component"])({
-            selector: 'app-load-file',
-            template: __webpack_require__(/*! ./load-file.component.html */ "./src/app/load-file/load-file.component.html"),
-            styles: [__webpack_require__(/*! ./load-file.component.css */ "./src/app/load-file/load-file.component.css")]
-        }),
-        __metadata("design:paramtypes", [_angular_common_http__WEBPACK_IMPORTED_MODULE_1__["HttpClient"]])
-    ], LoadFileComponent);
-    return LoadFileComponent;
 }());
 
 
@@ -652,7 +689,7 @@ module.exports = ""
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = "\n<div class=\"auth\">\n  <div class=\"form\">\n    <button (ngSubmit)=\"toLogout()\">Submit</button>\n  </div>\n</div>\n{{name}}\n<h1>gfdgdfg</h1>"
+module.exports = ""
 
 /***/ }),
 
@@ -687,12 +724,8 @@ var LogoutComponent = /** @class */ (function () {
         this.router = router;
         this.route = route;
     }
-    LogoutComponent.prototype.toLogout = function () {
-        this.name = 'fgf';
-        this.auth_.toLogout(null);
-    };
     LogoutComponent.prototype.ngOnInit = function () {
-        this.returnUrl = this.route.snapshot.queryParams['returnUrl'] || '/';
+        this.auth_.toLogout(null).subscribe();
     };
     LogoutComponent = __decorate([
         Object(_angular_core__WEBPACK_IMPORTED_MODULE_0__["Component"])({
@@ -903,6 +936,93 @@ var RegistrationComponent = /** @class */ (function () {
 
 /***/ }),
 
+/***/ "./src/app/reset-password/reset-password.component.css":
+/*!*************************************************************!*\
+  !*** ./src/app/reset-password/reset-password.component.css ***!
+  \*************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+module.exports = ""
+
+/***/ }),
+
+/***/ "./src/app/reset-password/reset-password.component.html":
+/*!**************************************************************!*\
+  !*** ./src/app/reset-password/reset-password.component.html ***!
+  \**************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+module.exports = "\n<h1>gfdgdfg</h1>\n<div class=\"auth\">\n  <div class=\"form\">\n    <form [formGroup]=\"resetPasswordGroup\" (ngSubmit)=\"toResetPassword()\">\n      <label>\n        Email:\n        <input type=\"text\" formControlName=\"email\" required>\n      </label>\n    <button type=\"submit\" [disabled]=\"!resetPasswordGroup.valid\">Submit</button>\n    </form>\n  </div>\n</div>\n<h1>gfdgdfg</h1>"
+
+/***/ }),
+
+/***/ "./src/app/reset-password/reset-password.component.ts":
+/*!************************************************************!*\
+  !*** ./src/app/reset-password/reset-password.component.ts ***!
+  \************************************************************/
+/*! exports provided: ResetPasswordComponent */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "ResetPasswordComponent", function() { return ResetPasswordComponent; });
+/* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @angular/core */ "./node_modules/@angular/core/fesm5/core.js");
+/* harmony import */ var _auth_service__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../auth.service */ "./src/app/auth.service.ts");
+/* harmony import */ var _angular_forms__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @angular/forms */ "./node_modules/@angular/forms/fesm5/forms.js");
+/* harmony import */ var _angular_router__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! @angular/router */ "./node_modules/@angular/router/fesm5/router.js");
+var __decorate = (undefined && undefined.__decorate) || function (decorators, target, key, desc) {
+    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
+};
+var __metadata = (undefined && undefined.__metadata) || function (k, v) {
+    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
+};
+
+
+
+
+var ResetPasswordComponent = /** @class */ (function () {
+    function ResetPasswordComponent(auth_, router, route) {
+        this.auth_ = auth_;
+        this.router = router;
+        this.route = route;
+        this.returnUrl = 'login';
+        this.resetPasswordGroup = new _angular_forms__WEBPACK_IMPORTED_MODULE_2__["FormGroup"]({
+            email: new _angular_forms__WEBPACK_IMPORTED_MODULE_2__["FormControl"]('', [
+                _angular_forms__WEBPACK_IMPORTED_MODULE_2__["Validators"].required,
+            ])
+        });
+    }
+    ResetPasswordComponent.prototype.toResetPassword = function () {
+        var _this = this;
+        this.auth_.toResetPassword(this.resetPasswordGroup.controls['email'].value)
+            .subscribe(function (res) {
+            _this.router.navigate([_this.returnUrl]);
+        });
+    };
+    ResetPasswordComponent.prototype.ngOnInit = function () {
+    };
+    ResetPasswordComponent = __decorate([
+        Object(_angular_core__WEBPACK_IMPORTED_MODULE_0__["Component"])({
+            selector: 'app-reset-password',
+            template: __webpack_require__(/*! ./reset-password.component.html */ "./src/app/reset-password/reset-password.component.html"),
+            styles: [__webpack_require__(/*! ./reset-password.component.css */ "./src/app/reset-password/reset-password.component.css")]
+        }),
+        __metadata("design:paramtypes", [_auth_service__WEBPACK_IMPORTED_MODULE_1__["AuthService"],
+            _angular_router__WEBPACK_IMPORTED_MODULE_3__["Router"],
+            _angular_router__WEBPACK_IMPORTED_MODULE_3__["ActivatedRoute"]])
+    ], ResetPasswordComponent);
+    return ResetPasswordComponent;
+}());
+
+
+
+/***/ }),
+
 /***/ "./src/environments/environment.ts":
 /*!*****************************************!*\
   !*** ./src/environments/environment.ts ***!
@@ -963,7 +1083,7 @@ Object(_angular_platform_browser_dynamic__WEBPACK_IMPORTED_MODULE_1__["platformB
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-module.exports = __webpack_require__(/*! /home/sturss22/PycharmProjects/car-statistics/car-statistics/app/static/src/main.ts */"./src/main.ts");
+module.exports = __webpack_require__(/*! /home/vova/SoftServe/Soft_lv-336/Car_project/car-statistics/car-statistics/app/static/src/main.ts */"./src/main.ts");
 
 
 /***/ })

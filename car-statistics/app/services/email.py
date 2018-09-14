@@ -1,11 +1,9 @@
 '''
 Module for mail sending function
 '''
-from datetime import datetime
+from flask_mail import Message
 
-from flask_mail import Message, Attachment
-from app import app, mail, celery
-from . import get_file
+from app import app, mail
 
 
 def send_email(to_whom, subject, template):
@@ -20,28 +18,6 @@ def send_email(to_whom, subject, template):
         subject,
         recipients=[to_whom],
         html=template,
-        sender=app.config['MAIL_DEFAULT_SENDER'],
+        sender=app.config['MAIL_DEFAULT_SENDER']
     )
     mail.send(msg)
-
-
-
-@celery.task
-def send_file_to_mail(filename, email):
-    print('shit')
-    message = Message(
-        subject="Your file has been processed!",
-        sender=("CStats", app.config['MAIL_DEFAULT_SENDER']),
-        recipients=[email],
-        date=datetime.now().timestamp(),
-        body="""Congratulations, your file has been processed successfully.
-             Please download it from attached files or from your profile on the site
-             Thank you for using our service""",
-        attachments=[Attachment(filename='Filename',
-                                content_type="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
-                                data=get_file(filename))]
-    )
-    mail.send(message)
-
-
-
