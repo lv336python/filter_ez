@@ -5473,7 +5473,7 @@ __webpack_require__.r(__webpack_exports__);
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-module.exports = __webpack_require__(/*! /home/sturss22/PycharmProjects/car-statistics/car-statistics/app/static/src/polyfills.ts */"./src/polyfills.ts");
+module.exports = __webpack_require__(/*! /home/vova/SoftServe/Soft_lv-336/Car_project/car-statistics/car-statistics/app/static/src/polyfills.ts */"./src/polyfills.ts");
 
 
 /***/ })

@@ -1,0 +1,23 @@
+
+<div class="auth">
+  <div class="form">
+    <form [formGroup]="loginGroup" (ngSubmit)="toLogin()">
+      <label>
+        Email:
+        <input type="text" formControlName="email" required>
+      </label>
+      <label>
+        Password:
+        <input type="password" formControlName="password" required>
+      </label>
+      <div class="error" *ngIf="password.invalid && (password.dirty || password.touched)">
+        <ul>
+          <li *ngIf="password.errors.minlength || password.errors.maxlength">Password must be from 8 to 40 characters long</li>
+          <li *ngIf="password.errors.wrongFormat">Password must contain at least one digit</li>
+        </ul>
+      </div>
+    <button type="submit" [disabled]="!registerGroup.valid">Submit</button>
+    </form>
+  </div>
+</div>
+<h1>gfdgdfg</h1>
