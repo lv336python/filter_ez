@@ -12,7 +12,6 @@ from app.models import User
 from werkzeug.security import generate_password_hash
 
 
-
 @app.route('/api/password_reset/<token>', methods=['PUT'])
 def reset_with_token(token):
     """
