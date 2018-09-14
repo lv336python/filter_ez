@@ -532,7 +532,7 @@ module.exports = ""
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = "<p>\n  TODO: home page which is accessible if user is logged in\n</p>\n<button><a href=\"http://0.0.0.0:8000/logout\">logout</a></button>"
+module.exports = "<p>\n  TODO: home page which is accessible if user is logged in\n</p>\n"
 
 /***/ }),
 
@@ -1083,7 +1083,7 @@ Object(_angular_platform_browser_dynamic__WEBPACK_IMPORTED_MODULE_1__["platformB
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-module.exports = __webpack_require__(/*! /home/dudar99/Desktop/SS/SSprojects/car-statistics/car-statistics/app/static/src/main.ts */"./src/main.ts");
+module.exports = __webpack_require__(/*! /home/vova/SoftServe/Soft_lv-336/Car_project/car-statistics/car-statistics/app/static/src/main.ts */"./src/main.ts");
 
 
 /***/ })

@@ -1,7 +1,7 @@
 
-'''
+"""
 Configuration module for app, mail
-'''
+"""
 import os
 
 try:
@@ -13,9 +13,9 @@ BASEDIR = os.path.abspath(os.path.dirname(__file__))
 
 
 class Config:
-    '''
+    """
     Configuration class to configure app from object
-    '''
+    """
     # DEBUG = False
     # TESTING = False
     # CSRF_ENABLED = True
@@ -37,3 +37,7 @@ class Config:
 
     # mail accounts
     MAIL_DEFAULT_SENDER = 'from@example.com'
+
+    # uploads params
+    UPLOAD_FOLDER = 'uploads_temp'
+    ALLOWED_EXTENSIONS = ('csv', 'xls', 'xlsx')
