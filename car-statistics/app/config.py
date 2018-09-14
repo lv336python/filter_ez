@@ -36,7 +36,7 @@ class Config:
     MAIL_PASSWORD = MAIL['MAIL_PASSWORD']
 
     # mail accounts
-    MAIL_DEFAULT_SENDER = 'from@example.com'
+    MAIL_DEFAULT_SENDER = 'statisticcar@gmail.com'
 
     # uploads params
     UPLOAD_FOLDER = 'uploads_temp'
