@@ -37,3 +37,7 @@ class Config:
 
     # mail accounts
     MAIL_DEFAULT_SENDER = 'from@example.com'
+
+    #Celery configurations
+    CELERY_RESULT_BACKEND = 'amqp://'
+    CELERY_BROKER_URL = 'amqp://'

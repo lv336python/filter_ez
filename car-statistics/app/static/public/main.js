@@ -157,12 +157,14 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _confirm_email_confirm_email_component__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ./confirm-email/confirm-email.component */ "./src/app/confirm-email/confirm-email.component.ts");
 /* harmony import */ var _login_login_component__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! ./login/login.component */ "./src/app/login/login.component.ts");
 /* harmony import */ var _logout_logout_component__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! ./logout/logout.component */ "./src/app/logout/logout.component.ts");
+/* harmony import */ var _load_file_load_file_component__WEBPACK_IMPORTED_MODULE_12__ = __webpack_require__(/*! ./load-file/load-file.component */ "./src/app/load-file/load-file.component.ts");
 var __decorate = (undefined && undefined.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
     else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
     return c > 3 && r && Object.defineProperty(target, key, r), r;
 };
+
 
 
 
@@ -188,6 +190,7 @@ var AppModule = /** @class */ (function () {
                 _confirm_email_confirm_email_component__WEBPACK_IMPORTED_MODULE_9__["ConfirmEmailComponent"],
                 _login_login_component__WEBPACK_IMPORTED_MODULE_10__["LoginComponent"],
                 _logout_logout_component__WEBPACK_IMPORTED_MODULE_11__["LogoutComponent"],
+                _load_file_load_file_component__WEBPACK_IMPORTED_MODULE_12__["LoadFileComponent"],
             ],
             imports: [
                 _angular_platform_browser__WEBPACK_IMPORTED_MODULE_0__["BrowserModule"],
@@ -412,7 +415,7 @@ module.exports = ""
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = "<p>\n  TODO: home page which is accessible if user is logged in\n</p>\n"
+module.exports = "<p>\n  TODO: home page which is accessible if user is logged in\n</p>\n<app-load-file> </app-load-file>"
 
 /***/ }),
 
@@ -451,6 +454,86 @@ var HomeComponent = /** @class */ (function () {
         __metadata("design:paramtypes", [])
     ], HomeComponent);
     return HomeComponent;
+}());
+
+
+
+/***/ }),
+
+/***/ "./src/app/load-file/load-file.component.css":
+/*!***************************************************!*\
+  !*** ./src/app/load-file/load-file.component.css ***!
+  \***************************************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+module.exports = ""
+
+/***/ }),
+
+/***/ "./src/app/load-file/load-file.component.html":
+/*!****************************************************!*\
+  !*** ./src/app/load-file/load-file.component.html ***!
+  \****************************************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+module.exports = "\n<form>\n    <input type=\"file\" (change)=\"fileChange($event)\" placeholder=\"Upload file\" accept=\".pdf,.doc,.docx\">\n    <input type=\"submit\" value=\"Submit\">\n</form>"
+
+/***/ }),
+
+/***/ "./src/app/load-file/load-file.component.ts":
+/*!**************************************************!*\
+  !*** ./src/app/load-file/load-file.component.ts ***!
+  \**************************************************/
+/*! exports provided: LoadFileComponent */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "LoadFileComponent", function() { return LoadFileComponent; });
+/* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @angular/core */ "./node_modules/@angular/core/fesm5/core.js");
+/* harmony import */ var _angular_common_http__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @angular/common/http */ "./node_modules/@angular/common/fesm5/http.js");
+var __decorate = (undefined && undefined.__decorate) || function (decorators, target, key, desc) {
+    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
+};
+var __metadata = (undefined && undefined.__metadata) || function (k, v) {
+    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
+};
+
+
+var LoadFileComponent = /** @class */ (function () {
+    function LoadFileComponent(http) {
+        this.http = http;
+    }
+    LoadFileComponent.prototype.fileChange = function (event) {
+        var fileList = event.target.files;
+        if (fileList.length > 0) {
+            var file = fileList[0];
+            var formData = new FormData();
+            formData.append('uploadFile', file, file.name);
+            var headers = new Headers();
+            /** In Angular 5, including the header Content-Type can invalidate your request */
+            headers.append('Content-Type', 'multipart/form-data');
+            headers.append('Accept', 'application/json');
+            this.http.post('api/process_file_and_send_to_email', formData)
+                .subscribe(function (data) { return console.log('success'); }, function (error) { return console.log(error); });
+        }
+    };
+    LoadFileComponent.prototype.ngOnInit = function () {
+    };
+    LoadFileComponent = __decorate([
+        Object(_angular_core__WEBPACK_IMPORTED_MODULE_0__["Component"])({
+            selector: 'app-load-file',
+            template: __webpack_require__(/*! ./load-file.component.html */ "./src/app/load-file/load-file.component.html"),
+            styles: [__webpack_require__(/*! ./load-file.component.css */ "./src/app/load-file/load-file.component.css")]
+        }),
+        __metadata("design:paramtypes", [_angular_common_http__WEBPACK_IMPORTED_MODULE_1__["HttpClient"]])
+    ], LoadFileComponent);
+    return LoadFileComponent;
 }());
 
 
@@ -880,7 +963,7 @@ Object(_angular_platform_browser_dynamic__WEBPACK_IMPORTED_MODULE_1__["platformB
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-module.exports = __webpack_require__(/*! /home/dudar99/Desktop/SS/SSprojects/car-statistics/car-statistics/app/static/src/main.ts */"./src/main.ts");
+module.exports = __webpack_require__(/*! /home/sturss22/PycharmProjects/car-statistics/car-statistics/app/static/src/main.ts */"./src/main.ts");
 
 
 /***/ })

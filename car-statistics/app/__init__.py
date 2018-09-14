@@ -9,6 +9,7 @@ from flask_script import Manager
 from flask_sqlalchemy import SQLAlchemy
 from flask_mail import Mail
 from .config import Config
+from .celeryconfig import make_celery
 
 app = Flask(__name__)
 app.config.from_object(Config)
@@ -19,10 +20,14 @@ manager = Manager(app)
 manager.add_command('db', MigrateCommand)
 app.secret_key = 'any random string'
 
-from .routers import (test,
-                      register,
-                      confirm_email,
-                        auth,
-                        reset_password,
-                    confirm_reset
-                      )
+celery = make_celery(app)
+
+from .routers import (
+    test,
+    register,
+    confirm_email,
+    auth,
+    reset_password,
+    confirm_reset,
+    send_result_to_email
+    )

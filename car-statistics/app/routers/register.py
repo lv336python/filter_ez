@@ -10,7 +10,7 @@ from app.models import User
 from app import app
 from app import db
 from app.routers.registration.token import generate_confirmation_token
-from app.routers.registration.email import send_email
+from app.services.email import send_email
 
 
 @app.route('/api/register', methods=['POST'])

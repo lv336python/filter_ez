@@ -64,7 +64,7 @@ def generate_data_frame():
      cars and writes it to Excel file 'stats.xls'
     :return: None
     """
-    workbook = xlwt.Workbook()
+    workbook = xlwt.Workbook(encoding='UTF-8')
     sheet = workbook.add_sheet("Sheet 1")
 
 
@@ -76,7 +76,7 @@ def generate_data_frame():
             sheet.write(row_index, col_index, col_value)
 
 
-    workbook.save("result.xls")
+    workbook.save("result1.xls")
 
 
 if __name__ == '__main__':
