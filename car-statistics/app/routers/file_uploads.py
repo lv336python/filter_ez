@@ -19,11 +19,13 @@ def upload_file():
 def uploader():
     if request.method == 'POST':
         if request.files and request.files.get('uploaded_file'):
-            # add validation
             file = request.files['uploaded_file']
             suffix = file_extension(file.filename)
             if validate_file_ext(suffix):
                 res = file_uploader(file)
+            else:
+                return make_response(jsonify({'error': 'bad file type'}), 400)
+
             return make_response(jsonify({'res': res}), 201)
         else:
             return make_response(jsonify({'error': 'bad file type'}), 400)

@@ -30,5 +30,6 @@ from .routers import (test,
                       auth,
                       reset_password,
                       confirm_reset,
-                      file_uploads
+                      file_uploads,
+                      utils
                       )
