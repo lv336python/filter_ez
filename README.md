@@ -33,7 +33,7 @@ $ python manage.py db upgrade
 ```
 5. Install RabbitMQ and run it
 ```commandline
-$ sudo apt install rabbitmq
+$ sudo apt install rabbitmq-server
 ...
 $ sudo rabbitmq-server
 ```
