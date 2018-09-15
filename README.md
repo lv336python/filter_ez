@@ -31,7 +31,22 @@ $ python manage.py db init
 $ python manage.py db migrate
 $ python manage.py db upgrade
 ```
+5. Install RabbitMQ and run it
+```commandline
+$ sudo apt install rabbitmq
+...
+$ sudo rabbitmq-server
+```
 
+6. Start celery worker which is going to complete all the time-consuming functions like filtering data, sending result files to email. Change directory to car-statistics and complete
+```commandline
+$ celery -A app.celery worker -l info -n email@%h -Q email
+```
+
+7. Run app
+```commandline
+$ python run.py
+``` 
 <h3>To generate data with your own parameters:</h3>
 
  1. Create a json file with configuration settings.
