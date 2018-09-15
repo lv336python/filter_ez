@@ -11,8 +11,8 @@ from werkzeug.security import generate_password_hash
 from app.models import User
 from app import app
 from app import db
-from app.services.token import generate_confirmation_token
-from app.services.email import send_email
+from app.services.token_service import generate_confirmation_token
+from app.services.email_service import send_email
 
 
 @app.route('/api/register', methods=['POST'])

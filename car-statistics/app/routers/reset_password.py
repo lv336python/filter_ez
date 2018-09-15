@@ -6,8 +6,8 @@ import json
 
 from flask import request, url_for
 
-from app.services.token import generate_confirmation_token
-from app.services.email import send_email
+from app.services.token_service import generate_confirmation_token
+from app.services.email_service import send_email
 from app import app
 from app.models.user import User
 
