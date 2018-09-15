@@ -35,6 +35,5 @@ from .routers import (
     auth,
     reset_password,
     confirm_reset,
-    send_result_to_email,
 )
 
