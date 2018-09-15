@@ -43,5 +43,9 @@ class Config:
     ALLOWED_EXTENSIONS = ('csv', 'xls', 'xlsx')
 
     #Celery configurations
-    CELERY_RESULT_BACKEND = 'amqp://'
-    CELERY_BROKER_URL = 'amqp://'
+    CELERY_RESULT_BACKEND = 'rpc://'
+    CELERY_BROKER_URL = 'amqp://guest@localhost//'
+    CELERY_ACCEPT_CONTENT = ['json', 'pickle']
+    CELERY_ROUTES = {
+        'app.services.email.*': {'queue': 'email'}
+    }

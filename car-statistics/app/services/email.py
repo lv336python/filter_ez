@@ -4,8 +4,14 @@ Module for mail sending function
 from datetime import datetime
 
 from flask_mail import Message, Attachment
-from .file_access import get_file
-from app import app, mail
+
+from app.services.file_access import get_file
+from app import app, mail, celery
+
+
+@celery.task
+def send(msg):
+    mail.send(msg)
 
 
 def send_email(to_whom, subject, template):
@@ -25,7 +31,7 @@ def send_email(to_whom, subject, template):
     mail.send(msg)
 
 
-def send_file_to_mail(user, filename):
+def send_result_to_mail(user, filename):
     msg = Message(
         subject="Your file has been processed!",
         sender=("CStats", app.config['MAIL_DEFAULT_SENDER']),
@@ -40,6 +46,4 @@ def send_file_to_mail(user, filename):
             data=get_file(user, filename)
         )]
     )
-    mail.send(msg)
-
-
+    send.apply_async([msg], serializer='pickle')
