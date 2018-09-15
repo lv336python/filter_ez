@@ -5,14 +5,14 @@ Also tracks whether user is logged in
 import json
 
 
-from flask_login import login_user, login_required
+from flask_login import login_user, login_required, logout_user
 from flask import request, session
 
 from werkzeug.security import check_password_hash
 
 
 from app import app, login_manager
-from app.models.user import User
+from app.models.user import User, UserSchema
 
 @login_manager.user_loader
 def load_user(user_id):
@@ -25,8 +25,9 @@ def load_user(user_id):
 
     if user:
         return user
-    else:
-        return None
+    else:# pylint: disable=R1705
+        return None# pylint: disable=R1705
+
 
 @app.route("/api/login", methods=['POST'])
 def login():
@@ -36,18 +37,20 @@ def login():
     or incorrect responses
     """
     data = request.get_json()
-
     if 'user_id' in session:
         return json.dumps({
             'message': 'User is already logged in'
         }), 400
     user = User.query.filter(User.email == data['email']).first()
-    if not user:
+    schema = UserSchema()
+    valid_data_error = schema.dump(user).errors
+
+    if valid_data_error:
         return json.dumps({
-            'message': 'Login or password not found'
+            'message': 'Login or password is incorrect'
         }), 400
 
-    password = check_password_hash(pwhash=user.password_plaintext, password=data['password'])
+    password = check_password_hash(pwhash=user.password, password=data['password'])
     if not password:
         return json.dumps({
             'message': 'Login or password not found'
@@ -74,7 +77,7 @@ def logout():
 
         user = User.query.filter(User.id == session['user_id']).first()
         if user:
-            session.pop('user_id', None)
+            logout_user()
             return json.dumps({
                 'message': f'User: {user.email} is logged out'
             }), 200
