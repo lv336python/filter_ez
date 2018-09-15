@@ -1,3 +1,4 @@
+celery
 alembic==1.0.0
 astroid==2.0.4
 BareNecessities==0.2.8

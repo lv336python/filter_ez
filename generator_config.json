@@ -1,0 +1,38 @@
+{
+  "row_number" : 20000,
+  "columns" : {
+    "Year" : {
+      "type" : "int",
+      "min_value" : 1999,
+      "max_value" : 2015,
+      "unique": 1212
+    },
+    "Type" : {
+      "type" : "string",
+      "unique" : 20
+    },
+    "Mark" : {
+      "type" : "strinsag",
+      "unique" : 100,
+      "digit" : true
+    },
+    "Engine Volume" : {
+      "type" : "float",
+      "min_value" : 10,
+      "max_value" : 20,
+      "step" : 0.4
+    },
+    "Country" : {
+      "type" : "string",
+      "choice" : ["Ukraine", "Germany", "England", "USA"]
+    },
+    "Name" : {
+      "type" : "string",
+      "capitalize" : true
+    },
+    "Allowed" : {
+      "type" : "bool",
+      "choice" : [true, false]
+    }
+  }
+}
