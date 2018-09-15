@@ -108,7 +108,9 @@ venv.bak/
 
 #Project
 car-statistics/app/static/node_modules/
-.result.xls
+car-statistics/app/services/result_test.xls
+car-statistics/app/services/fields_definition.json
+result.xls
 
 # file_uploads
 car-statistics/uploads_temp/
@@ -116,8 +118,4 @@ car-statistics/uploads_temp/
 # package-lock.json
 car-statistics/app/static/package-lock.json
 
-result.xls
 
-car-statistics/app/services/result_test.xls
-
-car-statistics/app/services/fields_definition.json
