@@ -5,7 +5,6 @@ import json
 
 from flask import request, url_for
 
-from werkzeug.security import generate_password_hash
 
 from app.models import User, UserSchema
 from app import app
@@ -25,34 +24,33 @@ def register():
 
         data = request.get_json()
         email = data['email']
+        password = data['password']
         schema = UserSchema()
 
         if not User.query.filter(User.email == email).first():
-            password = generate_password_hash(data['password'])
-            if email and password:
-                new_user = User(email=email, password=password, confirmed=False)
-                valid_data_error = schema.dump(new_user).errors
+            validate = schema.validate({'email': email, 'password': password})
+            if validate:
+                return json.dumps({
+                    'message': validate
+                    }), 401
 
-                if not valid_data_error:
+            new_user = schema.load({'email': email, 'password': password}).data
 
-                    db.session.add(new_user)# pylint: disable=E1101
-                    db.session.commit()# pylint: disable=E1101
+            db.session.add(new_user)# pylint: disable=E1101
+            db.session.commit()# pylint: disable=E1101
 
-                    token = generate_confirmation_token(new_user.email)
-                    confirm_url = url_for('index', _external=True) + \
-                                  'confirm/' + \
-                                  token.decode('utf-8')
-                    html = f'Link: {confirm_url}'
-                    subject = "Please confirm your email"
-                    send_email(new_user.email, subject, html)
-
-                    return json.dumps({
-                        'message': new_user.email
-                        }), 201
+            token = generate_confirmation_token(new_user.email)
+            confirm_url = url_for('index', _external=True) + \
+                          'confirm/' + \
+                          token.decode('utf-8')
+            html = f'Link: {confirm_url}'
+            subject = "Please confirm your email"
+            send_email(new_user.email, subject, html)
 
             return json.dumps({
-                'message': 'empty value'
-                }), 401
+                'message': new_user.email
+                }), 201
+
 
         return json.dumps({
            'message': f'email: {email} already exist'

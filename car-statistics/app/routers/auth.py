@@ -37,20 +37,21 @@ def login():
     or incorrect responses
     """
     data = request.get_json()
+    schema = UserSchema()
+    validate = schema.validate({'email': data['email'], 'password': data['password']})
+    if validate:
+        return json.dumps({
+            'message': validate
+        }), 400
+
     if 'user_id' in session:
         return json.dumps({
             'message': 'User is already logged in'
         }), 400
     user = User.query.filter(User.email == data['email']).first()
-    schema = UserSchema()
-    valid_data_error = schema.dump(user).errors
-
-    if valid_data_error:
-        return json.dumps({
-            'message': 'Login or password is incorrect'
-        }), 400
 
     password = check_password_hash(pwhash=user.password, password=data['password'])
+
     if not password:
         return json.dumps({
             'message': 'Login or password not found'
@@ -74,7 +75,6 @@ def logout():
     :return:
     """
     if 'user_id' in  session:
-
         user = User.query.filter(User.id == session['user_id']).first()
         if user:
             logout_user()
