@@ -19,10 +19,11 @@ def reset_with_token(token):
     :param token:
     :return: updated password for user
     """
-    try:
-        email = confirm_token(token)
-    except ValueError:
-        flash('The confirmation link is invalid or has expired.', 'danger')
+
+    email = confirm_token(token)
+    if not email:
+        return json.dumps({'message' :
+                           'reset link has been expired'})
     data = request.get_json()
     password = generate_password_hash(data['password'])
 
