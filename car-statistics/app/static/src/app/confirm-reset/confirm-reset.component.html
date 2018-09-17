@@ -16,7 +16,7 @@
           <li *ngIf="password.errors.wrongFormat">Password must contain at least one digit</li>
         </ul>
       </div>
-    <button type="submit" [disabled]="!resetPasswordGroup.valid">Submit</button>
+    <button class="btn btn-primary" type="submit" [disabled]="!resetPasswordGroup.valid">Submit</button>
     </form>
   </div>
 </div>

@@ -94,7 +94,7 @@ var AppRoutingModule = /** @class */ (function () {
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = ""
+module.exports = ".navbar{\nbackground-color: rgb(22, 17, 17);\nborder-radius: 4px;\n}"
 
 /***/ }),
 
@@ -105,7 +105,7 @@ module.exports = ""
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = "<router-outlet></router-outlet>\n"
+module.exports = "<nav class=\"navbar navbar-inverse\">\n    <div class=\"container-fluid\">\n      <div class=\"navbar-header\">\n        <a class=\"navbar-brand\" routerLink='/'>WebSiteName</a>\n      </div>\n      <ul class=\"nav navbar-nav\">\n        <li class=\"active\"><a routerLink='/'>Home</a></li>\n        \n      </ul>\n      <ul class=\"nav navbar-nav navbar-right\">\n        <li><a routerLink='/register'><span class=\"glyphicon glyphicon-user\"></span> Sign Up</a></li>\n        <li><a routerLink='/login'><span class=\"glyphicon glyphicon-log-in\"></span> Login</a></li>\n        <li><a routerLink='/logout'><span class=\"glyphicon glyphicon-log-in\"></span> Logout</a></li>\n      </ul>\n    </div>\n  </nav>\n<router-outlet></router-outlet>\n"
 
 /***/ }),
 
@@ -374,13 +374,16 @@ var __metadata = (undefined && undefined.__metadata) || function (k, v) {
 
 
 var ConfirmEmailComponent = /** @class */ (function () {
-    function ConfirmEmailComponent(auth, route) {
+    function ConfirmEmailComponent(auth, route, router) {
         this.auth = auth;
         this.route = route;
+        this.router = router;
+        this.returnUrl = '/login';
     }
     ConfirmEmailComponent.prototype.ngOnInit = function () {
+        var _this = this;
         this.auth.confirmEmail(this.route.snapshot.params["token"])
-            .subscribe(function (resp) { return console.log(resp); });
+            .subscribe(function (res) { return _this.router.navigate([_this.returnUrl]); });
     };
     ConfirmEmailComponent = __decorate([
         Object(_angular_core__WEBPACK_IMPORTED_MODULE_0__["Component"])({
@@ -389,7 +392,8 @@ var ConfirmEmailComponent = /** @class */ (function () {
             styles: [__webpack_require__(/*! ./confirm-email.component.css */ "./src/app/confirm-email/confirm-email.component.css")]
         }),
         __metadata("design:paramtypes", [_auth_service__WEBPACK_IMPORTED_MODULE_1__["AuthService"],
-            _angular_router__WEBPACK_IMPORTED_MODULE_2__["ActivatedRoute"]])
+            _angular_router__WEBPACK_IMPORTED_MODULE_2__["ActivatedRoute"],
+            _angular_router__WEBPACK_IMPORTED_MODULE_2__["Router"]])
     ], ConfirmEmailComponent);
     return ConfirmEmailComponent;
 }());
@@ -416,7 +420,7 @@ module.exports = ""
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = "\n<div class=\"auth\">\n  <div class=\"form\">\n    <form [formGroup]=\"resetPasswordGroup\" (ngSubmit)=\"toConfirmReset()\">\n      <label>\n        New password:\n        <input type=\"password\" formControlName=\"password\" required>\n      </label>\n      <label>\n        Confirm password:\n        <input type=\"password\" formControlName=\"password_confirm\" required>\n      </label>\n      <div class=\"error\" *ngIf=\"password.invalid && (password.dirty || password.touched)\">\n        <ul>\n          <li *ngIf=\"password.errors.minlength || password.errors.maxlength\">Password must be from 8 to 40 characters long</li>\n          <li *ngIf=\"password.errors.wrongFormat\">Password must contain at least one digit</li>\n        </ul>\n      </div>\n    <button type=\"submit\" [disabled]=\"!resetPasswordGroup.valid\">Submit</button>\n    </form>\n  </div>\n</div>\n"
+module.exports = "\n<div class=\"auth\">\n  <div class=\"form\">\n    <form [formGroup]=\"resetPasswordGroup\" (ngSubmit)=\"toConfirmReset()\">\n      <label>\n        New password:\n        <input type=\"password\" formControlName=\"password\" required>\n      </label>\n      <label>\n        Confirm password:\n        <input type=\"password\" formControlName=\"password_confirm\" required>\n      </label>\n      <div class=\"error\" *ngIf=\"password.invalid && (password.dirty || password.touched)\">\n        <ul>\n          <li *ngIf=\"password.errors.minlength || password.errors.maxlength\">Password must be from 8 to 40 characters long</li>\n          <li *ngIf=\"password.errors.wrongFormat\">Password must contain at least one digit</li>\n        </ul>\n      </div>\n    <button class=\"btn btn-primary\" type=\"submit\" [disabled]=\"!resetPasswordGroup.valid\">Submit</button>\n    </form>\n  </div>\n</div>\n"
 
 /***/ }),
 
@@ -534,7 +538,7 @@ module.exports = ""
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = "<p>\n  TODO: home page which is accessible if user is logged in\n</p>\n"
+module.exports = "\n<p>\n  TODO: home page which is accessible if user is logged in\n</p>\n"
 
 /***/ }),
 
@@ -586,7 +590,7 @@ var HomeComponent = /** @class */ (function () {
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = ""
+module.exports = "@media(min-width: 768px) {\n    .field-label-responsive {\n      padding-top: .5rem;\n      text-align: right;\n    }\n  }"
 
 /***/ }),
 
@@ -597,7 +601,7 @@ module.exports = ""
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = "\n<div class=\"auth\">\n  <div class=\"form\">\n    <form [formGroup]=\"loginGroup\" (ngSubmit)=\"toLogin()\">\n      <label>\n        Email:\n        <input type=\"text\" formControlName=\"email\" required>\n      </label>\n      <label>\n        Password:\n        <input type=\"password\" formControlName=\"password\" required>\n      </label>\n      <div class=\"error\" *ngIf=\"password.invalid && (password.dirty || password.touched)\">\n        <ul>\n          <li *ngIf=\"password.errors.minlength || password.errors.maxlength\">Password must be from 8 to 40 characters long</li>\n          <li *ngIf=\"password.errors.wrongFormat\">Password must contain at least one digit</li>\n        </ul>\n      </div>\n    <button class=\"btn btn-primary\" type=\"submit\" [disabled]=\"!registerGroup.valid\">Submit</button>\n    </form>\n  </div>\n</div>\n"
+module.exports = "\n<div class=\"auth\">\n    <div class=\"form\">\n      <form class=\"form-horizontal\" [formGroup]=\"loginGroup\" (ngSubmit)=\"toLogin()\">\n        <div class=\"row\">\n            <div class=\"col-md-3\">\n\n            </div>\n            <div class=\"col-md-6\">\n              <h3>Please enter your email and password</h3  >\n            </div>\n            <div class=\"col-md-3\">\n\n            </div>\n        </div>\n        <div class=\"row\">\n            <div class=\"col-md-3 field-label-responsive\">\n                <label for=\"email\">E-Mail Address</label>\n            </div>\n            <div class=\"col-md-6\">\n                <div class=\"form-group\">\n                    <div class=\"input-group mb-2 mr-sm-2 mb-sm-0\">\n                        <div class=\"input-group-addon\" style=\"width: 2.6rem\"><i class=\"fa fa-at\"></i></div>\n                        <input type=\"text\" formControlName=\"email\" required class=\"form-control\" id=\"email\"\n                               placeholder=\"you@example.com\" required autofocus>\n                    </div>\n                </div>\n            </div>\n            <div class=\"col-md-3\">\n            </div>\n        </div>\n        <div class=\"row\">\n            <div class=\"col-md-3 field-label-responsive\">\n                <label for=\"password\">Password</label>\n            </div>\n            <div class=\"col-md-6\">\n                <div class=\"form-group has-danger\">\n                    <div class=\"input-group mb-2 mr-sm-2 mb-sm-0\">\n                        <div class=\"input-group-addon\" style=\"width: 2.6rem\"><i class=\"fa fa-key\"></i></div>\n                        <input type=\"password\" formControlName=\"password\" class=\"form-control\" id=\"password\"\n                               placeholder=\"Password\" required>\n                    </div>\n                </div>\n            </div>\n            <div class=\"col-md-3\">\n                \n            </div>\n        </div>\n        <div class=\"error\" *ngIf=\"password.invalid && (password.dirty || password.touched)\">\n          <ul>\n            <li *ngIf=\"password.errors.minlength || password.errors.maxlength\">Password must be from 8 to 40 characters long</li>\n            <li *ngIf=\"password.errors.wrongFormat\">Password must contain at least one digit</li>\n          </ul>\n        </div>\n        <div class=\"row\">\n            <div class=\"col-md-3\"></div>\n            <div class=\"col-md-6\">\n                <button type=\"submit\" class=\"btn btn-success\"> Login</button>\n            </div>\n        </div>\n      \n      </form>\n    </div>\n  </div>\n  "
 
 /***/ }),
 
@@ -728,8 +732,10 @@ var LogoutComponent = /** @class */ (function () {
         this.returnUrl = '/login';
     }
     LogoutComponent.prototype.ngOnInit = function () {
-        this.auth_.toLogout(null).subscribe();
-        this.returnUrl = this.route.snapshot.queryParams['returnUrl'];
+        var _this = this;
+        this.auth_.toLogout(null).subscribe(function (res) {
+            _this.router.navigate([_this.returnUrl]);
+        });
     };
     LogoutComponent = __decorate([
         Object(_angular_core__WEBPACK_IMPORTED_MODULE_0__["Component"])({
@@ -840,7 +846,7 @@ var NotfoundComponent = /** @class */ (function () {
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = ".ng-valid[required], .ng-valid.required  {\n    border-radius: 5px;\n  width: 80%;\n  background-color: rgba(240, 210, 200, 0.14);\n  padding-top: 7px;\n  padding-bottom: 7px;\n  margin-top: 3px;\n  border-bottom: 1px solid #42A948; /* green */\n}\n\n.ng-invalid:not(form)  {\n  border-radius: 5px;\n    background-color: rgba(240, 210, 200, 0.14);\n  width: 80%;\n  padding-top: 7px;\n  padding-bottom: 7px;\n    margin-top: 3px;\n  margin-bottom: 3px;\n\n  border-bottom: 2px solid #a94442; /* red */\n}\n\nbutton {\n  margin-top: 15px;\n}\n\n.form {\n  padding-left: 20px;\n  padding-top: 40px;\n}\n\n.auth {\n  position: absolute;\n    top:0;\n    bottom: 0;\n    left: 0;\n    right: 0;\n    margin: auto;\n  height: 340px;\n  width: 400px;\n  background-color: rgba(200, 190, 120, 0.2);\n  border-radius: 5px;\n  border: 2px solid rgba(170, 150, 80, 0.2);\n}\n\nlabel, input {\n  display: block;\n}\n"
+module.exports = "@media(min-width: 768px) {\n  .field-label-responsive {\n    padding-top: .5rem;\n    text-align: right;\n  }\n}"
 
 /***/ }),
 
@@ -851,7 +857,7 @@ module.exports = ".ng-valid[required], .ng-valid.required  {\n    border-radius:
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = "\n<div class=\"auth\">\n  <div class=\"form\">\n    <form [formGroup]=\"registerGroup\" (ngSubmit)=\"toRegister()\">\n      <label>\n        Email:\n        <input type=\"text\" formControlName=\"email\" required>\n      </label>\n      <div class=\"error\" *ngIf=\"isEmailBusy == true\">Email is taken</div>\n      <label>\n        Password:\n        <input type=\"password\" formControlName=\"password\" required>\n      </label>\n      <div class=\"error\" *ngIf=\"password.invalid && (password.dirty || password.touched)\">\n        <ul>\n          <li *ngIf=\"password.errors.minlength || password.errors.maxlength\">Password must be from 8 to 40 characters long</li>\n          <li *ngIf=\"password.errors.wrongFormat\">Password must contain at least one digit</li>\n        </ul>\n      </div>\n    <button type=\"submit\" [disabled]=\"!registerGroup.valid\">Submit</button>\n    </form>\n  </div>\n</div>\n"
+module.exports = "\n<div class=\"auth\">\n  <div class=\"form\">\n    <form class=\"form-horizontal\" [formGroup]=\"registerGroup\" (ngSubmit)=\"toRegister()\">\n        <div class=\"row\">\n            <div class=\"col-md-3\"></div>\n            <div class=\"col-md-6\">\n                <h2>Register New User</h2>\n                <hr>\n            </div>\n        </div>\n      \n      <div class=\"row\">\n          <div class=\"col-md-3 field-label-responsive\">\n              <label for=\"email\">E-Mail Address</label>\n          </div>\n          <div class=\"col-md-6\">\n              <div class=\"form-group\">\n                  <div class=\"input-group mb-2 mr-sm-2 mb-sm-0\">\n                      <div class=\"input-group-addon\" style=\"width: 2.6rem\"><i class=\"fa fa-at\"></i></div>\n                      <input type=\"text\" formControlName=\"email\" required class=\"form-control\" id=\"email\"\n                             placeholder=\"you@example.com\" required autofocus>\n                  </div>\n              </div>\n          </div>\n          <div class=\"col-md-3\">\n          </div>\n      </div>\n      <div class=\"row\">\n          <div class=\"col-md-3 field-label-responsive\">\n              <label for=\"password\">Password</label>\n          </div>\n          <div class=\"col-md-6\">\n              <div class=\"form-group has-danger\">\n                  <div class=\"input-group mb-2 mr-sm-2 mb-sm-0\">\n                      <div class=\"input-group-addon\" style=\"width: 2.6rem\"><i class=\"fa fa-key\"></i></div>\n                      <input type=\"password\" formControlName=\"password\" class=\"form-control\" id=\"password\"\n                             placeholder=\"Password\" required>\n                  </div>\n              </div>\n          </div>\n          <div class=\"col-md-3\">\n              \n          </div>\n      </div>\n      <div class=\"error\" *ngIf=\"password.invalid && (password.dirty || password.touched)\">\n        <ul>\n          <li *ngIf=\"password.errors.minlength || password.errors.maxlength\">Password must be from 8 to 40 characters long</li>\n          <li *ngIf=\"password.errors.wrongFormat\">Password must contain at least one digit</li>\n        </ul>\n      </div>\n      <div class=\"row\">\n          <div class=\"col-md-3\"></div>\n          <div class=\"col-md-6\">\n              <button type=\"submit\" class=\"btn btn-success\"> Register</button>\n          </div>\n      </div>\n    \n    </form>\n  </div>\n</div>\n"
 
 /***/ }),
 
