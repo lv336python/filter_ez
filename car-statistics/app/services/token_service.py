@@ -3,6 +3,7 @@ Token generation and validation functions
 '''
 
 import datetime
+
 import jwt
 from app import app
 
@@ -27,5 +28,8 @@ def confirm_token(token):
     :param token:
     :return:
     '''
-    decoded_token = jwt.decode(token, app.config['SECRET_KEY'], algorithms='HS256')
+    try:
+        decoded_token = jwt.decode(token, app.config['SECRET_KEY'], algorithms='HS256')
+    except:
+        return None
     return decoded_token['email']

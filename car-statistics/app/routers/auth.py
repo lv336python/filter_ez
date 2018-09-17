@@ -50,11 +50,21 @@ def login():
         }), 400
     user = User.query.filter(User.email == data['email']).first()
 
+    if not user:
+        return json.dumps({
+            'message': 'User not found'
+        }), 400
+
+    if not user.confirmed:
+        return json.dumps({
+            'message': f"You need to confirm registration via email {user.email}"
+        }), 400
+
     password = check_password_hash(pwhash=user.password, password=data['password'])
 
     if not password:
         return json.dumps({
-            'message': 'Login or password not found'
+            'message': 'You entered incorrect password'
         }), 400
 
     login_user(user)
