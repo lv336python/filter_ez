@@ -105,7 +105,7 @@ module.exports = ""
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = "\n<router-outlet></router-outlet>\n"
+module.exports = "<router-outlet></router-outlet>\n"
 
 /***/ }),
 
@@ -470,12 +470,14 @@ var ConfirmResetComponent = /** @class */ (function () {
         });
     }
     ConfirmResetComponent.prototype.toConfirmReset = function () {
+        var _this = this;
         if (this.resetPasswordGroup.controls['password'].value ===
             this.resetPasswordGroup.controls['password_confirm'].value) {
-            this.auth_.toResetPasswordConfirm(this.route.snapshot.params["token"], this.resetPasswordGroup.controls['password'].value).subscribe(function (res) { return console.log(res); });
+            this.auth_.toResetPasswordConfirm(this.route.snapshot.params["token"], this.resetPasswordGroup.controls['password'].value).subscribe(function (res) { return _this.router.navigate([_this.returnUrl]); });
         }
     };
     ConfirmResetComponent.prototype.ngOnInit = function () {
+        this.returnUrl = '/login';
     };
     ConfirmResetComponent = __decorate([
         Object(_angular_core__WEBPACK_IMPORTED_MODULE_0__["Component"])({
@@ -532,7 +534,7 @@ module.exports = ""
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = "<p>\n  TODO: home page which is accessible if user is logged in\n</p>\n<button><a href=\"http://0.0.0.0:8000/logout\">logout</a></button>"
+module.exports = "<p>\n  TODO: home page which is accessible if user is logged in\n</p>\n"
 
 /***/ }),
 
@@ -595,7 +597,7 @@ module.exports = ""
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = "\n<div class=\"auth\">\n  <div class=\"form\">\n    <form [formGroup]=\"loginGroup\" (ngSubmit)=\"toLogin()\">\n      <label>\n        Email:\n        <input type=\"text\" formControlName=\"email\" required>\n      </label>\n      <label>\n        Password:\n        <input type=\"password\" formControlName=\"password\" required>\n      </label>\n      <div class=\"error\" *ngIf=\"password.invalid && (password.dirty || password.touched)\">\n        <ul>\n          <li *ngIf=\"password.errors.minlength || password.errors.maxlength\">Password must be from 8 to 40 characters long</li>\n          <li *ngIf=\"password.errors.wrongFormat\">Password must contain at least one digit</li>\n        </ul>\n      </div>\n    <button type=\"submit\" [disabled]=\"!registerGroup.valid\">Submit</button>\n    </form>\n  </div>\n</div>\n<h1>gfdgdfg</h1>"
+module.exports = "\n<div class=\"auth\">\n  <div class=\"form\">\n    <form [formGroup]=\"loginGroup\" (ngSubmit)=\"toLogin()\">\n      <label>\n        Email:\n        <input type=\"text\" formControlName=\"email\" required>\n      </label>\n      <label>\n        Password:\n        <input type=\"password\" formControlName=\"password\" required>\n      </label>\n      <div class=\"error\" *ngIf=\"password.invalid && (password.dirty || password.touched)\">\n        <ul>\n          <li *ngIf=\"password.errors.minlength || password.errors.maxlength\">Password must be from 8 to 40 characters long</li>\n          <li *ngIf=\"password.errors.wrongFormat\">Password must contain at least one digit</li>\n        </ul>\n      </div>\n    <button class=\"btn btn-primary\" type=\"submit\" [disabled]=\"!registerGroup.valid\">Submit</button>\n    </form>\n  </div>\n</div>\n"
 
 /***/ }),
 
@@ -723,9 +725,11 @@ var LogoutComponent = /** @class */ (function () {
         this.auth_ = auth_;
         this.router = router;
         this.route = route;
+        this.returnUrl = '/login';
     }
     LogoutComponent.prototype.ngOnInit = function () {
         this.auth_.toLogout(null).subscribe();
+        this.returnUrl = this.route.snapshot.queryParams['returnUrl'];
     };
     LogoutComponent = __decorate([
         Object(_angular_core__WEBPACK_IMPORTED_MODULE_0__["Component"])({
@@ -943,7 +947,7 @@ var RegistrationComponent = /** @class */ (function () {
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = ""
+module.exports = ".form{\n    text-align: center;\n}"
 
 /***/ }),
 
@@ -954,7 +958,7 @@ module.exports = ""
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = "\n<h1>gfdgdfg</h1>\n<div class=\"auth\">\n  <div class=\"form\">\n    <form [formGroup]=\"resetPasswordGroup\" (ngSubmit)=\"toResetPassword()\">\n      <label>\n        Email:\n        <input type=\"text\" formControlName=\"email\" required>\n      </label>\n    <button type=\"submit\" [disabled]=\"!resetPasswordGroup.valid\">Submit</button>\n    </form>\n  </div>\n</div>\n<h1>gfdgdfg</h1>"
+module.exports = "\n<div class=\"auth\">\n    <div class=\"form\">\n        <form id=\"reset-password\" [formGroup]=\"resetPasswordGroup\" (ngSubmit)=\"toResetPassword()\">\n            <label >\n                Email:\n                <input type=\"text\" formControlName=\"email\" required>\n            </label>\n            <button class=\"btn btn-primary\" type=\"submit\" [disabled]=\"!resetPasswordGroup.valid\">Submit</button>\n        </form>\n    </div>\n</div>\n"
 
 /***/ }),
 
@@ -990,18 +994,21 @@ var ResetPasswordComponent = /** @class */ (function () {
         this.auth_ = auth_;
         this.router = router;
         this.route = route;
-        this.returnUrl = 'login';
         this.resetPasswordGroup = new _angular_forms__WEBPACK_IMPORTED_MODULE_2__["FormGroup"]({
             email: new _angular_forms__WEBPACK_IMPORTED_MODULE_2__["FormControl"]('', [
                 _angular_forms__WEBPACK_IMPORTED_MODULE_2__["Validators"].required,
             ])
         });
     }
+    ResetPasswordComponent.prototype.changeText = function (id, text_to_change) {
+        var elem = document.getElementById(id);
+        elem.textContent = text_to_change;
+    };
     ResetPasswordComponent.prototype.toResetPassword = function () {
         var _this = this;
         this.auth_.toResetPassword(this.resetPasswordGroup.controls['email'].value)
             .subscribe(function (res) {
-            _this.router.navigate([_this.returnUrl]);
+            _this.changeText("reset-password", "<h1>Please check your email</h1>");
         });
     };
     ResetPasswordComponent.prototype.ngOnInit = function () {
