@@ -12,8 +12,11 @@ from app import db
 from app.services.token_service import generate_confirmation_token
 from app.services.mail_service import send_email
 
+from app.services.register_service import register_validator
+
 
 @app.route('/api/register', methods=['POST'])
+@register_validator
 def register():
     """
     POST methods for registration
@@ -25,12 +28,6 @@ def register():
     email = data['email']
     password = data['password']
     schema = UserSchema()
-
-    validate = schema.validate({'email': email, 'password': password})
-    if validate:
-        return json.dumps({
-            'message': validate
-        }), 401
 
     if not User.query.filter(User.email == email).first():
         user = schema.load({'email': email, 'password': password}).data
@@ -48,7 +45,7 @@ def register():
         send_email(user.email, subject, html)
 
         return json.dumps({
-            'message': user.email
+            'message': f'New user: {user.email}'
             }), 201
 
     user = User.query.filter(User.email == email).first()

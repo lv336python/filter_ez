@@ -35,7 +35,7 @@ class User(db.Model, UserMixin):
         self.password = generate_password_hash(password)
 
     def __repr__(self):
-        return f'User: {self.email}, {self.password}'
+        return f'User: {self.email}'
 
 class UserSchema(Schema):
     """
