@@ -6,11 +6,13 @@ import {NotfoundComponent} from "./notfound/notfound.component";
 import {RegistrationComponent} from "./registration/registration.component";
 import {AuthGuard} from "./auth.guard";
 import {ConfirmEmailComponent} from "./confirm-email/confirm-email.component";
+import {FilterComponent} from "./filter/filter.component";
 
 const routes: Routes = [
 	{path: '', component:HomeComponent},
 	{path: 'register', component: RegistrationComponent, canActivate: [AuthGuard]},
 	{path: 'confirm/:token', component: ConfirmEmailComponent},
+	{path: 'filter', component: FilterComponent},
 	{path: '**', component: NotfoundComponent},
 ];
 

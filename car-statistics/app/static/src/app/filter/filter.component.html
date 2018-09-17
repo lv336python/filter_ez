@@ -1,0 +1,22 @@
+<div class="jumbotron">
+    <div class="row justify-content-md-center">
+        <div class="col col-md-auto">
+            <h1 class="display-4">Filtering data section</h1>
+            <p class="lead">Just choose file for begin preparing your dataset</p>
+            <hr class="my-4">
+            <a class="btn btn-primary btn-lg" href="" role="button">Choose file</a>
+        </div>
+    </div>
+</div>
+<div class="row">
+    <div class="col-md-4"></div>
+    <div class="col-md-4">
+        <h3>Select data where:</h3>
+    </div>
+</div>
+
+<filter-item *ngFor="let number of filter_number"
+             [index]='number'
+             (addFilterElem)='addElement()'
+             (pushFilterParams)="pushParams($event)"
+>

@@ -40,6 +40,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _registration_registration_component__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./registration/registration.component */ "./src/app/registration/registration.component.ts");
 /* harmony import */ var _auth_guard__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./auth.guard */ "./src/app/auth.guard.ts");
 /* harmony import */ var _confirm_email_confirm_email_component__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./confirm-email/confirm-email.component */ "./src/app/confirm-email/confirm-email.component.ts");
+/* harmony import */ var _filter_filter_component__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ./filter/filter.component */ "./src/app/filter/filter.component.ts");
 var __decorate = (undefined && undefined.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -53,10 +54,12 @@ var __decorate = (undefined && undefined.__decorate) || function (decorators, ta
 
 
 
+
 var routes = [
     { path: '', component: _home_home_component__WEBPACK_IMPORTED_MODULE_2__["HomeComponent"] },
     { path: 'register', component: _registration_registration_component__WEBPACK_IMPORTED_MODULE_4__["RegistrationComponent"], canActivate: [_auth_guard__WEBPACK_IMPORTED_MODULE_5__["AuthGuard"]] },
     { path: 'confirm/:token', component: _confirm_email_confirm_email_component__WEBPACK_IMPORTED_MODULE_6__["ConfirmEmailComponent"] },
+    { path: 'filter', component: _filter_filter_component__WEBPACK_IMPORTED_MODULE_7__["FilterComponent"] },
     { path: '**', component: _notfound_notfound_component__WEBPACK_IMPORTED_MODULE_3__["NotfoundComponent"] },
 ];
 var AppRoutingModule = /** @class */ (function () {
@@ -152,12 +155,14 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _notfound_notfound_component__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ./notfound/notfound.component */ "./src/app/notfound/notfound.component.ts");
 /* harmony import */ var _home_home_component__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ./home/home.component */ "./src/app/home/home.component.ts");
 /* harmony import */ var _confirm_email_confirm_email_component__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ./confirm-email/confirm-email.component */ "./src/app/confirm-email/confirm-email.component.ts");
+/* harmony import */ var _filter_filter_component__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! ./filter/filter.component */ "./src/app/filter/filter.component.ts");
 var __decorate = (undefined && undefined.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
     else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
     return c > 3 && r && Object.defineProperty(target, key, r), r;
 };
+
 
 
 
@@ -179,6 +184,7 @@ var AppModule = /** @class */ (function () {
                 _notfound_notfound_component__WEBPACK_IMPORTED_MODULE_7__["NotfoundComponent"],
                 _home_home_component__WEBPACK_IMPORTED_MODULE_8__["HomeComponent"],
                 _confirm_email_confirm_email_component__WEBPACK_IMPORTED_MODULE_9__["ConfirmEmailComponent"],
+                _filter_filter_component__WEBPACK_IMPORTED_MODULE_10__["FilterComponent"],
             ],
             imports: [
                 _angular_platform_browser__WEBPACK_IMPORTED_MODULE_0__["BrowserModule"],
@@ -377,6 +383,69 @@ function TextFormatDirective(nameRe) {
         return correct ? null : { 'wrongFormat': { value: control.value } };
     };
 }
+
+
+/***/ }),
+
+/***/ "./src/app/filter/filter.component.css":
+/*!*********************************************!*\
+  !*** ./src/app/filter/filter.component.css ***!
+  \*********************************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+module.exports = ".center_div {\n    margin-top: 200px;\n}\n\n.card {\n    border-color: dodgerblue;\n}\n\n.button-group {\n    display: flex;\n    justify-content: space-evenly;\n}\n\n.operator-button {\n    margin-top: 20px;\n    display: flex;\n    justify-content: space-evenly;\n}"
+
+/***/ }),
+
+/***/ "./src/app/filter/filter.component.html":
+/*!**********************************************!*\
+  !*** ./src/app/filter/filter.component.html ***!
+  \**********************************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+module.exports = "<div class=\"jumbotron\">\n    <div class=\"row justify-content-md-center\">\n        <div class=\"col col-md-auto\">\n            <h1 class=\"display-4\">Filtering data section</h1>\n            <p class=\"lead\">Just choose file for begin preparing your dataset</p>\n            <hr class=\"my-4\">\n            <a class=\"btn btn-primary btn-lg\" href=\"\" role=\"button\">Choose file</a>\n        </div>\n    </div>\n</div>\n<div class=\"row\">\n    <div class=\"col-md-4\"></div>\n    <div class=\"col-md-4\">\n        <h3>Select data where:</h3>\n    </div>\n</div>\n<div class=\"row\">\n    <div class=\"col-md-4\"></div>\n    <div class=\"col-md-4\">\n        <div class=\"card primary\">\n            <div class=\"card-body\">\n                <form class=\"form\">\n                    <div class=\"form-group mb-2\">\n                        <select class=\"form-control\" id=\"exampleFormControlSelect1\">\n                            <option value=\"\" disabled selected>Chose column</option>\n                            <option>Models</option>\n                            <option>Color</option>\n                            <option>Years</option>\n                            <option>Make</option>\n                            <option>Spped</option>\n                        </select>\n                    </div>\n                    <div class=\"form-group mx-sm-2 mb-2\">\n                        <div class=\"button-group\">\n                            <button type=\"button\" class=\"btn btn-primary btn-sm\">=</button>\n                            <button type=\"button\" class=\"btn btn-primary btn-sm\"><</button>\n                            <button type=\"button\" class=\"btn btn-primary btn-sm\">></button>\n                        </div>\n                    </div>\n                    <div class=\"form-group mb-2\">\n                        <select class=\"form-control\">\n                            <option value=\"\" disabled selected>Chose value</option>\n                            <option>X5</option>\n                            <option>Vitara</option>\n                            <option>Q7</option>\n                            <option>Vectra</option>\n                        </select>\n                    </div>\n                </form>\n            </div>\n        </div>\n        <div class=\"operator-button\">\n            <button type=\"button\" class=\"btn btn-info\">And</button>\n            <button type=\"button\" class=\"btn btn-info\">Or</button>\n        </div>\n    </div>\n</div>\n"
+
+/***/ }),
+
+/***/ "./src/app/filter/filter.component.ts":
+/*!********************************************!*\
+  !*** ./src/app/filter/filter.component.ts ***!
+  \********************************************/
+/*! exports provided: FilterComponent */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "FilterComponent", function() { return FilterComponent; });
+/* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @angular/core */ "./node_modules/@angular/core/fesm5/core.js");
+var __decorate = (undefined && undefined.__decorate) || function (decorators, target, key, desc) {
+    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
+};
+var __metadata = (undefined && undefined.__metadata) || function (k, v) {
+    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
+};
+
+var FilterComponent = /** @class */ (function () {
+    function FilterComponent() {
+    }
+    FilterComponent.prototype.ngOnInit = function () {
+    };
+    FilterComponent = __decorate([
+        Object(_angular_core__WEBPACK_IMPORTED_MODULE_0__["Component"])({
+            selector: 'app-filter',
+            template: __webpack_require__(/*! ./filter.component.html */ "./src/app/filter/filter.component.html"),
+            styles: [__webpack_require__(/*! ./filter.component.css */ "./src/app/filter/filter.component.css")]
+        }),
+        __metadata("design:paramtypes", [])
+    ], FilterComponent);
+    return FilterComponent;
+}());
+
 
 
 /***/ }),
@@ -696,7 +765,7 @@ Object(_angular_platform_browser_dynamic__WEBPACK_IMPORTED_MODULE_1__["platformB
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-module.exports = __webpack_require__(/*! /home/sturss22/PycharmProjects/car-statistics/car-statistics/app/static/src/main.ts */"./src/main.ts");
+module.exports = __webpack_require__(/*! /home/izhyk/PycharmProjects/car-statistics/car-statistics/app/static/src/main.ts */"./src/main.ts");
 
 
 /***/ })

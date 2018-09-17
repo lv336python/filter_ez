@@ -9,6 +9,8 @@ import { RegistrationComponent } from './registration/registration.component';
 import { NotfoundComponent } from './notfound/notfound.component';
 import { HomeComponent } from './home/home.component';
 import { ConfirmEmailComponent } from './confirm-email/confirm-email.component';
+import { FilterComponent } from './filter/filter.component';
+import { FilterItemComponent } from './filter-item/filter-item.component';
 
 @NgModule({
     declarations: [
@@ -17,6 +19,8 @@ import { ConfirmEmailComponent } from './confirm-email/confirm-email.component';
         NotfoundComponent,
         HomeComponent,
         ConfirmEmailComponent,
+        FilterComponent,
+        FilterItemComponent,
     ],
     imports: [
         BrowserModule,
