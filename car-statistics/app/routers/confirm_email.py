@@ -21,10 +21,12 @@ def confirm_email(token):
     :return: eather change status in bd to True
     or incorrect responses
     """
-    try:
-        email = confirm_token(token)
-    except ValueError:
-        flash('The confirmation link is invalid or has expired.', 'danger')
+    email = confirm_token(token)
+
+    if not email:
+        return json.dumps({
+            'message': 'Link has been expired'
+        }), 400
     user = User.query.filter(User.email == email).first()
 
     if user:
