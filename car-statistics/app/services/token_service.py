@@ -4,6 +4,7 @@ Token generation and validation functions
 
 import json
 import datetime
+
 import jwt
 from app import app
 

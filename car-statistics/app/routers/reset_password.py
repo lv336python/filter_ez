@@ -4,7 +4,7 @@ that sends link to email
 """
 import json
 
-from flask import request, url_for
+from flask import request, url_for, session
 
 from app.services.token_service import generate_confirmation_token
 from app.services.mail_service import send_email
@@ -24,6 +24,11 @@ def reset_password():
     """
     data = request.get_json()
     email = data['email']
+
+    if 'user_id' in session:
+        return json.dumps({
+            'message': 'Logged user cannot reset password'
+        })
 
     if email:
         user = User.query.filter(User.email == email).first()

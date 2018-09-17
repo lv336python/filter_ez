@@ -2,7 +2,7 @@
 Module for confirmation view
 '''
 import json
-from flask import flash, request
+from flask import request
 
 from werkzeug.security import generate_password_hash
 
@@ -19,11 +19,13 @@ def reset_with_token(token):
     :param token:
     :return: updated password for user
     """
-
     email = confirm_token(token)
+
     if not email:
-        return json.dumps({'message' :
-                           'reset link has been expired'})
+        return json.dumps({
+            'message': 'Link has been expired'
+        }), 400
+
     data = request.get_json()
     password = generate_password_hash(data['password'])
 
