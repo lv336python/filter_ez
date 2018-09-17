@@ -6,8 +6,8 @@ import json
 
 from flask import request, url_for
 
-from app.services.token import generate_confirmation_token
-from app.services.email import send_email
+from app.services.token_service import generate_confirmation_token
+from app.services.mail_service import send_email
 from app import app
 from app.models.user import User
 
@@ -37,8 +37,8 @@ def reset_password():
         send_email(user.email, subject, html)
         return json.dumps({
             'message': f'reset password link sent to email {email}'
-        }), 200
+            }), 200
     else:
         return json.dumps({
             'message': f'User {email} not found'
-        }), 404
+            }), 404
