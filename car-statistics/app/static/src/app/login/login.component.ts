@@ -3,6 +3,7 @@ import {ActivatedRoute, Router} from "@angular/router";
 import {FormControl, FormGroup, Validators} from "@angular/forms";
 import {AuthService} from "../auth.service";
 import {User} from "../models/user";
+import {style} from "@angular/animations";
 
 @Component({
     selector: 'app-login',
@@ -30,6 +31,12 @@ export class LoginComponent implements OnInit {
             .subscribe(
                 res => {
                     this.router.navigate([this.returnUrl]);
+                },
+                err => {
+                    let data_txt = (JSON.stringify(err));
+                    let error_data = JSON.parse(data_txt);
+                    document.getElementById('error').style.display = 'block';
+                    document.getElementById('error').innerHTML = error_data.error.message
                 },
             )
     }

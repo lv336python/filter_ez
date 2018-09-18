@@ -27,7 +27,7 @@ def register_validator(func):
         validate = schema.validate({'email': email, 'password': password})
         if validate:
             return json.dumps({
-                'message': validate
+                'message': "Inncorect email or password"
             }), 401
 
         return func(*args, **kwargs)

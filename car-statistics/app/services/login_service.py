@@ -27,7 +27,7 @@ def login_validator(func):
         validate = schema.validate({'email': data['email'], 'password': data['password']})
         if validate:
             return json.dumps({
-                'message': validate
+                'message': "Email adress or password is incorrect"
             }), 400
 
         if 'user_id' in session:

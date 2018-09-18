@@ -29,7 +29,15 @@ export class ResetPasswordComponent implements OnInit {
         this.auth_.toResetPassword(this.resetPasswordGroup.controls['email'].value)
             .subscribe(
                 res => {
-                    this.changeText("reset-password", "<h1>Please check your email</h1>")
+                    let data_txt = (JSON.stringify(res));
+                    let data = JSON.parse(data_txt);
+                    document.getElementById('input_form').style.display = 'block';
+                    document.getElementById('input_form').innerHTML = data.message
+                }, err => {
+                    let data_txt = (JSON.stringify(err));
+                    let error_data = JSON.parse(data_txt);
+                    document.getElementById('error').style.display = 'block';
+                    document.getElementById('error').innerHTML = error_data.error.message
                 },
             )
     }

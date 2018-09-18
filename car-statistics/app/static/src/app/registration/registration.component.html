@@ -1,61 +1,71 @@
-
 <div class="auth">
-  <div class="form">
-    <form class="form-horizontal" [formGroup]="registerGroup" (ngSubmit)="toRegister()">
-        <div class="row">
-            <div class="col-md-3"></div>
-            <div class="col-md-6">
-                <h2>Register New User</h2>
-                <hr>
+    <div class="form">
+        <form class="form-horizontal" [formGroup]="registerGroup" (ngSubmit)="toRegister()">
+            <div class="row">
+                <div class="col-md-3"></div>
+                <div class="col-md-6">
+                    <h2>Register New User</h2>
+                    <hr>
+                </div>
             </div>
-        </div>
-      
-      <div class="row">
-          <div class="col-md-3 field-label-responsive">
-              <label for="email">E-Mail Address</label>
-          </div>
-          <div class="col-md-6">
-              <div class="form-group">
-                  <div class="input-group mb-2 mr-sm-2 mb-sm-0">
-                      <div class="input-group-addon" style="width: 2.6rem"><i class="fa fa-at"></i></div>
-                      <input type="text" formControlName="email" required class="form-control" id="email"
-                             placeholder="you@example.com" required autofocus>
-                  </div>
-              </div>
-          </div>
-          <div class="col-md-3">
-          </div>
-      </div>
-      <div class="row">
-          <div class="col-md-3 field-label-responsive">
-              <label for="password">Password</label>
-          </div>
-          <div class="col-md-6">
-              <div class="form-group has-danger">
-                  <div class="input-group mb-2 mr-sm-2 mb-sm-0">
-                      <div class="input-group-addon" style="width: 2.6rem"><i class="fa fa-key"></i></div>
-                      <input type="password" formControlName="password" class="form-control" id="password"
-                             placeholder="Password" required>
-                  </div>
-              </div>
-          </div>
-          <div class="col-md-3">
-              
-          </div>
-      </div>
-      <div class="error" *ngIf="password.invalid && (password.dirty || password.touched)">
-        <ul>
-          <li *ngIf="password.errors.minlength || password.errors.maxlength">Password must be from 8 to 40 characters long</li>
-          <li *ngIf="password.errors.wrongFormat">Password must contain at least one digit</li>
-        </ul>
-      </div>
-      <div class="row">
-          <div class="col-md-3"></div>
-          <div class="col-md-6">
-              <button type="submit" class="btn btn-success"> Register</button>
-          </div>
-      </div>
-    
-    </form>
-  </div>
+
+            <div class="row">
+                <div class="col-md-3 field-label-responsive">
+                    <label for="email">E-Mail Address</label>
+                </div>
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <div class="input-group mb-2 mr-sm-2 mb-sm-0">
+                            <div class="input-group-addon" style="width: 2.6rem"><i class="fa fa-at"></i></div>
+                            <input type="text" formControlName="email" required class="form-control" id="email"
+                                   placeholder="you@example.com" required autofocus>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-3 field-label-responsive">
+                    <label for="password">Password</label>
+                </div>
+                <div class="col-md-6">
+                    <div class="form-group has-danger">
+                        <div class="input-group mb-2 mr-sm-2 mb-sm-0">
+                            <div class="input-group-addon" style="width: 2.6rem"><i class="fa fa-key"></i></div>
+                            <input type="password" formControlName="password" class="form-control" id="password"
+                                   placeholder="Password" required>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-3">
+
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-3">
+
+                </div>
+                <div class="col-md-6">
+                    <strong>
+                        <div id="error" class="alert alert-warning">
+
+
+                        </div>
+                    </strong>
+                </div>
+                <div class="col-md-3">
+
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-md-3"></div>
+                <div class="col-md-6">
+                    <button type="submit" class="btn btn-success"> Register</button>
+                </div>
+            </div>
+
+        </form>
+    </div>
 </div>

@@ -2,14 +2,39 @@
 <div class="auth">
   <div class="form">
     <form [formGroup]="resetPasswordGroup" (ngSubmit)="toConfirmReset()">
-      <label>
-        New password:
-        <input type="password" formControlName="password" required>
-      </label>
-      <label>
-        Confirm password:
-        <input type="password" formControlName="password_confirm" required>
-      </label>
+      <div class="row">
+        <div class="col-md-3 field-label-responsive">
+            <label for="password"> New password</label>
+        </div>
+        <div class="col-md-6">
+            <div class="form-group has-danger">
+                <div class="input-group mb-2 mr-sm-2 mb-sm-0">
+                    <div class="input-group-addon" style="width: 2.6rem"><i class="fa fa-key"></i></div>
+                    <input type="password" formControlName="password" class="form-control" id="password"
+                           placeholder="Password" required>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3">
+      
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-md-3 field-label-responsive">
+            <label for="password">Confirm password</label>
+        </div>
+        <div class="col-md-6">
+            <div class="form-group has-danger">
+                <div class="input-group mb-2 mr-sm-2 mb-sm-0">
+                    <div class="input-group-addon" style="width: 2.6rem"><i class="fa fa-key"></i></div>
+                    <input type="password" formControlName="password_confirm" class="form-control" id="password"
+                           placeholder="Password" required>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3">
+        </div>
+      </div>
       <div class="error" *ngIf="password.invalid && (password.dirty || password.touched)">
         <ul>
           <li *ngIf="password.errors.minlength || password.errors.maxlength">Password must be from 8 to 40 characters long</li>
@@ -20,3 +45,4 @@
     </form>
   </div>
 </div>
+

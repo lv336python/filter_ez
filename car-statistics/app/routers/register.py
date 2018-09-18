@@ -5,7 +5,6 @@ import json
 
 from flask import request, url_for
 
-
 from app.models import User, UserSchema
 from app import app
 from app import db
@@ -27,13 +26,15 @@ def register():
     data = request.get_json()
     email = data['email']
     password = data['password']
+    if not password:
+        return json.dumps({'status':'401','message': 'password must be filled!'}),401
     schema = UserSchema()
 
     if not User.query.filter(User.email == email).first():
         user = schema.load({'email': email, 'password': password}).data
 
-        db.session.add(user)# pylint: disable=E1101
-        db.session.commit()# pylint: disable=E1101
+        db.session.add(user)  # pylint: disable=E1101
+        db.session.commit()  # pylint: disable=E1101
 
         token = generate_confirmation_token(user.email)
 
@@ -46,7 +47,7 @@ def register():
 
         return json.dumps({
             'message': f'New user: {user.email}'
-            }), 201
+        }), 201
 
     user = User.query.filter(User.email == email).first()
     if not user.confirmed:
@@ -63,4 +64,4 @@ def register():
         })
     return json.dumps({
         'message': f'email: {email} already exist'
-        }), 401
+    }), 401
