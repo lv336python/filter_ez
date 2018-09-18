@@ -9,7 +9,7 @@ from werkzeug.security import generate_password_hash
 from app import app
 from app import db
 from app.services.token_service import confirm_token
-from app.models import User
+from app.models import User, UserSchema
 
 
 @app.route('/api/password_reset/<token>', methods=['PUT'])
@@ -27,6 +27,14 @@ def reset_with_token(token):
         }), 400
 
     data = request.get_json()
+    schema = UserSchema()
+    validate = schema.validate({'email': email, 'password': data['password']})
+
+    if validate:
+        return json.dumps({
+            'message': validate
+        })
+
     password = generate_password_hash(data['password'])
 
     if password:
@@ -39,4 +47,6 @@ def reset_with_token(token):
                 'token': token
             }), 200
 
-    return json.dumps({'status': 404, 'message': 'user doesnt exist'}), 404
+    return json.dumps({
+        'message': 'user doesnt exist'
+        }), 404
