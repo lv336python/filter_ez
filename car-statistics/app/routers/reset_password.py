@@ -32,6 +32,12 @@ def reset_password():
 
     if email:
         user = User.query.filter(User.email == email).first()
+
+        if not user:
+            return json.dumps({
+                'message': f'Email {email} not found'
+            })
+
         token = generate_confirmation_token(user.email)
         subject = "Password reset requested"
         recover_url = url_for(
