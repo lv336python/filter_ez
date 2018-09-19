@@ -43,7 +43,7 @@ def reset_password():
     if not user:
         return json.dumps({
             'message': f'Email {email} not found'
-        })
+        }), 400
 
     token = generate_confirmation_token(user.email)
     subject = "Password reset requested"
@@ -55,4 +55,4 @@ def reset_password():
     send_email(user.email, subject, html)
     return json.dumps({
         'message': f'reset password link sent to email {email}'
-        }), 200
+        }), 201
