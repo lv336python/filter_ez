@@ -1,4 +1,3 @@
-
 '''
 Token generation and validation functions
 '''
