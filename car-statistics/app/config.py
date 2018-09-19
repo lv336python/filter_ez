@@ -47,5 +47,5 @@ class Config:
     CELERY_BROKER_URL = 'amqp://guest@localhost//'
     CELERY_ACCEPT_CONTENT = ['json', 'pickle']
     CELERY_ROUTES = {
-        'app.services.email.*': {'queue': 'email'}
+        'app.services.mail_service.*': {'queue': 'email'}
     }

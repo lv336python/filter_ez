@@ -4,10 +4,10 @@ that sends link to email
 """
 import json
 
-from flask import request, url_for
+from flask import request, url_for, session
 
 from app.services.token_service import generate_confirmation_token
-from app.services.email_service import send_email
+from app.services.mail_service import send_email
 from app import app
 from app.models.user import User
 
@@ -25,8 +25,19 @@ def reset_password():
     data = request.get_json()
     email = data['email']
 
+    if 'user_id' in session:
+        return json.dumps({
+            'message': 'Logged user cannot reset password'
+        })
+
     if email:
         user = User.query.filter(User.email == email).first()
+
+        if not user:
+            return json.dumps({
+                'message': f'Email {email} not found'
+            })
+
         token = generate_confirmation_token(user.email)
         subject = "Password reset requested"
         recover_url = url_for(
@@ -37,8 +48,8 @@ def reset_password():
         send_email(user.email, subject, html)
         return json.dumps({
             'message': f'reset password link sent to email {email}'
-        }), 200
+            }), 200
     else:
         return json.dumps({
             'message': f'User {email} not found'
-        }), 404
+            }), 404

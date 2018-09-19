@@ -10,6 +10,7 @@ import {ActivatedRoute, Router} from "@angular/router";
     styleUrls: ['./confirm-reset.component.css']
 })
 export class ConfirmResetComponent implements OnInit {
+    returnUrl : string;
     resetPasswordGroup = new FormGroup({
         password: new FormControl('', [
             Validators.required,
@@ -31,7 +32,7 @@ export class ConfirmResetComponent implements OnInit {
                 this.auth_.toResetPasswordConfirm(
                     this.route.snapshot.params["token"],
                     this.resetPasswordGroup.controls['password'].value
-                ).subscribe(res => console.log(res))
+                ).subscribe(res => this.router.navigate([this.returnUrl]))
             }
     }
 
@@ -43,6 +44,7 @@ export class ConfirmResetComponent implements OnInit {
     }
 
     ngOnInit() {
+        this.returnUrl = '/login';
     }
 
 }
