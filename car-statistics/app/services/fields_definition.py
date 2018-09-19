@@ -2,7 +2,6 @@
     Module for fields definition
 """
 import pandas as pd
-import json
 from collections import defaultdict
 
 
@@ -23,10 +22,7 @@ def fields_definition(file_name):
             for val in cl_name_val:
                 default_dict[val] += 1
                 field_def[cl_name] = default_dict
-                # field_def[cl_name] = list(set(df[cl_name]))
         else:
             field_def[cl_name] = dict(min=min(cl_name_val), max=max(cl_name_val))
 
-    # with open(f'{file_name}.json', 'w') as outfile:
-    #     json.dump(field_def, outfile)
     return field_def
