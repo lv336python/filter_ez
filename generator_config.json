@@ -1,38 +1,121 @@
 {
-  "row_number" : 20000,
+  "row_number" : 50000,
   "columns" : {
+    "Model" : {
+      "type" : "string",
+      "choice" :  ["Mazaro", "X5", "Kwid", "Scorpio", "Vitara", "A6", "X4", "Spyder"]
+    },
+    "Make" : {
+      "type" : "string",
+      "choice" : ["Audi", "BMW", "Chevrolet", "Citroen", "Dacia"]
+    },
+    "Body" : {
+      "type" : "string",
+      "choice" : ["Sedan", "Hatchback", "MPV", "SUV", "Crossover"]
+    },
     "Year" : {
       "type" : "int",
-      "min_value" : 1999,
-      "max_value" : 2015,
-      "unique": 1212
-    },
-    "Type" : {
-      "type" : "string",
-      "unique" : 20
-    },
-    "Mark" : {
-      "type" : "strinsag",
-      "unique" : 100,
-      "digit" : true
-    },
-    "Engine Volume" : {
-      "type" : "float",
-      "min_value" : 10,
-      "max_value" : 20,
-      "step" : 0.4
+      "min_value" : 1966,
+      "max_value" : 2018,
+      "unique" : 5
     },
     "Country" : {
       "type" : "string",
       "choice" : ["Ukraine", "Germany", "England", "USA"]
     },
-    "Name" : {
-      "type" : "string",
-      "capitalize" : true
+    "Mileage" : {
+      "type" : "int",
+      "min_value" : 1000,
+      "max_value" : 1000000,
+      "unique" : 5
     },
-    "Allowed" : {
-      "type" : "bool",
-      "choice" : [true, false]
+    "Fuel consumptions" : {
+      "type" : "int",
+      "min_value" : 100,
+      "max_value" : 1000,
+      "unique" : 5
+    },
+    "Seats" : {
+      "type" : "int",
+      "min_value" : 1,
+      "max_value" : 50,
+      "unique" : 5
+    },
+    "Power" : {
+      "type" : "int",
+      "min_value" : 100,
+      "max_value" : 500,
+      "unique" : 5
+    },
+    "Engine type" : {
+      "type" : "string",
+      "choice" : ["Vee", "Inline", "Straight", "VR", "W", "Boxer"]
+    },
+    "Fuel type" : {
+      "type" : "string",
+      "choice" : ["Petrol", "Diesel", "Hybrid", "Electric", "Gas"]
+    },
+    "Doors number" : {
+      "type" : "int",
+      "choice" : [1,2,3,4,5]
+    },
+    "Transmission" : {
+      "type" : "string",
+      "choice" : ["Automatic", "Manual", "Semi-automatic"]
+    },
+    "Gear numbers" : {
+      "type" : "int",
+      "choice" : [4, 5, 6, 7, 8]
+    },
+    "Color" : {
+      "type" : "string",
+      "choice" : ["Red", "Blue", "Green", "Yellow", "Cyan"]
+    },
+    "Wheel size" : {
+      "type" : "float",
+      "min_value" : 10,
+      "max_value" : 18,
+      "step" : 0.4,
+      "unique" : 5
+    },
+    "Condition" : {
+      "type" : "string",
+      "choice" : ["Used", "New", "After car accident", "Biohazard"]
+    },
+    "Drive Type" : {
+      "type" : "string",
+      "choice" : ["All-Wheel", "Front-Wheel", "Rear-Wheel", "Four-Wheel"]
+    },
+    "Emission class" : {
+      "type" : "int",
+      "choice" : [1, 2, 3, 4, 5]
+    },
+    "Air bags" : {
+      "type" : "int",
+      "choice" : [0, 1, 2, 3, 4]
+    },
+    "Climate control" : {
+      "type" : "bool"
+    },
+    "Weight" : {
+      "type" : "int",
+      "min_value" : 1000,
+      "max_value" : 10000,
+      "step" : 100,
+      "unique" : 5
+    },
+    "Price" : {
+      "type" : "int",
+      "min_value" : 2000,
+      "max_value" : 30000,
+      "unique" : 5
+    },
+    "Seat heater" : {
+      "type" : "bool"
+    },
+    "Trim level" : {
+      "type" : "string",
+      "choice" : ["LS", "EX", "GL", "SE", "GT"]
     }
   }
 }

@@ -9,7 +9,7 @@ import {User} from "../models/user";
     styleUrls: ['./logout.component.css']
 })
 export class LogoutComponent implements OnInit {
-    returnUrl: string;
+    returnUrl: string = '/login';
     name: string;
 
     constructor(
@@ -21,6 +21,7 @@ export class LogoutComponent implements OnInit {
 
     ngOnInit() {
         this.auth_.toLogout(null).subscribe()
-
+        this.returnUrl = this.route.snapshot.queryParams['returnUrl'];
     }
+
 }
