@@ -27,3 +27,7 @@ def fields_definition(file_name):
 
 with open('fields_definition.json', 'w') as outfile:
     json.dump(fields_definition('result_test.xls'), outfile)
+
+
+def meta_data(file):
+    return

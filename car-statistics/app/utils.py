@@ -29,14 +29,40 @@ def create_file_dir(dir_path):
     return os.path.isdir(dir_path) or os.makedirs(dir_path)
 
 
-def name_hashing(name):
+def file_dir(user_id, file_id):
+    """
+    Function returns path where user file is located
+    :param user_id: id of file owner(user that uploaded this file)
+    :param file_id: id of the file in files table in DB
+    :return: path to the file directory like /user/file/
+    """
+    upload_dir = app.config['UPLOAD_FOLDER']
+    user_id = str(user_id)
+    file_id = str(file_id)
+    file_directory = os.path.join(upload_dir, user_id, file_id)
+    return file_directory
+
+
+def file_path(dir_path, filename):
+    """
+
+    :param dir_path:
+    :param filename:
+    :return: file name with path to the file like /user/file/sample.txt
+    """
+    path_to_file = os.path.join(dir_path, filename)
+    return path_to_file
+
+
+def filename_hash(filename, user_id):
     """
     Function will hash filename with md5 algorithm
-    :param name: name to be hashed
+    :param filename: name to be hashed
+    :param user_id: file owner id
     :return: hashed name
     """
-    hash_time = int(time.time())
-    hash_name = md5(f'{hash_time}{name}'.encode()).hexdigest()
+    ask = app.config['SECRET_KEY']
+    hash_name = md5(f'{ask}{filename}{user_id}'.encode()).hexdigest()
     return hash_name
 
 
