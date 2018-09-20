@@ -58,7 +58,7 @@ def generate_int_data(**kwargs):
     unique = min(kwargs.get('unique', 20), (max_value - min_value) / step)
 
     if data_choice_range:
-        return filter(lambda x: isinstance(x, int), data_choice_range)
+        return list(filter(lambda x: isinstance(x, int), data_choice_range))
 
     while len(data_choice_range) < unique:
         choice_element = choice(range(min_value, max_value, step))
@@ -181,42 +181,8 @@ def main():
     If config file path is given as a system argument, configurations are taken from it
     :return: None
     """
-    configs = {
-        'ROW NUMBER': 50000,
 
-        'COL DATA': {
-            'Models': ['Mazaro', 'X5', 'Kwid', 'Scorpio', 'Vitara', 'A6', 'X4', 'Spyder'],
-            'Make': ['Audi', 'BMW', 'Chevrolet', 'Citroen', 'Dacia', 'Fiat', 'Ford',
-                     'Honda', 'Kia', 'Lexus', 'Jeep', 'Opel', 'Nissan', 'Toyota', 'Pontiac'],
-            'Body': ['Sedan', 'Hatchback', 'MPV', 'SUV', 'Crossover'],
-            'Year': range(1950, 2018),
-            'Mileage': range(0, 150000, 1000),
-            'Fuel consumptions': range(10, 500),
-            'Seats': range(1, 50),
-            'Power': range(100, 400),
-            'Engine type': ('Vee', 'Inline', 'Straight', 'VR', 'W', 'Boxer'),
-            'Fuel type': ('Petrol', 'Diesel', 'Hybrid', 'Electric', 'Gas'),
-            'Doors number': range(1, 6),
-            'Transmission': ('Automatic', 'Manual', 'Semi-automatic'),
-            'Gear numbers': range(3, 8),
-            'Color': ('Red', 'Blue', 'Green', 'Yellow', 'Cyan'),
-            'Wheel size': range(10, 20, 1),
-            'Country': ('Ukraine', 'USA', 'German', 'England', 'France', 'Italy'),
-            'Condition': ('Used', 'New', 'After car accident', 'Biohazard'),
-            'Drive Type': ('All-Wheel', 'Front-Wheel', 'Rear-Wheel', 'Four-Wheel'),
-            'Emission class': (1, 2, 3, 4, 5, 6),
-            'Air bags': (0, 1, 2, 3, 4, 5),
-            'Climate control': ("Yes", "No"),
-            'Weight': range(800, 3000, 200),
-            'Price': range(999, 29999, 1000),
-            'Seat heater': ('Yes', 'No'),
-            'Trim level': ('DX', 'LX', 'LS', 'EX', 'GL', 'SE', 'GT')
-        },
-
-        'COLUMNS': sorted(['Models', 'Make'])
-    }
-    if len(sys.argv) > 1:
-        configs = configure_data_sets()
+    configs = configure_data_sets()
     generate_data(configs)
 
 
