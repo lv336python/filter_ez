@@ -14,8 +14,6 @@ from werkzeug.security import generate_password_hash
 from app import db
 
 
-
-
 class User(db.Model, UserMixin):
     '''
     User model for SQL database
