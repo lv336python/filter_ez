@@ -39,7 +39,7 @@ def send_result_to_mail(recipients, file_id):
     :param filename: name of file to send
     :return:
     """
-    file = File.query.filter(File.id=file_id)
+    file = File.query.filter(File.id == file_id).first()
     path = file.path
     name = file.attributes['name']
     msg = Message(
