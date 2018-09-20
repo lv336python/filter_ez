@@ -1,8 +1,8 @@
 import os
 
-BASE_DIR = os.path.dirname(os.path.abspath(__file__))
+from app import app
 
 
-def get_file(user, filename):
-    with open(os.path.join(BASE_DIR, 'files/'+filename), 'rb') as file:
+def get_file(filepath):
+    with open(os.path.join(app.root_path, app.config['UPLOAD_FOLDER'], filepath), 'rb') as file:
         return file.read()
