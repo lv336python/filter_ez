@@ -2,6 +2,8 @@
 Module for confirmation view
 '''
 import json
+import re
+
 from flask import request
 
 from werkzeug.security import generate_password_hash
@@ -10,6 +12,7 @@ from app import app
 from app import db
 from app.services.token_service import confirm_token
 from app.models import User, UserSchema
+
 
 
 @app.route('/api/password_reset/<token>', methods=['PUT'])
@@ -27,13 +30,13 @@ def reset_with_token(token):
         }), 400
 
     data = request.get_json()
-    schema = UserSchema()
-    validate = schema.validate({'email': email, 'password': data['password']})
+    schema = UserSchema.reg_pass
+    password = data['password']
 
-    if validate:
+    if not re.match(schema, password):
         return json.dumps({
-            'message': validate
-        })
+            'message': 'Password in invalid'
+            }), 400
 
     password = generate_password_hash(data['password'])
 
