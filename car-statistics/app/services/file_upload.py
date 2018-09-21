@@ -7,7 +7,7 @@ from app import app, db
 from werkzeug.utils import secure_filename
 from app.utils import file_extension
 from flask import session
-from app.models import Files
+from app.models import File
 from app.utils import create_file_dir, name_hashing, full_filename
 
 
@@ -24,7 +24,7 @@ def file_uploader(file, *args, **kwargs):
     hash_name = name_hashing(name)
     filename = full_filename(hash_name, suffix)
     user = session['user_id']
-    new_file = Files(file_name=name, hash_name=filename, file_owner_id=user)
+    new_file = File(path="1/result.xls", attributes={'name':'result'})
     db.session.add(new_file)
     db.session.commit()
     upload_dir = app.config['UPLOAD_FOLDER']

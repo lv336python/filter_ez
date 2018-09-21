@@ -57,3 +57,14 @@ def send_result_to_mail(recipients, file_id):
         )]
     )
     send.apply_async([msg], serializer='pickle')
+
+
+def notify_admin(message, error_level):
+    msg = Message(
+        subject=f'Error occurred, level {error_level}',
+        sender=("CStats", app.config['MAIL_DEFAULT_SENDER']),
+        recipients=[app.config['ADMIN_MAIL']],
+        date=datetime.now().timestamp(),
+        body=f"Error has occurred on the server.\n Details: {message}"
+    )
+    send.apply_async([msg], serializer='pickle')
