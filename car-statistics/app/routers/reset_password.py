@@ -28,7 +28,7 @@ def reset_password():
     if 'user_id' in session:
         return json.dumps({
             'message': 'Logged user cannot reset password'
-        })
+        }), 401
 
     if email:
         user = User.query.filter(User.email == email).first()

@@ -63,5 +63,5 @@ def register():
             'message': f'Confirmation link has been sent to email {user.email}'
         })
     return json.dumps({
-        'message': f'email: {email} already exist'
+        'message': f'email {email} already exist'
     }), 401
