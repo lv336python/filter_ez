@@ -1,2 +1,2 @@
 from .user import User, UserSchema
-from .files import Files
+from .files import File, Dataset, Filter
