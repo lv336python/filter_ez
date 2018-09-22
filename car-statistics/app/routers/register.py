@@ -5,9 +5,8 @@ import json
 
 from flask import request, url_for
 
-from app.models import User, UserSchema
+from app.models import User
 from app import app
-from app import db
 from app.services.token_service import generate_confirmation_token
 from app.services.mail_service import send_email
 
@@ -26,9 +25,6 @@ def register():
     data = request.get_json()
     email = data['email']
     password = data['password']
-    if not password:
-        return json.dumps({'status':'401','message': 'password must be filled!'}),401
-    schema = UserSchema()
 
     user = User.query.filter(User.email == email).first()
     if user:

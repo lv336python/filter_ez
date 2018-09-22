@@ -24,9 +24,6 @@ def reset_password():
     :return: eather link sent to email or no correct
     response
     """
-    data = request.get_json()
-    email = data['email']
-
     if 'user_id' in session:
         return json.dumps({
             'message': 'Logged user cannot reset password'
