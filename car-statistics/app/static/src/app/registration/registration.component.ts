@@ -15,8 +15,10 @@ export class RegistrationComponent implements OnInit {
 
     returnUrl: string;
     isEmailBusy: boolean = false;
+    error_message : string;
+    confirm_message : string;
 
-    registerGroup = new FormGroup({
+    registerGroup =  new FormGroup({
         email: new FormControl('', [
             Validators.required,
             TextFormatDirective(/^[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?$/)
@@ -28,7 +30,7 @@ export class RegistrationComponent implements OnInit {
             Validators.maxLength(40),
             TextFormatDirective(/^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,}$/),
         ])
-    });
+      });
 
     toRegister() {
         this.auth_.toRegister(new User(this.registerGroup.controls['email'].value,
@@ -36,18 +38,23 @@ export class RegistrationComponent implements OnInit {
             .subscribe(
                 res => {
                     localStorage.setItem('token', res.token);
-                    this.router.navigate([this.returnUrl]);
+                    this.confirm_message = "We send you confirmation token. Please check your email";
+                    this.registerGroup = null
                 },
                 err => {
+                    this.isEmailBusy =true;
                     let data_txt = (JSON.stringify(err));
                     let error_data = JSON.parse(data_txt);
-                    document.getElementById('error').style.display = 'block';
-                    document.getElementById('error').innerHTML = error_data.error.message
+                    this.error_message = error_data.error.message.toString();
                 })
     }
 
+
     get password() {
         return this.registerGroup.get('password')
+    }
+    get email(){
+        return this.registerGroup.get('email')
     }
 
 

@@ -105,7 +105,7 @@ module.exports = ".navbar{\nbackground-color: rgb(22, 17, 17);\nborder-radius: 4
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = "<nav class=\"navbar navbar-inverse\">\n    <div class=\"container-fluid\">\n      <div class=\"navbar-header\">\n        <a class=\"navbar-brand\" routerLink='/'>WebSiteName</a>\n      </div>\n      <ul class=\"nav navbar-nav\">\n        <li class=\"active\"><a routerLink='/'>Home</a></li>\n        \n      </ul>\n      <ul class=\"nav navbar-nav navbar-right\">\n        <li><a routerLink='/register'><span class=\"glyphicon glyphicon-user\"></span> Sign Up</a></li>\n        <li><a routerLink='/login'><span class=\"glyphicon glyphicon-log-in\"></span> Login</a></li>\n        <li><a routerLink='/logout'><span class=\"glyphicon glyphicon-log-in\"></span> Logout</a></li>\n      </ul>\n    </div>\n  </nav>\n<router-outlet></router-outlet>\n"
+module.exports = "<app-navbar></app-navbar>\n<router-outlet></router-outlet>\n"
 
 /***/ }),
 
@@ -168,12 +168,14 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _reset_password_reset_password_component__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! ./reset-password/reset-password.component */ "./src/app/reset-password/reset-password.component.ts");
 /* harmony import */ var _logout_logout_component__WEBPACK_IMPORTED_MODULE_12__ = __webpack_require__(/*! ./logout/logout.component */ "./src/app/logout/logout.component.ts");
 /* harmony import */ var _confirm_reset_confirm_reset_component__WEBPACK_IMPORTED_MODULE_13__ = __webpack_require__(/*! ./confirm-reset/confirm-reset.component */ "./src/app/confirm-reset/confirm-reset.component.ts");
+/* harmony import */ var _navbar_navbar_component__WEBPACK_IMPORTED_MODULE_14__ = __webpack_require__(/*! ./navbar/navbar.component */ "./src/app/navbar/navbar.component.ts");
 var __decorate = (undefined && undefined.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
     else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
     return c > 3 && r && Object.defineProperty(target, key, r), r;
 };
+
 
 
 
@@ -203,6 +205,7 @@ var AppModule = /** @class */ (function () {
                 _logout_logout_component__WEBPACK_IMPORTED_MODULE_12__["LogoutComponent"],
                 _reset_password_reset_password_component__WEBPACK_IMPORTED_MODULE_11__["ResetPasswordComponent"],
                 _confirm_reset_confirm_reset_component__WEBPACK_IMPORTED_MODULE_13__["ConfirmResetComponent"],
+                _navbar_navbar_component__WEBPACK_IMPORTED_MODULE_14__["NavbarComponent"],
             ],
             imports: [
                 _angular_platform_browser__WEBPACK_IMPORTED_MODULE_0__["BrowserModule"],
@@ -409,7 +412,7 @@ var ConfirmEmailComponent = /** @class */ (function () {
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = "@media(min-width: 768px) {\n    .field-label-responsive {\n      padding-top: .5rem;\n      text-align: right;\n      \n    }\n    .btn-primary{\n        text-align: center\n    }\n  }"
+module.exports = "@media(min-width: 768px) {\n    .field-label-responsive {\n      padding-top: .5rem;\n      text-align: right;\n      \n    }\n\n  }"
 
 /***/ }),
 
@@ -420,7 +423,7 @@ module.exports = "@media(min-width: 768px) {\n    .field-label-responsive {\n   
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = "\n<div class=\"auth\">\n  <div class=\"form\">\n    <form [formGroup]=\"resetPasswordGroup\" (ngSubmit)=\"toConfirmReset()\">\n      <div class=\"row\">\n        <div class=\"col-md-3 field-label-responsive\">\n            <label for=\"password\"> New password</label>\n        </div>\n        <div class=\"col-md-6\">\n            <div class=\"form-group has-danger\">\n                <div class=\"input-group mb-2 mr-sm-2 mb-sm-0\">\n                    <div class=\"input-group-addon\" style=\"width: 2.6rem\"><i class=\"fa fa-key\"></i></div>\n                    <input type=\"password\" formControlName=\"password\" class=\"form-control\" id=\"password\"\n                           placeholder=\"Password\" required>\n                </div>\n            </div>\n        </div>\n        <div class=\"col-md-3\">\n      \n        </div>\n      </div>\n      <div class=\"row\">\n        <div class=\"col-md-3 field-label-responsive\">\n            <label for=\"password\">Confirm password</label>\n        </div>\n        <div class=\"col-md-6\">\n            <div class=\"form-group has-danger\">\n                <div class=\"input-group mb-2 mr-sm-2 mb-sm-0\">\n                    <div class=\"input-group-addon\" style=\"width: 2.6rem\"><i class=\"fa fa-key\"></i></div>\n                    <input type=\"password\" formControlName=\"password_confirm\" class=\"form-control\" id=\"password\"\n                           placeholder=\"Password\" required>\n                </div>\n            </div>\n        </div>\n        <div class=\"col-md-3\">\n        </div>\n      </div>\n      <div class=\"error\" *ngIf=\"password.invalid && (password.dirty || password.touched)\">\n        <ul>\n          <li *ngIf=\"password.errors.minlength || password.errors.maxlength\">Password must be from 8 to 40 characters long</li>\n          <li *ngIf=\"password.errors.wrongFormat\">Password must contain at least one digit</li>\n        </ul>\n      </div>\n    <button class=\"btn btn-primary\" type=\"submit\" [disabled]=\"!resetPasswordGroup.valid\">Submit</button>\n    </form>\n  </div>\n</div>\n\n"
+module.exports = "<div class=\"auth\">\n    <div class=\"form\">\n        <form [formGroup]=\"resetPasswordGroup\" (ngSubmit)=\"toConfirmReset()\">\n            <div class=\"row\">\n                <div class=\"col-md-3\"></div>\n                <div class=\"col-md-6\">\n                    <h2>Register New User</h2>\n                    <hr>\n                    <br><br>\n                </div>\n            </div>\n            <div class=\"row\">\n                <div class=\"col-md-3 field-label-responsive\">\n                    <label for=\"password\"> New password</label>\n                </div>\n                <div class=\"col-md-6\">\n                    <div class=\"form-group has-danger\">\n                        <div class=\"input-group mb-2 mr-sm-2 mb-sm-0\">\n                            <div class=\"input-group-addon\" style=\"width: 2.6rem\"><i class=\"fa fa-key\"></i></div>\n                            <input type=\"password\" formControlName=\"password\" class=\"form-control\" id=\"password\"\n                                   placeholder=\"Password\" required>\n                        </div>\n                    </div>\n                </div>\n                <div class=\"col-md-3\">\n\n                </div>\n            </div>\n            <div class=\"row\">\n                <div class=\"col-md-3 field-label-responsive\">\n                    <label for=\"password\">Confirm password</label>\n                </div>\n                <div class=\"col-md-6\">\n                    <div class=\"form-group has-danger\">\n                        <div class=\"input-group mb-2 mr-sm-2 mb-sm-0\">\n                            <div class=\"input-group-addon\" style=\"width: 2.6rem\"><i class=\"fa fa-key\"></i></div>\n                            <input type=\"password\" formControlName=\"password_confirm\" class=\"form-control\"\n                                   id=\"password_confirm\"\n                                   placeholder=\"Password\" required>\n                        </div>\n                    </div>\n                </div>\n                <div class=\"col-md-3\">\n                </div>\n            </div>\n            <div class=\"row\">\n                <div class=\"col-md-3\"></div>\n                <div class=\"col-md-6\">\n                    <div class=\"alert alert-danger\" *ngIf=\"password.invalid && (password.dirty || password.touched)\">\n                        <ul>\n                            <li *ngIf=\"password.errors.minlength || password.errors.maxlength\">Password must be from 8\n                                to 40\n                                characters long\n                            </li>\n                            <li *ngIf=\"password.errors.wrongFormat\">Password must contain at least one digit</li>\n\n                        </ul>\n                    </div>\n                    <div class=\"alert alert-danger\"\n                         *ngIf=\"resetPasswordGroup.valid && password.value != password_confirm.value\">\n                        Passwords does not match\n                    </div>\n                </div>\n                <div class=\"col-md-3\">\n\n                </div>\n            </div>\n            <div class=\"row\">\n                <div class=\"col-md-3\"></div>\n                <div class=\"col-md-6\">\n                    <button class=\"btn btn-success\" type=\"submit\"\n                            [disabled]=\"!resetPasswordGroup.valid && password.value != password_confirm.value\">Submit\n                    </button>\n                </div>\n                <div class=\"col-md-3\"></div>\n            </div>\n\n        </form>\n    </div>\n</div>\n\n"
 
 /***/ }),
 
@@ -480,6 +483,20 @@ var ConfirmResetComponent = /** @class */ (function () {
             this.auth_.toResetPasswordConfirm(this.route.snapshot.params["token"], this.resetPasswordGroup.controls['password'].value).subscribe(function (res) { return _this.router.navigate([_this.returnUrl]); });
         }
     };
+    Object.defineProperty(ConfirmResetComponent.prototype, "password", {
+        get: function () {
+            return this.resetPasswordGroup.get('password');
+        },
+        enumerable: true,
+        configurable: true
+    });
+    Object.defineProperty(ConfirmResetComponent.prototype, "password_confirm", {
+        get: function () {
+            return this.resetPasswordGroup.get('password_confirm');
+        },
+        enumerable: true,
+        configurable: true
+    });
     ConfirmResetComponent.prototype.ngOnInit = function () {
         this.returnUrl = '/login';
     };
@@ -538,7 +555,7 @@ module.exports = ""
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = "\n<p>\n  TODO: home page which is accessible if user is logged in\n</p>\n"
+module.exports = "<p>\n    TODO: home page which is accessible if user is logged in\n</p>\n<form action=\"{{ url_for('uploader') }}\"\n      method=\"post\"\n      enctype=\"multipart/form-data\">\n    <input type=\"file\" name=\"uploaded_file\"/>\n    <input type=\"submit\"/>\n</form>"
 
 /***/ }),
 
@@ -601,7 +618,7 @@ module.exports = "@media(min-width: 768px) {\n    .field-label-responsive {\n   
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = "<div class=\"auth\">\n    <div class=\"form\">\n        <form class=\"form-horizontal\" [formGroup]=\"loginGroup\" (ngSubmit)=\"toLogin()\">\n            <div class=\"row\">\n                <div class=\"col-md-3\">\n\n                </div>\n                <div class=\"col-md-6\">\n                    <h3>Please enter your email and password</h3>\n                </div>\n                <div class=\"col-md-3\">\n\n                </div>\n            </div>\n            <div class=\"row\">\n                <div class=\"col-md-3 field-label-responsive\">\n                    <label for=\"email\">E-Mail Address</label>\n                </div>\n                <div class=\"col-md-6\">\n                    <div class=\"form-group\">\n                        <div class=\"input-group mb-2 mr-sm-2 mb-sm-0\">\n                            <div class=\"input-group-addon\" style=\"width: 2.6rem\"><i class=\"fa fa-at\"></i></div>\n                            <input type=\"text\" formControlName=\"email\" required class=\"form-control\" id=\"email\"\n                                   placeholder=\"you@example.com\" required autofocus>\n                        </div>\n                    </div>\n                </div>\n                <div class=\"col-md-3\">\n                </div>\n            </div>\n            <div class=\"row\">\n                <div class=\"col-md-3 field-label-responsive\">\n                    <label for=\"password\">Password</label>\n                </div>\n                <div class=\"col-md-6\">\n                    <div class=\"form-group has-danger\">\n                        <div class=\"input-group mb-2 mr-sm-2 mb-sm-0\">\n                            <div class=\"input-group-addon\" style=\"width: 2.6rem\"><i class=\"fa fa-key\"></i></div>\n                            <input type=\"password\" formControlName=\"password\" class=\"form-control\" id=\"password\"\n                                   placeholder=\"Password\" required>\n                        </div>\n                    </div>\n                </div>\n                <div class=\"col-md-3\">\n\n                </div>\n            </div>\n            <div class=\"row\">\n                <div class=\"col-md-3\">\n\n                </div>\n                <div class=\"col-md-6\">\n                    <strong>\n                        <div id=\"error\" class=\"alert alert-warning\">\n\n\n                        </div>\n                    </strong>\n                </div>\n                <div class=\"col-md-3\">\n\n                </div>\n            </div>\n            <div class=\"row\">\n                <div class=\"col-md-3\"></div>\n                <div class=\"col-md-6\"><a href=\"#\" routerLink='/reset'><span class=\"glyphicon glyphicon-user\"></span>Forgot\n                    your\n                    password?</a>\n                </div>\n                <div class=\"col-md-3\"></div>\n            </div>\n\n            <div class=\"row\">\n                <div class=\"col-md-3\"></div>\n                <div class=\"col-md-6\">\n                    <button type=\"submit\" class=\"btn btn-success\"> Login</button>\n                </div>\n            </div>\n\n        </form>\n    </div>\n</div>\n  "
+module.exports = "<div class=\"auth\">\n    <div class=\"form\">\n        <form class=\"form-horizontal\" [formGroup]=\"loginGroup\" (ngSubmit)=\"toLogin()\">\n            <div class=\"row\">\n                <div class=\"col-md-3\">\n\n                </div>\n                <div class=\"col-md-6\">\n                    <h3>Please enter your email and password</h3>\n                    <hr>\n                    <br><br>\n                </div>\n                <div class=\"col-md-3\">\n\n                </div>\n            </div>\n            <div class=\"row\">\n                <div class=\"col-md-3 field-label-responsive\">\n                    <label for=\"email\">E-Mail Address</label>\n                </div>\n                <div class=\"col-md-6\">\n                    <div class=\"form-group\">\n                        <div class=\"input-group mb-2 mr-sm-2 mb-sm-0\">\n                            <div class=\"input-group-addon\" style=\"width: 2.6rem\"><i class=\"fa fa-at\"></i></div>\n                            <input type=\"text\" formControlName=\"email\" required class=\"form-control\" id=\"email\"\n                                   placeholder=\"you@example.com\" autofocus>\n                        </div>\n                    </div>\n                </div>\n                <div class=\"col-md-3\">\n                </div>\n            </div>\n            <div class=\"row\">\n                <div class=\"col-md-3 field-label-responsive\">\n                    <label for=\"password\">Password</label>\n                </div>\n                <div class=\"col-md-6\">\n                    <div class=\"form-group has-danger\">\n                        <div class=\"input-group mb-2 mr-sm-2 mb-sm-0\">\n                            <div class=\"input-group-addon\" style=\"width: 2.6rem\"><i class=\"fa fa-key\"></i></div>\n                            <input type=\"password\" formControlName=\"password\" class=\"form-control\" id=\"password\"\n                                   placeholder=\"Password\" required>\n                        </div>\n                    </div>\n                </div>\n                <div class=\"col-md-3\">\n\n                </div>\n            </div>\n            <div class=\"row\">\n                <div class=\"col-md-3\">\n\n                </div>\n                <div class=\"col-md-6\">\n                    <strong>\n                        <div id=\"error\" class=\"alert alert-warning\">\n\n\n                        </div>\n                    </strong>\n                </div>\n                <div class=\"col-md-3\">\n\n                </div>\n            </div>\n            <div class=\"row\">\n                <div class=\"col-md-3\">\n\n                </div>\n                <div class=\"col-md-6\">\n                    <div *ngIf=\"email.invalid && (email.dirty || email.touched)\"\n                         class=\"alert alert-danger\">\n\n                        <div *ngIf=\"email.errors.required\">\n                            Email is required.\n                        </div>\n                        <div *ngIf=\"email.errors.wrongFormat\">\n                            Wrong format of email\n                        </div>\n                    </div>\n                    <div *ngIf=\"password.invalid && (password.dirty || password.touched)\"\n                         class=\"alert alert-danger\">\n                        <div *ngIf=\"password.errors || password.errors\">Password must be from 8\n                            to 40 characters long and contain at least one digit.\n                        </div>\n                    </div>\n                    <div class=\"alert alert-danger\" *ngIf=\"message\">\n                        {{ message }}\n                    </div>\n                </div>\n                <div class=\"col-md-3\">\n\n                </div>\n\n            </div>\n            <div class=\"row\">\n                <div class=\"col-md-3\"></div>\n                <div class=\"col-md-6\"><a href=\"#\" routerLink='/reset'><span class=\"glyphicon glyphicon-user\"></span>Forgot\n                    your\n                    password?</a>\n                </div>\n                <div class=\"col-md-3\"></div>\n            </div>\n\n            <div class=\"row\">\n                <div class=\"col-md-3\"></div>\n                <div class=\"col-md-6\">\n                    <button type=\"submit\" class=\"btn btn-success\" [disabled]=\"!loginGroup.valid\"> Login</button>\n                </div>\n            </div>\n\n        </form>\n    </div>\n</div>\n  "
 
 /***/ }),
 
@@ -620,6 +637,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _angular_forms__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @angular/forms */ "./node_modules/@angular/forms/fesm5/forms.js");
 /* harmony import */ var _auth_service__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../auth.service */ "./src/app/auth.service.ts");
 /* harmony import */ var _models_user__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../models/user */ "./src/app/models/user.ts");
+/* harmony import */ var _directives_text_format_directive__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../directives/text-format.directive */ "./src/app/directives/text-format.directive.ts");
 var __decorate = (undefined && undefined.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -634,6 +652,7 @@ var __metadata = (undefined && undefined.__metadata) || function (k, v) {
 
 
 
+
 var LoginComponent = /** @class */ (function () {
     function LoginComponent(auth_, router, route) {
         this.auth_ = auth_;
@@ -642,11 +661,13 @@ var LoginComponent = /** @class */ (function () {
         this.loginGroup = new _angular_forms__WEBPACK_IMPORTED_MODULE_2__["FormGroup"]({
             email: new _angular_forms__WEBPACK_IMPORTED_MODULE_2__["FormControl"]('', [
                 _angular_forms__WEBPACK_IMPORTED_MODULE_2__["Validators"].required,
+                Object(_directives_text_format_directive__WEBPACK_IMPORTED_MODULE_5__["TextFormatDirective"])(/^[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?$/)
             ]),
             password: new _angular_forms__WEBPACK_IMPORTED_MODULE_2__["FormControl"]('', [
                 _angular_forms__WEBPACK_IMPORTED_MODULE_2__["Validators"].required,
                 _angular_forms__WEBPACK_IMPORTED_MODULE_2__["Validators"].minLength(8),
                 _angular_forms__WEBPACK_IMPORTED_MODULE_2__["Validators"].maxLength(40),
+                Object(_directives_text_format_directive__WEBPACK_IMPORTED_MODULE_5__["TextFormatDirective"])(/^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,}$/),
             ])
         });
     }
@@ -658,10 +679,23 @@ var LoginComponent = /** @class */ (function () {
         }, function (err) {
             var data_txt = (JSON.stringify(err));
             var error_data = JSON.parse(data_txt);
-            document.getElementById('error').style.display = 'block';
-            document.getElementById('error').innerHTML = error_data.error.message;
+            _this.message = error_data.error.message.toString();
         });
     };
+    Object.defineProperty(LoginComponent.prototype, "password", {
+        get: function () {
+            return this.loginGroup.get('password');
+        },
+        enumerable: true,
+        configurable: true
+    });
+    Object.defineProperty(LoginComponent.prototype, "email", {
+        get: function () {
+            return this.loginGroup.get('email');
+        },
+        enumerable: true,
+        configurable: true
+    });
     LoginComponent.prototype.ngOnInit = function () {
         this.returnUrl = this.route.snapshot.queryParams['returnUrl'] || '/';
     };
@@ -781,6 +815,69 @@ var User = /** @class */ (function () {
 
 /***/ }),
 
+/***/ "./src/app/navbar/navbar.component.css":
+/*!*********************************************!*\
+  !*** ./src/app/navbar/navbar.component.css ***!
+  \*********************************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+module.exports = "@import url(\"//maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css\");\n\n.navbar-icon-top .navbar-nav .nav-link > .fa {\n  position: relative;\n  width: 36px;\n  font-size: 24px;\n}\n\n.nav-right{\n  text-align: right;\n}\n\n.navbar-icon-top .navbar-nav .nav-link > .fa > .badge {\n  font-size: 0.75rem;\n  position: absolute;\n  right: 0;\n  font-family: sans-serif;\n}\n\n.navbar-icon-top .navbar-nav .nav-link > .fa {\n  top: 3px;\n  line-height: 12px;\n}\n\n.navbar-icon-top .navbar-nav .nav-link > .fa > .badge {\n  top: -10px;\n}\n\n@media (min-width: 576px) {\n  .navbar-icon-top.navbar-expand-sm .navbar-nav .nav-link {\n    text-align: center;\n    display: table-cell;\n    height: 70px;\n    vertical-align: middle;\n    padding-top: 0;\n    padding-bottom: 0;\n  }\n\n  .navbar-icon-top.navbar-expand-sm .navbar-nav .nav-link > .fa {\n    display: block;\n    width: 48px;\n    margin: 2px auto 4px auto;\n    top: 0;\n    line-height: 24px;\n  }\n\n  .navbar-icon-top.navbar-expand-sm .navbar-nav .nav-link > .fa > .badge {\n    top: -7px;\n  }\n}\n\n@media (min-width: 768px) {\n  .navbar-icon-top.navbar-expand-md .navbar-nav .nav-link {\n    text-align: center;\n    display: table-cell;\n    height: 70px;\n    vertical-align: middle;\n    padding-top: 0;\n    padding-bottom: 0;\n  }\n\n  .navbar-icon-top.navbar-expand-md .navbar-nav .nav-link > .fa {\n    display: block;\n    width: 48px;\n    margin: 2px auto 4px auto;\n    top: 0;\n    line-height: 24px;\n  }\n\n  .navbar-icon-top.navbar-expand-md .navbar-nav .nav-link > .fa > .badge {\n    top: -7px;\n  }\n}\n\n@media (min-width: 992px) {\n  .navbar-icon-top.navbar-expand-lg .navbar-nav .nav-link {\n    text-align: center;\n    display: table-cell;\n    height: 70px;\n    vertical-align: middle;\n    padding-top: 0;\n    padding-bottom: 0;\n  }\n\n  .navbar-icon-top.navbar-expand-lg .navbar-nav .nav-link > .fa {\n    display: block;\n    width: 48px;\n    margin: 2px auto 4px auto;\n    top: 0;\n    line-height: 24px;\n  }\n\n  .navbar-icon-top.navbar-expand-lg .navbar-nav .nav-link > .fa > .badge {\n    top: -7px;\n  }\n}\n\n@media (min-width: 1200px) {\n  .navbar-icon-top.navbar-expand-xl .navbar-nav .nav-link {\n    text-align: center;\n    display: table-cell;\n    height: 70px;\n    vertical-align: middle;\n    padding-top: 0;\n    padding-bottom: 0;\n  }\n\n  .navbar-icon-top.navbar-expand-xl .navbar-nav .nav-link > .fa {\n    display: block;\n    width: 48px;\n    margin: 2px auto 4px auto;\n    top: 0;\n    line-height: 24px;\n  }\n\n  .navbar-icon-top.navbar-expand-xl .navbar-nav .nav-link > .fa > .badge {\n    top: -7px;\n  }\n}\n"
+
+/***/ }),
+
+/***/ "./src/app/navbar/navbar.component.html":
+/*!**********************************************!*\
+  !*** ./src/app/navbar/navbar.component.html ***!
+  \**********************************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+module.exports = "<nav class=\"navbar navbar-icon-top navbar-expand-lg navbar-dark bg-dark\">\n    <a class=\"navbar-brand\" routerLink=\"/\">Navbar</a>\n    <button class=\"navbar-toggler\" type=\"button\" data-toggle=\"collapse\" data-target=\"#navbarSupportedContent\"\n            aria-controls=\"navbarSupportedContent\" aria-expanded=\"false\" aria-label=\"Toggle navigation\">\n        <span class=\"navbar-toggler-icon\"></span>\n    </button>\n\n    <div class=\"collapse navbar-collapse\" id=\"navbarSupportedContent\">\n        <ul class=\"navbar-nav mr-auto\">\n            <li class=\"nav-item active\">\n                <a class=\"nav-link\" routerLink=\"/\">\n                    <i class=\"fa fa-home\"></i>\n                    Home\n                </a>\n            </li>\n            <li class=\"nav-item\">\n                <a class=\"nav-link\" href=\"#\">\n                    Messages\n                </a>\n            </li>\n            <li class=\"nav-item active nav-right\">\n                <a class=\"nav-link\" routerLink=\"/login\">\n                    Login\n                </a>\n            </li>\n            <li class=\"nav-item active nav-right\">\n                <a class=\"nav-link\" routerLink=\"/register\">\n                    Sign up\n                </a>\n            </li>\n            <li class=\"nav-item active nav-right\">\n                <a class=\"nav-link\" routerLink=\"/logout\">\n                    Logout\n                </a>\n            </li>\n\n        </ul>\n\n    </div>\n</nav>"
+
+/***/ }),
+
+/***/ "./src/app/navbar/navbar.component.ts":
+/*!********************************************!*\
+  !*** ./src/app/navbar/navbar.component.ts ***!
+  \********************************************/
+/*! exports provided: NavbarComponent */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "NavbarComponent", function() { return NavbarComponent; });
+/* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @angular/core */ "./node_modules/@angular/core/fesm5/core.js");
+var __decorate = (undefined && undefined.__decorate) || function (decorators, target, key, desc) {
+    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
+};
+var __metadata = (undefined && undefined.__metadata) || function (k, v) {
+    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
+};
+
+var NavbarComponent = /** @class */ (function () {
+    function NavbarComponent() {
+    }
+    NavbarComponent.prototype.ngOnInit = function () {
+    };
+    NavbarComponent = __decorate([
+        Object(_angular_core__WEBPACK_IMPORTED_MODULE_0__["Component"])({
+            selector: 'app-navbar',
+            template: __webpack_require__(/*! ./navbar.component.html */ "./src/app/navbar/navbar.component.html"),
+            styles: [__webpack_require__(/*! ./navbar.component.css */ "./src/app/navbar/navbar.component.css")]
+        }),
+        __metadata("design:paramtypes", [])
+    ], NavbarComponent);
+    return NavbarComponent;
+}());
+
+
+
+/***/ }),
+
 /***/ "./src/app/notfound/notfound.component.css":
 /*!*************************************************!*\
   !*** ./src/app/notfound/notfound.component.css ***!
@@ -788,7 +885,7 @@ var User = /** @class */ (function () {
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = ""
+module.exports = "\nbody{\n\tfont-family: 'Courgette', cursive;\n}\nbody{\n\tbackground:#f3f3e1;\n}\n.wrap{\n\tmargin:0 auto;\n\twidth:1000px;\n}\n.logo{\n\tmargin-top:50px;\n}\n.logo h1{\n\tfont-size:200px;\n\tcolor:#8F8E8C;\n\ttext-align:center;\n\tmargin-bottom:1px;\n\ttext-shadow:1px 1px 6px #fff;\n}\n.logo p{\n\tcolor:rgb(228, 146, 162);\n\tfont-size:20px;\n\tmargin-top:1px;\n\ttext-align:center;\n}\n.logo p span{\n\tcolor:lightgreen;\n}\n.sub a{\n\tcolor:white;\n\tbackground:#8F8E8C;\n\ttext-decoration:none;\n\tpadding:7px 120px;\n\tfont-size:13px;\n\tfont-family: arial, serif;\n\tfont-weight:bold;\n\t-webkit-border-radius:3em;\n\t-moz-border-radius:.1em;\n\t-border-radius:.1em;\n}\n.footer{\n\tcolor:#8F8E8C;\n\tposition:absolute;\n\tright:10px;\n\tbottom:10px;\n}\n.footer a{\n\tcolor:rgb(228, 146, 162);\n}\t\n"
 
 /***/ }),
 
@@ -799,7 +896,7 @@ module.exports = ""
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = "<p>\n  TODO: Custom error 404 page\n</p>\n"
+module.exports = "<div class=\"logo\">\n\n    <h1>404 not found</h1>\n    <p>Error occurred! - File not Found</p>\n\n\n</div>"
 
 /***/ }),
 
@@ -862,7 +959,7 @@ module.exports = "@media(min-width: 768px) {\n  .field-label-responsive {\n    p
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = "<div class=\"auth\">\n    <div class=\"form\">\n        <form class=\"form-horizontal\" [formGroup]=\"registerGroup\" (ngSubmit)=\"toRegister()\">\n            <div class=\"row\">\n                <div class=\"col-md-3\"></div>\n                <div class=\"col-md-6\">\n                    <h2>Register New User</h2>\n                    <hr>\n                </div>\n            </div>\n\n            <div class=\"row\">\n                <div class=\"col-md-3 field-label-responsive\">\n                    <label for=\"email\">E-Mail Address</label>\n                </div>\n                <div class=\"col-md-6\">\n                    <div class=\"form-group\">\n                        <div class=\"input-group mb-2 mr-sm-2 mb-sm-0\">\n                            <div class=\"input-group-addon\" style=\"width: 2.6rem\"><i class=\"fa fa-at\"></i></div>\n                            <input type=\"text\" formControlName=\"email\" required class=\"form-control\" id=\"email\"\n                                   placeholder=\"you@example.com\" required autofocus>\n                        </div>\n                    </div>\n                </div>\n                <div class=\"col-md-3\">\n                </div>\n            </div>\n            <div class=\"row\">\n                <div class=\"col-md-3 field-label-responsive\">\n                    <label for=\"password\">Password</label>\n                </div>\n                <div class=\"col-md-6\">\n                    <div class=\"form-group has-danger\">\n                        <div class=\"input-group mb-2 mr-sm-2 mb-sm-0\">\n                            <div class=\"input-group-addon\" style=\"width: 2.6rem\"><i class=\"fa fa-key\"></i></div>\n                            <input type=\"password\" formControlName=\"password\" class=\"form-control\" id=\"password\"\n                                   placeholder=\"Password\" required>\n                        </div>\n                    </div>\n                </div>\n                <div class=\"col-md-3\">\n\n                </div>\n            </div>\n            <div class=\"row\">\n                <div class=\"col-md-3\">\n\n                </div>\n                <div class=\"col-md-6\">\n                    <strong>\n                        <div id=\"error\" class=\"alert alert-warning\">\n\n\n                        </div>\n                    </strong>\n                </div>\n                <div class=\"col-md-3\">\n\n                </div>\n            </div>\n\n            <div class=\"row\">\n                <div class=\"col-md-3\"></div>\n                <div class=\"col-md-6\">\n                    <button type=\"submit\" class=\"btn btn-success\"> Register</button>\n                </div>\n            </div>\n\n        </form>\n    </div>\n</div>\n"
+module.exports = "<div class=\"auth\">\n    <div class=\"form\">\n        <div class=\"row\">\n                <div class=\"col-md-3\">\n\n                </div>\n                <div class=\"col-md-6\">\n                    <div *ngIf=\"confirm_message\" class=\"alert alert-success\">\n                        <br><br>{{ confirm_message }}\n                    </div>\n                </div>\n                <div class=\"col-md-3\">\n\n                </div>\n            </div>\n        <form class=\"form-horizontal\"  [formGroup]=\"registerGroup\" (ngSubmit)=\"toRegister()\">\n            <div class=\"row\">\n                <div class=\"col-md-3\"></div>\n                <div class=\"col-md-6\">\n                    <h2>Register New User</h2>\n                    <hr>\n                    <br><br>\n                </div>\n            </div>\n\n            <div class=\"row\">\n                <div class=\"col-md-3 field-label-responsive\">\n                    <label for=\"email\">E-Mail Address</label>\n                </div>\n                <div class=\"col-md-6\">\n                    <div class=\"form-group\">\n                        <div class=\"input-group mb-2 mr-sm-2 mb-sm-0\">\n                            <div class=\"input-group-addon\" style=\"width: 2.6rem\"><i class=\"fa fa-at\"></i></div>\n                            <input type=\"text\" formControlName=\"email\" required class=\"form-control\" id=\"email\"\n                                   placeholder=\"you@example.com\" autofocus>\n\n                        </div>\n                    </div>\n                </div>\n                <div class=\"col-md-3\">\n\n                </div>\n            </div>\n            <div class=\"row\">\n                <div class=\"col-md-3\">\n\n                </div>\n                <div class=\"col-md-6\">\n                    <div *ngIf=\"email == ''\">\n                        Email can not be empty\n                    </div>\n                    <div *ngIf=\"email.invalid && (email.dirty || email.touched)\"\n                         class=\"alert alert-danger\">\n\n                        <div *ngIf=\"email.errors.required\">\n                            Email is required.\n                        </div>\n                        <div *ngIf=\"email.errors.wrongFormat\">\n                            Wrong format of email.\n                        </div>\n\n\n\n                    </div>\n                    <div class=\" alert alert-danger\" *ngIf=\"isEmailBusy == true\">\n                            {{ error_message }}\n                        </div>\n                </div>\n                <div class=\"col-md-3\">\n\n                </div>\n\n            </div>\n            <div class=\"row\">\n                <div class=\"col-md-3 field-label-responsive\">\n                    <label for=\"password\">Password</label>\n                </div>\n                <div class=\"col-md-6\">\n                    <div class=\"form-group has-danger\">\n                        <div class=\"input-group mb-2 mr-sm-2 mb-sm-0\">\n                            <div class=\"input-group-addon\" style=\"width: 2.6rem\"><i class=\"fa fa-key\"></i></div>\n                            <input type=\"password\" formControlName=\"password\" class=\"form-control\" id=\"password\"\n                                   placeholder=\"Password\" required>\n                        </div>\n                    </div>\n                </div>\n                <div class=\"col-md-3\">\n\n                </div>\n            </div>\n            <div class=\"row\">\n                <div class=\"col-md-3\">\n\n                </div>\n                <div class=\"col-md-6\">\n                     <div class=\"alert alert-danger\" *ngIf=\"password.invalid && (password.dirty || password.touched)\">\n                        <ul>\n                            <li *ngIf=\"password.errors || password.errors\">Password must be from 8\n                                to 40 characters long and contain at least one digit.\n                            </li>\n                        </ul>\n                    </div>\n                </div>\n                <div class=\"col-md-3\">\n\n                </div>\n            </div>\n\n            <div class=\"row\">\n                <div class=\"col-md-3\"></div>\n                <div class=\"col-md-6\">\n                    <button type=\"submit\" class=\"btn btn-success\" [disabled]=\"!registerGroup.valid\"> Register</button>\n                </div>\n            </div>\n\n        </form>\n    </div>\n</div>\n\n\n"
 
 /***/ }),
 
@@ -921,17 +1018,25 @@ var RegistrationComponent = /** @class */ (function () {
         this.auth_.toRegister(new _models_user__WEBPACK_IMPORTED_MODULE_4__["User"](this.registerGroup.controls['email'].value, this.registerGroup.controls['password'].value))
             .subscribe(function (res) {
             localStorage.setItem('token', res.token);
-            _this.router.navigate([_this.returnUrl]);
+            _this.confirm_message = "We send you confirmation token. Please check your email";
+            _this.registerGroup = null;
         }, function (err) {
+            _this.isEmailBusy = true;
             var data_txt = (JSON.stringify(err));
             var error_data = JSON.parse(data_txt);
-            document.getElementById('error').style.display = 'block';
-            document.getElementById('error').innerHTML = error_data.error.message;
+            _this.error_message = error_data.error.message.toString();
         });
     };
     Object.defineProperty(RegistrationComponent.prototype, "password", {
         get: function () {
             return this.registerGroup.get('password');
+        },
+        enumerable: true,
+        configurable: true
+    });
+    Object.defineProperty(RegistrationComponent.prototype, "email", {
+        get: function () {
+            return this.registerGroup.get('email');
         },
         enumerable: true,
         configurable: true
@@ -974,7 +1079,7 @@ module.exports = "@media(min-width: 768px) {\n  .field-label-responsive {\n    p
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = "<div class=\"auth\">\n    <div class=\"form\">\n        <form id=\"reset-password\" [formGroup]=\"resetPasswordGroup\" (ngSubmit)=\"toResetPassword()\">\n            <div class=\"row\">\n                <div class=\"col-md-3\">\n\n                </div>\n                <div class=\"col-md-6\">\n                    <h3>Enter your registration email.</h3>\n                </div>\n                <div class=\"col-md-3\">\n\n                </div>\n            </div>\n            <div class=\"row\">\n                <div  class=\"col-md-3 field-label-responsive\">\n                    <label for=\"email\">E-Mail Address</label>\n                </div>\n                <div class=\"col-md-6\">\n                    <div class=\"form-group\">\n                        <div  class=\"input-group mb-2 mr-sm-2 mb-sm-0\">\n                            <div class=\"input-group-addon\" style=\"width: 2.6rem\"><i class=\"fa fa-at\"></i></div>\n                            <input type=\"text\" formControlName=\"email\" required class=\"form-control\"\n                                   placeholder=\"you@example.com\" required autofocus>\n                        </div>\n                    </div>\n                </div>\n                <div class=\"col-md-3\">\n                    <button type=\"submit\" class=\"btn btn-success\"> Send</button>\n                </div>\n\n            </div>\n            <div class =\"input_form\" class=\"row\">\n                    <div class=\"col-md-3\">\n\n                    </div>\n                    <div class=\"col-md-6\">\n                        <strong>\n                            <div id=\"input_form\" class=\"alert alert-success\">\n                            </div>\n                        </strong>\n                    </div>\n                    <div class=\"col-md-3\">\n\n                    </div>\n                </div>\n        </form>\n    </div>\n</div>"
+module.exports = "<div class=\"auth\">\n    <div class=\"form\">\n        <form id=\"reset-password\" [formGroup]=\"resetPasswordGroup\" (ngSubmit)=\"toResetPassword()\">\n            <div class=\"row\">\n                <div class=\"col-md-3\">\n\n                </div>\n                <div class=\"col-md-6\">\n                    <h3>Enter your registration email.</h3>\n                </div>\n                <div class=\"col-md-3\">\n\n                </div>\n            </div>\n            <div class=\"row\">\n                <div class=\"col-md-3 field-label-responsive\">\n                    <label for=\"email\">E-Mail Address</label>\n                </div>\n                <div class=\"col-md-6\">\n                    <div class=\"form-group\">\n                        <div class=\"input-group mb-2 mr-sm-2 mb-sm-0\">\n                            <div class=\"input-group-addon\" style=\"width: 2.6rem\"><i class=\"fa fa-at\"></i></div>\n                            <input type=\"text\" formControlName=\"email\" required class=\"form-control\"\n                                   placeholder=\"you@example.com\" autofocus>\n                        </div>\n                    </div>\n                </div>\n                <div class=\"col-md-3\">\n                    <button type=\"submit\" class=\"btn btn-success\" [disabled]=\"!resetPasswordGroup.valid\"> Send</button>\n                </div>\n\n            </div>\n            <div class=\"row\">\n                <div class=\"col-md-3\">\n\n                </div>\n                <div class=\"col-md-6\">\n                    <div *ngIf=\"email == ''\">\n                        Email can not be empty\n                    </div>\n                    <div *ngIf=\"email.invalid && (email.dirty || email.touched)\"\n                         class=\"alert alert-danger\">\n                        <div *ngIf=\"email.errors.required\">\n                            Email is required.\n                        </div>\n                        <div *ngIf=\"email.errors.wrongFormat\">\n                            Wrong format of email.\n                        </div>\n                    </div>\n                    <div class=\"alert alert-danger\" *ngIf=\"error_message\">\n                        {{ error_message }}\n                    </div>\n                </div>\n                <div class=\"col-md-3\">\n\n                </div>\n\n            </div>\n            <div class=\"row\">\n                <div class=\"col-md-3\">\n\n                </div>\n                <div class=\"col-md-6\">\n                    <div *ngIf=\"confirm_message\">\n                        <div class=\"alert alert-success row \">\n                            We send you confirnation token. Please check your email.\n                        </div>\n                    </div>\n\n                </div>\n                <div class=\"col-md-3\">\n\n                </div>\n            </div>\n        </form>\n    </div>\n</div>"
 
 /***/ }),
 
@@ -992,6 +1097,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _auth_service__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../auth.service */ "./src/app/auth.service.ts");
 /* harmony import */ var _angular_forms__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @angular/forms */ "./node_modules/@angular/forms/fesm5/forms.js");
 /* harmony import */ var _angular_router__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! @angular/router */ "./node_modules/@angular/router/fesm5/router.js");
+/* harmony import */ var _directives_text_format_directive__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../directives/text-format.directive */ "./src/app/directives/text-format.directive.ts");
 var __decorate = (undefined && undefined.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -1005,6 +1111,7 @@ var __metadata = (undefined && undefined.__metadata) || function (k, v) {
 
 
 
+
 var ResetPasswordComponent = /** @class */ (function () {
     function ResetPasswordComponent(auth_, router, route) {
         this.auth_ = auth_;
@@ -1013,27 +1120,28 @@ var ResetPasswordComponent = /** @class */ (function () {
         this.resetPasswordGroup = new _angular_forms__WEBPACK_IMPORTED_MODULE_2__["FormGroup"]({
             email: new _angular_forms__WEBPACK_IMPORTED_MODULE_2__["FormControl"]('', [
                 _angular_forms__WEBPACK_IMPORTED_MODULE_2__["Validators"].required,
+                Object(_directives_text_format_directive__WEBPACK_IMPORTED_MODULE_4__["TextFormatDirective"])(/^[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?$/)
             ])
         });
     }
-    ResetPasswordComponent.prototype.changeText = function (id, text_to_change) {
-        var elem = document.getElementById(id);
-        elem.textContent = text_to_change;
-    };
     ResetPasswordComponent.prototype.toResetPassword = function () {
+        var _this = this;
         this.auth_.toResetPassword(this.resetPasswordGroup.controls['email'].value)
             .subscribe(function (res) {
-            var data_txt = (JSON.stringify(res));
-            var data = JSON.parse(data_txt);
-            document.getElementById('input_form').style.display = 'block';
-            document.getElementById('input_form').innerHTML = data.message;
+            _this.confirm_message = true;
         }, function (err) {
             var data_txt = (JSON.stringify(err));
             var error_data = JSON.parse(data_txt);
-            document.getElementById('error').style.display = 'block';
-            document.getElementById('error').innerHTML = error_data.error.message;
+            _this.error_message = err.error.message.toString();
         });
     };
+    Object.defineProperty(ResetPasswordComponent.prototype, "email", {
+        get: function () {
+            return this.resetPasswordGroup.get('email');
+        },
+        enumerable: true,
+        configurable: true
+    });
     ResetPasswordComponent.prototype.ngOnInit = function () {
     };
     ResetPasswordComponent = __decorate([
