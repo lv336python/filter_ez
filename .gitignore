@@ -120,3 +120,12 @@ car-statistics/app/static/package-lock.json
 
 #VSC
 .vscode/
+
+#testing files
+car-statistics/testing/
+
+#ng build result
+car-statistics/app/static/public
+
+#migrations
+car-statistics/migrations
