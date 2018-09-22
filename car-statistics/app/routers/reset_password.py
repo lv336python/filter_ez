@@ -4,12 +4,14 @@ that sends link to email
 """
 import json
 
+import re
+
 from flask import request, url_for, session
 
 from app.services.token_service import generate_confirmation_token
 from app.services.mail_service import send_email
 from app import app
-from app.models.user import User
+from app.models.user import User, UserSchema
 
 
 
@@ -28,28 +30,32 @@ def reset_password():
     if 'user_id' in session:
         return json.dumps({
             'message': 'Logged user cannot reset password'
-        }), 401
+        }), 400
 
-    if email:
-        user = User.query.filter(User.email == email).first()
+    data = request.get_json()
+    email = data['email']
+    schema = UserSchema.reg_email
 
-        if not user:
-            return json.dumps({
-                'message': f'Email {email} not found'
-            })
-
-        token = generate_confirmation_token(user.email)
-        subject = "Password reset requested"
-        recover_url = url_for(
-            'index', _external=True) + \
-            'reset_password_confirm/' + \
-            token.decode('utf-8')
-        html = f'Reset Password link {recover_url}'
-        send_email(user.email, subject, html)
+    if not re.match(schema, email):
         return json.dumps({
-            'message': f'reset password link sent to email {email}'
-            }), 200
-    else:
+            'message': 'Email is invalid'
+            }), 400
+
+    user = User.query.filter(User.email == email).first()
+
+    if not user:
         return json.dumps({
-            'message': f'User {email} not found'
-            }), 404
+            'message': f'Email {email} not found'
+        }), 400
+
+    token = generate_confirmation_token(user.email)
+    subject = "Password reset requested"
+    recover_url = url_for(
+        'index', _external=True) + \
+        'reset_password_confirm/' + \
+        token.decode('utf-8')
+    html = f'Reset Password link {recover_url}'
+    send_email(user.email, subject, html)
+    return json.dumps({
+        'message': f'reset password link sent to email {email}'
+        }), 201

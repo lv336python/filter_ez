@@ -14,8 +14,6 @@ from werkzeug.security import generate_password_hash
 from app import db
 
 
-
-
 class User(db.Model, UserMixin):
     '''
     User model for SQL database
@@ -37,16 +35,25 @@ class User(db.Model, UserMixin):
     def __repr__(self):
         return f'User: {self.email}'
 
+    @staticmethod
+    def create(email, password):
+        schema = UserSchema()
+        user = schema.load({'email': email, 'password': password}).data
+
+        db.session.add(user)  # pylint: disable=E1101
+        db.session.commit()  # pylint: disable=E1101
+        return user
+
 class UserSchema(Schema):
     """
     Data validation
     with library marshmallow
     """
     reg_email = r"(^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$)"
-    res_pass = r"^[A-Za-z0-9_-]*$"
+    reg_pass = r"^[A-Za-z0-9_-]*$"
     email = fields.Email(required=True, validate=validate.Regexp(regex=reg_email, flags=0))
     password = fields.String(required=True,
-                             validate=validate.Regexp(regex=res_pass,
+                             validate=validate.Regexp(regex=reg_pass,
                                                       flags=0,
                                                       error='Password must include '
                                                             'only letters and numbers'))
