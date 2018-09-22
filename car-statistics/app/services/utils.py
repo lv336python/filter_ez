@@ -86,5 +86,5 @@ def attributes(file_path):
     :param file_path: file which will be added to DB
     :return: json with file attributes
     """
-    attrbts = {}
+    attrbts = {'name': 'new'}
     return attrbts
