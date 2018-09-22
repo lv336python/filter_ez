@@ -111,6 +111,7 @@ car-statistics/app/static/node_modules/
 car-statistics/app/services/result_test.xls
 car-statistics/app/services/fields_definition.json
 result.xls
+logs.txt
 
 # file_uploads
 car-statistics/uploads_temp/

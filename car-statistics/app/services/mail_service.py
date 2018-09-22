@@ -7,6 +7,7 @@ from flask_mail import Message, Attachment
 
 from app.services.file_access import get_file
 from app import app, mail, celery
+from app.models import File
 
 
 @celery.task
@@ -31,19 +32,39 @@ def send_email(to_whom, subject, template):
     send.apply_async([msg], serializer='pickle')
 
 
-def send_result_to_mail(user, filename):
+def send_result_to_mail(recipients, file_id):
+    """
+    Creates message object and gives task to celery worker to send this message
+    :param recipients: list of email addresses
+    :param filename: name of file to send
+    :return:
+    """
+    file = File.query.filter(File.id == file_id).first()
+    path = file.path
+    name = file.attributes['name']
     msg = Message(
         subject="Your file has been processed!",
         sender=("CStats", app.config['MAIL_DEFAULT_SENDER']),
-        recipients=[user.email],
+        recipients=recipients,
         date=datetime.now().timestamp(),
         body="Congratulations, your file has been processed successfully."
              "Please download it from attached files or from your profile on the site.\n\n"
              "Thank you for using our service",
         attachments=[Attachment(
-            filename=filename,
+            filename=name,
             content_type="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
-            data=get_file(user, filename)
+            data=get_file(path)
         )]
+    )
+    send.apply_async([msg], serializer='pickle')
+
+
+def notify_admin(message, error_level):
+    msg = Message(
+        subject=f'Error occurred, level {error_level}',
+        sender=("CStats", app.config['MAIL_DEFAULT_SENDER']),
+        recipients=[app.config['ADMIN_MAIL']],
+        date=datetime.now().timestamp(),
+        body=f"Error has occurred on the server.\n Details: {message}"
     )
     send.apply_async([msg], serializer='pickle')
