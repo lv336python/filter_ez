@@ -14,7 +14,7 @@ import { ResetPasswordComponent } from './reset-password/reset-password.componen
 import { LogoutComponent } from './logout/logout.component';
 import { ConfirmResetComponent } from './confirm-reset/confirm-reset.component';
 import { NavbarComponent } from './navbar/navbar.component';
-import {FileUploadsComponent} from "./file-uploads/file-uploads.component";
+import { FileUploadsComponent } from './file-uploads/file-uploads.component';
 
 @NgModule({
   declarations: [
