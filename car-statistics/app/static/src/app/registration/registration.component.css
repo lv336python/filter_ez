@@ -1,49 +1,9 @@
-.ng-valid[required], .ng-valid.required  {
-    border-radius: 5px;
-  width: 80%;
-  background-color: rgba(240, 210, 200, 0.14);
-  padding-top: 7px;
-  padding-bottom: 7px;
-  margin-top: 3px;
-  border-bottom: 1px solid #42A948; /* green */
+@media(min-width: 768px) {
+  .field-label-responsive {
+    padding-top: .5rem;
+    text-align: right;
+  }
 }
-
-.ng-invalid:not(form)  {
-  border-radius: 5px;
-    background-color: rgba(240, 210, 200, 0.14);
-  width: 80%;
-  padding-top: 7px;
-  padding-bottom: 7px;
-    margin-top: 3px;
-  margin-bottom: 3px;
-
-  border-bottom: 2px solid #a94442; /* red */
-}
-
-button {
-  margin-top: 15px;
-}
-
-.form {
-  padding-left: 20px;
-  padding-top: 40px;
-}
-
-
-.auth {
-  position: absolute;
-    top:0;
-    bottom: 0;
-    left: 0;
-    right: 0;
-    margin: auto;
-  height: 340px;
-  width: 400px;
-  background-color: rgba(200, 190, 120, 0.2);
-  border-radius: 5px;
-  border: 2px solid rgba(170, 150, 80, 0.2);
-}
-
-label, input {
-  display: block;
+#error{
+    display: none;
 }

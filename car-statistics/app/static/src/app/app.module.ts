@@ -13,6 +13,7 @@ import { LoginComponent } from './login/login.component';
 import { ResetPasswordComponent } from './reset-password/reset-password.component';
 import { LogoutComponent } from './logout/logout.component';
 import { ConfirmResetComponent } from './confirm-reset/confirm-reset.component';
+import { NavbarComponent } from './navbar/navbar.component';
 
 @NgModule({
   declarations: [
@@ -25,6 +26,7 @@ import { ConfirmResetComponent } from './confirm-reset/confirm-reset.component';
     LogoutComponent,
     ResetPasswordComponent,
     ConfirmResetComponent,
+    NavbarComponent,
   ],
   imports: [
     BrowserModule,
