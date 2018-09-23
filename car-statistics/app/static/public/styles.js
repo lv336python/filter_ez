@@ -539,7 +539,9 @@ if(false) {}
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
+
 module.exports = __webpack_require__(/*! /home/dudar99/Desktop/SS/projects/car-statistics/car-statistics/app/static/src/styles.css */"./src/styles.css");
+
 
 
 /***/ })

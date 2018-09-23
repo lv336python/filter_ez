@@ -88,3 +88,18 @@ def attributes(file_path):
     """
     attrbts = {'name': 'new'}
     return attrbts
+
+
+def get_file(filepath):
+    with open(get_file_path(filepath), 'rb') as file:
+        return file.read()
+
+
+def get_file_path(filepath):
+    upload_folder = os.path.join(app.root_path, app.config['UPLOAD_FOLDER'])
+    full_path_to_file = os.path.join(upload_folder, filepath.split('uploads_temp')[1][1::]) # Temporary, to change later
+    return full_path_to_file
+
+
+def temp_get_file_path(filepath):
+    return os.path.join(os.path, filepath)
