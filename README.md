@@ -22,7 +22,8 @@ DATABASE = {
 
 MAIL = {
     'MAIL_USERNAME': "your@mail.com",
-    'MAIL_PASSWORD': "mysecretpassword"
+    'MAIL_PASSWORD': "mysecretpassword",
+    'ADMIN_MAIL' : 'admin_mail@gmail.com'
 }
 ```
 4. Move to directory car-statistics and run command for database migrations.
