@@ -40,7 +40,11 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _registration_registration_component__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./registration/registration.component */ "./src/app/registration/registration.component.ts");
 /* harmony import */ var _auth_guard__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./auth.guard */ "./src/app/auth.guard.ts");
 /* harmony import */ var _confirm_email_confirm_email_component__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./confirm-email/confirm-email.component */ "./src/app/confirm-email/confirm-email.component.ts");
-/* harmony import */ var _filter_filter_component__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ./filter/filter.component */ "./src/app/filter/filter.component.ts");
+/* harmony import */ var _login_login_component__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ./login/login.component */ "./src/app/login/login.component.ts");
+/* harmony import */ var _logout_logout_component__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ./logout/logout.component */ "./src/app/logout/logout.component.ts");
+/* harmony import */ var _reset_password_reset_password_component__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ./reset-password/reset-password.component */ "./src/app/reset-password/reset-password.component.ts");
+/* harmony import */ var _confirm_reset_confirm_reset_component__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! ./confirm-reset/confirm-reset.component */ "./src/app/confirm-reset/confirm-reset.component.ts");
+/* harmony import */ var _filter_filter_component__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! ./filter/filter.component */ "./src/app/filter/filter.component.ts");
 var __decorate = (undefined && undefined.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -55,11 +59,19 @@ var __decorate = (undefined && undefined.__decorate) || function (decorators, ta
 
 
 
+
+
+
+
 var routes = [
     { path: '', component: _home_home_component__WEBPACK_IMPORTED_MODULE_2__["HomeComponent"] },
     { path: 'register', component: _registration_registration_component__WEBPACK_IMPORTED_MODULE_4__["RegistrationComponent"], canActivate: [_auth_guard__WEBPACK_IMPORTED_MODULE_5__["AuthGuard"]] },
     { path: 'confirm/:token', component: _confirm_email_confirm_email_component__WEBPACK_IMPORTED_MODULE_6__["ConfirmEmailComponent"] },
-    { path: 'filter', component: _filter_filter_component__WEBPACK_IMPORTED_MODULE_7__["FilterComponent"] },
+    { path: 'login', component: _login_login_component__WEBPACK_IMPORTED_MODULE_7__["LoginComponent"] },
+    { path: 'logout', component: _logout_logout_component__WEBPACK_IMPORTED_MODULE_8__["LogoutComponent"] },
+    { path: 'reset', component: _reset_password_reset_password_component__WEBPACK_IMPORTED_MODULE_9__["ResetPasswordComponent"] },
+    { path: 'reset_password_confirm/:token', component: _confirm_reset_confirm_reset_component__WEBPACK_IMPORTED_MODULE_10__["ConfirmResetComponent"] },
+    { path: 'filter', component: _filter_filter_component__WEBPACK_IMPORTED_MODULE_11__["FilterComponent"] },
     { path: '**', component: _notfound_notfound_component__WEBPACK_IMPORTED_MODULE_3__["NotfoundComponent"] },
 ];
 var AppRoutingModule = /** @class */ (function () {
@@ -156,12 +168,22 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _home_home_component__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ./home/home.component */ "./src/app/home/home.component.ts");
 /* harmony import */ var _confirm_email_confirm_email_component__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ./confirm-email/confirm-email.component */ "./src/app/confirm-email/confirm-email.component.ts");
 /* harmony import */ var _filter_filter_component__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! ./filter/filter.component */ "./src/app/filter/filter.component.ts");
+/* harmony import */ var _filter_item_filter_item_component__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! ./filter-item/filter-item.component */ "./src/app/filter-item/filter-item.component.ts");
+/* harmony import */ var _login_login_component__WEBPACK_IMPORTED_MODULE_12__ = __webpack_require__(/*! ./login/login.component */ "./src/app/login/login.component.ts");
+/* harmony import */ var _reset_password_reset_password_component__WEBPACK_IMPORTED_MODULE_13__ = __webpack_require__(/*! ./reset-password/reset-password.component */ "./src/app/reset-password/reset-password.component.ts");
+/* harmony import */ var _logout_logout_component__WEBPACK_IMPORTED_MODULE_14__ = __webpack_require__(/*! ./logout/logout.component */ "./src/app/logout/logout.component.ts");
+/* harmony import */ var _confirm_reset_confirm_reset_component__WEBPACK_IMPORTED_MODULE_15__ = __webpack_require__(/*! ./confirm-reset/confirm-reset.component */ "./src/app/confirm-reset/confirm-reset.component.ts");
 var __decorate = (undefined && undefined.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
     else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
     return c > 3 && r && Object.defineProperty(target, key, r), r;
 };
+
+
+
+
+
 
 
 
@@ -184,7 +206,12 @@ var AppModule = /** @class */ (function () {
                 _notfound_notfound_component__WEBPACK_IMPORTED_MODULE_7__["NotfoundComponent"],
                 _home_home_component__WEBPACK_IMPORTED_MODULE_8__["HomeComponent"],
                 _confirm_email_confirm_email_component__WEBPACK_IMPORTED_MODULE_9__["ConfirmEmailComponent"],
+                _login_login_component__WEBPACK_IMPORTED_MODULE_12__["LoginComponent"],
+                _logout_logout_component__WEBPACK_IMPORTED_MODULE_14__["LogoutComponent"],
+                _reset_password_reset_password_component__WEBPACK_IMPORTED_MODULE_13__["ResetPasswordComponent"],
+                _confirm_reset_confirm_reset_component__WEBPACK_IMPORTED_MODULE_15__["ConfirmResetComponent"],
                 _filter_filter_component__WEBPACK_IMPORTED_MODULE_10__["FilterComponent"],
+                _filter_item_filter_item_component__WEBPACK_IMPORTED_MODULE_11__["FilterItemComponent"],
             ],
             imports: [
                 _angular_platform_browser__WEBPACK_IMPORTED_MODULE_0__["BrowserModule"],
@@ -271,6 +298,9 @@ var AuthService = /** @class */ (function () {
         this.login_api_url = "api/login";
         this.register_api_url = "api/register";
         this.confirm_url = "api/confirm/";
+        this.logout_api_url = "api/logout";
+        this.reset_password_url = "api/reset";
+        this.reset_password_confirm_api = "api/password_reset";
     }
     AuthService.prototype.toRegister = function (user) {
         return this._http.post(this.register_api_url, user)
@@ -278,6 +308,16 @@ var AuthService = /** @class */ (function () {
     };
     AuthService.prototype.toLogin = function (user) {
         return this._http.post(this.login_api_url, user);
+    };
+    AuthService.prototype.toLogout = function (user) {
+        return this._http.post(this.logout_api_url, user);
+    };
+    AuthService.prototype.toResetPassword = function (email) {
+        return this._http.post(this.reset_password_url, { 'email': email });
+    };
+    AuthService.prototype.toResetPasswordConfirm = function (token, password) {
+        console.log("asfasfasf");
+        return this._http.put(this.reset_password_confirm_api + '/' + token, { 'password': password });
     };
     AuthService.prototype.confirmEmail = function (token) {
         return this._http.get(this.confirm_url + token);
@@ -367,6 +407,104 @@ var ConfirmEmailComponent = /** @class */ (function () {
 
 /***/ }),
 
+/***/ "./src/app/confirm-reset/confirm-reset.component.css":
+/*!***********************************************************!*\
+  !*** ./src/app/confirm-reset/confirm-reset.component.css ***!
+  \***********************************************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+module.exports = ""
+
+/***/ }),
+
+/***/ "./src/app/confirm-reset/confirm-reset.component.html":
+/*!************************************************************!*\
+  !*** ./src/app/confirm-reset/confirm-reset.component.html ***!
+  \************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+module.exports = "\n<div class=\"auth\">\n  <div class=\"form\">\n    <form [formGroup]=\"resetPasswordGroup\" (ngSubmit)=\"toConfirmReset()\">\n      <label>\n        New password:\n        <input type=\"password\" formControlName=\"password\" required>\n      </label>\n      <label>\n        Confirm password:\n        <input type=\"password\" formControlName=\"password_confirm\" required>\n      </label>\n      <div class=\"error\" *ngIf=\"password.invalid && (password.dirty || password.touched)\">\n        <ul>\n          <li *ngIf=\"password.errors.minlength || password.errors.maxlength\">Password must be from 8 to 40 characters long</li>\n          <li *ngIf=\"password.errors.wrongFormat\">Password must contain at least one digit</li>\n        </ul>\n      </div>\n    <button type=\"submit\" [disabled]=\"!resetPasswordGroup.valid\">Submit</button>\n    </form>\n  </div>\n</div>\n"
+
+/***/ }),
+
+/***/ "./src/app/confirm-reset/confirm-reset.component.ts":
+/*!**********************************************************!*\
+  !*** ./src/app/confirm-reset/confirm-reset.component.ts ***!
+  \**********************************************************/
+/*! exports provided: ConfirmResetComponent */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "ConfirmResetComponent", function() { return ConfirmResetComponent; });
+/* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @angular/core */ "./node_modules/@angular/core/fesm5/core.js");
+/* harmony import */ var _angular_forms__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @angular/forms */ "./node_modules/@angular/forms/fesm5/forms.js");
+/* harmony import */ var _directives_text_format_directive__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../directives/text-format.directive */ "./src/app/directives/text-format.directive.ts");
+/* harmony import */ var _auth_service__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../auth.service */ "./src/app/auth.service.ts");
+/* harmony import */ var _angular_router__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! @angular/router */ "./node_modules/@angular/router/fesm5/router.js");
+var __decorate = (undefined && undefined.__decorate) || function (decorators, target, key, desc) {
+    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
+};
+var __metadata = (undefined && undefined.__metadata) || function (k, v) {
+    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
+};
+
+
+
+
+
+var ConfirmResetComponent = /** @class */ (function () {
+    function ConfirmResetComponent(auth_, router, route) {
+        this.auth_ = auth_;
+        this.router = router;
+        this.route = route;
+        this.resetPasswordGroup = new _angular_forms__WEBPACK_IMPORTED_MODULE_1__["FormGroup"]({
+            password: new _angular_forms__WEBPACK_IMPORTED_MODULE_1__["FormControl"]('', [
+                _angular_forms__WEBPACK_IMPORTED_MODULE_1__["Validators"].required,
+                _angular_forms__WEBPACK_IMPORTED_MODULE_1__["Validators"].minLength(8),
+                _angular_forms__WEBPACK_IMPORTED_MODULE_1__["Validators"].maxLength(40),
+                Object(_directives_text_format_directive__WEBPACK_IMPORTED_MODULE_2__["TextFormatDirective"])(/^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,}$/),
+            ]),
+            password_confirm: new _angular_forms__WEBPACK_IMPORTED_MODULE_1__["FormControl"]('', [
+                _angular_forms__WEBPACK_IMPORTED_MODULE_1__["Validators"].required,
+                _angular_forms__WEBPACK_IMPORTED_MODULE_1__["Validators"].minLength(8),
+                _angular_forms__WEBPACK_IMPORTED_MODULE_1__["Validators"].maxLength(40),
+                Object(_directives_text_format_directive__WEBPACK_IMPORTED_MODULE_2__["TextFormatDirective"])(/^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,}$/),
+            ])
+        });
+    }
+    ConfirmResetComponent.prototype.toConfirmReset = function () {
+        var _this = this;
+        if (this.resetPasswordGroup.controls['password'].value ===
+            this.resetPasswordGroup.controls['password_confirm'].value) {
+            this.auth_.toResetPasswordConfirm(this.route.snapshot.params["token"], this.resetPasswordGroup.controls['password'].value).subscribe(function (res) { return _this.router.navigate([_this.returnUrl]); });
+        }
+    };
+    ConfirmResetComponent.prototype.ngOnInit = function () {
+        this.returnUrl = '/login';
+    };
+    ConfirmResetComponent = __decorate([
+        Object(_angular_core__WEBPACK_IMPORTED_MODULE_0__["Component"])({
+            selector: 'app-confirm-reset',
+            template: __webpack_require__(/*! ./confirm-reset.component.html */ "./src/app/confirm-reset/confirm-reset.component.html"),
+            styles: [__webpack_require__(/*! ./confirm-reset.component.css */ "./src/app/confirm-reset/confirm-reset.component.css")]
+        }),
+        __metadata("design:paramtypes", [_auth_service__WEBPACK_IMPORTED_MODULE_3__["AuthService"],
+            _angular_router__WEBPACK_IMPORTED_MODULE_4__["Router"],
+            _angular_router__WEBPACK_IMPORTED_MODULE_4__["ActivatedRoute"]])
+    ], ConfirmResetComponent);
+    return ConfirmResetComponent;
+}());
+
+
+
+/***/ }),
+
 /***/ "./src/app/directives/text-format.directive.ts":
 /*!*****************************************************!*\
   !*** ./src/app/directives/text-format.directive.ts ***!
@@ -383,6 +521,125 @@ function TextFormatDirective(nameRe) {
         return correct ? null : { 'wrongFormat': { value: control.value } };
     };
 }
+
+
+/***/ }),
+
+/***/ "./src/app/filter-item/filter-item.component.css":
+/*!*******************************************************!*\
+  !*** ./src/app/filter-item/filter-item.component.css ***!
+  \*******************************************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+module.exports = ".card {\n    border-color: dodgerblue;\n}\n\n.button-group {\n    display: flex;\n    justify-content: space-evenly;\n}\n\n.operator-button {\n    margin-top: 20px;\n    display: flex;\n    justify-content: space-evenly;\n}\n\n.row-padding {\n    margin-bottom: 20px;\n    position:relative;\n}\n\n.ribbon {\n  position:absolute;\n  top:0;\n  right:0;\n}"
+
+/***/ }),
+
+/***/ "./src/app/filter-item/filter-item.component.html":
+/*!********************************************************!*\
+  !*** ./src/app/filter-item/filter-item.component.html ***!
+  \********************************************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+module.exports = "<div class=\"row row-padding\">\n    <div class=\"col-md-4\"></div>\n    <div class=\"col-md-4\">\n        <div class=\"card primary\">\n            <div class=\"card-body\">\n                <form class=\"form\">\n                    <div class=\"form-group mb-2\">\n                        <select class=\"form-control\" (change)=\"addColumn($event.target.value)\" [disabled]=\"disColumn\">\n                            <option value=\"\" disabled selected>Chose column</option>\n                            <option *ngFor=\"let row of columns\">\n                                {{row}}\n                            </option>\n                        </select>\n                    </div>\n                    <div class=\"form-group mx-sm-2 mb-2\" >\n                        <div class=\"button-group\" *ngIf=\"column && !operator\">\n                            <button type=\"button\" class=\"btn btn-primary btn-sm\" (click)=\"addOperator('=')\">=</button>\n                            <button type=\"button\" class=\"btn btn-primary btn-sm\" (click)=\"addOperator('<')\"><</button>\n                            <button type=\"button\" class=\"btn btn-primary btn-sm\" (click)=\"addOperator('>')\">></button>\n                        </div>\n                        <div class=\"button-group\" *ngIf=\"column && operator\">\n                            <button type=\"button\" class=\"btn btn-primary btn-sm\">{{ operator }}</button>\n                        </div>\n                    </div>\n                    <div class=\"form-group mb-2\">\n                        <select class=\"form-control\" *ngIf=\"operator\" (change)=\"addValue($event.target.value)\" [disabled]=\"disValue\">\n                            <option value=\"\" disabled selected>Chose value</option>\n                            <option *ngFor=\"let row of values\">\n                                {{row}}\n                            </option>\n                        </select>\n                    </div>\n                </form>\n            </div>\n        </div>\n        <div class=\"operator-button\" *ngIf=\"value && !operatorBtwElem\">\n            <button type=\"button\" class=\"btn btn-info\" (click)=\"addElem('And')\">And</button>\n            <button type=\"button\" class=\"btn btn-info\" (click)=\"addElem('Or')\">Or</button>\n        </div>\n        <div class=\"operator-button\" *ngIf=\"value && operatorBtwElem\">\n            <button type=\"button\" class=\"btn btn-info\">{{ operatorBtwElem }}</button>\n        </div>\n    </div>\n</div>"
+
+/***/ }),
+
+/***/ "./src/app/filter-item/filter-item.component.ts":
+/*!******************************************************!*\
+  !*** ./src/app/filter-item/filter-item.component.ts ***!
+  \******************************************************/
+/*! exports provided: FilterItemComponent */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "FilterItemComponent", function() { return FilterItemComponent; });
+/* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @angular/core */ "./node_modules/@angular/core/fesm5/core.js");
+var __decorate = (undefined && undefined.__decorate) || function (decorators, target, key, desc) {
+    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
+};
+var __metadata = (undefined && undefined.__metadata) || function (k, v) {
+    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
+};
+
+var FilterItemComponent = /** @class */ (function () {
+    function FilterItemComponent() {
+        this.column = '';
+        this.operator = '';
+        this.value = '';
+        this.operatorBtwElem = '';
+        this.disColumn = false;
+        this.disValue = false;
+        //This is test data, remove it after we will have really one
+        this.data = {
+            'Models': ['Audi', 'Green', '2001'],
+            'Color': ["red"],
+            'Year': [1234, 2345]
+        };
+        this.columns = [];
+        this.values = [];
+        this.addFilterElem = new _angular_core__WEBPACK_IMPORTED_MODULE_0__["EventEmitter"]();
+        this.pushFilterParams = new _angular_core__WEBPACK_IMPORTED_MODULE_0__["EventEmitter"]();
+    }
+    FilterItemComponent.prototype.ngOnInit = function () {
+        this.columns = Object.keys(this.data);
+        this.values = this.data["Models"];
+    };
+    FilterItemComponent.prototype.addElem = function (data) {
+        this.operatorElems(data);
+        this.addFilterElem.emit();
+        this.pushFilterParams.emit({
+            'column': this.column,
+            'operator': this.operator,
+            'value': this.value,
+            'btw_elem_operator': this.operatorBtwElem,
+        });
+    };
+    FilterItemComponent.prototype.addColumn = function (column) {
+        this.column = column;
+        this.value = '';
+        // this.addFilterColumn.emit({'index':this.index, 'column': column});
+    };
+    FilterItemComponent.prototype.addValue = function (column) {
+        this.disColumn = true;
+        this.value = column;
+    };
+    FilterItemComponent.prototype.addOperator = function (oper) {
+        this.operator = oper;
+    };
+    FilterItemComponent.prototype.operatorElems = function (data) {
+        this.disValue = true;
+        this.operatorBtwElem = data;
+    };
+    __decorate([
+        Object(_angular_core__WEBPACK_IMPORTED_MODULE_0__["Output"])(),
+        __metadata("design:type", _angular_core__WEBPACK_IMPORTED_MODULE_0__["EventEmitter"])
+    ], FilterItemComponent.prototype, "addFilterElem", void 0);
+    __decorate([
+        Object(_angular_core__WEBPACK_IMPORTED_MODULE_0__["Output"])(),
+        __metadata("design:type", _angular_core__WEBPACK_IMPORTED_MODULE_0__["EventEmitter"])
+    ], FilterItemComponent.prototype, "pushFilterParams", void 0);
+    __decorate([
+        Object(_angular_core__WEBPACK_IMPORTED_MODULE_0__["Input"])(),
+        __metadata("design:type", Number)
+    ], FilterItemComponent.prototype, "index", void 0);
+    FilterItemComponent = __decorate([
+        Object(_angular_core__WEBPACK_IMPORTED_MODULE_0__["Component"])({
+            selector: 'filter-item',
+            template: __webpack_require__(/*! ./filter-item.component.html */ "./src/app/filter-item/filter-item.component.html"),
+            styles: [__webpack_require__(/*! ./filter-item.component.css */ "./src/app/filter-item/filter-item.component.css")]
+        }),
+        __metadata("design:paramtypes", [])
+    ], FilterItemComponent);
+    return FilterItemComponent;
+}());
+
 
 
 /***/ }),
@@ -405,7 +662,7 @@ module.exports = ".center_div {\n    margin-top: 200px;\n}\n\n.card {\n    borde
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = "<div class=\"jumbotron\">\n    <div class=\"row justify-content-md-center\">\n        <div class=\"col col-md-auto\">\n            <h1 class=\"display-4\">Filtering data section</h1>\n            <p class=\"lead\">Just choose file for begin preparing your dataset</p>\n            <hr class=\"my-4\">\n            <a class=\"btn btn-primary btn-lg\" href=\"\" role=\"button\">Choose file</a>\n        </div>\n    </div>\n</div>\n<div class=\"row\">\n    <div class=\"col-md-4\"></div>\n    <div class=\"col-md-4\">\n        <h3>Select data where:</h3>\n    </div>\n</div>\n<div class=\"row\">\n    <div class=\"col-md-4\"></div>\n    <div class=\"col-md-4\">\n        <div class=\"card primary\">\n            <div class=\"card-body\">\n                <form class=\"form\">\n                    <div class=\"form-group mb-2\">\n                        <select class=\"form-control\" id=\"exampleFormControlSelect1\">\n                            <option value=\"\" disabled selected>Chose column</option>\n                            <option>Models</option>\n                            <option>Color</option>\n                            <option>Years</option>\n                            <option>Make</option>\n                            <option>Spped</option>\n                        </select>\n                    </div>\n                    <div class=\"form-group mx-sm-2 mb-2\">\n                        <div class=\"button-group\">\n                            <button type=\"button\" class=\"btn btn-primary btn-sm\">=</button>\n                            <button type=\"button\" class=\"btn btn-primary btn-sm\"><</button>\n                            <button type=\"button\" class=\"btn btn-primary btn-sm\">></button>\n                        </div>\n                    </div>\n                    <div class=\"form-group mb-2\">\n                        <select class=\"form-control\">\n                            <option value=\"\" disabled selected>Chose value</option>\n                            <option>X5</option>\n                            <option>Vitara</option>\n                            <option>Q7</option>\n                            <option>Vectra</option>\n                        </select>\n                    </div>\n                </form>\n            </div>\n        </div>\n        <div class=\"operator-button\">\n            <button type=\"button\" class=\"btn btn-info\">And</button>\n            <button type=\"button\" class=\"btn btn-info\">Or</button>\n        </div>\n    </div>\n</div>\n"
+module.exports = "<div class=\"jumbotron\">\n    <div class=\"row justify-content-md-center\">\n        <div class=\"col col-md-auto\">\n            <h1 class=\"display-4\">Filtering data section</h1>\n            <p class=\"lead\">Just choose file for begin preparing your dataset</p>\n            <hr class=\"my-4\">\n            <a class=\"btn btn-primary btn-lg\" href=\"\" role=\"button\">Choose file</a>\n        </div>\n    </div>\n</div>\n<div class=\"row\">\n    <div class=\"col-md-4\"></div>\n    <div class=\"col-md-4\">\n        <h3>Select data where:</h3>\n    </div>\n</div>\n\n<filter-item *ngFor=\"let number of filter_number\"\n             [index]='number'\n             (addFilterElem)='addElement()'\n             (pushFilterParams)=\"pushParams($event)\"\n>"
 
 /***/ }),
 
@@ -432,8 +689,34 @@ var __metadata = (undefined && undefined.__metadata) || function (k, v) {
 
 var FilterComponent = /** @class */ (function () {
     function FilterComponent() {
+        this.filter_number = [0];
+        this.data = {
+            'Models': ['Audi', 'Green', '2001'],
+            'Color': ["red"],
+            'Year': [1234, 2345]
+        };
+        this.columns = [];
+        this.value = [];
+        this.result_params = {
+            'Columns': [],
+            'Operators': [],
+            'Values': [],
+            'Btw_operators': [],
+        };
     }
     FilterComponent.prototype.ngOnInit = function () {
+        this.columns = Object.keys(this.data);
+        this.value = this.data["Models"];
+    };
+    FilterComponent.prototype.addElement = function () {
+        this.filter_number.push(this.filter_number.length);
+    };
+    FilterComponent.prototype.pushParams = function (data) {
+        this.result_params.Columns.push(data.column);
+        this.result_params.Operators.push(data.operator);
+        this.result_params.Values.push(data.value);
+        this.result_params.Btw_operators.push(data.btw_elem_operator);
+        console.log(this.result_params);
     };
     FilterComponent = __decorate([
         Object(_angular_core__WEBPACK_IMPORTED_MODULE_0__["Component"])({
@@ -507,6 +790,175 @@ var HomeComponent = /** @class */ (function () {
         __metadata("design:paramtypes", [])
     ], HomeComponent);
     return HomeComponent;
+}());
+
+
+
+/***/ }),
+
+/***/ "./src/app/login/login.component.css":
+/*!*******************************************!*\
+  !*** ./src/app/login/login.component.css ***!
+  \*******************************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+module.exports = ""
+
+/***/ }),
+
+/***/ "./src/app/login/login.component.html":
+/*!********************************************!*\
+  !*** ./src/app/login/login.component.html ***!
+  \********************************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+module.exports = "\n<div class=\"auth\">\n  <div class=\"form\">\n    <form [formGroup]=\"loginGroup\" (ngSubmit)=\"toLogin()\">\n      <label>\n        Email:\n        <input type=\"text\" formControlName=\"email\" required>\n      </label>\n      <label>\n        Password:\n        <input type=\"password\" formControlName=\"password\" required>\n      </label>\n      <div class=\"error\" *ngIf=\"password.invalid && (password.dirty || password.touched)\">\n        <ul>\n          <li *ngIf=\"password.errors.minlength || password.errors.maxlength\">Password must be from 8 to 40 characters long</li>\n          <li *ngIf=\"password.errors.wrongFormat\">Password must contain at least one digit</li>\n        </ul>\n      </div>\n    <button class=\"btn btn-primary\" type=\"submit\" [disabled]=\"!registerGroup.valid\">Submit</button>\n    </form>\n  </div>\n</div>\n"
+
+/***/ }),
+
+/***/ "./src/app/login/login.component.ts":
+/*!******************************************!*\
+  !*** ./src/app/login/login.component.ts ***!
+  \******************************************/
+/*! exports provided: LoginComponent */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "LoginComponent", function() { return LoginComponent; });
+/* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @angular/core */ "./node_modules/@angular/core/fesm5/core.js");
+/* harmony import */ var _angular_router__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @angular/router */ "./node_modules/@angular/router/fesm5/router.js");
+/* harmony import */ var _angular_forms__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @angular/forms */ "./node_modules/@angular/forms/fesm5/forms.js");
+/* harmony import */ var _auth_service__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../auth.service */ "./src/app/auth.service.ts");
+/* harmony import */ var _models_user__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../models/user */ "./src/app/models/user.ts");
+var __decorate = (undefined && undefined.__decorate) || function (decorators, target, key, desc) {
+    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
+};
+var __metadata = (undefined && undefined.__metadata) || function (k, v) {
+    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
+};
+
+
+
+
+
+var LoginComponent = /** @class */ (function () {
+    function LoginComponent(auth_, router, route) {
+        this.auth_ = auth_;
+        this.router = router;
+        this.route = route;
+        this.loginGroup = new _angular_forms__WEBPACK_IMPORTED_MODULE_2__["FormGroup"]({
+            email: new _angular_forms__WEBPACK_IMPORTED_MODULE_2__["FormControl"]('', [
+                _angular_forms__WEBPACK_IMPORTED_MODULE_2__["Validators"].required,
+            ]),
+            password: new _angular_forms__WEBPACK_IMPORTED_MODULE_2__["FormControl"]('', [
+                _angular_forms__WEBPACK_IMPORTED_MODULE_2__["Validators"].required,
+                _angular_forms__WEBPACK_IMPORTED_MODULE_2__["Validators"].minLength(8),
+                _angular_forms__WEBPACK_IMPORTED_MODULE_2__["Validators"].maxLength(40),
+            ])
+        });
+    }
+    LoginComponent.prototype.toLogin = function () {
+        var _this = this;
+        this.auth_.toLogin(new _models_user__WEBPACK_IMPORTED_MODULE_4__["User"](this.loginGroup.controls['email'].value, this.loginGroup.controls['password'].value))
+            .subscribe(function (res) {
+            _this.router.navigate([_this.returnUrl]);
+        });
+    };
+    LoginComponent.prototype.ngOnInit = function () {
+        this.returnUrl = this.route.snapshot.queryParams['returnUrl'] || '/';
+    };
+    LoginComponent = __decorate([
+        Object(_angular_core__WEBPACK_IMPORTED_MODULE_0__["Component"])({
+            selector: 'app-login',
+            template: __webpack_require__(/*! ./login.component.html */ "./src/app/login/login.component.html"),
+            styles: [__webpack_require__(/*! ./login.component.css */ "./src/app/login/login.component.css")]
+        }),
+        __metadata("design:paramtypes", [_auth_service__WEBPACK_IMPORTED_MODULE_3__["AuthService"],
+            _angular_router__WEBPACK_IMPORTED_MODULE_1__["Router"],
+            _angular_router__WEBPACK_IMPORTED_MODULE_1__["ActivatedRoute"]])
+    ], LoginComponent);
+    return LoginComponent;
+}());
+
+
+
+/***/ }),
+
+/***/ "./src/app/logout/logout.component.css":
+/*!*********************************************!*\
+  !*** ./src/app/logout/logout.component.css ***!
+  \*********************************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+module.exports = ""
+
+/***/ }),
+
+/***/ "./src/app/logout/logout.component.html":
+/*!**********************************************!*\
+  !*** ./src/app/logout/logout.component.html ***!
+  \**********************************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+module.exports = ""
+
+/***/ }),
+
+/***/ "./src/app/logout/logout.component.ts":
+/*!********************************************!*\
+  !*** ./src/app/logout/logout.component.ts ***!
+  \********************************************/
+/*! exports provided: LogoutComponent */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "LogoutComponent", function() { return LogoutComponent; });
+/* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @angular/core */ "./node_modules/@angular/core/fesm5/core.js");
+/* harmony import */ var _auth_service__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../auth.service */ "./src/app/auth.service.ts");
+/* harmony import */ var _angular_router__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @angular/router */ "./node_modules/@angular/router/fesm5/router.js");
+var __decorate = (undefined && undefined.__decorate) || function (decorators, target, key, desc) {
+    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
+};
+var __metadata = (undefined && undefined.__metadata) || function (k, v) {
+    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
+};
+
+
+
+var LogoutComponent = /** @class */ (function () {
+    function LogoutComponent(auth_, router, route) {
+        this.auth_ = auth_;
+        this.router = router;
+        this.route = route;
+        this.returnUrl = '/login';
+    }
+    LogoutComponent.prototype.ngOnInit = function () {
+        this.auth_.toLogout(null).subscribe();
+        this.returnUrl = this.route.snapshot.queryParams['returnUrl'];
+    };
+    LogoutComponent = __decorate([
+        Object(_angular_core__WEBPACK_IMPORTED_MODULE_0__["Component"])({
+            selector: 'app-logout',
+            template: __webpack_require__(/*! ./logout.component.html */ "./src/app/logout/logout.component.html"),
+            styles: [__webpack_require__(/*! ./logout.component.css */ "./src/app/logout/logout.component.css")]
+        }),
+        __metadata("design:paramtypes", [_auth_service__WEBPACK_IMPORTED_MODULE_1__["AuthService"],
+            _angular_router__WEBPACK_IMPORTED_MODULE_2__["Router"],
+            _angular_router__WEBPACK_IMPORTED_MODULE_2__["ActivatedRoute"]])
+    ], LogoutComponent);
+    return LogoutComponent;
 }());
 
 
@@ -699,6 +1151,96 @@ var RegistrationComponent = /** @class */ (function () {
             _angular_router__WEBPACK_IMPORTED_MODULE_5__["ActivatedRoute"]])
     ], RegistrationComponent);
     return RegistrationComponent;
+}());
+
+
+
+/***/ }),
+
+/***/ "./src/app/reset-password/reset-password.component.css":
+/*!*************************************************************!*\
+  !*** ./src/app/reset-password/reset-password.component.css ***!
+  \*************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+module.exports = ".form{\n    text-align: center;\n}"
+
+/***/ }),
+
+/***/ "./src/app/reset-password/reset-password.component.html":
+/*!**************************************************************!*\
+  !*** ./src/app/reset-password/reset-password.component.html ***!
+  \**************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+module.exports = "\n<div class=\"auth\">\n    <div class=\"form\">\n        <form id=\"reset-password\" [formGroup]=\"resetPasswordGroup\" (ngSubmit)=\"toResetPassword()\">\n            <label >\n                Email:\n                <input type=\"text\" formControlName=\"email\" required>\n            </label>\n            <button class=\"btn btn-primary\" type=\"submit\" [disabled]=\"!resetPasswordGroup.valid\">Submit</button>\n        </form>\n    </div>\n</div>\n"
+
+/***/ }),
+
+/***/ "./src/app/reset-password/reset-password.component.ts":
+/*!************************************************************!*\
+  !*** ./src/app/reset-password/reset-password.component.ts ***!
+  \************************************************************/
+/*! exports provided: ResetPasswordComponent */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "ResetPasswordComponent", function() { return ResetPasswordComponent; });
+/* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @angular/core */ "./node_modules/@angular/core/fesm5/core.js");
+/* harmony import */ var _auth_service__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../auth.service */ "./src/app/auth.service.ts");
+/* harmony import */ var _angular_forms__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @angular/forms */ "./node_modules/@angular/forms/fesm5/forms.js");
+/* harmony import */ var _angular_router__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! @angular/router */ "./node_modules/@angular/router/fesm5/router.js");
+var __decorate = (undefined && undefined.__decorate) || function (decorators, target, key, desc) {
+    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
+};
+var __metadata = (undefined && undefined.__metadata) || function (k, v) {
+    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
+};
+
+
+
+
+var ResetPasswordComponent = /** @class */ (function () {
+    function ResetPasswordComponent(auth_, router, route) {
+        this.auth_ = auth_;
+        this.router = router;
+        this.route = route;
+        this.resetPasswordGroup = new _angular_forms__WEBPACK_IMPORTED_MODULE_2__["FormGroup"]({
+            email: new _angular_forms__WEBPACK_IMPORTED_MODULE_2__["FormControl"]('', [
+                _angular_forms__WEBPACK_IMPORTED_MODULE_2__["Validators"].required,
+            ])
+        });
+    }
+    ResetPasswordComponent.prototype.changeText = function (id, text_to_change) {
+        var elem = document.getElementById(id);
+        elem.textContent = text_to_change;
+    };
+    ResetPasswordComponent.prototype.toResetPassword = function () {
+        var _this = this;
+        this.auth_.toResetPassword(this.resetPasswordGroup.controls['email'].value)
+            .subscribe(function (res) {
+            _this.changeText("reset-password", "<h1>Please check your email</h1>");
+        });
+    };
+    ResetPasswordComponent.prototype.ngOnInit = function () {
+    };
+    ResetPasswordComponent = __decorate([
+        Object(_angular_core__WEBPACK_IMPORTED_MODULE_0__["Component"])({
+            selector: 'app-reset-password',
+            template: __webpack_require__(/*! ./reset-password.component.html */ "./src/app/reset-password/reset-password.component.html"),
+            styles: [__webpack_require__(/*! ./reset-password.component.css */ "./src/app/reset-password/reset-password.component.css")]
+        }),
+        __metadata("design:paramtypes", [_auth_service__WEBPACK_IMPORTED_MODULE_1__["AuthService"],
+            _angular_router__WEBPACK_IMPORTED_MODULE_3__["Router"],
+            _angular_router__WEBPACK_IMPORTED_MODULE_3__["ActivatedRoute"]])
+    ], ResetPasswordComponent);
+    return ResetPasswordComponent;
 }());
 
 

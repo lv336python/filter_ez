@@ -1,48 +1,69 @@
 '''
 Module for register views
 '''
-import re
 import json
-from flask import request, flash, url_for
-from werkzeug.security import generate_password_hash
 
-from app.models import User
+from flask import request, url_for
+
+
+from app.models import User, UserSchema
 from app import app
 from app import db
-from app.routers.registration.token import generate_confirmation_token
-from app.routers.registration.email import send_email
+from app.services.token_service import generate_confirmation_token
+from app.services.mail_service import send_email
 
 
 @app.route('/api/register', methods=['POST'])
 def register():
     """
     POST methods for registration
-    :return: Registered user
+    :return: Registered user or
+     incorrect responses
     """
-    if request.method == 'POST':
-        reg_email = r"(^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$)"
-        data = request.get_json()
-        email = data['email']
-        if not re.match(reg_email, email):
-            return json.dumps({'status': 401, 'message': 'invalid email'}), 401
-        if not User.query.filter(User.email == email).first():
-            password = generate_password_hash(data['password'])
-            if email and password:
-                new_user = User(email=email, password_plaintext=password, confirmed=False)
-                db.session.add(new_user)
-                db.session.commit()
 
-                token = generate_confirmation_token(new_user.email)
-                confirm_url = url_for('index', _external=True) + 'confirm/' + token.decode('utf-8')
-                html = f'Link: {confirm_url}'
-                subject = "Please confirm your email"
-                send_email(new_user.email, subject, html)
+    data = request.get_json()
+    email = data['email']
+    password = data['password']
+    schema = UserSchema()
 
-                flash('Thanks for registering!',
-                      'success')  # if base template has looping through message flash displays
-                return json.dumps({"status": 201, 'message': new_user.email}), 201
+    validate = schema.validate({'email': email, 'password': password})
+    if validate:
+        return json.dumps({
+            'message': validate
+        }), 401
 
-            return json.dumps({'status': 401, 'message': 'empty value'}), 401
+    if not User.query.filter(User.email == email).first():
+        user = schema.load({'email': email, 'password': password}).data
 
-        flash('ERROR! Email ({}) already exists.'.format(email), 'error')
-        return json.dumps({'status': 401, 'message': f'email: {email} already exist'}), 401
+        db.session.add(user)# pylint: disable=E1101
+        db.session.commit()# pylint: disable=E1101
+
+        token = generate_confirmation_token(user.email)
+
+        confirm_url = url_for('index', _external=True) + \
+                      'confirm/' + \
+                      token.decode('utf-8')
+        html = f'Link: {confirm_url}'
+        subject = "Please confirm your email"
+        send_email(user.email, subject, html)
+
+        return json.dumps({
+            'message': user.email
+            }), 201
+
+    user = User.query.filter(User.email == email).first()
+    if not user.confirmed:
+        token = generate_confirmation_token(user.email)
+
+        confirm_url = url_for('index', _external=True) + \
+                      'confirm/' + \
+                      token.decode('utf-8')
+        html = f'Link: {confirm_url}'
+        subject = "Please confirm your email"
+        send_email(user.email, subject, html)
+        return json.dumps({
+            'message': f'Confirmation link has been sent to email {user.email}'
+        })
+    return json.dumps({
+        'message': f'email: {email} already exist'
+        }), 401

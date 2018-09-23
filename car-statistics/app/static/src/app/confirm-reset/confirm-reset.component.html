@@ -1,0 +1,22 @@
+
+<div class="auth">
+  <div class="form">
+    <form [formGroup]="resetPasswordGroup" (ngSubmit)="toConfirmReset()">
+      <label>
+        New password:
+        <input type="password" formControlName="password" required>
+      </label>
+      <label>
+        Confirm password:
+        <input type="password" formControlName="password_confirm" required>
+      </label>
+      <div class="error" *ngIf="password.invalid && (password.dirty || password.touched)">
+        <ul>
+          <li *ngIf="password.errors.minlength || password.errors.maxlength">Password must be from 8 to 40 characters long</li>
+          <li *ngIf="password.errors.wrongFormat">Password must contain at least one digit</li>
+        </ul>
+      </div>
+    <button type="submit" [disabled]="!resetPasswordGroup.valid">Submit</button>
+    </form>
+  </div>
+</div>

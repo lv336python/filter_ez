@@ -1,7 +1,7 @@
 
-'''
+"""
 Configuration module for app, mail
-'''
+"""
 import os
 
 try:
@@ -13,9 +13,9 @@ BASEDIR = os.path.abspath(os.path.dirname(__file__))
 
 
 class Config:
-    '''
+    """
     Configuration class to configure app from object
-    '''
+    """
     # DEBUG = False
     # TESTING = False
     # CSRF_ENABLED = True
@@ -36,4 +36,16 @@ class Config:
     MAIL_PASSWORD = MAIL['MAIL_PASSWORD']
 
     # mail accounts
-    MAIL_DEFAULT_SENDER = 'from@example.com'
+    MAIL_DEFAULT_SENDER = 'statisticcar@gmail.com'
+
+    # uploads params
+    UPLOAD_FOLDER = 'uploads_temp'
+    ALLOWED_EXTENSIONS = ('csv', 'xls', 'xlsx')
+
+    #Celery configurations
+    CELERY_RESULT_BACKEND = 'rpc://'
+    CELERY_BROKER_URL = 'amqp://guest@localhost//'
+    CELERY_ACCEPT_CONTENT = ['json', 'pickle']
+    CELERY_ROUTES = {
+        'app.services.mail_service.*': {'queue': 'email'}
+    }

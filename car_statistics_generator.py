@@ -3,83 +3,222 @@
 """
 import json
 import sys
+
+from random import choice, randint
+from string import ascii_lowercase, digits
+
 import xlwt
 
-from random import choice
+
+def frange(start, end, step):
+    """
+    Yield float values in range from start to end
+    :param start:
+    :param end:
+    :param step:
+    :return: Yields values from start to end with a given step
+    """
+    curr = start
+    while curr < end:
+        yield curr
+        curr += step
 
 
-
-COL_DATASETS = {
-    'Models': ['Mazaro', 'X5', 'Kwid', 'Scorpio', 'Vitara', 'A6', 'X4', 'Spyder'],
-    'Make': ['Audi', 'BMW', 'Chevrolet', 'Citroen', 'Dacia', 'Fiat', 'Ford',
-             'Honda', 'Kia', 'Lexus', 'Jeep', 'Opel', 'Nissan', 'Toyota', 'Pontiac'],
-    'Body': ['Sedan', 'Hatchback', 'MPV', 'SUV', 'Crossover'],
-    'Year': range(1950, 2018),
-    'Mileage': range(0, 150000, 1000),
-    'Fuel consumptions': range(10, 500),
-    'Seats': range(1, 50),
-    'Power': range(100, 400),
-    'Engine type': ('Vee', 'Inline', 'Straight', 'VR', 'W', 'Boxer'),
-    'Fuel type': ('Petrol', 'Diesel', 'Hybrid', 'Electric', 'Gas'),
-    'Doors number': range(1, 6),
-    'Transmission': ('Automatic', 'Manual', 'Semi-automatic'),
-    'Gear numbers': range(3, 8),
-    'Color': ('Red', 'Blue', 'Green', 'Yellow', 'Cyan'),
-    'Wheel size': range(10, 20, 1),
-    'Country': ('Ukraine', 'USA', 'German', 'England', 'France', 'Italy'),
-    'Condition': ('Used', 'New', 'After car accident', 'Biohazard'),
-    'Drive Type': ('All-Wheel', 'Front-Wheel', 'Rear-Wheel', 'Four-Wheel'),
-    'Emission class': (1, 2, 3, 4, 5, 6),
-    'Air bags': (0, 1, 2, 3, 4, 5),
-    'Climate control': ("Yes", "No"),
-    'Weight': range(800, 3000, 200),
-    'Price': range(999, 29999, 1000),
-    'Seat heater': ('Yes', 'No'),
-    'Trim level': ('DX', 'LX', 'LS', 'EX', 'GL', 'SE', 'GT')
-}
-
-COLUMNS = sorted(list(COL_DATASETS.keys()))
-
-
-def generate_row():
+def generate_row(config):
     """
     Returns a list of values for one row of car characteristics data
     :return: ['X5', 'Audi', 'Sedan', ...]
     """
     stats = []
-    for column in COLUMNS:
-        stats.append(choice(COL_DATASETS[column]))
+    for column in config['COLUMNS']:
+        stats.append(choice(config['COL_DATA'][column]))
     return stats
 
-def configure():
+
+def generate_bool_data(**kwargs):
+    """
+    Creates a list of values for bool type using given parameters
+    :param kwargs: parameters for list generation
+    :return list: [True] || [False] || [True, False]
+    """
+    return list(map(lambda x: "True" if x else "False", kwargs.get('choice', [True, False])))
+
+
+def generate_int_data(**kwargs):
+    """
+    Creates a list of possible values for float type using given parameters
+    :param kwargs: parameters for list generation
+    :return list: all possible values column can have
+    """
+    data_choice_range = kwargs.get('choice', [])
+    min_value = kwargs.get('min_value', 2)
+    max_value = kwargs.get('max_value', 10)
+    step = kwargs.get('step', 1)
+
+    unique = min(kwargs.get('unique', 20), (max_value - min_value) / step)
+
+    if data_choice_range:
+        return filter(lambda x: isinstance(x, int), data_choice_range)
+
+    while len(data_choice_range) < unique:
+        choice_element = choice(range(min_value, max_value, step))
+        if choice_element not in data_choice_range:
+            data_choice_range.append(choice_element)
+    return data_choice_range
+
+
+def generate_float_data(**kwargs):
+    """
+    Creates a list of possible values for float type using given parameters
+    :param kwargs: parameters for list generation
+    :return list: all possible values column can have
+    """
+    data_choice_range = kwargs.get('choice', [])
+    min_value = kwargs.get('min_value', 2)
+    max_value = kwargs.get('max_value', 10)
+    step = kwargs.get('step', 1)
+
+    unique = min(kwargs.get('unique', 20), (max_value - min_value) / step)
+
+    if data_choice_range:
+        return filter(lambda x: isinstance(x, float), data_choice_range)
+
+    while len(data_choice_range) < unique:
+        choice_element = choice(list(frange(min_value, max_value, step)))
+        if choice_element not in data_choice_range:
+            data_choice_range.append(choice_element)
+    return data_choice_range
+
+
+def generate_string_data(**kwargs):
+    """
+    Creates a list of possible values for string type using given parameters
+    :param kwargs: parameters for list generation
+    :return list: all possible values column can have
+    """
+    data_choice_range = kwargs.get('choice', [])
+    unique = kwargs.get('unique', 20)
+    min_length = kwargs.get('min_length', 2)
+    max_length = kwargs.get('max_length', 10)
+    are_digits_allowed = kwargs.get('digit', False)
+    capitalize = kwargs.get('capitalize', False)
+
+    if data_choice_range:
+        return list(map(str, data_choice_range))
+
+    while len(data_choice_range) < unique:
+        if are_digits_allowed:
+            choice_element = ''.join([choice(ascii_lowercase+digits)
+                                      for _ in range(randint(min_length, max_length))])
+        else:
+            choice_element = ''.join([choice(ascii_lowercase)
+                                      for _ in range(randint(min_length, max_length))])
+        if choice_element not in data_choice_range:
+            if capitalize:
+                choice_element = choice_element.capitalize()
+            data_choice_range.append(choice_element)
+
+    return data_choice_range
+
+
+def generate_cell_data(**kwargs):
+    """
+    Returns list of possible values for a column of defined type or None
+    :param kwargs: meta-data for a column
+    :return list or [None]: values for column
+    """
+    if kwargs['type'] == "int":
+        return generate_int_data(**kwargs)
+    if kwargs['type'] == 'string':
+        return generate_string_data(**kwargs)
+    if kwargs['type'] == 'float':
+        return generate_float_data(**kwargs)
+    if kwargs['type'] == 'bool':
+        return generate_bool_data(**kwargs)
+    return ['None']
+
+
+def configure_data_sets():
+    """
+    Parses json file with configurations and set necessary values like number of rows,
+    columns and their data type, minimum and maximum values, etc
+    :return dict: {'ROW_NUMBER': 20000, 'COLUMNS':['Country'], 'COL_DATA': {'Name': ['saf']}
+    """
+    configs = {}
     with open(sys.argv[1]) as conf_file:
         plain_text = conf_file.read()
         conf_json = json.loads(plain_text)
-        print(conf_json)
+        configs['ROW_NUMBER'] = conf_json.get('row_number', 50000)
+        if 'columns' in conf_json:
+            configs['COLUMNS'] = list(conf_json['columns'].keys())
+            configs['COL_DATA'] = {}
+            for column in configs['COLUMNS']:
+                configs['COL_DATA'][column] = generate_cell_data(**conf_json['columns'][column])
+    return configs
 
 
-def generate_data_frame():
+def generate_data(configs):
     """
     Creates data frame with 50k rows of characteristics of
-     cars and writes it to Excel file 'stats.xls'
+    cars and writes it to Excel file 'stats.xls'
     :return: None
     """
     workbook = xlwt.Workbook()
     sheet = workbook.add_sheet("Sheet 1")
 
-
-
-    for index, column in enumerate(COLUMNS):
+    for index, column in enumerate(configs['COLUMNS']):
         sheet.write(0, index, column)
-    for row_index in range(1, 50000):
-        for col_index, col_value in enumerate(generate_row()):
+    for row_index in range(1, configs['ROW_NUMBER']+1):
+        for col_index, col_value in enumerate(generate_row(configs)):
             sheet.write(row_index, col_index, col_value)
-
 
     workbook.save("result.xls")
 
 
-if __name__ == '__main__':
+def main():
+    """
+    Entrance point of the program with default config parameters
+    If config file path is given as a system argument, configurations are taken from it
+    :return: None
+    """
+    configs = {
+        'ROW NUMBER': 50000,
+
+        'COL DATA': {
+            'Models': ['Mazaro', 'X5', 'Kwid', 'Scorpio', 'Vitara', 'A6', 'X4', 'Spyder'],
+            'Make': ['Audi', 'BMW', 'Chevrolet', 'Citroen', 'Dacia', 'Fiat', 'Ford',
+                     'Honda', 'Kia', 'Lexus', 'Jeep', 'Opel', 'Nissan', 'Toyota', 'Pontiac'],
+            'Body': ['Sedan', 'Hatchback', 'MPV', 'SUV', 'Crossover'],
+            'Year': range(1950, 2018),
+            'Mileage': range(0, 150000, 1000),
+            'Fuel consumptions': range(10, 500),
+            'Seats': range(1, 50),
+            'Power': range(100, 400),
+            'Engine type': ('Vee', 'Inline', 'Straight', 'VR', 'W', 'Boxer'),
+            'Fuel type': ('Petrol', 'Diesel', 'Hybrid', 'Electric', 'Gas'),
+            'Doors number': range(1, 6),
+            'Transmission': ('Automatic', 'Manual', 'Semi-automatic'),
+            'Gear numbers': range(3, 8),
+            'Color': ('Red', 'Blue', 'Green', 'Yellow', 'Cyan'),
+            'Wheel size': range(10, 20, 1),
+            'Country': ('Ukraine', 'USA', 'German', 'England', 'France', 'Italy'),
+            'Condition': ('Used', 'New', 'After car accident', 'Biohazard'),
+            'Drive Type': ('All-Wheel', 'Front-Wheel', 'Rear-Wheel', 'Four-Wheel'),
+            'Emission class': (1, 2, 3, 4, 5, 6),
+            'Air bags': (0, 1, 2, 3, 4, 5),
+            'Climate control': ("Yes", "No"),
+            'Weight': range(800, 3000, 200),
+            'Price': range(999, 29999, 1000),
+            'Seat heater': ('Yes', 'No'),
+            'Trim level': ('DX', 'LX', 'LS', 'EX', 'GL', 'SE', 'GT')
+        },
+
+        'COLUMNS': sorted(['Models', 'Make'])
+    }
     if len(sys.argv) > 1:
-        configure()
-    generate_data_frame()
+        configs = configure_data_sets()
+    generate_data(configs)
+
+
+if __name__ == '__main__':
+    main()

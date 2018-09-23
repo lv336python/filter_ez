@@ -1,5 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import {FilterItemComponent} from "../filter-item/filter-item.component";
+import { HttpClient } from '@angular/common/http';
+import { catchError, map, tap } from 'rxjs/operators';
+
+
 
 @Component({
   selector: 'app-filter',
@@ -24,7 +28,7 @@ export class FilterComponent implements OnInit {
     'Btw_operators': [],
   };
 
-  constructor() { }
+  constructor( private http: HttpClient) { }
 
   ngOnInit() {
     this.columns = Object.keys(this.data);
@@ -34,6 +38,12 @@ export class FilterComponent implements OnInit {
   addElement(): void {
   this.filter_number.push(this.filter_number.length);
 }
+
+  getUser() {
+    return this.http.get(`https://conduit.productionready.io/api/profiles/eric`)
+    .map((res:Response) => res.json());
+  }
+
   pushParams(data){
     this.result_params.Columns.push(data.column);
     this.result_params.Operators.push(data.operator);
