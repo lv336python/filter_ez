@@ -10,6 +10,7 @@ import {LoginComponent} from "./login/login.component";
 import {LogoutComponent} from "./logout/logout.component"
 import {ResetPasswordComponent} from "./reset-password/reset-password.component"
 import {ConfirmResetComponent} from "./confirm-reset/confirm-reset.component"
+import {FileUploadsComponent} from "./file-uploads/file-uploads.component";
 
 const routes: Routes = [
     {path: '', component: HomeComponent},
@@ -19,6 +20,7 @@ const routes: Routes = [
     {path: 'logout', component: LogoutComponent},
     {path: 'reset', component: ResetPasswordComponent},
     {path: 'reset_password_confirm/:token', component: ConfirmResetComponent},
+    {path: 'upload', component: FileUploadsComponent},
     {path: '**', component: NotfoundComponent},
 ];
 
