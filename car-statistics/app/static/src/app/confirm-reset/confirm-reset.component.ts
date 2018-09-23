@@ -10,7 +10,7 @@ import {ActivatedRoute, Router} from "@angular/router";
     styleUrls: ['./confirm-reset.component.css']
 })
 export class ConfirmResetComponent implements OnInit {
-    returnUrl : string;
+    returnUrl: string;
     resetPasswordGroup = new FormGroup({
         password: new FormControl('', [
             Validators.required,
@@ -23,17 +23,18 @@ export class ConfirmResetComponent implements OnInit {
             Validators.minLength(8),
             Validators.maxLength(40),
             TextFormatDirective(/^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,}$/),
-        ] )
+        ])
     });
 
     toConfirmReset() {
         if (this.resetPasswordGroup.controls['password'].value ===
             this.resetPasswordGroup.controls['password_confirm'].value) {
-                this.auth_.toResetPasswordConfirm(
-                    this.route.snapshot.params["token"],
-                    this.resetPasswordGroup.controls['password'].value
-                ).subscribe(res => this.router.navigate([this.returnUrl]))
-            }
+            this.auth_.toResetPasswordConfirm(
+                this.route.snapshot.params["token"],
+                this.resetPasswordGroup.controls['password'].value
+            ).subscribe(res => this.router.navigate([this.returnUrl]
+            ))
+        }
     }
 
     constructor(
@@ -41,6 +42,14 @@ export class ConfirmResetComponent implements OnInit {
         private router: Router,
         private route: ActivatedRoute
     ) {
+    }
+
+    get password() {
+        return this.resetPasswordGroup.get('password')
+    }
+
+    get password_confirm() {
+        return this.resetPasswordGroup.get('password_confirm')
     }
 
     ngOnInit() {
