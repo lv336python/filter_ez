@@ -1,10 +1,9 @@
 import json
 import pandas as pd
 from io import BytesIO
-from app import app
+from app import app, logger
 from app.models import File, Dataset
-from app.services import utils
-
+from app.services import utils, notify_admin
 from flask import send_file, session
 
 
@@ -25,19 +24,26 @@ def download(dataset_id):
                 file_path = utils.get_file_path(File.query.filter(File.id == dataset.file_id).first().path) # Temporary, while upload not done
                 if dataset.filter_id:
                     # BytesIO Created to avoid writing temporary files in physical memory
-                    byte_writer = BytesIO()
-                    excel_writer = pd.ExcelWriter(byte_writer, engine='xlwt')
-                    df = pd.read_excel(file_path)
-
-                    df.drop(df.index[dataset.included_rows], inplace=True)
-
-                    df.to_excel(excel_writer, sheet_name='Sheet1', index=False)
-                    excel_writer.save()
-                    byte_writer.seek(0)
-                    return send_file(byte_writer,
-                                     attachment_filename='result.xlsx',
-                                     as_attachment=True,
-                                     mimetype="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet")
+                    try:
+                        byte_writer = BytesIO()
+                        excel_writer = pd.ExcelWriter(byte_writer, engine='xlwt')
+                        df = pd.read_excel(file_path)
+                        df.drop(df.index[dataset.included_rows], inplace=True)
+                        df.to_excel(excel_writer, sheet_name='Sheet1', index=False)
+                        excel_writer.save()
+                        byte_writer.seek(0)
+                        logger.info(f"User {user_id} successfully downloaded dataset {dataset_id}")
+                        return send_file(byte_writer,
+                                         attachment_filename='result.xlsx',
+                                         as_attachment=True,
+                                         mimetype="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet")
+                    except Exception as e:
+                        logger.error(f"error when user {user_id} downloaded {dataset_id}")
+                        notify_admin(error_level="ERROR",
+                                     message=f"Unexpected error occurred when user {user_id} tried to download"
+                                             f" dataset {dataset_id}, Details {str(e)}")
+                        return json.dumps({'status': 500,
+                                           'message': 'Internal server error'}), 500
 
                 else:
                     return send_file(utils.get_file_path(file_path))  # Maybe use celery
