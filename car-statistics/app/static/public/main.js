@@ -1221,6 +1221,7 @@ Object(_angular_platform_browser_dynamic__WEBPACK_IMPORTED_MODULE_1__["platformB
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
+
 module.exports = __webpack_require__(/*! /home/dudar99/Desktop/SS/projects/car-statistics/car-statistics/app/static/src/main.ts */"./src/main.ts");
 
 
