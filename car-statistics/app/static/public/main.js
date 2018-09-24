@@ -44,12 +44,14 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _logout_logout_component__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ./logout/logout.component */ "./src/app/logout/logout.component.ts");
 /* harmony import */ var _reset_password_reset_password_component__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ./reset-password/reset-password.component */ "./src/app/reset-password/reset-password.component.ts");
 /* harmony import */ var _confirm_reset_confirm_reset_component__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! ./confirm-reset/confirm-reset.component */ "./src/app/confirm-reset/confirm-reset.component.ts");
+/* harmony import */ var _file_uploads_file_uploads_component__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! ./file-uploads/file-uploads.component */ "./src/app/file-uploads/file-uploads.component.ts");
 var __decorate = (undefined && undefined.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
     else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
     return c > 3 && r && Object.defineProperty(target, key, r), r;
 };
+
 
 
 
@@ -69,6 +71,7 @@ var routes = [
     { path: 'logout', component: _logout_logout_component__WEBPACK_IMPORTED_MODULE_8__["LogoutComponent"] },
     { path: 'reset', component: _reset_password_reset_password_component__WEBPACK_IMPORTED_MODULE_9__["ResetPasswordComponent"] },
     { path: 'reset_password_confirm/:token', component: _confirm_reset_confirm_reset_component__WEBPACK_IMPORTED_MODULE_10__["ConfirmResetComponent"] },
+    { path: 'upload', component: _file_uploads_file_uploads_component__WEBPACK_IMPORTED_MODULE_11__["FileUploadsComponent"] },
     { path: '**', component: _notfound_notfound_component__WEBPACK_IMPORTED_MODULE_3__["NotfoundComponent"] },
 ];
 var AppRoutingModule = /** @class */ (function () {
@@ -169,12 +172,14 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _logout_logout_component__WEBPACK_IMPORTED_MODULE_12__ = __webpack_require__(/*! ./logout/logout.component */ "./src/app/logout/logout.component.ts");
 /* harmony import */ var _confirm_reset_confirm_reset_component__WEBPACK_IMPORTED_MODULE_13__ = __webpack_require__(/*! ./confirm-reset/confirm-reset.component */ "./src/app/confirm-reset/confirm-reset.component.ts");
 /* harmony import */ var _navbar_navbar_component__WEBPACK_IMPORTED_MODULE_14__ = __webpack_require__(/*! ./navbar/navbar.component */ "./src/app/navbar/navbar.component.ts");
+/* harmony import */ var _file_uploads_file_uploads_component__WEBPACK_IMPORTED_MODULE_15__ = __webpack_require__(/*! ./file-uploads/file-uploads.component */ "./src/app/file-uploads/file-uploads.component.ts");
 var __decorate = (undefined && undefined.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
     else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
     return c > 3 && r && Object.defineProperty(target, key, r), r;
 };
+
 
 
 
@@ -206,6 +211,7 @@ var AppModule = /** @class */ (function () {
                 _reset_password_reset_password_component__WEBPACK_IMPORTED_MODULE_11__["ResetPasswordComponent"],
                 _confirm_reset_confirm_reset_component__WEBPACK_IMPORTED_MODULE_13__["ConfirmResetComponent"],
                 _navbar_navbar_component__WEBPACK_IMPORTED_MODULE_14__["NavbarComponent"],
+                _file_uploads_file_uploads_component__WEBPACK_IMPORTED_MODULE_15__["FileUploadsComponent"]
             ],
             imports: [
                 _angular_platform_browser__WEBPACK_IMPORTED_MODULE_0__["BrowserModule"],
@@ -295,6 +301,7 @@ var AuthService = /** @class */ (function () {
         this.logout_api_url = "api/logout";
         this.reset_password_url = "api/reset";
         this.reset_password_confirm_api = "api/password_reset";
+        this.file_upload_url = 'api/upload';
     }
     AuthService.prototype.toRegister = function (user) {
         return this._http.post(this.register_api_url, user)
@@ -315,6 +322,9 @@ var AuthService = /** @class */ (function () {
     };
     AuthService.prototype.confirmEmail = function (token) {
         return this._http.get(this.confirm_url + token);
+    };
+    AuthService.prototype.fileUpload = function (user) {
+        return this._http.post(this.file_upload_url, user);
     };
     AuthService = __decorate([
         Object(_angular_core__WEBPACK_IMPORTED_MODULE_0__["Injectable"])({
@@ -537,6 +547,85 @@ function TextFormatDirective(nameRe) {
 
 /***/ }),
 
+/***/ "./src/app/file-uploads/file-uploads.component.css":
+/*!*********************************************************!*\
+  !*** ./src/app/file-uploads/file-uploads.component.css ***!
+  \*********************************************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+module.exports = ""
+
+/***/ }),
+
+/***/ "./src/app/file-uploads/file-uploads.component.html":
+/*!**********************************************************!*\
+  !*** ./src/app/file-uploads/file-uploads.component.html ***!
+  \**********************************************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+module.exports = "<h3>File Upload</h3>\n<input type=\"file\" (change)=\"onFileSelected($event)\">\n<button type=\"button\" (click)=\"onUpload()\">Upload</button>\n\n"
+
+/***/ }),
+
+/***/ "./src/app/file-uploads/file-uploads.component.ts":
+/*!********************************************************!*\
+  !*** ./src/app/file-uploads/file-uploads.component.ts ***!
+  \********************************************************/
+/*! exports provided: FileUploadsComponent */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "FileUploadsComponent", function() { return FileUploadsComponent; });
+/* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @angular/core */ "./node_modules/@angular/core/fesm5/core.js");
+/* harmony import */ var _angular_common_http__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @angular/common/http */ "./node_modules/@angular/common/fesm5/http.js");
+var __decorate = (undefined && undefined.__decorate) || function (decorators, target, key, desc) {
+    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
+};
+var __metadata = (undefined && undefined.__metadata) || function (k, v) {
+    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
+};
+
+
+var FileUploadsComponent = /** @class */ (function () {
+    function FileUploadsComponent(http) {
+        this.http = http;
+        this.selectedFile = null;
+    }
+    FileUploadsComponent.prototype.onFileSelected = function (event) {
+        this.selectedFile = event.target.files[0];
+        console.log(event);
+    };
+    FileUploadsComponent.prototype.onUpload = function () {
+        var filedata = new FormData();
+        filedata.append('upload_file', this.selectedFile, this.selectedFile.name);
+        this.http.post('api/upload', filedata)
+            .subscribe(function (res) {
+            console.log(res);
+        });
+    };
+    FileUploadsComponent.prototype.ngOnInit = function () {
+    };
+    FileUploadsComponent = __decorate([
+        Object(_angular_core__WEBPACK_IMPORTED_MODULE_0__["Component"])({
+            selector: 'app-file-uploads',
+            template: __webpack_require__(/*! ./file-uploads.component.html */ "./src/app/file-uploads/file-uploads.component.html"),
+            styles: [__webpack_require__(/*! ./file-uploads.component.css */ "./src/app/file-uploads/file-uploads.component.css")]
+        }),
+        __metadata("design:paramtypes", [_angular_common_http__WEBPACK_IMPORTED_MODULE_1__["HttpClient"]])
+    ], FileUploadsComponent);
+    return FileUploadsComponent;
+}());
+
+
+
+/***/ }),
+
 /***/ "./src/app/home/home.component.css":
 /*!*****************************************!*\
   !*** ./src/app/home/home.component.css ***!
@@ -555,7 +644,7 @@ module.exports = ""
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = "<p>\n    TODO: home page which is accessible if user is logged in\n</p>\n<form action=\"{{ url_for('uploader') }}\"\n      method=\"post\"\n      enctype=\"multipart/form-data\">\n    <input type=\"file\" name=\"uploaded_file\"/>\n    <input type=\"submit\"/>\n</form>"
+module.exports = "<p>\n    TODO: home page which is accessible if user is logged in\n</p>\n"
 
 /***/ }),
 
@@ -833,7 +922,7 @@ module.exports = "@import url(\"//maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = "<nav class=\"navbar navbar-icon-top navbar-expand-lg navbar-dark bg-dark\">\n    <a class=\"navbar-brand\" routerLink=\"/\">Navbar</a>\n    <button class=\"navbar-toggler\" type=\"button\" data-toggle=\"collapse\" data-target=\"#navbarSupportedContent\"\n            aria-controls=\"navbarSupportedContent\" aria-expanded=\"false\" aria-label=\"Toggle navigation\">\n        <span class=\"navbar-toggler-icon\"></span>\n    </button>\n\n    <div class=\"collapse navbar-collapse\" id=\"navbarSupportedContent\">\n        <ul class=\"navbar-nav mr-auto\">\n            <li class=\"nav-item active\">\n                <a class=\"nav-link\" routerLink=\"/\">\n                    <i class=\"fa fa-home\"></i>\n                    Home\n                </a>\n            </li>\n            <li class=\"nav-item\">\n                <a class=\"nav-link\" href=\"#\">\n                    Messages\n                </a>\n            </li>\n            <li class=\"nav-item active nav-right\">\n                <a class=\"nav-link\" routerLink=\"/login\">\n                    Login\n                </a>\n            </li>\n            <li class=\"nav-item active nav-right\">\n                <a class=\"nav-link\" routerLink=\"/register\">\n                    Sign up\n                </a>\n            </li>\n            <li class=\"nav-item active nav-right\">\n                <a class=\"nav-link\" routerLink=\"/logout\">\n                    Logout\n                </a>\n            </li>\n\n        </ul>\n\n    </div>\n</nav>"
+module.exports = "<nav class=\"navbar navbar-icon-top navbar-expand-lg navbar-dark bg-dark\">\n    <a class=\"navbar-brand\" routerLink=\"/\">Navbar</a>\n    <button class=\"navbar-toggler\" type=\"button\" data-toggle=\"collapse\" data-target=\"#navbarSupportedContent\"\n            aria-controls=\"navbarSupportedContent\" aria-expanded=\"false\" aria-label=\"Toggle navigation\">\n        <span class=\"navbar-toggler-icon\"></span>\n    </button>\n\n    <div class=\"collapse navbar-collapse\" id=\"navbarSupportedContent\">\n        <ul class=\"navbar-nav mr-auto\">\n            <li class=\"nav-item active\">\n                <a class=\"nav-link\" routerLink=\"/\">\n                    <i class=\"fa fa-home\"></i>\n                    Home\n                </a>\n            </li>\n            <li class=\"nav-item active nav-right\">\n                <a class=\"nav-link\" routerLink=\"/upload\">\n                    Upload\n                </a>\n            </li>\n            <li class=\"nav-item\">\n                <a class=\"nav-link\" href=\"#\">\n                    Messages\n                </a>\n            </li>\n            <li class=\"nav-item active nav-right\">\n                <a class=\"nav-link\" routerLink=\"/login\">\n                    Login\n                </a>\n            </li>\n            <li class=\"nav-item active nav-right\">\n                <a class=\"nav-link\" routerLink=\"/register\">\n                    Sign up\n                </a>\n            </li>\n            <li class=\"nav-item active nav-right\">\n                <a class=\"nav-link\" routerLink=\"/logout\">\n                    Logout\n                </a>\n            </li>\n\n        </ul>\n\n    </div>\n</nav>"
 
 /***/ }),
 
@@ -1221,8 +1310,7 @@ Object(_angular_platform_browser_dynamic__WEBPACK_IMPORTED_MODULE_1__["platformB
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-
-module.exports = __webpack_require__(/*! /home/dudar99/Desktop/SS/projects/car-statistics/car-statistics/app/static/src/main.ts */"./src/main.ts");
+module.exports = __webpack_require__(/*! /home/srhstas/Desktop/ss_dev/car-statistics/car-statistics/app/static/src/main.ts */"./src/main.ts");
 
 
 /***/ })

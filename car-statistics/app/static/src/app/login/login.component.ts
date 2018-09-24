@@ -38,7 +38,7 @@ export class LoginComponent implements OnInit {
                 err => {
                     let data_txt = (JSON.stringify(err));
                     let error_data = JSON.parse(data_txt);
-                    this.message = error_data.error.message.toString()
+                    this.message = error_data.error.message.toString();
                 },
             )
     }
@@ -51,11 +51,11 @@ export class LoginComponent implements OnInit {
     }
 
     get password() {
-        return this.loginGroup.get('password')
+        return this.loginGroup.get('password');
     }
 
     get email() {
-        return this.loginGroup.get('email')
+        return this.loginGroup.get('email');
     }
 
     ngOnInit() {
