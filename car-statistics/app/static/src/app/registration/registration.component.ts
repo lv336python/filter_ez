@@ -16,7 +16,7 @@ export class RegistrationComponent implements OnInit {
     returnUrl: string;
     isEmailBusy: boolean = false;
     error_message : string;
-    confirm_message : string;
+    message : boolean;
 
     registerGroup =  new FormGroup({
         email: new FormControl('', [
@@ -38,8 +38,12 @@ export class RegistrationComponent implements OnInit {
             .subscribe(
                 res => {
                     localStorage.setItem('token', res.token);
-                    this.confirm_message = "We send you confirmation token. Please check your email";
-                    this.registerGroup = null
+                    let data_txt = (JSON.stringify(res));
+                    let response_data = JSON.parse(data_txt);
+                    this.message = response_data.message;
+                    this.registerGroup.setValue({email: '', password: ''})
+
+
                 },
                 err => {
                     this.isEmailBusy =true;
