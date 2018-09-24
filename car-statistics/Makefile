@@ -1,5 +1,3 @@
-PYTHON=python3
-
 .PHONY: default usage
 default: usage
 
