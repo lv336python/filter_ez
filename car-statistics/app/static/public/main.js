@@ -642,7 +642,7 @@ module.exports = ""
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = "<p>\n    TODO: home page which is accessible if user is logged in\n</p>\n"
+module.exports = "\n<app-file-uploads></app-file-uploads>"
 
 /***/ }),
 
@@ -920,7 +920,7 @@ module.exports = "@import url(\"//maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = "<nav class=\"navbar navbar-icon-top navbar-expand-lg navbar-dark bg-dark\">\n    <a class=\"navbar-brand\" routerLink=\"/\">Navbar</a>\n    <button class=\"navbar-toggler\" type=\"button\" data-toggle=\"collapse\" data-target=\"#navbarSupportedContent\"\n            aria-controls=\"navbarSupportedContent\" aria-expanded=\"false\" aria-label=\"Toggle navigation\">\n        <span class=\"navbar-toggler-icon\"></span>\n    </button>\n\n    <div class=\"collapse navbar-collapse\" id=\"navbarSupportedContent\">\n        <ul class=\"navbar-nav mr-auto\">\n            <li class=\"nav-item active\">\n                <a class=\"nav-link\" routerLink=\"/\">\n                    <i class=\"fa fa-home\"></i>\n                    Home\n                </a>\n            </li>\n            <li class=\"nav-item active nav-right\">\n                <a class=\"nav-link\" href=\"/upload\">\n                    Upload\n                </a>\n            </li>\n            <li class=\"nav-item\">\n                <a class=\"nav-link\" href=\"#\">\n                    Messages\n                </a>\n            </li>\n            <li class=\"nav-item active nav-right\">\n                <a class=\"nav-link\" routerLink=\"/login\">\n                    Login\n                </a>\n            </li>\n            <li class=\"nav-item active nav-right\">\n                <a class=\"nav-link\" routerLink=\"/register\">\n                    Sign up\n                </a>\n            </li>\n            <li class=\"nav-item active nav-right\">\n                <a class=\"nav-link\" routerLink=\"/logout\">\n                    Logout\n                </a>\n            </li>\n\n        </ul>\n\n    </div>\n</nav>"
+module.exports = "<nav class=\"navbar navbar-icon-top navbar-expand-lg navbar-dark bg-dark\">\n    <a class=\"navbar-brand\" routerLink=\"/\">CarStatistic</a>\n    <button class=\"navbar-toggler\" type=\"button\" data-toggle=\"collapse\" data-target=\"#navbarSupportedContent\"\n            aria-controls=\"navbarSupportedContent\" aria-expanded=\"false\" aria-label=\"Toggle navigation\">\n        <span class=\"navbar-toggler-icon\"></span>\n    </button>\n\n    <div class=\"collapse navbar-collapse\" id=\"navbarSupportedContent\">\n        <ul class=\"navbar-nav mr-auto\">\n            <li class=\"nav-item active\">\n                <a class=\"nav-link\" routerLink=\"/\">\n                    <i class=\"fa fa-home\"></i>\n                    Home\n                </a>\n            </li>\n            <li class=\"nav-item active nav-right\">\n                <a class=\"nav-link\" href=\"/upload\">\n                    Upload\n                </a>\n            </li>\n\n            <li class=\"nav-item\">\n                <a class=\"nav-link\" href=\"#\">\n                    Messages\n                </a>\n            </li>\n            <li class=\"nav-item active nav-right\" *ngIf=\"!isLogined()\">\n                <a class=\"nav-link\" routerLink=\"/login\">\n                    Login\n                </a>\n            </li>\n            <li class=\"nav-item active nav-right\" *ngIf=\"!isLogined()\">\n                <a class=\"nav-link\" routerLink=\"/register\">\n                    Sign up\n                </a>\n            </li>\n            <li class=\"nav-item active nav-right\" *ngIf=\"isLogined()\">\n                <a class=\"nav-link\" routerLink=\"/logout\">\n                    Logout\n                </a>\n            </li>\n\n        </ul>\n\n    </div>\n</nav>"
 
 /***/ }),
 
@@ -949,6 +949,15 @@ var NavbarComponent = /** @class */ (function () {
     function NavbarComponent() {
     }
     NavbarComponent.prototype.ngOnInit = function () {
+    };
+    NavbarComponent.prototype.isLogined = function () {
+        function getCookie(name) {
+            var matches = document.cookie.match(new RegExp("(?:^|; )" + name.replace(/([\.$?*|{}\(\)\[\]\\\/\+^])/g, '\\$1') + "=([^;]*)"));
+            return matches ? decodeURIComponent(matches[1]) : undefined;
+        }
+        var isLog = getCookie("session");
+        console.log(isLog);
+        return isLog;
     };
     NavbarComponent = __decorate([
         Object(_angular_core__WEBPACK_IMPORTED_MODULE_0__["Component"])({
