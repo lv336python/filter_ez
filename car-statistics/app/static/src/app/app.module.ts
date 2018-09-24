@@ -2,7 +2,7 @@ import { BrowserModule } from '@angular/platform-browser';
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import { NgModule } from '@angular/core';
 import { HttpClientModule } from '@angular/common/http';
-
+import { PlotlyModule } from 'angular-plotly.js'
 import { AppComponent } from './app.component';
 import { AppRoutingModule } from './app-routing.module';
 import { RegistrationComponent } from './registration/registration.component';
@@ -39,7 +39,8 @@ import { StatisticsComponent } from './statistics/statistics.component';
     FormsModule,
     AppRoutingModule,
     HttpClientModule,
-      ReactiveFormsModule
+      ReactiveFormsModule,
+      PlotlyModule
   ],
   providers: [],
   bootstrap: [AppComponent]

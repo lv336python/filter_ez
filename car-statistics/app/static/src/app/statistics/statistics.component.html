@@ -1,6 +1,8 @@
-<ul>
-    <li *ngFor="let column of columns">
-        {{column}}
-    </li>
 
-</ul>
+<div>
+    <label for="column_selection">Select Column: </label>
+    <select id="column_selection" #selection (change)="makeSelection(selection.value)" class="selectpicker">
+        <option *ngFor="let column of columns"> {{column}}</option>
+    </select>
+    <plotly-plot [config]="graph['config']" [data]="graph['data']" [layout]="graph['layout']"></plotly-plot>
+</div>

@@ -17,6 +17,7 @@ def get_statistics(dataset_id):
                 file_path = utils.get_file_path(File.query.filter(File.id == dataset.file_id).first().path)
                 try:
                     statistics = file_data.fields_statistics(file_path)
+                    print(statistics)
                     return json.dumps(statistics), 200
                 except Exception as e:
                     logger.error(f"error when user tried to get statistics for {dataset_id}")
