@@ -13,28 +13,30 @@ export class FilterItemComponent implements OnInit {
 
   disColumn=false;
   disValue=false;
-  //This is test data, remove it after we will have really one
-  data = {
-      'Models': ['Audi', 'Green', '2001'],
-      'Color':["red"],
-      'Year':[1234, 2345]
-  };
 
-  columns = [];
   values = [];
 
   @Output() addFilterElem: EventEmitter<any> = new EventEmitter<any>();
   @Output() pushFilterParams: EventEmitter<object> = new EventEmitter<{column: string, operator:string, value:string, btw_elem_operator:string}>();
+  @Output() saveFilter: EventEmitter<any> = new EventEmitter<any>();
 
   @Input() index:number;
+  @Input() columns:string[];
+  @Input() metadata;
 
   constructor() { }
 
   ngOnInit() {
-    this.columns = Object.keys(this.data);
-    this.values = this.data["Models"];
   }
-
+  save(){
+      this.pushFilterParams.emit({
+        'column': this.column,
+        'operator': this.operator,
+        'value': this.value,
+        'btw_elem_operator': this.operatorBtwElem,
+    });
+      this.saveFilter.emit();
+  }
   addElem(data) {
     this.operatorElems(data);
     this.addFilterElem.emit();
@@ -49,7 +51,8 @@ export class FilterItemComponent implements OnInit {
   addColumn(column) {
     this.column = column;
     this.value = '';
-    // this.addFilterColumn.emit({'index':this.index, 'column': column});
+    this.values = Object.keys(this.metadata[column]);
+    console.log(this.metadata[column]);
   }
 
    addValue(column) {

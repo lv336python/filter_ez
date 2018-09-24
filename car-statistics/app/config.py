@@ -34,9 +34,13 @@ class Config:
     # gmail authentication
     MAIL_USERNAME = MAIL['MAIL_USERNAME']
     MAIL_PASSWORD = MAIL['MAIL_PASSWORD']
+    ADMIN_MAIL = MAIL['ADMIN_MAIL']
 
     # mail accounts
     MAIL_DEFAULT_SENDER = 'statisticcar@gmail.com'
+
+    # logging parameters
+    LOGGING_CONFIG_FILE = os.path.join(BASEDIR,'logging.conf')
 
     # uploads params
     UPLOAD_FOLDER = 'uploads_temp'

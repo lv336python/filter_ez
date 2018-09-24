@@ -15,6 +15,7 @@
                     <div class="form-group mx-sm-2 mb-2" >
                         <div class="button-group" *ngIf="column && !operator">
                             <button type="button" class="btn btn-primary btn-sm" (click)="addOperator('=')">=</button>
+                            <button type="button" class="btn btn-primary btn-sm" (click)="addOperator('!=')">!=</button>
                             <button type="button" class="btn btn-primary btn-sm" (click)="addOperator('<')"><</button>
                             <button type="button" class="btn btn-primary btn-sm" (click)="addOperator('>')">></button>
                         </div>
@@ -26,16 +27,16 @@
                         <select class="form-control" *ngIf="operator" (change)="addValue($event.target.value)" [disabled]="disValue">
                             <option value="" disabled selected>Chose value</option>
                             <option *ngFor="let row of values">
-                                {{row}}
+                                {{ row }}
                             </option>
                         </select>
                     </div>
                 </form>
             </div>
         </div>
-        <div class="operator-button" *ngIf="value && !operatorBtwElem">
-            <button type="button" class="btn btn-info" (click)="addElem('And')">And</button>
-            <button type="button" class="btn btn-info" (click)="addElem('Or')">Or</button>
+        <div  class="operator-button" *ngIf="value && !operatorBtwElem">
+            <button type="button" class="btn btn-info" (click)="addElem('And')">Add column</button>
+            <button type="button" class="btn btn-primary" (click)="save()">Save filter</button>
         </div>
         <div class="operator-button" *ngIf="value && operatorBtwElem">
             <button type="button" class="btn btn-info">{{ operatorBtwElem }}</button>

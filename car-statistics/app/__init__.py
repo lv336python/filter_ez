@@ -2,6 +2,8 @@
 Initialization of app, mail, manager, database objects
 
 '''
+import logging.config
+#from logging.handlers import SMTPHandler, RotatingFileHandler
 
 from flask import Flask
 from flask_login import LoginManager
@@ -27,6 +29,8 @@ manager.add_command('db', MigrateCommand)
 
 celery = create_celery(app)
 
+logging.config.fileConfig(app.config['LOGGING_CONFIG_FILE'])
+logger = logging.getLogger('main')
 
 from .routers import (
     test,
@@ -35,5 +39,7 @@ from .routers import (
     auth,
     reset_password,
     confirm_reset,
+    file_upload,
+    filter,
 )
 

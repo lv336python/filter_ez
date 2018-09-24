@@ -4,19 +4,29 @@
             <h1 class="display-4">Filtering data section</h1>
             <p class="lead">Just choose file for begin preparing your dataset</p>
             <hr class="my-4">
-            <a class="btn btn-primary btn-lg" href="" role="button">Choose file</a>
+            <select class="form-control" (change)="selectFile($event.target.value)">
+                <option value="" disabled selected>Chose file</option>
+                <option *ngFor="let file of files" value="{{ file[0] }}">
+                    {{ file[2].name }}
+                </option>
+            </select>
         </div>
     </div>
 </div>
-<div class="row">
+<div class="row" *ngIf="columns.length > 0">
     <div class="col-md-4"></div>
     <div class="col-md-4">
         <h3>Select data where:</h3>
     </div>
 </div>
 
-<filter-item *ngFor="let number of filter_number"
-             [index]='number'
-             (addFilterElem)='addElement()'
-             (pushFilterParams)="pushParams($event)"
->
+<div *ngIf="columns.length > 0">
+    <filter-item *ngFor="let number of filter_number"
+                 [index]='number'
+                 [columns]="columns"
+                 [metadata]="metadata"
+                 (addFilterElem)='addElement()'
+                 (pushFilterParams)="pushParams($event)"
+                 (saveFilter)='storeFilter()'
+    ></filter-item>
+</div>

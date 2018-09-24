@@ -543,7 +543,7 @@ module.exports = ".card {\n    border-color: dodgerblue;\n}\n\n.button-group {\n
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = "<div class=\"row row-padding\">\n    <div class=\"col-md-4\"></div>\n    <div class=\"col-md-4\">\n        <div class=\"card primary\">\n            <div class=\"card-body\">\n                <form class=\"form\">\n                    <div class=\"form-group mb-2\">\n                        <select class=\"form-control\" (change)=\"addColumn($event.target.value)\" [disabled]=\"disColumn\">\n                            <option value=\"\" disabled selected>Chose column</option>\n                            <option *ngFor=\"let row of columns\">\n                                {{row}}\n                            </option>\n                        </select>\n                    </div>\n                    <div class=\"form-group mx-sm-2 mb-2\" >\n                        <div class=\"button-group\" *ngIf=\"column && !operator\">\n                            <button type=\"button\" class=\"btn btn-primary btn-sm\" (click)=\"addOperator('=')\">=</button>\n                            <button type=\"button\" class=\"btn btn-primary btn-sm\" (click)=\"addOperator('<')\"><</button>\n                            <button type=\"button\" class=\"btn btn-primary btn-sm\" (click)=\"addOperator('>')\">></button>\n                        </div>\n                        <div class=\"button-group\" *ngIf=\"column && operator\">\n                            <button type=\"button\" class=\"btn btn-primary btn-sm\">{{ operator }}</button>\n                        </div>\n                    </div>\n                    <div class=\"form-group mb-2\">\n                        <select class=\"form-control\" *ngIf=\"operator\" (change)=\"addValue($event.target.value)\" [disabled]=\"disValue\">\n                            <option value=\"\" disabled selected>Chose value</option>\n                            <option *ngFor=\"let row of values\">\n                                {{row}}\n                            </option>\n                        </select>\n                    </div>\n                </form>\n            </div>\n        </div>\n        <div class=\"operator-button\" *ngIf=\"value && !operatorBtwElem\">\n            <button type=\"button\" class=\"btn btn-info\" (click)=\"addElem('And')\">And</button>\n            <button type=\"button\" class=\"btn btn-info\" (click)=\"addElem('Or')\">Or</button>\n        </div>\n        <div class=\"operator-button\" *ngIf=\"value && operatorBtwElem\">\n            <button type=\"button\" class=\"btn btn-info\">{{ operatorBtwElem }}</button>\n        </div>\n    </div>\n</div>"
+module.exports = "<div class=\"row row-padding\">\n    <div class=\"col-md-4\"></div>\n    <div class=\"col-md-4\">\n        <div class=\"card primary\">\n            <div class=\"card-body\">\n                <form class=\"form\">\n                    <div class=\"form-group mb-2\">\n                        <select class=\"form-control\" (change)=\"addColumn($event.target.value)\" [disabled]=\"disColumn\">\n                            <option value=\"\" disabled selected>Chose column</option>\n                            <option *ngFor=\"let row of columns\">\n                                {{row}}\n                            </option>\n                        </select>\n                    </div>\n                    <div class=\"form-group mx-sm-2 mb-2\" >\n                        <div class=\"button-group\" *ngIf=\"column && !operator\">\n                            <button type=\"button\" class=\"btn btn-primary btn-sm\" (click)=\"addOperator('=')\">=</button>\n                            <button type=\"button\" class=\"btn btn-primary btn-sm\" (click)=\"addOperator('!=')\">!=</button>\n                            <button type=\"button\" class=\"btn btn-primary btn-sm\" (click)=\"addOperator('<')\"><</button>\n                            <button type=\"button\" class=\"btn btn-primary btn-sm\" (click)=\"addOperator('>')\">></button>\n                        </div>\n                        <div class=\"button-group\" *ngIf=\"column && operator\">\n                            <button type=\"button\" class=\"btn btn-primary btn-sm\">{{ operator }}</button>\n                        </div>\n                    </div>\n                    <div class=\"form-group mb-2\">\n                        <select class=\"form-control\" *ngIf=\"operator\" (change)=\"addValue($event.target.value)\" [disabled]=\"disValue\">\n                            <option value=\"\" disabled selected>Chose value</option>\n                            <option *ngFor=\"let row of values\">\n                                {{ row }}\n                            </option>\n                        </select>\n                    </div>\n                </form>\n            </div>\n        </div>\n        <div  class=\"operator-button\" *ngIf=\"value && !operatorBtwElem\">\n            <button type=\"button\" class=\"btn btn-info\" (click)=\"addElem('And')\">Add column</button>\n            <button type=\"button\" class=\"btn btn-primary\" (click)=\"save()\">Save filter</button>\n        </div>\n        <div class=\"operator-button\" *ngIf=\"value && operatorBtwElem\">\n            <button type=\"button\" class=\"btn btn-info\">{{ operatorBtwElem }}</button>\n        </div>\n    </div>\n</div>"
 
 /***/ }),
 
@@ -576,20 +576,21 @@ var FilterItemComponent = /** @class */ (function () {
         this.operatorBtwElem = '';
         this.disColumn = false;
         this.disValue = false;
-        //This is test data, remove it after we will have really one
-        this.data = {
-            'Models': ['Audi', 'Green', '2001'],
-            'Color': ["red"],
-            'Year': [1234, 2345]
-        };
-        this.columns = [];
         this.values = [];
         this.addFilterElem = new _angular_core__WEBPACK_IMPORTED_MODULE_0__["EventEmitter"]();
         this.pushFilterParams = new _angular_core__WEBPACK_IMPORTED_MODULE_0__["EventEmitter"]();
+        this.saveFilter = new _angular_core__WEBPACK_IMPORTED_MODULE_0__["EventEmitter"]();
     }
     FilterItemComponent.prototype.ngOnInit = function () {
-        this.columns = Object.keys(this.data);
-        this.values = this.data["Models"];
+    };
+    FilterItemComponent.prototype.save = function () {
+        this.pushFilterParams.emit({
+            'column': this.column,
+            'operator': this.operator,
+            'value': this.value,
+            'btw_elem_operator': this.operatorBtwElem,
+        });
+        this.saveFilter.emit();
     };
     FilterItemComponent.prototype.addElem = function (data) {
         this.operatorElems(data);
@@ -604,7 +605,8 @@ var FilterItemComponent = /** @class */ (function () {
     FilterItemComponent.prototype.addColumn = function (column) {
         this.column = column;
         this.value = '';
-        // this.addFilterColumn.emit({'index':this.index, 'column': column});
+        this.values = Object.keys(this.metadata[column]);
+        console.log(this.metadata[column]);
     };
     FilterItemComponent.prototype.addValue = function (column) {
         this.disColumn = true;
@@ -626,9 +628,21 @@ var FilterItemComponent = /** @class */ (function () {
         __metadata("design:type", _angular_core__WEBPACK_IMPORTED_MODULE_0__["EventEmitter"])
     ], FilterItemComponent.prototype, "pushFilterParams", void 0);
     __decorate([
+        Object(_angular_core__WEBPACK_IMPORTED_MODULE_0__["Output"])(),
+        __metadata("design:type", _angular_core__WEBPACK_IMPORTED_MODULE_0__["EventEmitter"])
+    ], FilterItemComponent.prototype, "saveFilter", void 0);
+    __decorate([
         Object(_angular_core__WEBPACK_IMPORTED_MODULE_0__["Input"])(),
         __metadata("design:type", Number)
     ], FilterItemComponent.prototype, "index", void 0);
+    __decorate([
+        Object(_angular_core__WEBPACK_IMPORTED_MODULE_0__["Input"])(),
+        __metadata("design:type", Array)
+    ], FilterItemComponent.prototype, "columns", void 0);
+    __decorate([
+        Object(_angular_core__WEBPACK_IMPORTED_MODULE_0__["Input"])(),
+        __metadata("design:type", Object)
+    ], FilterItemComponent.prototype, "metadata", void 0);
     FilterItemComponent = __decorate([
         Object(_angular_core__WEBPACK_IMPORTED_MODULE_0__["Component"])({
             selector: 'filter-item',
@@ -662,7 +676,7 @@ module.exports = ".center_div {\n    margin-top: 200px;\n}\n\n.card {\n    borde
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = "<div class=\"jumbotron\">\n    <div class=\"row justify-content-md-center\">\n        <div class=\"col col-md-auto\">\n            <h1 class=\"display-4\">Filtering data section</h1>\n            <p class=\"lead\">Just choose file for begin preparing your dataset</p>\n            <hr class=\"my-4\">\n            <a class=\"btn btn-primary btn-lg\" href=\"\" role=\"button\">Choose file</a>\n        </div>\n    </div>\n</div>\n<div class=\"row\">\n    <div class=\"col-md-4\"></div>\n    <div class=\"col-md-4\">\n        <h3>Select data where:</h3>\n    </div>\n</div>\n\n<filter-item *ngFor=\"let number of filter_number\"\n             [index]='number'\n             (addFilterElem)='addElement()'\n             (pushFilterParams)=\"pushParams($event)\"\n>"
+module.exports = "<div class=\"jumbotron\">\n    <div class=\"row justify-content-md-center\">\n        <div class=\"col col-md-auto\">\n            <h1 class=\"display-4\">Filtering data section</h1>\n            <p class=\"lead\">Just choose file for begin preparing your dataset</p>\n            <hr class=\"my-4\">\n            <select class=\"form-control\" (change)=\"selectFile($event.target.value)\">\n                <option value=\"\" disabled selected>Chose file</option>\n                <option *ngFor=\"let file of files\" value=\"{{ file[0] }}\">\n                    {{ file[2].name }}\n                </option>\n            </select>\n        </div>\n    </div>\n</div>\n<div class=\"row\" *ngIf=\"columns.length > 0\">\n    <div class=\"col-md-4\"></div>\n    <div class=\"col-md-4\">\n        <h3>Select data where:</h3>\n    </div>\n</div>\n\n<div *ngIf=\"columns.length > 0\">\n    <filter-item *ngFor=\"let number of filter_number\"\n                 [index]='number'\n                 [columns]=\"columns\"\n                 [metadata]=\"metadata\"\n                 (addFilterElem)='addElement()'\n                 (pushFilterParams)=\"pushParams($event)\"\n                 (saveFilter)='storeFilter()'\n    ></filter-item>\n</div>"
 
 /***/ }),
 
@@ -677,6 +691,7 @@ module.exports = "<div class=\"jumbotron\">\n    <div class=\"row justify-conten
 __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "FilterComponent", function() { return FilterComponent; });
 /* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @angular/core */ "./node_modules/@angular/core/fesm5/core.js");
+/* harmony import */ var _angular_common_http__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @angular/common/http */ "./node_modules/@angular/common/fesm5/http.js");
 var __decorate = (undefined && undefined.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -687,14 +702,12 @@ var __metadata = (undefined && undefined.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
 
+
 var FilterComponent = /** @class */ (function () {
-    function FilterComponent() {
+    function FilterComponent(http) {
+        this.http = http;
         this.filter_number = [0];
-        this.data = {
-            'Models': ['Audi', 'Green', '2001'],
-            'Color': ["red"],
-            'Year': [1234, 2345]
-        };
+        this.files = {};
         this.columns = [];
         this.value = [];
         this.result_params = {
@@ -705,11 +718,20 @@ var FilterComponent = /** @class */ (function () {
         };
     }
     FilterComponent.prototype.ngOnInit = function () {
-        this.columns = Object.keys(this.data);
-        this.value = this.data["Models"];
+        // this.value = this.data["Models"];
+        this.getFiles();
     };
     FilterComponent.prototype.addElement = function () {
         this.filter_number.push(this.filter_number.length);
+    };
+    FilterComponent.prototype.storeFilter = function () {
+        this.http
+            .post('/api/save_filter', this.result_params)
+            .subscribe(function (data) {
+            alert('ok');
+        }, function (error) {
+            console.log(error);
+        });
     };
     FilterComponent.prototype.pushParams = function (data) {
         this.result_params.Columns.push(data.column);
@@ -718,13 +740,37 @@ var FilterComponent = /** @class */ (function () {
         this.result_params.Btw_operators.push(data.btw_elem_operator);
         console.log(this.result_params);
     };
+    FilterComponent.prototype.getFiles = function () {
+        var _this = this;
+        this.http
+            .post('/api/get_files', '')
+            .subscribe(function (res) { return _this.files = res; }, function (error) {
+            console.log(error);
+        });
+    };
+    FilterComponent.prototype.selectFile = function (id) {
+        this.file_id = id;
+        this.getMetadata(this.file_id);
+    };
+    FilterComponent.prototype.getMetadata = function (id) {
+        var _this = this;
+        this.http
+            .post('/api/get_metadata', { 'id': id })
+            .subscribe(function (res) { return _this.parseMetadata(res); }, function (error) {
+            console.log(error);
+        });
+    };
+    FilterComponent.prototype.parseMetadata = function (data) {
+        this.columns = Object.keys(data);
+        this.metadata = data;
+    };
     FilterComponent = __decorate([
         Object(_angular_core__WEBPACK_IMPORTED_MODULE_0__["Component"])({
             selector: 'app-filter',
             template: __webpack_require__(/*! ./filter.component.html */ "./src/app/filter/filter.component.html"),
             styles: [__webpack_require__(/*! ./filter.component.css */ "./src/app/filter/filter.component.css")]
         }),
-        __metadata("design:paramtypes", [])
+        __metadata("design:paramtypes", [_angular_common_http__WEBPACK_IMPORTED_MODULE_1__["HttpClient"]])
     ], FilterComponent);
     return FilterComponent;
 }());
