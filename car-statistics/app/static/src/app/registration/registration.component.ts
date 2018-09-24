@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {FormControl, FormGroup, Validators} from "@angular/forms";
 import {TextFormatDirective} from "../directives/text-format.directive";
 import {AuthService} from "../auth.service";
@@ -7,16 +7,18 @@ import {User} from "../models/user";
 import {ActivatedRoute, Router} from "@angular/router";
 
 @Component({
-  selector: 'app-registration',
-  templateUrl: './registration.component.html',
-  styleUrls: ['./registration.component.css']
+    selector: 'app-registration',
+    templateUrl: './registration.component.html',
+    styleUrls: ['./registration.component.css']
 })
 export class RegistrationComponent implements OnInit {
 
-  returnUrl : string;
-  isEmailBusy : boolean = false;
+    returnUrl: string;
+    isEmailBusy: boolean = false;
+    error_message : string;
+    confirm_message : string;
 
-  registerGroup =  new FormGroup({
+    registerGroup =  new FormGroup({
         email: new FormControl('', [
             Validators.required,
             TextFormatDirective(/^[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?$/)
@@ -34,26 +36,37 @@ export class RegistrationComponent implements OnInit {
         this.auth_.toRegister(new User(this.registerGroup.controls['email'].value,
             this.registerGroup.controls['password'].value))
             .subscribe(
-            res => {
-                localStorage.setItem('token', res.token);
-                this.router.navigate([this.returnUrl]);
-            },
-            error => {
-                this.isEmailBusy = true;
-            })
+                res => {
+                    localStorage.setItem('token', res.token);
+                    this.confirm_message = "We send you confirmation token. Please check your email";
+                    this.registerGroup = null
+                },
+                err => {
+                    this.isEmailBusy =true;
+                    let data_txt = (JSON.stringify(err));
+                    let error_data = JSON.parse(data_txt);
+                    this.error_message = error_data.error.message.toString();
+                })
     }
 
-    get password() { return this.registerGroup.get('password')}
+
+    get password() {
+        return this.registerGroup.get('password')
+    }
+    get email(){
+        return this.registerGroup.get('email')
+    }
 
 
     constructor(
-        private auth_ : AuthService,
+        private auth_: AuthService,
         private router: Router,
         private route: ActivatedRoute
-    ) { }
+    ) {
+    }
 
     ngOnInit() {
 
-    this.returnUrl = this.route.snapshot.queryParams['returnUrl'] || '/';
+        this.returnUrl = this.route.snapshot.queryParams['returnUrl'] || '/';
     }
 }

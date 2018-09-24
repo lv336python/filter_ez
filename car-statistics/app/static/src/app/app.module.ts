@@ -15,29 +15,33 @@ import { LoginComponent } from './login/login.component';
 import { ResetPasswordComponent } from './reset-password/reset-password.component';
 import { LogoutComponent } from './logout/logout.component';
 import { ConfirmResetComponent } from './confirm-reset/confirm-reset.component';
+import { NavbarComponent } from './navbar/navbar.component';
+import { FileUploadsComponent } from './file-uploads/file-uploads.component';
 
 @NgModule({
-    declarations: [
-        AppComponent,
-        RegistrationComponent,
-        NotfoundComponent,
-        HomeComponent,
-        ConfirmEmailComponent,
-        LoginComponent,
-        LogoutComponent,
-        ResetPasswordComponent,
-        ConfirmResetComponent,
-        FilterComponent,
-        FilterItemComponent,
-    ],
-    imports: [
-        BrowserModule,
-        FormsModule,
-        AppRoutingModule,
-        HttpClientModule,
-        ReactiveFormsModule
-    ],
-    providers: [],
-    bootstrap: [AppComponent]
+  declarations: [
+    AppComponent,
+    RegistrationComponent,
+    NotfoundComponent,
+    HomeComponent,
+    ConfirmEmailComponent,
+    LoginComponent,
+    LogoutComponent,
+    ResetPasswordComponent,
+    ConfirmResetComponent,
+    NavbarComponent,
+    FileUploadsComponent,
+    FilterComponent,
+    FilterItemComponent,
+  ],
+  imports: [
+    BrowserModule,
+    FormsModule,
+    AppRoutingModule,
+    HttpClientModule,
+      ReactiveFormsModule
+  ],
+  providers: [],
+  bootstrap: [AppComponent]
 })
 export class AppModule { }

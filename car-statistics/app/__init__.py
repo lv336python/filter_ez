@@ -40,6 +40,7 @@ from .routers import (
     reset_password,
     confirm_reset,
     file_upload,
-    filter,
+    file_download,
+    filter
 )
 

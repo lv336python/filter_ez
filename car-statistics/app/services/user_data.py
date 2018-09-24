@@ -15,7 +15,7 @@ def upload_file(file, *args, **kwargs):
     :param file: object of request.files
     :param args:
     :param kwargs:
-    :return: messege that file was uploaded
+    :return: message that file was uploaded
     """
     u_id = session.get('user_id')
     upload_dir = user_dir(u_id)
