@@ -14,7 +14,6 @@ from app import app
 from app.models.user import User, UserSchema
 
 
-
 @app.route("/api/reset", methods=['POST'])
 def reset_password():
     """

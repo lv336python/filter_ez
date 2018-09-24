@@ -13,8 +13,8 @@ import {ConfirmResetComponent} from "./confirm-reset/confirm-reset.component"
 import {FileUploadsComponent} from "./file-uploads/file-uploads.component";
 
 const routes: Routes = [
-    {path: '', component: HomeComponent},
-    {path: 'register', component: RegistrationComponent, canActivate: [AuthGuard]},
+    {path: '', component: HomeComponent, canActivate: [AuthGuard]},
+    {path: 'register', component: RegistrationComponent},
     {path: 'confirm/:token', component: ConfirmEmailComponent},
     {path: 'login', component: LoginComponent},
     {path: 'logout', component: LogoutComponent},
