@@ -1,4 +1,3 @@
-PYTHON = python3
 TARGET = build
 
 
