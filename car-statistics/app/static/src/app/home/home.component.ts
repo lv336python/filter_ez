@@ -7,16 +7,16 @@ import { Component, OnInit } from '@angular/core';
 })
 export class HomeComponent implements OnInit {
 
-    isFileLoaded = true;
-
-    table_columns = ['Mark', 'Model', 'Country', 'Color'];
-    table_rows = [['BMW', 'X5', 'Ukraine', 'Red'],
-                ['Audi', 'Z4', 'Germany', 'White'],
-                ['BMW', 'F2', 'Japan', 'White']];
+    dataset_id : number;
 
     constructor() { }
 
     ngOnInit() {
+
+    }
+
+    fileUploadhandler(dataset_id : number) {
+        this.dataset_id = dataset_id
     }
 
 }

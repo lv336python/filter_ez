@@ -42,3 +42,11 @@ def fields_statistics(file_name):
             default_dict[val] += 1
             field_def[cl_name] = default_dict
     return field_def
+
+
+def get_data_preview(file_name):
+    df = pd.read_excel(file_name)
+    cols = list(df.columns)
+    rows = df[df.index < 10].values.tolist()
+    return {'columns': cols,
+            'rows': rows}

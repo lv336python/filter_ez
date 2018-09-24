@@ -1,4 +1,5 @@
 import {Component, Input, OnInit} from '@angular/core';
+import {DataService} from "../data.service";
 
 @Component({
   selector: 'app-table',
@@ -7,13 +8,18 @@ import {Component, Input, OnInit} from '@angular/core';
 })
 export class TableComponent implements OnInit {
 
-    @Input() columns : Object;
-    @Input() rows : Object;
+    @Input() dataset_id : number;
+    columns : Array<string>;
+    rows : Array<Array<string>>;
 
-    constructor() { }
+    constructor(private data : DataService) { }
 
     ngOnInit() {
-
+        this.data.getRows(this.dataset_id)
+            .subscribe(
+              res => {this.columns = res['columns']; this.rows = res['rows']},
+              error => {console.log(error)}
+            );
     }
 
 }
