@@ -32,8 +32,11 @@ export class ConfirmResetComponent implements OnInit {
             this.auth_.toResetPasswordConfirm(
                 this.route.snapshot.params["token"],
                 this.resetPasswordGroup.controls['password'].value
-            ).subscribe(res => this.router.navigate([this.returnUrl]
-            ))
+            ).subscribe(res => {
+                this.router.navigate([this.returnUrl])
+                this.resetPasswordGroup.setValue({email: '', password: ''})
+
+            })
         }
     }
 

@@ -4,6 +4,7 @@ Module for register views
 import json
 
 from flask import request, url_for
+from werkzeug.security import check_password_hash
 
 from app.models import User
 from app import app
@@ -35,6 +36,13 @@ def register():
 
     if not user:
         user = User.create(email, password)
+
+    password = check_password_hash(pwhash=user.password, password=data['password'])
+
+    if not password:
+        return json.dumps({
+            'message': 'You entered incorrect password please reset your password'
+        }), 400
 
     token = generate_confirmation_token(user.email)
 
