@@ -3,8 +3,11 @@ Different utils like small functions that a used in different scripts
 """
 
 import os
+import pandas as pd
 
+from io import BytesIO
 from app import app
+from app.models import File
 from flask import session
 from hashlib import md5
 from werkzeug.utils import secure_filename
@@ -95,11 +98,24 @@ def get_file(filepath):
         return file.read()
 
 
-def get_file_path(filepath):
+def get_file_path(file_id):
+    file_path = File.query.filter(File.id == file_id).first().path
     upload_folder = os.path.join(app.root_path, app.config['UPLOAD_FOLDER'])
-    full_path_to_file = os.path.join(upload_folder, filepath.split('uploads_temp')[1][1::]) # Temporary, to change later
+    full_path_to_file = os.path.join(upload_folder, file_path.split('uploads_temp')[1][1::]) # Temporary, to change later
     return full_path_to_file
 
 
-def temp_get_file_path(filepath):
-    return os.path.join(os.path, filepath)
+def dataset_to_excel(dataset):
+    try:
+        byte_writer = BytesIO()
+        excel_writer = pd.ExcelWriter(byte_writer, engine='xlwt')
+
+        path_to_file = get_file_path(dataset.file_id)
+        df = pd.read_excel(path_to_file)
+        df = df.iloc[dataset.included_rows]
+        df.to_excel(excel_writer, sheet_name='Sheet1', index=False)
+        excel_writer.save()
+        byte_writer.seek(0)
+        return byte_writer
+    except:
+        return None
