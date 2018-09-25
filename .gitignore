@@ -108,7 +108,7 @@ venv.bak/
 
 # Project
 car-statistics/app/static/node_modules/
-car-statistics/app/services/result_test.xls
+car-statistics/app/static/public/
 car-statistics/app/services/fields_definition.json
 result.xls
 logs.txt
