@@ -15,6 +15,7 @@ usage:
 all: $(TARGET)
 
 install:
+	npm install
 	npm install -g @angular/cli
 
 $(TARGET): angular.json

@@ -9,5 +9,4 @@ usage:
 
 all:
 	make -C ./car-statistics/app/static/ build
-	make -C ./car-statistics/ back
-
+	make -C ./car-statistics/ run
