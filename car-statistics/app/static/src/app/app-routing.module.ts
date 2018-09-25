@@ -17,7 +17,7 @@ const routes: Routes = [
     {path: 'register', component: RegistrationComponent},
     {path: 'confirm/:token', component: ConfirmEmailComponent},
     {path: 'login', component: LoginComponent},
-    {path: 'logout', component: LogoutComponent, canActivate: [AuthGuardService]},
+    {path: 'logout', component: LogoutComponent ,canActivate: [AuthGuardService]},
     {path: 'reset', component: ResetPasswordComponent},
     {path: 'reset_password_confirm/:token', component: ConfirmResetComponent},
     {path: 'upload', component: FileUploadsComponent, canActivate: [AuthGuardService]},
