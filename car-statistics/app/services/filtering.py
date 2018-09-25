@@ -119,8 +119,9 @@ def filter_tree(dtfrm, fltr):
     df = dtfrm
     res_df = pd.DataFrame()
     fltr0 = fltr.get('filter')
+    count = fltr.get('count')
     for fl0 in fltr_msk(fltr0):
-        cnt0 = fltr.get('count')
+        cnt0 = count
         dict1 = list(fltr0.items())[0][1]
         dict2 = dict1.get(fl0[1])
         cnt1 = cnt0*dict2.get('val')
@@ -137,9 +138,9 @@ def filter_tree(dtfrm, fltr):
                 cnt3 = cnt2*dict5.get(fl2[1])
                 df2 = df1.mask(*fl2).sample(n=ceil(cnt3))
                 res_df = res_df.append(df2)
-                print(res_df)
-        print(res_df)
-        return res_df.index.values
+                print(df2)
+    print(res_df)
+    return res_df.index.values
 
 # print(df)
 
