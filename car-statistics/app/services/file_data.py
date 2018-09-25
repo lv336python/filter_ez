@@ -46,9 +46,14 @@ def fields_statistics(file_name):
     return field_def
 
 
-def get_data_preview(file_name):
-    df = pd.read_excel(file_name)
-    cols = list(df.columns)
+def get_data_preview(file_path):
+    """
+    Returns dict with names of columns and first 10 or less rows
+    :param file_path: path to excel file to open
+    :return:
+    """
+    df = pd.read_excel(file_path)
+    columns = list(df.columns)
     rows = df[df.index < 10].values.tolist()
-    return {'columns': cols,
+    return {'columns': columns,
             'rows': rows}
