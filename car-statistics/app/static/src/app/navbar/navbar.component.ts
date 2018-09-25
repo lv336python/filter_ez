@@ -11,7 +11,7 @@ export class NavbarComponent implements OnInit {
 
   ngOnInit() {
   }
-
+  
   isLogined(){
     function getCookie(name) {
         var matches = document.cookie.match(new RegExp(
@@ -21,7 +21,6 @@ export class NavbarComponent implements OnInit {
 
     }
     let isLog = getCookie("session");
-    console.log(isLog);
     return isLog;
   }
 

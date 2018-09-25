@@ -14,6 +14,9 @@ import {TextFormatDirective} from "../directives/text-format.directive";
 export class LoginComponent implements OnInit {
     returnUrl: string;
     message : string;
+    redirectingMessage: boolean = this.route.snapshot.queryParams["authRedirecting"] || undefined;
+
+
     loginGroup = new FormGroup({
         email: new FormControl('', [
             Validators.required,
@@ -27,6 +30,7 @@ export class LoginComponent implements OnInit {
             TextFormatDirective(/^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,}$/),
         ])
     });
+
 
     toLogin() {
         this.auth_.toLogin(new User(this.loginGroup.controls['email'].value,
@@ -57,6 +61,7 @@ export class LoginComponent implements OnInit {
     get email() {
         return this.loginGroup.get('email')
     }
+
 
     ngOnInit() {
         this.returnUrl = this.route.snapshot.queryParams['returnUrl'] || '/';

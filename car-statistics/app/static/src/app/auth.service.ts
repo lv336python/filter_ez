@@ -54,4 +54,5 @@ export class AuthService {
         return this._http.get<any>(this.confirm_url + token);
     }
 
+
 }
