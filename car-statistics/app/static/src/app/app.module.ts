@@ -15,6 +15,7 @@ import { LogoutComponent } from './logout/logout.component';
 import { ConfirmResetComponent } from './confirm-reset/confirm-reset.component';
 import { NavbarComponent } from './navbar/navbar.component';
 import { FileUploadsComponent } from './file-uploads/file-uploads.component';
+import {AuthGuardService} from './auth.guard';
 
 @NgModule({
   declarations: [
@@ -37,7 +38,7 @@ import { FileUploadsComponent } from './file-uploads/file-uploads.component';
     HttpClientModule,
       ReactiveFormsModule
   ],
-  providers: [],
+  providers: [AuthGuardService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
