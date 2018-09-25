@@ -28,7 +28,7 @@ def download(dataset_id):
                         byte_writer = BytesIO()
                         excel_writer = pd.ExcelWriter(byte_writer, engine='xlwt')
                         df = pd.read_excel(file_path)
-                        df.drop(df.index[dataset.included_rows], inplace=True)
+                        df = df.iloc[dataset.included_rows]
                         df.to_excel(excel_writer, sheet_name='Sheet1', index=False)
                         excel_writer.save()
                         byte_writer.seek(0)
