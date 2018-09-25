@@ -3,11 +3,14 @@ Different utils like small functions that a used in different scripts
 """
 
 import os
+import pandas as pd
 
 from app import app
 from flask import session
+from pathlib import Path
 from hashlib import md5
 from werkzeug.utils import secure_filename
+
 
 
 def file_ext(filename):
@@ -103,3 +106,26 @@ def get_file_path(filepath):
 
 def temp_get_file_path(filepath):
     return os.path.join(os.path, filepath)
+
+
+def serialize(file):
+    """
+    Serializes DataFrame extracted from .xls file.
+    Create serialized DataFrame in the same directory where given file exist
+    :param file: path to file to serialize
+    :return: create serialized DataFrame
+    """
+    file_pth = ext_free(file)
+    df_to_serialize = pd.read_excel(file)
+    return df_to_serialize.to_pickle(f'{file_pth}.pkl')
+
+
+def srlz_file(file):
+    """
+    Serializes DataFrame extracted from .xls file.
+    Create serialized DataFrame in the same directory where given file exist
+    :param file: path to file to serialize
+    :return: create serialized DataFrame
+    """
+    file_pth = ext_free(file)
+    return (f'{file_pth}.pkl')

@@ -6,7 +6,7 @@ from app import db
 from app.models.files import File, Dataset
 
 from flask import session, flash
-from app.services.utils import create_dir, user_dir,  file_path, attributes
+from app.services.utils import create_dir, user_dir,  file_path, attributes, serialize
 
 
 def upload_file(file, *args, **kwargs):
@@ -26,6 +26,7 @@ def upload_file(file, *args, **kwargs):
         upd_file = File.query.filter_by(path=file_pth).first()
         upd_file.attributes = {"name": "Updated"}
         db.session.commit()
+        serialize(file_pth)
         return 'Updated'
     create_dir(upload_dir)
     file.save(file_pth)
@@ -37,5 +38,6 @@ def upload_file(file, *args, **kwargs):
     new_dataset = Dataset(user_id=u_id, file_id=new_file.id)
     db.session.add(new_dataset)
     db.session.commit()
-    flash('File Uploaded', category='success')
+
+    serialize(file_pth)
     return 'Uploaded'
