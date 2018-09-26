@@ -5,13 +5,23 @@ import pandas as pd
 from collections import defaultdict
 
 
-def fields_definition(file_name):
+def mask(df, key, value):
+    return df[df[key] == value]
+
+
+def fields_definition(file_name, filter=False):
     """ This function defines fields to defaultdict in dict
     to store column names, their values and count of this values in column for statistic
     :param file_name: parameter for your file name
     :return dict: {'Air bags': {'max': 4, 'min': 0}, 'Body': {'MPV': 11, 'Sedan': 7}, 'Climate control': {'Yes': 30, 'No': 19}}
     """
     df = pd.read_excel(file_name)
+
+    if filter:
+        pd.DataFrame.mask = mask
+        df = df.mask(*filter)
+
+
     cl_names = list(df.columns.values)
 
     field_def = {}
