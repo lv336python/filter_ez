@@ -40,10 +40,14 @@ class Config:
     MAIL_DEFAULT_SENDER = 'statisticcar@gmail.com'
 
     # logging parameters
-    LOGGING_CONFIG_FILE = os.path.join(BASEDIR,'logging.conf')
+    LOGGING_CONFIG_FILE = os.path.join(BASEDIR, 'logging.conf')
+
+
+    # file storage
+    DATA_FOLDER = 'usersdata'
 
     # uploads params
-    UPLOAD_FOLDER = 'uploads_temp'
+    UPLOAD_FOLDER = 'uploads'
     ALLOWED_EXTENSIONS = ('csv', 'xls', 'xlsx')
 
     #Celery configurations
