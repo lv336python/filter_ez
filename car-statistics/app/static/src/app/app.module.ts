@@ -16,6 +16,7 @@ import { ConfirmResetComponent } from './confirm-reset/confirm-reset.component';
 import { NavbarComponent } from './navbar/navbar.component';
 import { TableComponent } from './table/table.component';
 import { FileUploadsComponent } from './file-uploads/file-uploads.component';
+import {AuthGuardService} from './auth.guard';
 import { StatisticsComponent } from './statistics/statistics.component';
 
 @NgModule({
@@ -42,7 +43,7 @@ import { StatisticsComponent } from './statistics/statistics.component';
       ReactiveFormsModule,
       PlotlyModule
   ],
-  providers: [],
+  providers: [AuthGuardService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
