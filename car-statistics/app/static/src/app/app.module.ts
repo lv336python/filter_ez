@@ -2,7 +2,7 @@ import { BrowserModule } from '@angular/platform-browser';
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import { NgModule } from '@angular/core';
 import { HttpClientModule } from '@angular/common/http';
-
+import { PlotlyModule } from 'angular-plotly.js'
 import { AppComponent } from './app.component';
 import { AppRoutingModule } from './app-routing.module';
 import { RegistrationComponent } from './registration/registration.component';
@@ -14,7 +14,10 @@ import { ResetPasswordComponent } from './reset-password/reset-password.componen
 import { LogoutComponent } from './logout/logout.component';
 import { ConfirmResetComponent } from './confirm-reset/confirm-reset.component';
 import { NavbarComponent } from './navbar/navbar.component';
+import { TableComponent } from './table/table.component';
 import { FileUploadsComponent } from './file-uploads/file-uploads.component';
+import {AuthGuardService} from './auth.guard';
+import { StatisticsComponent } from './statistics/statistics.component';
 
 @NgModule({
   declarations: [
@@ -28,16 +31,19 @@ import { FileUploadsComponent } from './file-uploads/file-uploads.component';
     ResetPasswordComponent,
     ConfirmResetComponent,
     NavbarComponent,
-      FileUploadsComponent
+      FileUploadsComponent,
+    TableComponent,
+    StatisticsComponent,
   ],
   imports: [
     BrowserModule,
     FormsModule,
     AppRoutingModule,
     HttpClientModule,
-      ReactiveFormsModule
+      ReactiveFormsModule,
+      PlotlyModule
   ],
-  providers: [],
+  providers: [AuthGuardService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

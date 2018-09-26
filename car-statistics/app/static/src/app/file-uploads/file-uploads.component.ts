@@ -17,14 +17,14 @@ export class FileUploadsComponent implements OnInit {
 
     onFileSelected(event) {
         this.selectedFile = <File>event.target.files[0];
-        console.log(event);
     }
 
     onUpload() {
         const filedata = new FormData();
         filedata.append('upload_file', this.selectedFile, this.selectedFile.name);
-
-        this.http.post('api/upload', filedata).subscribe(res => { console.log(res); });
+        this.http.post('api/upload', filedata)
+            .subscribe(res => {console.log(res);
+        });
     }
 
     ngOnInit() {

@@ -15,7 +15,6 @@ export class AuthService {
     logout_api_url = "api/logout";
     reset_password_url = "api/reset";
     reset_password_confirm_api = "api/password_reset";
-    file_upload_url = 'api/upload';
 
     constructor(
         private _http: HttpClient,
@@ -42,7 +41,7 @@ export class AuthService {
 
     toResetPassword(email: string): Observable<any> {
 
-        return this._http.post<any>(this.reset_password_url, {'email': email});
+        return this._http.post<any>(this.reset_password_url, {'email': email})
     }
 
     toResetPasswordConfirm(token, password: string): Observable<any> {
@@ -55,9 +54,5 @@ export class AuthService {
         return this._http.get<any>(this.confirm_url + token);
     }
 
-    fileUpload(user: User): Observable<any> {
-
-        return this._http.post<any>(this.file_upload_url, user);
-    }
 
 }

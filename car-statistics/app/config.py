@@ -57,3 +57,4 @@ class Config:
     CELERY_ROUTES = {
         'app.services.mail_service.*': {'queue': 'email'}
     }
+    SESSION_COOKIE_HTTPONLY = False
