@@ -47,7 +47,7 @@ class Config:
     DATA_FOLDER = 'usersdata'
 
     # uploads params
-    UPLOAD_FOLDER = os.path.join('uploads')
+    UPLOAD_FOLDER = 'uploads'
     ALLOWED_EXTENSIONS = ('csv', 'xls', 'xlsx')
 
     #Celery configurations
