@@ -6,8 +6,7 @@ import os
 import pandas as pd
 
 from app import app
-from flask import session
-from pathlib import Path
+from app.models.files import File
 from hashlib import md5
 from werkzeug.utils import secure_filename
 
@@ -48,9 +47,10 @@ def user_dir(user_id):
     :param user_id: id of file owner(user that uploaded this file)
     :return: path to the file directory like /user/file/
     """
-    upload_dir = app.config['UPLOAD_FOLDER']
-    user_id = str(user_id)
-    directory = os.path.join(upload_dir, user_id)
+    upload_dir = os.path.join(os.path.dirname(app.root_path),
+                              app.config['DATA_FOLDER'],
+                              app.config['UPLOAD_FOLDER'])
+    directory = os.path.join(upload_dir, str(user_id))
     return directory
 
 
@@ -60,6 +60,7 @@ def save_path(directory, filename, user_id):
     extension will be added to file name.
     :param directory: directory file should be stored
     :param filename: name of file we want to save in directory
+    :param user_id: id of User
     :return: file name with path to the file like /user/file/sample.txt
     """
     file_name = secure_filename(filename)
@@ -91,6 +92,20 @@ def attributes(file_path):
     """
     attrbts = {'loaded': 'new'}
     return attrbts
+
+
+def get_user_file(file_id, user_id):
+    """
+    Function get path to user file by getting file name from DB
+    and join it with user folder path
+    :param file_id: id of needed file
+    :param user_id: id of file owner
+    :return: path to file
+    """
+    file = File.query.get(file_id)
+    filename = file.path
+    file_path = os.path.join(user_dir(user_id), filename)
+    return file_path
 
 
 def get_file(filepath):

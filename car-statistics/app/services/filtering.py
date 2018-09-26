@@ -2,10 +2,10 @@ import os
 import pandas as pd
 
 from app import db
-from app.models import Dataset, Filter, File
+from app.models import Dataset, Filter
 from math import ceil
 from pathlib import Path
-from app.services.utils import serialized_file, user_dir
+from app.services.utils import serialized_file, get_user_file
 
 file_temp = './result.pkl'
 
@@ -128,11 +128,11 @@ def dataframe_actualization(file_id, user_id):
     :param file_id: file from which creates new dataset
     :return: dataFrame with available data
     """
-    file = File.query.get(file_id)
-    subsets = [x.included_rows for x in Dataset.query.filter_by(file_id=file_id).all()]
+    file = get_user_file(file_id, user_id)
+    subsets = [x.included_rows for x in Dataset.query.filter_by(file_id=file_id).filter(Dataset.included_rows != None).all()]
+    drop_list = list()
     drop_list = [ids for subset in subsets for ids in subset]
-    file_path = os.path.join('car-statistics', user_dir(user_id), file.path)
-    work_file = serialized_file(file_path)
+    work_file = serialized_file(file)
 
     dataframe = pd.read_pickle(work_file)
     print(dataframe.shape)
@@ -141,7 +141,7 @@ def dataframe_actualization(file_id, user_id):
     return dataframe
 
 
-def datafiltering(user_id, file_id, filter_id):
+def make_dataset(user_id, file_id, filter_id):
     """
     Function form DataSet from File with given id by applying given filter.
     After filtration DataSet is added to DB
