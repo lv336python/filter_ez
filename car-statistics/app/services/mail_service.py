@@ -9,9 +9,13 @@ from app import app, mail, celery, socketio, clients
 
 
 @celery.task
-def send(msg, *args, **kwargs):
+def notify_user(result, room_id):
+    socketio.emit('notification', {'data': 'File sent'}, room=room_id)
+
+
+@celery.task
+def send(msg):
     mail.send(msg)
-    socketio.emit('notification', {'data': 'File sent'}, room=args[0]['room'])
 
 
 def send_email(to_whom, subject, template):
@@ -54,7 +58,7 @@ def send_result_to_mail(recipients, file_name, file_content):
         )]
     )
 
-    send.apply_async([msg, {'room': clients[session['user_id']]}], serializer='pickle')
+    send.apply_async([msg], serializer='pickle', link=notify_user.s(clients[session['user_id']]))
 
 
 def notify_admin(message, error_level):
