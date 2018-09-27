@@ -1,4 +1,5 @@
 import {Component, OnInit} from '@angular/core';
+import {Router} from "@angular/router";
 import {HttpClient} from '@angular/common/http';
 
 
@@ -9,8 +10,10 @@ import {HttpClient} from '@angular/common/http';
 })
 export class FilterComponent implements OnInit {
     filter_number: number[] = [0];
+    filter_name: string = '';
     file_id: number;
     files = {};
+    valid_filter_name = true;
 
     totalRows = 0;
 
@@ -20,7 +23,8 @@ export class FilterComponent implements OnInit {
 
     filter_params = [];
 
-    constructor(private http: HttpClient) {
+    constructor(private http: HttpClient,
+                private router:Router) {
     }
 
     ngOnInit() {
@@ -33,14 +37,20 @@ export class FilterComponent implements OnInit {
     }
 
     storeFilter() {
+        if (!this.filter_name) {
+            this.valid_filter_name = false;
+            return false;
+        }
         this.http
-            .post('/api/save_filter',
-                this.filter_params)
-            .subscribe(data => {
-                console.log('nummmber = '+data)
-            }, error => {
-                console.log(error);
-            });
+            .post('/api/save_filter', {
+                'params': this.filter_params,
+                'name': this.filter_name,
+                'file_id': this.file_id
+            })
+            .subscribe(data => this.router.navigate(['/'])
+                , error => {
+                    console.log(error);
+                });
     }
 
     pushParams(data) {
@@ -63,7 +73,7 @@ export class FilterComponent implements OnInit {
 
     getMetadata(id) {
         this.http
-            .post('/api/get_metadata', {'id': id})
+            .post('/api/get_metadata', {'file_id': this.file_id})
             .subscribe(res => this.parseMetadata(res),
                 error => {
                     console.log(error);
@@ -74,6 +84,10 @@ export class FilterComponent implements OnInit {
         this.totalRows = data['rows'];
         this.columns = Object.keys(data['metadata']);
         this.metadata = data['metadata'];
+    }
+
+    setFilterName(value) {
+        this.filter_name = value;
     }
 
 }

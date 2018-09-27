@@ -1,15 +1,19 @@
 <div class="jumbotron">
     <div class="row justify-content-md-center">
         <div class="col col-md-auto">
-            <h1 class="display-4">Filtering data section</h1>
-            <p class="lead">Just choose file for begin preparing your dataset</p>
-            <hr class="my-4">
+            <h2 class="display-4">Filtering data section</h2>
             <select class="form-control" (change)="selectFile($event.target.value)">
                 <option value="" disabled selected>Chose file</option>
                 <option *ngFor="let file of files" value="{{ file[0] }}">
                     {{ file[2].name }}
                 </option>
             </select>
+            <hr class="my-4">
+            <input type="text" placeholder="Filter name"
+                   [className]="valid_filter_name ? 'form-control' : 'form-control is-invalid'"
+                   [ngModel]="filter_name"
+                   (ngModelChange)="setFilterName($event)"
+>
         </div>
     </div>
 </div>
@@ -23,6 +27,7 @@
 <div *ngIf="columns.length > 0">
     <filter-item *ngFor="let number of filter_number"
                  [index]='number'
+                 [file_id]="file_id"
                  [columns]="columns"
                  [metadata]="metadata"
                  [filter_parameters]="filter_params"

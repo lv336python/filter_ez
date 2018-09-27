@@ -9,6 +9,9 @@
                     <h3>Please enter your email and password</h3>
                     <hr>
                     <br><br>
+                    <div  class="alert alert-warning" *ngIf="redirectingMessage">
+                        PLease login at first
+                    </div>
                 </div>
                 <div class="col-md-3">
 
@@ -96,8 +99,7 @@
             <div class="row">
                 <div class="col-md-3"></div>
                 <div class="col-md-6"><a href="#" routerLink='/reset'><span class="glyphicon glyphicon-user"></span>Forgot
-                    your
-                    password?</a>
+                    your   password?</a>
                 </div>
                 <div class="col-md-3"></div>
             </div>

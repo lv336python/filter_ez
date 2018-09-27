@@ -41,6 +41,7 @@ from .routers import (
     confirm_reset,
     file_upload,
     file_download,
+    file_data,
     filter
 )
 

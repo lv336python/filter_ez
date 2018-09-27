@@ -14,6 +14,9 @@ import {TextFormatDirective} from "../directives/text-format.directive";
 export class LoginComponent implements OnInit {
     returnUrl: string;
     message : string;
+    redirectingMessage: boolean = this.route.snapshot.queryParams["authRedirecting"] || undefined;
+
+
     loginGroup = new FormGroup({
         email: new FormControl('', [
             Validators.required,
@@ -28,6 +31,7 @@ export class LoginComponent implements OnInit {
         ])
     });
 
+
     toLogin() {
         this.auth_.toLogin(new User(this.loginGroup.controls['email'].value,
             this.loginGroup.controls['password'].value))
@@ -38,7 +42,7 @@ export class LoginComponent implements OnInit {
                 err => {
                     let data_txt = (JSON.stringify(err));
                     let error_data = JSON.parse(data_txt);
-                    this.message = error_data.error.message.toString()
+                    this.message = error_data.error.message.toString();
                 },
             )
     }
@@ -51,12 +55,13 @@ export class LoginComponent implements OnInit {
     }
 
     get password() {
-        return this.loginGroup.get('password')
+        return this.loginGroup.get('password');
     }
 
     get email() {
-        return this.loginGroup.get('email')
+        return this.loginGroup.get('email');
     }
+
 
     ngOnInit() {
         this.returnUrl = this.route.snapshot.queryParams['returnUrl'] || '/';

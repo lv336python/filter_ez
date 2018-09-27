@@ -34,26 +34,35 @@
                         <div class="button-group" *ngIf="column && !operator">
                             <button type="button" class="btn btn-primary btn-sm" (click)="addOperator('==')">=</button>
                             <button type="button" class="btn btn-primary btn-sm" (click)="addOperator('!=')">!=</button>
-                            <button type="button" class="btn btn-primary btn-sm" (click)="addOperator('<')"><</button>
-                            <button type="button" class="btn btn-primary btn-sm" (click)="addOperator('>')">></button>
+                            <button type="button" *ngIf="valueMaxMin.max" class="btn btn-primary btn-sm" (click)="addOperator('<')"><</button>
+                            <button type="button" *ngIf="valueMaxMin.max" class="btn btn-primary btn-sm" (click)="addOperator('>')">></button>
                         </div>
                         <div class="button-group" *ngIf="column && operator">
                             <button type="button" class="btn btn-primary btn-sm">{{ operator }}</button>
                         </div>
                     </div>
                     <div class="form-group mb-2">
-                        <select class="form-control" *ngIf="operator" (change)="addValue($event.target.value)"
+                        <select class="form-control" *ngIf="operator && !valueMaxMin.max" (change)="addValue($event.target.value)"
                                 [disabled]="disValue">
                             <option value="" disabled selected>Chose value</option>
                             <option *ngFor="let row of values">
                                 {{ row }}
                             </option>
                         </select>
+                        <input *ngIf="operator && valueMaxMin.max" type="number"
+                                   name="range_value"
+                                   [ngModel]="rangeValue"
+                                   (ngModelChange)="setRangeValue($event)"
+                                   [className]="rangeValueError ? 'form-control  is-invalid' : 'form-control'"
+                                   placeholder="Min: {{ valueMaxMin.min }} Max: {{ valueMaxMin.max }}">
+                        <div class="invalid-feedback">
+                                {{ rangeValueError }}
+                            </div>
                     </div>
                 </form>
             </div>
         </div>
-        <div class="operator-button" *ngIf="value && !operatorBtwElem">
+        <div class="operator-button" *ngIf="(value || rangeValue) && !operatorBtwElem">
             <button type="button" class="btn btn-info" (click)="addElem('And')">Add column</button>
             <button type="button" class="btn btn-primary" (click)="save()">Save filter</button>
         </div>

@@ -19,10 +19,15 @@ export class FilterItemComponent implements OnInit {
     new_column = true;
     param_index = 0;
     quantityError: string;
+    rangeValueError:string;
 
     disColumn = false;
     disValue = false;
     disQuantity = false;
+    rangeValue: number;
+
+    valuesPushed = false;
+    valueMaxMin = {};
 
 
     values = [];
@@ -36,6 +41,7 @@ export class FilterItemComponent implements OnInit {
     @Input() metadata;
     @Input() filter_parameters;
     @Input() totalRows;
+    @Input() file_id;
 
     constructor(private http: HttpClient) {
     }
@@ -44,21 +50,30 @@ export class FilterItemComponent implements OnInit {
     }
 
     save() {
-        if(!this.checkQuantity()){
+        if (!this.checkQuantity()) {
             return false;
         }
-        this.pushFilterParams.emit({
-            'column': this.column,
-            'operator': this.operator,
-            'value': this.value,
-            'quantity': this.calculateQuantity(),
-        });
+        if (!this.valuesPushed) {
+            this.pushFilterParams.emit({
+                'column': this.column,
+                'operator': this.operator,
+                'value': this.value,
+                'quantity': this.calculateQuantity(),
+            });
+        }
+        this.valuesPushed = true;
         this.saveFilter.emit();
     }
 
     addElem(data) {
-        if(!this.checkQuantity()){
+        if (!this.checkQuantity()) {
             return false;
+        }
+        if(!this.checkRangeValue()){
+            return false
+        }
+        if(this.rangeValue){
+            this.value = this.rangeValue.toString();
         }
         this.valid_quantity = true;
         this.operatorElems(data);
@@ -76,7 +91,16 @@ export class FilterItemComponent implements OnInit {
     addColumn(column) {
         this.column = column;
         this.value = '';
-        this.values = Object.keys(this.metadata[column]);
+        // this.rangeValue = 0;
+        this.valueMaxMin = {};
+        if ('min' in this.metadata[column] && 'max' in this.metadata[column]) {
+            this.valueMaxMin = {
+                'min': this.metadata[column]['min'],
+                'max': this.metadata[column]['max']
+            }
+        }else{
+            this.values = this.metadata[column];
+        }
     }
 
     setQuantity(quantity) {
@@ -99,7 +123,7 @@ export class FilterItemComponent implements OnInit {
             all_params[this.param_index].value = this.value
         }
         this.http
-            .post('/api/count_rows', all_params)
+            .post('/api/count_rows', {'file_id': this.file_id, 'params': all_params})
             .subscribe(res => this.setCountRows(res),
                 error => {
                     console.log(error);
@@ -128,11 +152,11 @@ export class FilterItemComponent implements OnInit {
         this.setPercentage();
     }
 
-    calculateQuantity(){
-        return Math.floor(this.totalRows*this.quantity/100);
+    calculateQuantity() {
+        return Math.floor(this.totalRows * this.quantity / 100);
     }
 
-    checkQuantity(){
+    checkQuantity() {
         if (!this.quantity) {
             this.valid_quantity = false;
             this.quantityError = 'This field is required';
@@ -141,6 +165,24 @@ export class FilterItemComponent implements OnInit {
             this.quantityError = "This value can't be greater then " + this.maxPercentageForUser;
             this.valid_quantity = false;
             return false;
+        }
+        return true;
+    }
+
+    setRangeValue(data){
+        this.value = data;
+        if(this.checkRangeValue()){
+            this.rangeValueError = '';
+            this.addValue(data)
+        }
+    }
+
+    checkRangeValue(){
+        if('max' in this.valueMaxMin){
+            if(this.value > this.valueMaxMin['max'] || this.value < this.valueMaxMin['min']){
+                this.rangeValueError = "This value should be in range between " + this.valueMaxMin['min'] + ' and ' + this.valueMaxMin['max'];
+                return false;
+            }
         }
         return true;
     }

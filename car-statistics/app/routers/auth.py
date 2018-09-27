@@ -78,6 +78,7 @@ def logout():
     """
     user = User.query.filter(User.id == session['user_id']).first()
     logout_user()
+    session.clear()
     return json.dumps({
         'message': f'User: {user.email} is logged out'
     }), 200

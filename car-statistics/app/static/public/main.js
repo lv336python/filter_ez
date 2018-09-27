@@ -66,11 +66,11 @@ var __decorate = (undefined && undefined.__decorate) || function (decorators, ta
 
 
 var routes = [
-    { path: '', component: _home_home_component__WEBPACK_IMPORTED_MODULE_2__["HomeComponent"] },
-    { path: 'register', component: _registration_registration_component__WEBPACK_IMPORTED_MODULE_4__["RegistrationComponent"], canActivate: [_auth_guard__WEBPACK_IMPORTED_MODULE_5__["AuthGuard"]] },
+    { path: '', component: _home_home_component__WEBPACK_IMPORTED_MODULE_2__["HomeComponent"], canActivate: [_auth_guard__WEBPACK_IMPORTED_MODULE_5__["AuthGuardService"]] },
+    { path: 'register', component: _registration_registration_component__WEBPACK_IMPORTED_MODULE_4__["RegistrationComponent"] },
     { path: 'confirm/:token', component: _confirm_email_confirm_email_component__WEBPACK_IMPORTED_MODULE_6__["ConfirmEmailComponent"] },
     { path: 'login', component: _login_login_component__WEBPACK_IMPORTED_MODULE_7__["LoginComponent"] },
-    { path: 'logout', component: _logout_logout_component__WEBPACK_IMPORTED_MODULE_8__["LogoutComponent"] },
+    { path: 'logout', component: _logout_logout_component__WEBPACK_IMPORTED_MODULE_8__["LogoutComponent"], canActivate: [_auth_guard__WEBPACK_IMPORTED_MODULE_5__["AuthGuardService"]] },
     { path: 'reset', component: _reset_password_reset_password_component__WEBPACK_IMPORTED_MODULE_9__["ResetPasswordComponent"] },
     { path: 'reset_password_confirm/:token', component: _confirm_reset_confirm_reset_component__WEBPACK_IMPORTED_MODULE_10__["ConfirmResetComponent"] },
     { path: 'upload', component: _file_uploads_file_uploads_component__WEBPACK_IMPORTED_MODULE_12__["FileUploadsComponent"] },
@@ -164,26 +164,34 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _angular_forms__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @angular/forms */ "./node_modules/@angular/forms/fesm5/forms.js");
 /* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @angular/core */ "./node_modules/@angular/core/fesm5/core.js");
 /* harmony import */ var _angular_common_http__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! @angular/common/http */ "./node_modules/@angular/common/fesm5/http.js");
-/* harmony import */ var _app_component__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./app.component */ "./src/app/app.component.ts");
-/* harmony import */ var _app_routing_module__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./app-routing.module */ "./src/app/app-routing.module.ts");
-/* harmony import */ var _registration_registration_component__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./registration/registration.component */ "./src/app/registration/registration.component.ts");
-/* harmony import */ var _notfound_notfound_component__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ./notfound/notfound.component */ "./src/app/notfound/notfound.component.ts");
-/* harmony import */ var _home_home_component__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ./home/home.component */ "./src/app/home/home.component.ts");
-/* harmony import */ var _confirm_email_confirm_email_component__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ./confirm-email/confirm-email.component */ "./src/app/confirm-email/confirm-email.component.ts");
-/* harmony import */ var _filter_filter_component__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! ./filter/filter.component */ "./src/app/filter/filter.component.ts");
-/* harmony import */ var _filter_item_filter_item_component__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! ./filter-item/filter-item.component */ "./src/app/filter-item/filter-item.component.ts");
-/* harmony import */ var _login_login_component__WEBPACK_IMPORTED_MODULE_12__ = __webpack_require__(/*! ./login/login.component */ "./src/app/login/login.component.ts");
-/* harmony import */ var _reset_password_reset_password_component__WEBPACK_IMPORTED_MODULE_13__ = __webpack_require__(/*! ./reset-password/reset-password.component */ "./src/app/reset-password/reset-password.component.ts");
-/* harmony import */ var _logout_logout_component__WEBPACK_IMPORTED_MODULE_14__ = __webpack_require__(/*! ./logout/logout.component */ "./src/app/logout/logout.component.ts");
-/* harmony import */ var _confirm_reset_confirm_reset_component__WEBPACK_IMPORTED_MODULE_15__ = __webpack_require__(/*! ./confirm-reset/confirm-reset.component */ "./src/app/confirm-reset/confirm-reset.component.ts");
-/* harmony import */ var _navbar_navbar_component__WEBPACK_IMPORTED_MODULE_16__ = __webpack_require__(/*! ./navbar/navbar.component */ "./src/app/navbar/navbar.component.ts");
-/* harmony import */ var _file_uploads_file_uploads_component__WEBPACK_IMPORTED_MODULE_17__ = __webpack_require__(/*! ./file-uploads/file-uploads.component */ "./src/app/file-uploads/file-uploads.component.ts");
+/* harmony import */ var angular_plotly_js__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! angular-plotly.js */ "./node_modules/angular-plotly.js/esm5/angular-plotly.js.js");
+/* harmony import */ var _app_component__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./app.component */ "./src/app/app.component.ts");
+/* harmony import */ var _app_routing_module__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./app-routing.module */ "./src/app/app-routing.module.ts");
+/* harmony import */ var _registration_registration_component__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ./registration/registration.component */ "./src/app/registration/registration.component.ts");
+/* harmony import */ var _notfound_notfound_component__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ./notfound/notfound.component */ "./src/app/notfound/notfound.component.ts");
+/* harmony import */ var _home_home_component__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ./home/home.component */ "./src/app/home/home.component.ts");
+/* harmony import */ var _confirm_email_confirm_email_component__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! ./confirm-email/confirm-email.component */ "./src/app/confirm-email/confirm-email.component.ts");
+/* harmony import */ var _filter_filter_component__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! ./filter/filter.component */ "./src/app/filter/filter.component.ts");
+/* harmony import */ var _filter_item_filter_item_component__WEBPACK_IMPORTED_MODULE_12__ = __webpack_require__(/*! ./filter-item/filter-item.component */ "./src/app/filter-item/filter-item.component.ts");
+/* harmony import */ var _login_login_component__WEBPACK_IMPORTED_MODULE_13__ = __webpack_require__(/*! ./login/login.component */ "./src/app/login/login.component.ts");
+/* harmony import */ var _reset_password_reset_password_component__WEBPACK_IMPORTED_MODULE_14__ = __webpack_require__(/*! ./reset-password/reset-password.component */ "./src/app/reset-password/reset-password.component.ts");
+/* harmony import */ var _logout_logout_component__WEBPACK_IMPORTED_MODULE_15__ = __webpack_require__(/*! ./logout/logout.component */ "./src/app/logout/logout.component.ts");
+/* harmony import */ var _confirm_reset_confirm_reset_component__WEBPACK_IMPORTED_MODULE_16__ = __webpack_require__(/*! ./confirm-reset/confirm-reset.component */ "./src/app/confirm-reset/confirm-reset.component.ts");
+/* harmony import */ var _navbar_navbar_component__WEBPACK_IMPORTED_MODULE_17__ = __webpack_require__(/*! ./navbar/navbar.component */ "./src/app/navbar/navbar.component.ts");
+/* harmony import */ var _table_table_component__WEBPACK_IMPORTED_MODULE_18__ = __webpack_require__(/*! ./table/table.component */ "./src/app/table/table.component.ts");
+/* harmony import */ var _file_uploads_file_uploads_component__WEBPACK_IMPORTED_MODULE_19__ = __webpack_require__(/*! ./file-uploads/file-uploads.component */ "./src/app/file-uploads/file-uploads.component.ts");
+/* harmony import */ var _auth_guard__WEBPACK_IMPORTED_MODULE_20__ = __webpack_require__(/*! ./auth.guard */ "./src/app/auth.guard.ts");
+/* harmony import */ var _statistics_statistics_component__WEBPACK_IMPORTED_MODULE_21__ = __webpack_require__(/*! ./statistics/statistics.component */ "./src/app/statistics/statistics.component.ts");
 var __decorate = (undefined && undefined.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
     else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
     return c > 3 && r && Object.defineProperty(target, key, r), r;
 };
+
+
+
+
 
 
 
@@ -208,29 +216,32 @@ var AppModule = /** @class */ (function () {
     AppModule = __decorate([
         Object(_angular_core__WEBPACK_IMPORTED_MODULE_2__["NgModule"])({
             declarations: [
-                _app_component__WEBPACK_IMPORTED_MODULE_4__["AppComponent"],
-                _registration_registration_component__WEBPACK_IMPORTED_MODULE_6__["RegistrationComponent"],
-                _notfound_notfound_component__WEBPACK_IMPORTED_MODULE_7__["NotfoundComponent"],
-                _home_home_component__WEBPACK_IMPORTED_MODULE_8__["HomeComponent"],
-                _confirm_email_confirm_email_component__WEBPACK_IMPORTED_MODULE_9__["ConfirmEmailComponent"],
-                _login_login_component__WEBPACK_IMPORTED_MODULE_12__["LoginComponent"],
-                _logout_logout_component__WEBPACK_IMPORTED_MODULE_14__["LogoutComponent"],
-                _reset_password_reset_password_component__WEBPACK_IMPORTED_MODULE_13__["ResetPasswordComponent"],
-                _confirm_reset_confirm_reset_component__WEBPACK_IMPORTED_MODULE_15__["ConfirmResetComponent"],
-                _navbar_navbar_component__WEBPACK_IMPORTED_MODULE_16__["NavbarComponent"],
-                _file_uploads_file_uploads_component__WEBPACK_IMPORTED_MODULE_17__["FileUploadsComponent"],
-                _filter_filter_component__WEBPACK_IMPORTED_MODULE_10__["FilterComponent"],
-                _filter_item_filter_item_component__WEBPACK_IMPORTED_MODULE_11__["FilterItemComponent"],
+                _app_component__WEBPACK_IMPORTED_MODULE_5__["AppComponent"],
+                _registration_registration_component__WEBPACK_IMPORTED_MODULE_7__["RegistrationComponent"],
+                _notfound_notfound_component__WEBPACK_IMPORTED_MODULE_8__["NotfoundComponent"],
+                _home_home_component__WEBPACK_IMPORTED_MODULE_9__["HomeComponent"],
+                _confirm_email_confirm_email_component__WEBPACK_IMPORTED_MODULE_10__["ConfirmEmailComponent"],
+                _login_login_component__WEBPACK_IMPORTED_MODULE_13__["LoginComponent"],
+                _logout_logout_component__WEBPACK_IMPORTED_MODULE_15__["LogoutComponent"],
+                _reset_password_reset_password_component__WEBPACK_IMPORTED_MODULE_14__["ResetPasswordComponent"],
+                _confirm_reset_confirm_reset_component__WEBPACK_IMPORTED_MODULE_16__["ConfirmResetComponent"],
+                _navbar_navbar_component__WEBPACK_IMPORTED_MODULE_17__["NavbarComponent"],
+                _file_uploads_file_uploads_component__WEBPACK_IMPORTED_MODULE_19__["FileUploadsComponent"],
+                _table_table_component__WEBPACK_IMPORTED_MODULE_18__["TableComponent"],
+                _statistics_statistics_component__WEBPACK_IMPORTED_MODULE_21__["StatisticsComponent"],
+                _filter_filter_component__WEBPACK_IMPORTED_MODULE_11__["FilterComponent"],
+                _filter_item_filter_item_component__WEBPACK_IMPORTED_MODULE_12__["FilterItemComponent"],
             ],
             imports: [
                 _angular_platform_browser__WEBPACK_IMPORTED_MODULE_0__["BrowserModule"],
                 _angular_forms__WEBPACK_IMPORTED_MODULE_1__["FormsModule"],
-                _app_routing_module__WEBPACK_IMPORTED_MODULE_5__["AppRoutingModule"],
+                _app_routing_module__WEBPACK_IMPORTED_MODULE_6__["AppRoutingModule"],
                 _angular_common_http__WEBPACK_IMPORTED_MODULE_3__["HttpClientModule"],
-                _angular_forms__WEBPACK_IMPORTED_MODULE_1__["ReactiveFormsModule"]
+                _angular_forms__WEBPACK_IMPORTED_MODULE_1__["ReactiveFormsModule"],
+                angular_plotly_js__WEBPACK_IMPORTED_MODULE_4__["PlotlyModule"]
             ],
-            providers: [],
-            bootstrap: [_app_component__WEBPACK_IMPORTED_MODULE_4__["AppComponent"]]
+            providers: [_auth_guard__WEBPACK_IMPORTED_MODULE_20__["AuthGuardService"]],
+            bootstrap: [_app_component__WEBPACK_IMPORTED_MODULE_5__["AppComponent"]]
         })
     ], AppModule);
     return AppModule;
@@ -244,32 +255,52 @@ var AppModule = /** @class */ (function () {
 /*!*******************************!*\
   !*** ./src/app/auth.guard.ts ***!
   \*******************************/
-/*! exports provided: AuthGuard */
+/*! exports provided: AuthGuardService */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "AuthGuard", function() { return AuthGuard; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "AuthGuardService", function() { return AuthGuardService; });
 /* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @angular/core */ "./node_modules/@angular/core/fesm5/core.js");
+/* harmony import */ var _angular_router__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @angular/router */ "./node_modules/@angular/router/fesm5/router.js");
 var __decorate = (undefined && undefined.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
     else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
     return c > 3 && r && Object.defineProperty(target, key, r), r;
 };
+var __metadata = (undefined && undefined.__metadata) || function (k, v) {
+    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
+};
 
-var AuthGuard = /** @class */ (function () {
-    function AuthGuard() {
+
+var AuthGuardService = /** @class */ (function () {
+    function AuthGuardService(router) {
+        this.router = router;
+        this.returnUrl = '/login';
     }
-    AuthGuard.prototype.canActivate = function (next, state) {
-        return true;
+    AuthGuardService.prototype.isLogined = function () {
+        function getCookie(name) {
+            var matches = document.cookie.match(new RegExp("(?:^|; )" + name.replace(/([\.$?*|{}\(\)\[\]\\\/\+^])/g, '\\$1') + "=([^;]*)"));
+            return matches ? decodeURIComponent(matches[1]) : undefined;
+        }
+        var isLog = getCookie("session");
+        return isLog;
     };
-    AuthGuard = __decorate([
-        Object(_angular_core__WEBPACK_IMPORTED_MODULE_0__["Injectable"])({
-            providedIn: 'root'
-        })
-    ], AuthGuard);
-    return AuthGuard;
+    AuthGuardService.prototype.canActivate = function (route, state) {
+        if (this.isLogined()) {
+            return true;
+        }
+        else {
+            this.router.navigate([this.returnUrl], { queryParams: { authRedirecting: true } });
+            return false;
+        }
+    };
+    AuthGuardService = __decorate([
+        Object(_angular_core__WEBPACK_IMPORTED_MODULE_0__["Injectable"])(),
+        __metadata("design:paramtypes", [_angular_router__WEBPACK_IMPORTED_MODULE_1__["Router"]])
+    ], AuthGuardService);
+    return AuthGuardService;
 }());
 
 
@@ -438,7 +469,7 @@ module.exports = "@media(min-width: 768px) {\n    .field-label-responsive {\n   
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = "<div class=\"auth\">\n    <div class=\"form\">\n        <form [formGroup]=\"resetPasswordGroup\" (ngSubmit)=\"toConfirmReset()\">\n            <div class=\"row\">\n                <div class=\"col-md-3\"></div>\n                <div class=\"col-md-6\">\n                    <h2>Register New User</h2>\n                    <hr>\n                    <br><br>\n                </div>\n            </div>\n            <div class=\"row\">\n                <div class=\"col-md-3 field-label-responsive\">\n                    <label for=\"password\"> New password</label>\n                </div>\n                <div class=\"col-md-6\">\n                    <div class=\"form-group has-danger\">\n                        <div class=\"input-group mb-2 mr-sm-2 mb-sm-0\">\n                            <div class=\"input-group-addon\" style=\"width: 2.6rem\"><i class=\"fa fa-key\"></i></div>\n                            <input type=\"password\" formControlName=\"password\" class=\"form-control\" id=\"password\"\n                                   placeholder=\"Password\" required>\n                        </div>\n                    </div>\n                </div>\n                <div class=\"col-md-3\">\n\n                </div>\n            </div>\n            <div class=\"row\">\n                <div class=\"col-md-3 field-label-responsive\">\n                    <label for=\"password\">Confirm password</label>\n                </div>\n                <div class=\"col-md-6\">\n                    <div class=\"form-group has-danger\">\n                        <div class=\"input-group mb-2 mr-sm-2 mb-sm-0\">\n                            <div class=\"input-group-addon\" style=\"width: 2.6rem\"><i class=\"fa fa-key\"></i></div>\n                            <input type=\"password\" formControlName=\"password_confirm\" class=\"form-control\"\n                                   id=\"password_confirm\"\n                                   placeholder=\"Password\" required>\n                        </div>\n                    </div>\n                </div>\n                <div class=\"col-md-3\">\n                </div>\n            </div>\n            <div class=\"row\">\n                <div class=\"col-md-3\"></div>\n                <div class=\"col-md-6\">\n                    <div class=\"alert alert-danger\" *ngIf=\"password.invalid && (password.dirty || password.touched)\">\n                        <ul>\n                            <li *ngIf=\"password.errors.minlength || password.errors.maxlength\">Password must be from 8\n                                to 40\n                                characters long\n                            </li>\n                            <li *ngIf=\"password.errors.wrongFormat\">Password must contain at least one digit</li>\n\n                        </ul>\n                    </div>\n                    <div class=\"alert alert-danger\"\n                         *ngIf=\"resetPasswordGroup.valid && password.value != password_confirm.value\">\n                        Passwords does not match\n                    </div>\n                </div>\n                <div class=\"col-md-3\">\n\n                </div>\n            </div>\n            <div class=\"row\">\n                <div class=\"col-md-3\"></div>\n                <div class=\"col-md-6\">\n                    <button class=\"btn btn-success\" type=\"submit\"\n                            [disabled]=\"!resetPasswordGroup.valid && password.value != password_confirm.value\">Submit\n                    </button>\n                </div>\n                <div class=\"col-md-3\"></div>\n            </div>\n\n        </form>\n    </div>\n</div>\n\n"
+module.exports = "<div class=\"auth\">\n    <div class=\"form\">\n        <form [formGroup]=\"resetPasswordGroup\" (ngSubmit)=\"toConfirmReset()\">\n            <div class=\"row\">\n                <div class=\"col-md-3\"></div>\n                <div class=\"col-md-6\">\n                    <h2>Register New User</h2>\n                    <hr>\n                    <br><br>\n                </div>\n            </div>\n            <div class=\"row\">\n                <div class=\"col-md-3 field-label-responsive\">\n                    <label for=\"password\"> New password</label>\n                </div>\n                <div class=\"col-md-6\">\n                    <div class=\"form-group has-danger\">\n                        <div class=\"input-group mb-2 mr-sm-2 mb-sm-0\">\n                            <div class=\"input-group-addon\" style=\"width: 2.6rem\"><i class=\"fa fa-key\"></i></div>\n                            <input type=\"password\" formControlName=\"password\" class=\"form-control\" id=\"password\"\n                                   placeholder=\"Password\" required>\n                        </div>\n                    </div>\n                </div>\n                <div class=\"col-md-3\">\n\n                </div>\n            </div>\n            <div class=\"row\">\n                <div class=\"col-md-3 field-label-responsive\">\n                    <label for=\"password\">Confirm password</label>\n                </div>\n                <div class=\"col-md-6\">\n                    <div class=\"form-group has-danger\">\n                        <div class=\"input-group mb-2 mr-sm-2 mb-sm-0\">\n                            <div class=\"input-group-addon\" style=\"width: 2.6rem\"><i class=\"fa fa-key\"></i></div>\n                            <input type=\"password\" formControlName=\"password_confirm\" class=\"form-control\"\n                                   id=\"password_confirm\"\n                                   placeholder=\"Password\" required>\n                        </div>\n                    </div>\n                </div>\n                <div class=\"col-md-3\">\n                </div>\n            </div>\n            <div class=\"row\">\n                <div class=\"col-md-3\"></div>\n                <div class=\"col-md-6\">\n                    <div class=\"alert alert-danger\" *ngIf=\"password.invalid && (password.dirty || password.touched)\">\n                        <ul>\n                            <li *ngIf=\"password.errors.minlength || password.errors.maxlength\">Password must be from 8\n                                to 40\n                                characters long\n                            </li>\n                            <li *ngIf=\"password.errors.wrongFormat\">Password must contain at least one digit</li>\n\n                        </ul>\n                    </div>\n                    <div class=\"alert alert-danger\"\n                         *ngIf=\"resetPasswordGroup.valid && password.value != password_confirm.value\">\n                        Passwords do not match\n                    </div>\n                </div>\n                <div class=\"col-md-3\">\n\n                </div>\n            </div>\n            <div class=\"row\">\n                <div class=\"col-md-3\"></div>\n                <div class=\"col-md-6\">\n                    <button class=\"btn btn-success\" type=\"submit\"\n                            [disabled]=\"!resetPasswordGroup.valid && password.value != password_confirm.value\">Submit\n                    </button>\n                </div>\n                <div class=\"col-md-3\"></div>\n            </div>\n\n        </form>\n    </div>\n</div>\n\n"
 
 /***/ }),
 
@@ -495,7 +526,10 @@ var ConfirmResetComponent = /** @class */ (function () {
         var _this = this;
         if (this.resetPasswordGroup.controls['password'].value ===
             this.resetPasswordGroup.controls['password_confirm'].value) {
-            this.auth_.toResetPasswordConfirm(this.route.snapshot.params["token"], this.resetPasswordGroup.controls['password'].value).subscribe(function (res) { return _this.router.navigate([_this.returnUrl]); });
+            this.auth_.toResetPasswordConfirm(this.route.snapshot.params["token"], this.resetPasswordGroup.controls['password'].value).subscribe(function (res) {
+                _this.router.navigate([_this.returnUrl]);
+                _this.resetPasswordGroup.setValue({ email: '', password: '' });
+            });
         }
     };
     Object.defineProperty(ConfirmResetComponent.prototype, "password", {
@@ -526,6 +560,54 @@ var ConfirmResetComponent = /** @class */ (function () {
             _angular_router__WEBPACK_IMPORTED_MODULE_4__["ActivatedRoute"]])
     ], ConfirmResetComponent);
     return ConfirmResetComponent;
+}());
+
+
+
+/***/ }),
+
+/***/ "./src/app/data.service.ts":
+/*!*********************************!*\
+  !*** ./src/app/data.service.ts ***!
+  \*********************************/
+/*! exports provided: DataService */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "DataService", function() { return DataService; });
+/* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @angular/core */ "./node_modules/@angular/core/fesm5/core.js");
+/* harmony import */ var _angular_common_http__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @angular/common/http */ "./node_modules/@angular/common/fesm5/http.js");
+var __decorate = (undefined && undefined.__decorate) || function (decorators, target, key, desc) {
+    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
+};
+var __metadata = (undefined && undefined.__metadata) || function (k, v) {
+    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
+};
+
+
+var DataService = /** @class */ (function () {
+    function DataService(_http) {
+        this._http = _http;
+        this.get_statistics_url = 'api/statistics/';
+        this.get_rows_url = 'api/get_rows/';
+    }
+    DataService.prototype.getStatistics = function (dataset_id) {
+        return this._http.get(this.get_statistics_url + dataset_id);
+    };
+    DataService.prototype.getRows = function (dataset_id) {
+        return this._http.get(this.get_rows_url + dataset_id);
+    };
+    DataService = __decorate([
+        Object(_angular_core__WEBPACK_IMPORTED_MODULE_0__["Injectable"])({
+            providedIn: 'root'
+        }),
+        __metadata("design:paramtypes", [_angular_common_http__WEBPACK_IMPORTED_MODULE_1__["HttpClient"]])
+    ], DataService);
+    return DataService;
 }());
 
 
@@ -648,7 +730,7 @@ module.exports = ".card {\n    border-color: dodgerblue;\n}\n\n.button-group {\n
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = "<div class=\"row row-padding\">\n    <div class=\"col-md-4\"></div>\n    <div class=\"col-md-4\">\n        <div class=\"card primary\">\n            <div class=\"card-body\">\n                <form class=\"form\">\n                    <div class=\"form-row\">\n                        <div class=\"col-7\">\n                            <select class=\"form-control\" (change)=\"addColumn($event.target.value)\"\n                                    [disabled]=\"disColumn\">\n                                <option value=\"\" disabled selected>Chose column</option>\n                                <option *ngFor=\"let row of columns\">\n                                    {{ row }}\n                                </option>\n                            </select>\n                        </div>\n                        <div>\n                            <span class=\"btn btn-success\" *ngIf=\"count_rows\">{{ count_rows }}</span>\n                        </div>\n                        <div class=\"col input-group\">\n                            <input type=\"number\" name=\"user_quantity\" [ngModel]=\"quantity\"\n                                   (ngModelChange)=\"setQuantity($event)\"\n                                   [className]=\"valid_quantity ? 'form-control' : 'form-control is-invalid'\"\n                                   placeholder=\"Max {{ maxPercentageForUser }}\">\n                            <div class=\"input-group-prepend\">\n                                <span class=\"input-group-text\">%</span>\n                            </div>\n                            <div class=\"invalid-feedback\">\n                                {{ quantityError }}\n                            </div>\n                        </div>\n                    </div>\n                    <div class=\"form-group mx-sm-2 mb-2\">\n                        <div class=\"button-group\" *ngIf=\"column && !operator\">\n                            <button type=\"button\" class=\"btn btn-primary btn-sm\" (click)=\"addOperator('==')\">=</button>\n                            <button type=\"button\" class=\"btn btn-primary btn-sm\" (click)=\"addOperator('!=')\">!=</button>\n                            <button type=\"button\" class=\"btn btn-primary btn-sm\" (click)=\"addOperator('<')\"><</button>\n                            <button type=\"button\" class=\"btn btn-primary btn-sm\" (click)=\"addOperator('>')\">></button>\n                        </div>\n                        <div class=\"button-group\" *ngIf=\"column && operator\">\n                            <button type=\"button\" class=\"btn btn-primary btn-sm\">{{ operator }}</button>\n                        </div>\n                    </div>\n                    <div class=\"form-group mb-2\">\n                        <select class=\"form-control\" *ngIf=\"operator\" (change)=\"addValue($event.target.value)\"\n                                [disabled]=\"disValue\">\n                            <option value=\"\" disabled selected>Chose value</option>\n                            <option *ngFor=\"let row of values\">\n                                {{ row }}\n                            </option>\n                        </select>\n                    </div>\n                </form>\n            </div>\n        </div>\n        <div class=\"operator-button\" *ngIf=\"value && !operatorBtwElem\">\n            <button type=\"button\" class=\"btn btn-info\" (click)=\"addElem('And')\">Add column</button>\n            <button type=\"button\" class=\"btn btn-primary\" (click)=\"save()\">Save filter</button>\n        </div>\n        <div class=\"operator-button\" *ngIf=\"value && operatorBtwElem\">\n            <button type=\"button\" class=\"btn btn-info\">{{ operatorBtwElem }}</button>\n        </div>\n    </div>\n</div>"
+module.exports = "<div class=\"row row-padding\">\n    <div class=\"col-md-4\"></div>\n    <div class=\"col-md-4\">\n        <div class=\"card primary\">\n            <div class=\"card-body\">\n                <form class=\"form\">\n                    <div class=\"form-row\">\n                        <div class=\"col-7\">\n                            <select class=\"form-control\" (change)=\"addColumn($event.target.value)\"\n                                    [disabled]=\"disColumn\">\n                                <option value=\"\" disabled selected>Chose column</option>\n                                <option *ngFor=\"let row of columns\">\n                                    {{ row }}\n                                </option>\n                            </select>\n                        </div>\n                        <div>\n                            <span class=\"btn btn-success\" *ngIf=\"count_rows\">{{ count_rows }}</span>\n                        </div>\n                        <div class=\"col input-group\">\n                            <input type=\"number\" name=\"user_quantity\" [ngModel]=\"quantity\"\n                                   (ngModelChange)=\"setQuantity($event)\"\n                                   [className]=\"valid_quantity ? 'form-control' : 'form-control is-invalid'\"\n                                   placeholder=\"Max {{ maxPercentageForUser }}\">\n                            <div class=\"input-group-prepend\">\n                                <span class=\"input-group-text\">%</span>\n                            </div>\n                            <div class=\"invalid-feedback\">\n                                {{ quantityError }}\n                            </div>\n                        </div>\n                    </div>\n                    <div class=\"form-group mx-sm-2 mb-2\">\n                        <div class=\"button-group\" *ngIf=\"column && !operator\">\n                            <button type=\"button\" class=\"btn btn-primary btn-sm\" (click)=\"addOperator('==')\">=</button>\n                            <button type=\"button\" class=\"btn btn-primary btn-sm\" (click)=\"addOperator('!=')\">!=</button>\n                            <button type=\"button\" *ngIf=\"valueMaxMin.max\" class=\"btn btn-primary btn-sm\" (click)=\"addOperator('<')\"><</button>\n                            <button type=\"button\" *ngIf=\"valueMaxMin.max\" class=\"btn btn-primary btn-sm\" (click)=\"addOperator('>')\">></button>\n                        </div>\n                        <div class=\"button-group\" *ngIf=\"column && operator\">\n                            <button type=\"button\" class=\"btn btn-primary btn-sm\">{{ operator }}</button>\n                        </div>\n                    </div>\n                    <div class=\"form-group mb-2\">\n                        <select class=\"form-control\" *ngIf=\"operator && !valueMaxMin.max\" (change)=\"addValue($event.target.value)\"\n                                [disabled]=\"disValue\">\n                            <option value=\"\" disabled selected>Chose value</option>\n                            <option *ngFor=\"let row of values\">\n                                {{ row }}\n                            </option>\n                        </select>\n                        <input *ngIf=\"operator && valueMaxMin.max\" type=\"number\"\n                                   name=\"range_value\"\n                                   [ngModel]=\"rangeValue\"\n                                   (ngModelChange)=\"setRangeValue($event)\"\n                                   [className]=\"rangeValueError ? 'form-control  is-invalid' : 'form-control'\"\n                                   placeholder=\"Min: {{ valueMaxMin.min }} Max: {{ valueMaxMin.max }}\">\n                        <div class=\"invalid-feedback\">\n                                {{ rangeValueError }}\n                            </div>\n                    </div>\n                </form>\n            </div>\n        </div>\n        <div class=\"operator-button\" *ngIf=\"(value || rangeValue) && !operatorBtwElem\">\n            <button type=\"button\" class=\"btn btn-info\" (click)=\"addElem('And')\">Add column</button>\n            <button type=\"button\" class=\"btn btn-primary\" (click)=\"save()\">Save filter</button>\n        </div>\n        <div class=\"operator-button\" *ngIf=\"value && operatorBtwElem\">\n            <button type=\"button\" class=\"btn btn-info\">{{ operatorBtwElem }}</button>\n        </div>\n    </div>\n</div>"
 
 /***/ }),
 
@@ -686,6 +768,8 @@ var FilterItemComponent = /** @class */ (function () {
         this.disColumn = false;
         this.disValue = false;
         this.disQuantity = false;
+        this.valuesPushed = false;
+        this.valueMaxMin = {};
         this.values = [];
         this.addFilterElem = new _angular_core__WEBPACK_IMPORTED_MODULE_0__["EventEmitter"]();
         this.pushFilterParams = new _angular_core__WEBPACK_IMPORTED_MODULE_0__["EventEmitter"]();
@@ -697,17 +781,26 @@ var FilterItemComponent = /** @class */ (function () {
         if (!this.checkQuantity()) {
             return false;
         }
-        this.pushFilterParams.emit({
-            'column': this.column,
-            'operator': this.operator,
-            'value': this.value,
-            'quantity': this.calculateQuantity(),
-        });
+        if (!this.valuesPushed) {
+            this.pushFilterParams.emit({
+                'column': this.column,
+                'operator': this.operator,
+                'value': this.value,
+                'quantity': this.calculateQuantity(),
+            });
+        }
+        this.valuesPushed = true;
         this.saveFilter.emit();
     };
     FilterItemComponent.prototype.addElem = function (data) {
         if (!this.checkQuantity()) {
             return false;
+        }
+        if (!this.checkRangeValue()) {
+            return false;
+        }
+        if (this.rangeValue) {
+            this.value = this.rangeValue.toString();
         }
         this.valid_quantity = true;
         this.operatorElems(data);
@@ -724,7 +817,17 @@ var FilterItemComponent = /** @class */ (function () {
     FilterItemComponent.prototype.addColumn = function (column) {
         this.column = column;
         this.value = '';
-        this.values = Object.keys(this.metadata[column]);
+        // this.rangeValue = 0;
+        this.valueMaxMin = {};
+        if ('min' in this.metadata[column] && 'max' in this.metadata[column]) {
+            this.valueMaxMin = {
+                'min': this.metadata[column]['min'],
+                'max': this.metadata[column]['max']
+            };
+        }
+        else {
+            this.values = this.metadata[column];
+        }
     };
     FilterItemComponent.prototype.setQuantity = function (quantity) {
         this.quantity = quantity;
@@ -747,7 +850,7 @@ var FilterItemComponent = /** @class */ (function () {
             all_params[this.param_index].value = this.value;
         }
         this.http
-            .post('/api/count_rows', all_params)
+            .post('/api/count_rows', { 'file_id': this.file_id, 'params': all_params })
             .subscribe(function (res) { return _this.setCountRows(res); }, function (error) {
             console.log(error);
         });
@@ -787,6 +890,22 @@ var FilterItemComponent = /** @class */ (function () {
         }
         return true;
     };
+    FilterItemComponent.prototype.setRangeValue = function (data) {
+        this.value = data;
+        if (this.checkRangeValue()) {
+            this.rangeValueError = '';
+            this.addValue(data);
+        }
+    };
+    FilterItemComponent.prototype.checkRangeValue = function () {
+        if ('max' in this.valueMaxMin) {
+            if (this.value > this.valueMaxMin['max'] || this.value < this.valueMaxMin['min']) {
+                this.rangeValueError = "This value should be in range between " + this.valueMaxMin['min'] + ' and ' + this.valueMaxMin['max'];
+                return false;
+            }
+        }
+        return true;
+    };
     __decorate([
         Object(_angular_core__WEBPACK_IMPORTED_MODULE_0__["Output"])(),
         __metadata("design:type", _angular_core__WEBPACK_IMPORTED_MODULE_0__["EventEmitter"])
@@ -819,6 +938,10 @@ var FilterItemComponent = /** @class */ (function () {
         Object(_angular_core__WEBPACK_IMPORTED_MODULE_0__["Input"])(),
         __metadata("design:type", Object)
     ], FilterItemComponent.prototype, "totalRows", void 0);
+    __decorate([
+        Object(_angular_core__WEBPACK_IMPORTED_MODULE_0__["Input"])(),
+        __metadata("design:type", Object)
+    ], FilterItemComponent.prototype, "file_id", void 0);
     FilterItemComponent = __decorate([
         Object(_angular_core__WEBPACK_IMPORTED_MODULE_0__["Component"])({
             selector: 'filter-item',
@@ -852,7 +975,7 @@ module.exports = ".center_div {\n    margin-top: 200px;\n}\n\n.card {\n    borde
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = "<div class=\"jumbotron\">\n    <div class=\"row justify-content-md-center\">\n        <div class=\"col col-md-auto\">\n            <h1 class=\"display-4\">Filtering data section</h1>\n            <p class=\"lead\">Just choose file for begin preparing your dataset</p>\n            <hr class=\"my-4\">\n            <select class=\"form-control\" (change)=\"selectFile($event.target.value)\">\n                <option value=\"\" disabled selected>Chose file</option>\n                <option *ngFor=\"let file of files\" value=\"{{ file[0] }}\">\n                    {{ file[2].name }}\n                </option>\n            </select>\n        </div>\n    </div>\n</div>\n<div class=\"row\" *ngIf=\"columns.length > 0\">\n    <div class=\"col-md-4\"></div>\n    <div class=\"col-md-4\">\n        <h3>Select data where:</h3>\n    </div>\n</div>\n\n<div *ngIf=\"columns.length > 0\">\n    <filter-item *ngFor=\"let number of filter_number\"\n                 [index]='number'\n                 [columns]=\"columns\"\n                 [metadata]=\"metadata\"\n                 [filter_parameters]=\"filter_params\"\n                 [totalRows]=\"totalRows\"\n                 (addFilterElem)='addElement()'\n                 (pushFilterParams)=\"pushParams($event)\"\n                 (saveFilter)='storeFilter()'\n    ></filter-item>\n</div>"
+module.exports = "<div class=\"jumbotron\">\n    <div class=\"row justify-content-md-center\">\n        <div class=\"col col-md-auto\">\n            <h2 class=\"display-4\">Filtering data section</h2>\n            <select class=\"form-control\" (change)=\"selectFile($event.target.value)\">\n                <option value=\"\" disabled selected>Chose file</option>\n                <option *ngFor=\"let file of files\" value=\"{{ file[0] }}\">\n                    {{ file[2].name }}\n                </option>\n            </select>\n            <hr class=\"my-4\">\n            <input type=\"text\" placeholder=\"Filter name\"\n                   [className]=\"valid_filter_name ? 'form-control' : 'form-control is-invalid'\"\n                   [ngModel]=\"filter_name\"\n                   (ngModelChange)=\"setFilterName($event)\"\n>\n        </div>\n    </div>\n</div>\n<div class=\"row\" *ngIf=\"columns.length > 0\">\n    <div class=\"col-md-4\"></div>\n    <div class=\"col-md-4\">\n        <h3>Select data where:</h3>\n    </div>\n</div>\n\n<div *ngIf=\"columns.length > 0\">\n    <filter-item *ngFor=\"let number of filter_number\"\n                 [index]='number'\n                 [file_id]=\"file_id\"\n                 [columns]=\"columns\"\n                 [metadata]=\"metadata\"\n                 [filter_parameters]=\"filter_params\"\n                 [totalRows]=\"totalRows\"\n                 (addFilterElem)='addElement()'\n                 (pushFilterParams)=\"pushParams($event)\"\n                 (saveFilter)='storeFilter()'\n    ></filter-item>\n</div>"
 
 /***/ }),
 
@@ -867,7 +990,8 @@ module.exports = "<div class=\"jumbotron\">\n    <div class=\"row justify-conten
 __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "FilterComponent", function() { return FilterComponent; });
 /* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @angular/core */ "./node_modules/@angular/core/fesm5/core.js");
-/* harmony import */ var _angular_common_http__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @angular/common/http */ "./node_modules/@angular/common/fesm5/http.js");
+/* harmony import */ var _angular_router__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @angular/router */ "./node_modules/@angular/router/fesm5/router.js");
+/* harmony import */ var _angular_common_http__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @angular/common/http */ "./node_modules/@angular/common/fesm5/http.js");
 var __decorate = (undefined && undefined.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -879,11 +1003,15 @@ var __metadata = (undefined && undefined.__metadata) || function (k, v) {
 };
 
 
+
 var FilterComponent = /** @class */ (function () {
-    function FilterComponent(http) {
+    function FilterComponent(http, router) {
         this.http = http;
+        this.router = router;
         this.filter_number = [0];
+        this.filter_name = '';
         this.files = {};
+        this.valid_filter_name = true;
         this.totalRows = 0;
         this.columns = [];
         this.value = [];
@@ -896,11 +1024,18 @@ var FilterComponent = /** @class */ (function () {
         this.filter_number.push(this.filter_number.length);
     };
     FilterComponent.prototype.storeFilter = function () {
+        var _this = this;
+        if (!this.filter_name) {
+            this.valid_filter_name = false;
+            return false;
+        }
         this.http
-            .post('/api/save_filter', this.filter_params)
-            .subscribe(function (data) {
-            console.log('nummmber = ' + data);
-        }, function (error) {
+            .post('/api/save_filter', {
+            'params': this.filter_params,
+            'name': this.filter_name,
+            'file_id': this.file_id
+        })
+            .subscribe(function (data) { return _this.router.navigate(['/']); }, function (error) {
             console.log(error);
         });
     };
@@ -922,7 +1057,7 @@ var FilterComponent = /** @class */ (function () {
     FilterComponent.prototype.getMetadata = function (id) {
         var _this = this;
         this.http
-            .post('/api/get_metadata', { 'id': id })
+            .post('/api/get_metadata', { 'file_id': this.file_id })
             .subscribe(function (res) { return _this.parseMetadata(res); }, function (error) {
             console.log(error);
         });
@@ -932,13 +1067,17 @@ var FilterComponent = /** @class */ (function () {
         this.columns = Object.keys(data['metadata']);
         this.metadata = data['metadata'];
     };
+    FilterComponent.prototype.setFilterName = function (value) {
+        this.filter_name = value;
+    };
     FilterComponent = __decorate([
         Object(_angular_core__WEBPACK_IMPORTED_MODULE_0__["Component"])({
             selector: 'app-filter',
             template: __webpack_require__(/*! ./filter.component.html */ "./src/app/filter/filter.component.html"),
             styles: [__webpack_require__(/*! ./filter.component.css */ "./src/app/filter/filter.component.css")]
         }),
-        __metadata("design:paramtypes", [_angular_common_http__WEBPACK_IMPORTED_MODULE_1__["HttpClient"]])
+        __metadata("design:paramtypes", [_angular_common_http__WEBPACK_IMPORTED_MODULE_2__["HttpClient"],
+            _angular_router__WEBPACK_IMPORTED_MODULE_1__["Router"]])
     ], FilterComponent);
     return FilterComponent;
 }());
@@ -965,7 +1104,7 @@ module.exports = ""
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = "<p>\n    TODO: home page which is accessible if user is logged in\n</p>\n"
+module.exports = "\n<p>\n    TODO: home page which is accessible if user is logged in\n</p>\n<app-file-uploads></app-file-uploads>\n<app-statistics *ngIf=\"dataset_id\" [dataset_id]=\"dataset_id\"> Loading statistics... </app-statistics>\n<app-table *ngIf=\"dataset_id\" [dataset_id]=\"dataset_id\">Loading preview table...</app-table>\n"
 
 /***/ }),
 
@@ -994,6 +1133,9 @@ var HomeComponent = /** @class */ (function () {
     function HomeComponent() {
     }
     HomeComponent.prototype.ngOnInit = function () {
+    };
+    HomeComponent.prototype.fileUploadhandler = function (dataset_id) {
+        this.dataset_id = dataset_id;
     };
     HomeComponent = __decorate([
         Object(_angular_core__WEBPACK_IMPORTED_MODULE_0__["Component"])({
@@ -1028,7 +1170,7 @@ module.exports = "@media(min-width: 768px) {\n    .field-label-responsive {\n   
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = "<div class=\"auth\">\n    <div class=\"form\">\n        <form class=\"form-horizontal\" [formGroup]=\"loginGroup\" (ngSubmit)=\"toLogin()\">\n            <div class=\"row\">\n                <div class=\"col-md-3\">\n\n                </div>\n                <div class=\"col-md-6\">\n                    <h3>Please enter your email and password</h3>\n                    <hr>\n                    <br><br>\n                </div>\n                <div class=\"col-md-3\">\n\n                </div>\n            </div>\n            <div class=\"row\">\n                <div class=\"col-md-3 field-label-responsive\">\n                    <label for=\"email\">E-Mail Address</label>\n                </div>\n                <div class=\"col-md-6\">\n                    <div class=\"form-group\">\n                        <div class=\"input-group mb-2 mr-sm-2 mb-sm-0\">\n                            <div class=\"input-group-addon\" style=\"width: 2.6rem\"><i class=\"fa fa-at\"></i></div>\n                            <input type=\"text\" formControlName=\"email\" required class=\"form-control\" id=\"email\"\n                                   placeholder=\"you@example.com\" autofocus>\n                        </div>\n                    </div>\n                </div>\n                <div class=\"col-md-3\">\n                </div>\n            </div>\n            <div class=\"row\">\n                <div class=\"col-md-3 field-label-responsive\">\n                    <label for=\"password\">Password</label>\n                </div>\n                <div class=\"col-md-6\">\n                    <div class=\"form-group has-danger\">\n                        <div class=\"input-group mb-2 mr-sm-2 mb-sm-0\">\n                            <div class=\"input-group-addon\" style=\"width: 2.6rem\"><i class=\"fa fa-key\"></i></div>\n                            <input type=\"password\" formControlName=\"password\" class=\"form-control\" id=\"password\"\n                                   placeholder=\"Password\" required>\n                        </div>\n                    </div>\n                </div>\n                <div class=\"col-md-3\">\n\n                </div>\n            </div>\n            <div class=\"row\">\n                <div class=\"col-md-3\">\n\n                </div>\n                <div class=\"col-md-6\">\n                    <strong>\n                        <div id=\"error\" class=\"alert alert-warning\">\n\n\n                        </div>\n                    </strong>\n                </div>\n                <div class=\"col-md-3\">\n\n                </div>\n            </div>\n            <div class=\"row\">\n                <div class=\"col-md-3\">\n\n                </div>\n                <div class=\"col-md-6\">\n                    <div *ngIf=\"email.invalid && (email.dirty || email.touched)\"\n                         class=\"alert alert-danger\">\n\n                        <div *ngIf=\"email.errors.required\">\n                            Email is required.\n                        </div>\n                        <div *ngIf=\"email.errors.wrongFormat\">\n                            Wrong format of email\n                        </div>\n                    </div>\n                    <div *ngIf=\"password.invalid && (password.dirty || password.touched)\"\n                         class=\"alert alert-danger\">\n                        <div *ngIf=\"password.errors || password.errors\">Password must be from 8\n                            to 40 characters long and contain at least one digit.\n                        </div>\n                    </div>\n                    <div class=\"alert alert-danger\" *ngIf=\"message\">\n                        {{ message }}\n                    </div>\n                </div>\n                <div class=\"col-md-3\">\n\n                </div>\n\n            </div>\n            <div class=\"row\">\n                <div class=\"col-md-3\"></div>\n                <div class=\"col-md-6\"><a href=\"#\" routerLink='/reset'><span class=\"glyphicon glyphicon-user\"></span>Forgot\n                    your\n                    password?</a>\n                </div>\n                <div class=\"col-md-3\"></div>\n            </div>\n\n            <div class=\"row\">\n                <div class=\"col-md-3\"></div>\n                <div class=\"col-md-6\">\n                    <button type=\"submit\" class=\"btn btn-success\" [disabled]=\"!loginGroup.valid\"> Login</button>\n                </div>\n            </div>\n\n        </form>\n    </div>\n</div>\n  "
+module.exports = "<div class=\"auth\">\n    <div class=\"form\">\n        <form class=\"form-horizontal\" [formGroup]=\"loginGroup\" (ngSubmit)=\"toLogin()\">\n            <div class=\"row\">\n                <div class=\"col-md-3\">\n\n                </div>\n                <div class=\"col-md-6\">\n                    <h3>Please enter your email and password</h3>\n                    <hr>\n                    <br><br>\n                    <div  class=\"alert alert-warning\" *ngIf=\"redirectingMessage\">\n                        PLease login at first\n                    </div>\n                </div>\n                <div class=\"col-md-3\">\n\n                </div>\n            </div>\n            <div class=\"row\">\n                <div class=\"col-md-3 field-label-responsive\">\n                    <label for=\"email\">E-Mail Address</label>\n                </div>\n                <div class=\"col-md-6\">\n                    <div class=\"form-group\">\n                        <div class=\"input-group mb-2 mr-sm-2 mb-sm-0\">\n                            <div class=\"input-group-addon\" style=\"width: 2.6rem\"><i class=\"fa fa-at\"></i></div>\n                            <input type=\"text\" formControlName=\"email\" required class=\"form-control\" id=\"email\"\n                                   placeholder=\"you@example.com\" autofocus>\n                        </div>\n                    </div>\n                </div>\n                <div class=\"col-md-3\">\n                </div>\n            </div>\n            <div class=\"row\">\n                <div class=\"col-md-3 field-label-responsive\">\n                    <label for=\"password\">Password</label>\n                </div>\n                <div class=\"col-md-6\">\n                    <div class=\"form-group has-danger\">\n                        <div class=\"input-group mb-2 mr-sm-2 mb-sm-0\">\n                            <div class=\"input-group-addon\" style=\"width: 2.6rem\"><i class=\"fa fa-key\"></i></div>\n                            <input type=\"password\" formControlName=\"password\" class=\"form-control\" id=\"password\"\n                                   placeholder=\"Password\" required>\n                        </div>\n                    </div>\n                </div>\n                <div class=\"col-md-3\">\n\n                </div>\n            </div>\n            <div class=\"row\">\n                <div class=\"col-md-3\">\n\n                </div>\n                <div class=\"col-md-6\">\n                    <strong>\n                        <div id=\"error\" class=\"alert alert-warning\">\n\n\n                        </div>\n                    </strong>\n                </div>\n                <div class=\"col-md-3\">\n\n                </div>\n            </div>\n            <div class=\"row\">\n                <div class=\"col-md-3\">\n\n                </div>\n                <div class=\"col-md-6\">\n                    <div *ngIf=\"email.invalid && (email.dirty || email.touched)\"\n                         class=\"alert alert-danger\">\n\n                        <div *ngIf=\"email.errors.required\">\n                            Email is required.\n                        </div>\n                        <div *ngIf=\"email.errors.wrongFormat\">\n                            Wrong format of email\n                        </div>\n                    </div>\n                    <div *ngIf=\"password.invalid && (password.dirty || password.touched)\"\n                         class=\"alert alert-danger\">\n                        <div *ngIf=\"password.errors || password.errors\">Password must be from 8\n                            to 40 characters long and contain at least one digit.\n                        </div>\n                    </div>\n                    <div class=\"alert alert-danger\" *ngIf=\"message\">\n                        {{ message }}\n                    </div>\n                </div>\n                <div class=\"col-md-3\">\n\n                </div>\n\n            </div>\n            <div class=\"row\">\n                <div class=\"col-md-3\"></div>\n                <div class=\"col-md-6\"><a href=\"#\" routerLink='/reset'><span class=\"glyphicon glyphicon-user\"></span>Forgot\n                    your   password?</a>\n                </div>\n                <div class=\"col-md-3\"></div>\n            </div>\n\n            <div class=\"row\">\n                <div class=\"col-md-3\"></div>\n                <div class=\"col-md-6\">\n                    <button type=\"submit\" class=\"btn btn-success\" [disabled]=\"!loginGroup.valid\"> Login</button>\n                </div>\n            </div>\n\n        </form>\n    </div>\n</div>\n  "
 
 /***/ }),
 
@@ -1068,6 +1210,7 @@ var LoginComponent = /** @class */ (function () {
         this.auth_ = auth_;
         this.router = router;
         this.route = route;
+        this.redirectingMessage = this.route.snapshot.queryParams["authRedirecting"] || undefined;
         this.loginGroup = new _angular_forms__WEBPACK_IMPORTED_MODULE_2__["FormGroup"]({
             email: new _angular_forms__WEBPACK_IMPORTED_MODULE_2__["FormControl"]('', [
                 _angular_forms__WEBPACK_IMPORTED_MODULE_2__["Validators"].required,
@@ -1243,7 +1386,7 @@ module.exports = "@import url(\"//maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = "<nav class=\"navbar navbar-icon-top navbar-expand-lg navbar-dark bg-dark\">\n    <a class=\"navbar-brand\" routerLink=\"/\">Navbar</a>\n    <button class=\"navbar-toggler\" type=\"button\" data-toggle=\"collapse\" data-target=\"#navbarSupportedContent\"\n            aria-controls=\"navbarSupportedContent\" aria-expanded=\"false\" aria-label=\"Toggle navigation\">\n        <span class=\"navbar-toggler-icon\"></span>\n    </button>\n\n    <div class=\"collapse navbar-collapse\" id=\"navbarSupportedContent\">\n        <ul class=\"navbar-nav mr-auto\">\n            <li class=\"nav-item active\">\n                <a class=\"nav-link\" routerLink=\"/\">\n                    <i class=\"fa fa-home\"></i>\n                    Home\n                </a>\n            </li>\n            <li class=\"nav-item active nav-right\">\n                <a class=\"nav-link\" href=\"/upload\">\n                    Upload\n                </a>\n            </li>\n            <li class=\"nav-item\">\n                <a class=\"nav-link\" href=\"#\">\n                    Messages\n                </a>\n            </li>\n            <li class=\"nav-item active nav-right\">\n                <a class=\"nav-link\" routerLink=\"/login\">\n                    Login\n                </a>\n            </li>\n            <li class=\"nav-item active nav-right\">\n                <a class=\"nav-link\" routerLink=\"/register\">\n                    Sign up\n                </a>\n            </li>\n            <li class=\"nav-item active nav-right\">\n                <a class=\"nav-link\" routerLink=\"/logout\">\n                    Logout\n                </a>\n            </li>\n\n        </ul>\n\n    </div>\n</nav>"
+module.exports = "<nav class=\"navbar navbar-icon-top navbar-expand-lg navbar-dark bg-dark\">\n    <a class=\"navbar-brand\" routerLink=\"/\">CarStatistic</a>\n    <button class=\"navbar-toggler\" type=\"button\" data-toggle=\"collapse\" data-target=\"#navbarSupportedContent\"\n            aria-controls=\"navbarSupportedContent\" aria-expanded=\"false\" aria-label=\"Toggle navigation\">\n        <span class=\"navbar-toggler-icon\"></span>\n    </button>\n\n    <div class=\"collapse navbar-collapse\" id=\"navbarSupportedContent\">\n        <ul class=\"navbar-nav mr-auto\">\n            <li class=\"nav-item active\">\n                <a class=\"nav-link\" routerLink=\"/\">\n                    <i class=\"fa fa-home\"></i>\n                    Home\n                </a>\n            </li>\n            <li class=\"nav-item active nav-right\">\n                <a class=\"nav-link\" routerLink=\"/upload\">\n                    Upload\n                </a>\n            </li>\n\n            <li class=\"nav-item\">\n                <a class=\"nav-link\" href=\"#\">\n                    Messages\n                </a>\n            </li>\n            <li class=\"nav-item active nav-right\" *ngIf=\"!isLogined()\">\n                <a class=\"nav-link\" routerLink=\"/login\">\n                    Login\n                </a>\n            </li>\n            <li class=\"nav-item active nav-right\" *ngIf=\"!isLogined()\">\n                <a class=\"nav-link\" routerLink=\"/register\">\n                    Sign up\n                </a>\n            </li>\n            <li class=\"nav-item active nav-right\" *ngIf=\"isLogined()\">\n                <a class=\"nav-link\" routerLink=\"/logout\">\n                    Logout\n                </a>\n            </li>\n\n        </ul>\n\n    </div>\n</nav>"
 
 /***/ }),
 
@@ -1272,6 +1415,14 @@ var NavbarComponent = /** @class */ (function () {
     function NavbarComponent() {
     }
     NavbarComponent.prototype.ngOnInit = function () {
+    };
+    NavbarComponent.prototype.isLogined = function () {
+        function getCookie(name) {
+            var matches = document.cookie.match(new RegExp("(?:^|; )" + name.replace(/([\.$?*|{}\(\)\[\]\\\/\+^])/g, '\\$1') + "=([^;]*)"));
+            return matches ? decodeURIComponent(matches[1]) : undefined;
+        }
+        var isLog = getCookie("session");
+        return isLog;
     };
     NavbarComponent = __decorate([
         Object(_angular_core__WEBPACK_IMPORTED_MODULE_0__["Component"])({
@@ -1369,7 +1520,7 @@ module.exports = "@media(min-width: 768px) {\n  .field-label-responsive {\n    p
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = "<div class=\"auth\">\n    <div class=\"form\">\n        <div class=\"row\">\n                <div class=\"col-md-3\">\n\n                </div>\n                <div class=\"col-md-6\">\n                    <div *ngIf=\"confirm_message\" class=\"alert alert-success\">\n                        <br><br>{{ confirm_message }}\n                    </div>\n                </div>\n                <div class=\"col-md-3\">\n\n                </div>\n            </div>\n        <form class=\"form-horizontal\"  [formGroup]=\"registerGroup\" (ngSubmit)=\"toRegister()\">\n            <div class=\"row\">\n                <div class=\"col-md-3\"></div>\n                <div class=\"col-md-6\">\n                    <h2>Register New User</h2>\n                    <hr>\n                    <br><br>\n                </div>\n            </div>\n\n            <div class=\"row\">\n                <div class=\"col-md-3 field-label-responsive\">\n                    <label for=\"email\">E-Mail Address</label>\n                </div>\n                <div class=\"col-md-6\">\n                    <div class=\"form-group\">\n                        <div class=\"input-group mb-2 mr-sm-2 mb-sm-0\">\n                            <div class=\"input-group-addon\" style=\"width: 2.6rem\"><i class=\"fa fa-at\"></i></div>\n                            <input type=\"text\" formControlName=\"email\" required class=\"form-control\" id=\"email\"\n                                   placeholder=\"you@example.com\" autofocus>\n\n                        </div>\n                    </div>\n                </div>\n                <div class=\"col-md-3\">\n\n                </div>\n            </div>\n            <div class=\"row\">\n                <div class=\"col-md-3\">\n\n                </div>\n                <div class=\"col-md-6\">\n                    <div *ngIf=\"email == ''\">\n                        Email can not be empty\n                    </div>\n                    <div *ngIf=\"email.invalid && (email.dirty || email.touched)\"\n                         class=\"alert alert-danger\">\n\n                        <div *ngIf=\"email.errors.required\">\n                            Email is required.\n                        </div>\n                        <div *ngIf=\"email.errors.wrongFormat\">\n                            Wrong format of email.\n                        </div>\n\n\n\n                    </div>\n                    <div class=\" alert alert-danger\" *ngIf=\"isEmailBusy == true\">\n                            {{ error_message }}\n                        </div>\n                </div>\n                <div class=\"col-md-3\">\n\n                </div>\n\n            </div>\n            <div class=\"row\">\n                <div class=\"col-md-3 field-label-responsive\">\n                    <label for=\"password\">Password</label>\n                </div>\n                <div class=\"col-md-6\">\n                    <div class=\"form-group has-danger\">\n                        <div class=\"input-group mb-2 mr-sm-2 mb-sm-0\">\n                            <div class=\"input-group-addon\" style=\"width: 2.6rem\"><i class=\"fa fa-key\"></i></div>\n                            <input type=\"password\" formControlName=\"password\" class=\"form-control\" id=\"password\"\n                                   placeholder=\"Password\" required>\n                        </div>\n                    </div>\n                </div>\n                <div class=\"col-md-3\">\n\n                </div>\n            </div>\n            <div class=\"row\">\n                <div class=\"col-md-3\">\n\n                </div>\n                <div class=\"col-md-6\">\n                     <div class=\"alert alert-danger\" *ngIf=\"password.invalid && (password.dirty || password.touched)\">\n                        <ul>\n                            <li *ngIf=\"password.errors || password.errors\">Password must be from 8\n                                to 40 characters long and contain at least one digit.\n                            </li>\n                        </ul>\n                    </div>\n                </div>\n                <div class=\"col-md-3\">\n\n                </div>\n            </div>\n\n            <div class=\"row\">\n                <div class=\"col-md-3\"></div>\n                <div class=\"col-md-6\">\n                    <button type=\"submit\" class=\"btn btn-success\" [disabled]=\"!registerGroup.valid\"> Register</button>\n                </div>\n            </div>\n\n        </form>\n    </div>\n</div>\n\n\n"
+module.exports = "<div class=\"auth\">\n    <div class=\"form\">\n        <div class=\"row\">\n                <div class=\"col-md-3\">\n\n                </div>\n                <div class=\"col-md-6\">\n                    <div *ngIf=\"message\" class=\"alert alert-success\">\n                        <br><br>{{ message }}\n                    </div>\n                </div>\n                <div class=\"col-md-3\">\n\n                </div>\n            </div>\n        <form class=\"form-horizontal\"  [formGroup]=\"registerGroup\" (ngSubmit)=\"toRegister()\">\n            <div class=\"row\">\n                <div class=\"col-md-3\"></div>\n                <div class=\"col-md-6\">\n                    <h2>Register New User</h2>\n                    <hr>\n                    <br><br>\n                </div>\n            </div>\n\n            <div class=\"row\">\n                <div class=\"col-md-3 field-label-responsive\">\n                    <label for=\"email\">E-Mail Address</label>\n                </div>\n                <div class=\"col-md-6\">\n                    <div class=\"form-group\">\n                        <div class=\"input-group mb-2 mr-sm-2 mb-sm-0\">\n                            <div class=\"input-group-addon\" style=\"width: 2.6rem\"><i class=\"fa fa-at\"></i></div>\n                            <input type=\"text\" formControlName=\"email\" required class=\"form-control\" id=\"email\"\n                                   placeholder=\"you@example.com\" autofocus>\n\n                        </div>\n                    </div>\n                </div>\n                <div class=\"col-md-3\">\n\n                </div>\n            </div>\n            <div class=\"row\">\n                <div class=\"col-md-3\">\n\n                </div>\n                <div class=\"col-md-6\">\n                    <div *ngIf=\"email == ''\">\n                        Email can not be empty\n                    </div>\n                    <div *ngIf=\"email.invalid && (email.dirty || email.touched)\"\n                         class=\"alert alert-danger\">\n\n                        <div *ngIf=\"email.errors.required\">\n                            Email is required.\n                        </div>\n                        <div *ngIf=\"email.errors.wrongFormat\">\n                            Wrong format of email.\n                        </div>\n\n\n\n                    </div>\n                    <div class=\" alert alert-danger\" *ngIf=\"isEmailBusy == true\">\n                            {{ error_message }}\n                        </div>\n                </div>\n                <div class=\"col-md-3\">\n\n                </div>\n\n            </div>\n            <div class=\"row\">\n                <div class=\"col-md-3 field-label-responsive\">\n                    <label for=\"password\">Password</label>\n                </div>\n                <div class=\"col-md-6\">\n                    <div class=\"form-group has-danger\">\n                        <div class=\"input-group mb-2 mr-sm-2 mb-sm-0\">\n                            <div class=\"input-group-addon\" style=\"width: 2.6rem\"><i class=\"fa fa-key\"></i></div>\n                            <input type=\"password\" formControlName=\"password\" class=\"form-control\" id=\"password\"\n                                   placeholder=\"Password\" required>\n                        </div>\n                    </div>\n                </div>\n                <div class=\"col-md-3\">\n\n                </div>\n            </div>\n            <div class=\"row\">\n                <div class=\"col-md-3\">\n\n                </div>\n                <div class=\"col-md-6\">\n                     <div class=\"alert alert-danger\" *ngIf=\"password.invalid && (password.dirty || password.touched)\">\n                        <ul>\n                            <li *ngIf=\"password.errors || password.errors\">Password must be from 8\n                                to 40 characters long and contain at least one digit.\n                            </li>\n                        </ul>\n                    </div>\n                </div>\n                <div class=\"col-md-3\">\n\n                </div>\n            </div>\n\n            <div class=\"row\">\n                <div class=\"col-md-3\"></div>\n                <div class=\"col-md-6\">\n                    <button type=\"submit\" class=\"btn btn-success\" [disabled]=\"!registerGroup.valid\"> Register</button>\n                </div>\n            </div>\n\n        </form>\n    </div>\n</div>\n\n\n"
 
 /***/ }),
 
@@ -1428,8 +1579,10 @@ var RegistrationComponent = /** @class */ (function () {
         this.auth_.toRegister(new _models_user__WEBPACK_IMPORTED_MODULE_4__["User"](this.registerGroup.controls['email'].value, this.registerGroup.controls['password'].value))
             .subscribe(function (res) {
             localStorage.setItem('token', res.token);
-            _this.confirm_message = "We send you confirmation token. Please check your email";
-            _this.registerGroup = null;
+            var data_txt = (JSON.stringify(res));
+            var response_data = JSON.parse(data_txt);
+            _this.message = response_data.message;
+            _this.registerGroup.setValue({ email: '', password: '' });
         }, function (err) {
             _this.isEmailBusy = true;
             var data_txt = (JSON.stringify(err));
@@ -1489,7 +1642,7 @@ module.exports = "@media(min-width: 768px) {\n  .field-label-responsive {\n    p
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = "<div class=\"auth\">\n    <div class=\"form\">\n        <form id=\"reset-password\" [formGroup]=\"resetPasswordGroup\" (ngSubmit)=\"toResetPassword()\">\n            <div class=\"row\">\n                <div class=\"col-md-3\">\n\n                </div>\n                <div class=\"col-md-6\">\n                    <h3>Enter your registration email.</h3>\n                </div>\n                <div class=\"col-md-3\">\n\n                </div>\n            </div>\n            <div class=\"row\">\n                <div class=\"col-md-3 field-label-responsive\">\n                    <label for=\"email\">E-Mail Address</label>\n                </div>\n                <div class=\"col-md-6\">\n                    <div class=\"form-group\">\n                        <div class=\"input-group mb-2 mr-sm-2 mb-sm-0\">\n                            <div class=\"input-group-addon\" style=\"width: 2.6rem\"><i class=\"fa fa-at\"></i></div>\n                            <input type=\"text\" formControlName=\"email\" required class=\"form-control\"\n                                   placeholder=\"you@example.com\" autofocus>\n                        </div>\n                    </div>\n                </div>\n                <div class=\"col-md-3\">\n                    <button type=\"submit\" class=\"btn btn-success\" [disabled]=\"!resetPasswordGroup.valid\"> Send</button>\n                </div>\n\n            </div>\n            <div class=\"row\">\n                <div class=\"col-md-3\">\n\n                </div>\n                <div class=\"col-md-6\">\n                    <div *ngIf=\"email == ''\">\n                        Email can not be empty\n                    </div>\n                    <div *ngIf=\"email.invalid && (email.dirty || email.touched)\"\n                         class=\"alert alert-danger\">\n                        <div *ngIf=\"email.errors.required\">\n                            Email is required.\n                        </div>\n                        <div *ngIf=\"email.errors.wrongFormat\">\n                            Wrong format of email.\n                        </div>\n                    </div>\n                    <div class=\"alert alert-danger\" *ngIf=\"error_message\">\n                        {{ error_message }}\n                    </div>\n                </div>\n                <div class=\"col-md-3\">\n\n                </div>\n\n            </div>\n            <div class=\"row\">\n                <div class=\"col-md-3\">\n\n                </div>\n                <div class=\"col-md-6\">\n                    <div *ngIf=\"confirm_message\">\n                        <div class=\"alert alert-success row \">\n                            We send you confirnation token. Please check your email.\n                        </div>\n                    </div>\n\n                </div>\n                <div class=\"col-md-3\">\n\n                </div>\n            </div>\n        </form>\n    </div>\n</div>"
+module.exports = "<div class=\"auth\">\n    <div class=\"form\">\n        <form id=\"reset-password\" [formGroup]=\"resetPasswordGroup\" (ngSubmit)=\"toResetPassword()\">\n            <div class=\"row\">\n                <div class=\"col-md-3\">\n\n                </div>\n                <div class=\"col-md-6\">\n                    <h3>Enter your registration email.</h3>\n                </div>\n                <div class=\"col-md-3\">\n\n                </div>\n            </div>\n            <div class=\"row\">\n                <div class=\"col-md-3 field-label-responsive\">\n                    <label for=\"email\">E-Mail Address</label>\n                </div>\n                <div class=\"col-md-6\">\n                    <div class=\"form-group\">\n                        <div class=\"input-group mb-2 mr-sm-2 mb-sm-0\">\n                            <div class=\"input-group-addon\" style=\"width: 2.6rem\"><i class=\"fa fa-at\"></i></div>\n                            <input type=\"text\" formControlName=\"email\" required class=\"form-control\"\n                                   placeholder=\"you@example.com\" autofocus>\n                        </div>\n                    </div>\n                </div>\n                <div class=\"col-md-3\">\n                    <button type=\"submit\" class=\"btn btn-success\" [disabled]=\"!resetPasswordGroup.valid\"> Send</button>\n                </div>\n\n            </div>\n            <div class=\"row\">\n                <div class=\"col-md-3\">\n\n                </div>\n                <div class=\"col-md-6\">\n                    <div *ngIf=\"email == ''\">\n                        Email can not be empty\n                    </div>\n                    <div *ngIf=\"email.invalid && (email.dirty || email.touched) && validation_passed\"\n                         class=\"alert alert-danger\">\n                        <div *ngIf=\"email.errors.required\">\n                            Email is required.\n                        </div>\n                        <div *ngIf=\"email.errors.wrongFormat\">\n                            Wrong format of email.\n                        </div>\n                    </div>\n                    <div class=\"alert alert-danger\" *ngIf=\"error_message\">\n                        {{ error_message }}\n                    </div>\n                </div>\n                <div class=\"col-md-3\">\n\n                </div>\n\n            </div>\n            <div class=\"row\">\n                <div class=\"col-md-3\">\n\n                </div>\n                <div class=\"col-md-6\">\n                    <div *ngIf=\"confirm_message\">\n                        <div class=\"alert alert-success row \">\n                            We send you confirnation token. Please check your email.\n                        </div>\n                    </div>\n\n                </div>\n                <div class=\"col-md-3\">\n\n                </div>\n            </div>\n        </form>\n    </div>\n</div>"
 
 /***/ }),
 
@@ -1527,6 +1680,7 @@ var ResetPasswordComponent = /** @class */ (function () {
         this.auth_ = auth_;
         this.router = router;
         this.route = route;
+        this.validation_passed = true;
         this.resetPasswordGroup = new _angular_forms__WEBPACK_IMPORTED_MODULE_2__["FormGroup"]({
             email: new _angular_forms__WEBPACK_IMPORTED_MODULE_2__["FormControl"]('', [
                 _angular_forms__WEBPACK_IMPORTED_MODULE_2__["Validators"].required,
@@ -1539,6 +1693,9 @@ var ResetPasswordComponent = /** @class */ (function () {
         this.auth_.toResetPassword(this.resetPasswordGroup.controls['email'].value)
             .subscribe(function (res) {
             _this.confirm_message = true;
+            _this.resetPasswordGroup.setValue({ email: '' });
+            _this.error_message = undefined;
+            _this.validation_passed = false;
         }, function (err) {
             var data_txt = (JSON.stringify(err));
             var error_data = JSON.parse(data_txt);
@@ -1565,6 +1722,179 @@ var ResetPasswordComponent = /** @class */ (function () {
             _angular_router__WEBPACK_IMPORTED_MODULE_3__["ActivatedRoute"]])
     ], ResetPasswordComponent);
     return ResetPasswordComponent;
+}());
+
+
+
+/***/ }),
+
+/***/ "./src/app/statistics/statistics.component.css":
+/*!*****************************************************!*\
+  !*** ./src/app/statistics/statistics.component.css ***!
+  \*****************************************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+module.exports = ""
+
+/***/ }),
+
+/***/ "./src/app/statistics/statistics.component.html":
+/*!******************************************************!*\
+  !*** ./src/app/statistics/statistics.component.html ***!
+  \******************************************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+module.exports = "\n<div>\n    <label for=\"column_selection\">Select Column: </label>\n    <select id=\"column_selection\" #selection (change)=\"makeSelection(selection.value)\" class=\"selectpicker\">\n        <option *ngFor=\"let column of columns\"> {{column}}</option>\n    </select>\n    <plotly-plot [config]=\"graph['config']\" [data]=\"graph['data']\" [layout]=\"graph['layout']\"></plotly-plot>\n</div>"
+
+/***/ }),
+
+/***/ "./src/app/statistics/statistics.component.ts":
+/*!****************************************************!*\
+  !*** ./src/app/statistics/statistics.component.ts ***!
+  \****************************************************/
+/*! exports provided: StatisticsComponent */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "StatisticsComponent", function() { return StatisticsComponent; });
+/* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @angular/core */ "./node_modules/@angular/core/fesm5/core.js");
+/* harmony import */ var _data_service__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../data.service */ "./src/app/data.service.ts");
+var __decorate = (undefined && undefined.__decorate) || function (decorators, target, key, desc) {
+    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
+};
+var __metadata = (undefined && undefined.__metadata) || function (k, v) {
+    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
+};
+
+
+var StatisticsComponent = /** @class */ (function () {
+    function StatisticsComponent(data) {
+        this.data = data;
+        this.graph = {
+            data: [
+                { x: ['', '', ''], y: [], type: 'bar' },
+            ],
+            layout: {
+                width: 600, height: 400, title: 'Column1',
+                xaxis: { title: "", tickangle: "-90", tickformat: '.3f', showline: true, type: "category" },
+                modeBarButtonsToRemove: ['sendDataToCloud', 'hoverCompareCartesian']
+            },
+            config: {
+                displayModeBar: true,
+                displaylogo: false,
+                modeBarButtonsToRemove: ['sendDataToCloud', 'pan2d', 'lasso2d', 'autoScale2d', 'zoom2d', 'select2d',
+                    'resetScale2d', 'toggleSpikelines', 'toggleHover', 'hoverClosestCartesian', 'hoverCompareCartesian'],
+            }
+        };
+    }
+    StatisticsComponent.prototype.ngOnInit = function () {
+        var _this = this;
+        this.data.getStatistics(this.dataset_id)
+            .subscribe(function (res) {
+            _this.statistics = res;
+            _this.columns = Object.keys(res);
+            _this.graph.data[0].x = Object.keys(res[_this.columns[0]]);
+            _this.graph.layout.title = _this.columns[0];
+            _this.graph.data[0].y = Object.values(res[_this.columns[0]]);
+        }, function (error) { console.log(error); });
+    };
+    StatisticsComponent.prototype.makeSelection = function (value) {
+        this.graph.layout.title = value;
+        this.graph.data[0].x = Object.keys(this.statistics[value]);
+        this.graph.data[0].y = Object.values(this.statistics[value]);
+    };
+    __decorate([
+        Object(_angular_core__WEBPACK_IMPORTED_MODULE_0__["Input"])(),
+        __metadata("design:type", Number)
+    ], StatisticsComponent.prototype, "dataset_id", void 0);
+    StatisticsComponent = __decorate([
+        Object(_angular_core__WEBPACK_IMPORTED_MODULE_0__["Component"])({
+            selector: 'app-statistics',
+            template: __webpack_require__(/*! ./statistics.component.html */ "./src/app/statistics/statistics.component.html"),
+            styles: [__webpack_require__(/*! ./statistics.component.css */ "./src/app/statistics/statistics.component.css")]
+        }),
+        __metadata("design:paramtypes", [_data_service__WEBPACK_IMPORTED_MODULE_1__["DataService"]])
+    ], StatisticsComponent);
+    return StatisticsComponent;
+}());
+
+
+
+/***/ }),
+
+/***/ "./src/app/table/table.component.css":
+/*!*******************************************!*\
+  !*** ./src/app/table/table.component.css ***!
+  \*******************************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+module.exports = "@import url(\"//maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css\");"
+
+/***/ }),
+
+/***/ "./src/app/table/table.component.html":
+/*!********************************************!*\
+  !*** ./src/app/table/table.component.html ***!
+  \********************************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+module.exports = "<table class=\"table table-bordered table-hover\">\n    <thead>\n        <tr>\n            <th *ngFor=\"let col_name of columns\">{{col_name}}</th>\n        </tr>\n    </thead>\n    <tbody>\n        <tr *ngFor=\"let row of rows\">\n          <td *ngFor=\"let val of row\">{{val}} </td>\n        </tr>\n    </tbody>\n</table>"
+
+/***/ }),
+
+/***/ "./src/app/table/table.component.ts":
+/*!******************************************!*\
+  !*** ./src/app/table/table.component.ts ***!
+  \******************************************/
+/*! exports provided: TableComponent */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "TableComponent", function() { return TableComponent; });
+/* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @angular/core */ "./node_modules/@angular/core/fesm5/core.js");
+/* harmony import */ var _data_service__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../data.service */ "./src/app/data.service.ts");
+var __decorate = (undefined && undefined.__decorate) || function (decorators, target, key, desc) {
+    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
+};
+var __metadata = (undefined && undefined.__metadata) || function (k, v) {
+    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
+};
+
+
+var TableComponent = /** @class */ (function () {
+    function TableComponent(data) {
+        this.data = data;
+    }
+    TableComponent.prototype.ngOnInit = function () {
+        var _this = this;
+        this.data.getRows(this.dataset_id)
+            .subscribe(function (res) { _this.columns = res['columns']; _this.rows = res['rows']; }, function (error) { console.log(error); });
+    };
+    __decorate([
+        Object(_angular_core__WEBPACK_IMPORTED_MODULE_0__["Input"])(),
+        __metadata("design:type", Number)
+    ], TableComponent.prototype, "dataset_id", void 0);
+    TableComponent = __decorate([
+        Object(_angular_core__WEBPACK_IMPORTED_MODULE_0__["Component"])({
+            selector: 'app-table',
+            template: __webpack_require__(/*! ./table.component.html */ "./src/app/table/table.component.html"),
+            styles: [__webpack_require__(/*! ./table.component.css */ "./src/app/table/table.component.css")]
+        }),
+        __metadata("design:paramtypes", [_data_service__WEBPACK_IMPORTED_MODULE_1__["DataService"]])
+    ], TableComponent);
+    return TableComponent;
 }());
 
 
