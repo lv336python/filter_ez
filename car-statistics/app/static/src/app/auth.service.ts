@@ -35,6 +35,8 @@ export class AuthService {
         return this._http.post<any>(this.login_api_url, user);
     }
 
+
+
     toLogout(user: User): Observable<any> {
         return this._http.post<any>(this.logout_api_url, user);
     }

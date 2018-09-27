@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import {DataService} from "../data.service";
 
 @Component({
   selector: 'app-home',
@@ -9,14 +10,21 @@ export class HomeComponent implements OnInit {
 
     dataset_id : number;
 
-    constructor() { }
+    constructor(private data: DataService) { }
 
     ngOnInit() {
-
     }
 
-    fileUploadhandler(dataset_id : number) {
+    fileUploadHandler(dataset_id : number) {
+        console.log(dataset_id);
         this.dataset_id = dataset_id
     }
 
+
+    sendFile() {
+        this.data.get()
+            .subscribe(
+                res => console.log(res)
+            )
+    }
 }

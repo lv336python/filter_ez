@@ -1,7 +1,7 @@
 
-<p>
-    TODO: home page which is accessible if user is logged in
-</p>
-<app-file-uploads></app-file-uploads>
+<app-file-uploads (fileUploaded)="fileUploadHandler($event)"></app-file-uploads>
+
+<button (click)="sendFile()" >TEST: Send file to email</button>
+
 <app-statistics *ngIf="dataset_id" [dataset_id]="dataset_id"> Loading statistics... </app-statistics>
 <app-table *ngIf="dataset_id" [dataset_id]="dataset_id">Loading preview table...</app-table>

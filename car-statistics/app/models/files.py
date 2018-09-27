@@ -17,7 +17,7 @@ class File(db.Model):
     path = db.Column(db.String, nullable=False)
     attributes = db.Column(db.JSON, nullable=True)
 
-    datasets = db.relationship('Dataset', cascade="all, delete-orphan") # deletes all datasets if file deleted
+    datasets = db.relationship('Dataset', cascade="all, delete-orphan")  # deletes all datasets if file deleted
 
     def __init__(self, path, attributes):
         self.path = path
