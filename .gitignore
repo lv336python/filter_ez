@@ -131,3 +131,6 @@ car-statistics/app/static/public
 
 #migrations
 car-statistics/migrations
+
+#result_test.xls
+car-statistics/app/services/result_test.xls

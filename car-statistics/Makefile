@@ -10,6 +10,7 @@ usage:
 	@echo '    RabbitMQ     install RabbitMQ and run it'
 	@echo '    Celery       start celery worker'
 	@echo '    run          run local server'
+	@echo '	   back 	make setup, db, RabbitMQ'
 	@echo
 
 setup:
@@ -28,4 +29,10 @@ Celery:
 	celery -A app.celery worker -l info -n email@%h -Q email
 
 run:
+	gnome-terminal -e "bash -c \"make Celery; exec bash\""
 	python run.py
+
+back:
+	make setup
+	make db
+	make RabbitMQ
