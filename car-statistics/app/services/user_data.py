@@ -10,7 +10,6 @@ from app.services.utils import create_dir, user_dir,  save_path, attributes, ser
 
 def rewrite_file(file, file_path):
     """
-
     :param file:
     :param file_path:
     :return:
