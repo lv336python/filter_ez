@@ -15,10 +15,11 @@ export class RegistrationComponent implements OnInit {
 
     returnUrl: string;
     isEmailBusy: boolean = false;
-    error_message : string;
-    message : boolean;
+    error_message: string;
+    message: boolean;
+    validation_passed: boolean = true;
 
-    registerGroup =  new FormGroup({
+    registerGroup = new FormGroup({
         email: new FormControl('', [
             Validators.required,
             TextFormatDirective(/^[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?$/)
@@ -30,7 +31,7 @@ export class RegistrationComponent implements OnInit {
             Validators.maxLength(40),
             TextFormatDirective(/^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,}$/),
         ])
-      });
+    });
 
     toRegister() {
         this.auth_.toRegister(new User(this.registerGroup.controls['email'].value,
@@ -41,12 +42,13 @@ export class RegistrationComponent implements OnInit {
                     let data_txt = (JSON.stringify(res));
                     let response_data = JSON.parse(data_txt);
                     this.message = response_data.message;
-                    this.registerGroup.setValue({email: '', password: ''})
+                    this.registerGroup.setValue({email: '', password: ''});
+                    this.validation_passed = false;
 
 
                 },
                 err => {
-                    this.isEmailBusy =true;
+                    this.isEmailBusy = true;
                     let data_txt = (JSON.stringify(err));
                     let error_data = JSON.parse(data_txt);
                     this.error_message = error_data.error.message.toString();
@@ -57,7 +59,8 @@ export class RegistrationComponent implements OnInit {
     get password() {
         return this.registerGroup.get('password')
     }
-    get email(){
+
+    get email() {
         return this.registerGroup.get('email')
     }
 

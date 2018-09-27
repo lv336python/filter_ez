@@ -104,30 +104,17 @@ def get_user_file(file_id, user_id):
     :param user_id: id of file owner
     :return: path to file
     """
-    file = File.query.get(file_id)
+    file = File.query.filter(File.id == file_id).first()
     filename = file.path
     file_path = os.path.join(user_dir(user_id), filename)
     return file_path
-
-
-def get_file(filepath):
-    with open(get_file_path(filepath), 'rb') as file:
-        return file.read()
-
-
-def get_file_path(file_id):
-    file_path = File.query.filter(File.id == file_id).first().path
-    upload_folder = os.path.join(app.root_path, app.config['UPLOAD_FOLDER'])
-    full_path_to_file = os.path.join(upload_folder, file_path.split('uploads_temp')[1][1::]) # Temporary, to change later
-    return full_path_to_file
 
 
 def dataset_to_excel(dataset):
     try:
         byte_writer = BytesIO()
         excel_writer = pd.ExcelWriter(byte_writer, engine='xlwt')
-
-        path_to_file = get_file_path(dataset.file_id)
+        path_to_file = get_user_file(dataset.file_id, dataset.user_id)
         df = pd.read_excel(path_to_file)
         df = df.iloc[dataset.included_rows]
         df.to_excel(excel_writer, sheet_name='Sheet1', index=False)

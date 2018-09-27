@@ -24,3 +24,13 @@ def client():
 def new_user():
     user = User('vova@gmail.com', 'qwerty1111')
     return user
+
+# def login(client, email, password):
+#     return client.post('/api/login', json=dict(
+#         email=email,
+#         password=password
+#     ), follow_redirects=True)
+#
+#
+# def logout(client):
+#     return client.get('/logout', follow_redirects=True)

@@ -8,18 +8,31 @@ import {DataService} from "../data.service";
 })
 export class TableComponent implements OnInit {
 
-    @Input() dataset_id : number;
+    dataset_id_: number;
     columns : Array<string>;
     rows : Array<Array<string>>;
 
-    constructor(private data : DataService) { }
+    @Input() set dataset_id(dataset_id : number) {
+        this.dataset_id_ = dataset_id;
+        this.updateTable();
+    }
 
-    ngOnInit() {
+    get dataset_id () : number {
+        return this.dataset_id_;
+    }
+
+    updateTable() {
         this.data.getRows(this.dataset_id)
             .subscribe(
               res => {this.columns = res['columns']; this.rows = res['rows']},
               error => {console.log(error)}
             );
+    }
+
+    constructor(private data : DataService) { }
+
+    ngOnInit() {
+        this.updateTable();
     }
 
 }
