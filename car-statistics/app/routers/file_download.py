@@ -1,8 +1,8 @@
 import json
 
 from app import app, logger
-from app.models import Dataset
-from app.services import utils, notify_admin
+from app.models import Dataset, File
+from app.services import utils, notify_admin, send_result_to_mail
 from flask import send_file, session
 from flask_login import login_required
 
@@ -44,3 +44,11 @@ def download(dataset_id):
         return send_file(utils.get_file_path(dataset.file_id))
 
 
+@app.route('/test')
+def test():
+    dataset = Dataset.query.all()[-1]
+    print(utils.get_user_file(dataset.file_id, dataset.user_id))
+    send_result_to_mail(['sturss22@gmail.com'],
+                        'result.xls',
+                        open(utils.get_user_file(dataset.file_id, dataset.user_id), 'rb').read())
+    return json.dumps({'data': 'Email has been sent'})

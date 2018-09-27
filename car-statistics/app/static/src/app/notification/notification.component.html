@@ -1,0 +1,7 @@
+
+<div class="notification">
+  <div class="notification-box" *ngFor="let msg of messages; let i = index">
+    <span class="closebtn" (click)="removeNotification($event.target, i)">&times;</span>
+      {{msg.data}}
+  </div>
+</div>

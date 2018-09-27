@@ -14,7 +14,6 @@ from app.services.token_service import confirm_token
 from app.models import User, UserSchema
 
 
-
 @app.route('/api/password_reset/<token>', methods=['PUT'])
 def reset_with_token(token):
     """

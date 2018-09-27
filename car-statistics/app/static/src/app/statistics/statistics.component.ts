@@ -1,5 +1,6 @@
 import {Component, ElementRef, Input, OnInit} from '@angular/core';
 import {DataService} from "../data.service";
+import {update} from "plotly.js";
 
 
 @Component({
@@ -9,7 +10,7 @@ import {DataService} from "../data.service";
 })
 export class StatisticsComponent implements OnInit {
 
-    @Input() dataset_id : number;
+    dataset_id_ : number;
     columns : Array<string>;
     statistics : Object;
 
@@ -35,9 +36,18 @@ export class StatisticsComponent implements OnInit {
         }
     };
 
+    get dataset_id() : number {
+        return this.dataset_id_;
+    }
+
+    @Input() set dataset_id(name: number) {
+        this.dataset_id_ = name;
+        this.updateGraph();
+    }
+
     constructor(private data : DataService) { }
 
-    ngOnInit() {
+    updateGraph() {
         this.data.getStatistics(this.dataset_id)
             .subscribe(
                 res => {
@@ -51,6 +61,16 @@ export class StatisticsComponent implements OnInit {
                 },
                 error => {console.log(error)}
             );
+    }
+
+    ngOnInit() {
+        this.updateGraph();
+    }
+
+    setPlot(plot_type : string, target, opp: Element) {
+        this.plot = plot_type;
+        target.className += ' active';
+        opp.className = opp.className.replace(' active', '');
     }
 
     makeSelection(value : string) {

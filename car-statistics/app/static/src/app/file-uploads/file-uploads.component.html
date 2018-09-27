@@ -1,4 +1,6 @@
 <h3>File Upload</h3>
-<input type="file" (change)="onFileSelected($event)">
-<button type="button" (click)="onUpload()">Upload</button>
+<div class="custom-file">
+    <input type="file" (change)="onFileSelected($event)" class="custom-file">
+    <button type="button" (click)="onUpload()">Upload</button>
+</div>
 

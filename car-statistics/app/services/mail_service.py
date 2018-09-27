@@ -3,14 +3,15 @@ Module for mail sending function
 '''
 from datetime import datetime
 
+from flask import session
 from flask_mail import Message, Attachment
-
-from app import app, mail, celery
+from app import app, mail, celery, socketio, clients
 
 
 @celery.task
-def send(msg):
+def send(msg, *args, **kwargs):
     mail.send(msg)
+    socketio.emit('notification', {'data': 'File sent'}, room=args[0]['room'])
 
 
 def send_email(to_whom, subject, template):
@@ -52,7 +53,8 @@ def send_result_to_mail(recipients, file_name, file_content):
             data=file_content
         )]
     )
-    send.apply_async([msg], serializer='pickle')
+
+    send.apply_async([msg, {'room': clients[session['user_id']]}], serializer='pickle')
 
 
 def notify_admin(message, error_level):
