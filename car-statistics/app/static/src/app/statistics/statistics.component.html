@@ -1,8 +1,18 @@
 
 <div>
-    <label for="column_selection">Select Column: </label>
-    <select id="column_selection" #selection (change)="makeSelection(selection.value)" class="selectpicker">
-        <option *ngFor="let column of columns"> {{column}}</option>
-    </select>
-    <plotly-plot [config]="graph['config']" [data]="graph['data']" [layout]="graph['layout']"></plotly-plot>
+    <div class="plot">
+        <div class="tab">
+          <button #pie class="tablinks" (click)="this.plot = 'pie'">Pie</button>
+          <button #bar class="tablinks" (click)="this.plot = 'bar'">Bar</button>
+        </div>
+        <label for="column_selection">Select Column: </label>
+        <select id="column_selection" #selection (change)="makeSelection(selection.value)" class="selectpicker">
+            <option *ngFor="let column of columns"> {{column}}</option>
+        </select>
+        <plotly-plot *ngIf="this.plot=='pie'"
+                     [config]="graph['config']" [data]="graph['pie']" [layout]="graph['layout']"></plotly-plot>
+        <plotly-plot *ngIf="this.plot=='bar'"
+            [config]="graph['config']" [data]="graph['bar']" [layout]="graph['layout']"></plotly-plot>
+    </div>
+
 </div>
