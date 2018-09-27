@@ -8,26 +8,22 @@ import {HttpClient} from '@angular/common/http';
     styleUrls: ['./filter.component.css']
 })
 export class FilterComponent implements OnInit {
-    filter_number:number[] = [0];
-    file_id:number;
+    filter_number: number[] = [0];
+    file_id: number;
     files = {};
 
-    metadata:{};
+    totalRows = 0;
+
+    metadata: {};
     columns = [];
     value = [];
 
-    result_params = {
-        'Columns': ['bmw'],
-        'Operators': ['='],
-        'Values': ['1994'],
-        'Btw_operators': [],
-    };
+    filter_params = [];
 
     constructor(private http: HttpClient) {
     }
 
     ngOnInit() {
-        // this.value = this.data["Models"];
         this.getFiles();
 
     }
@@ -39,20 +35,16 @@ export class FilterComponent implements OnInit {
     storeFilter() {
         this.http
             .post('/api/save_filter',
-                this.result_params)
+                this.filter_params)
             .subscribe(data => {
-                alert('ok');
+                console.log('nummmber = '+data)
             }, error => {
                 console.log(error);
             });
     }
 
     pushParams(data) {
-        this.result_params.Columns.push(data.column);
-        this.result_params.Operators.push(data.operator);
-        this.result_params.Values.push(data.value);
-        this.result_params.Btw_operators.push(data.btw_elem_operator);
-        console.log(this.result_params)
+        this.filter_params.push(data);
     }
 
     getFiles() {
@@ -64,23 +56,24 @@ export class FilterComponent implements OnInit {
                 });
     }
 
-    selectFile(id){
+    selectFile(id) {
         this.file_id = id;
         this.getMetadata(this.file_id);
     }
 
     getMetadata(id) {
-          this.http
-            .post('/api/get_metadata', {'id':id})
+        this.http
+            .post('/api/get_metadata', {'id': id})
             .subscribe(res => this.parseMetadata(res),
                 error => {
                     console.log(error);
                 });
     }
 
-    parseMetadata(data){
-        this.columns = Object.keys(data);
-        this.metadata = data;
+    parseMetadata(data) {
+        this.totalRows = data['rows'];
+        this.columns = Object.keys(data['metadata']);
+        this.metadata = data['metadata'];
     }
 
 }

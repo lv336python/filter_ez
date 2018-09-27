@@ -25,6 +25,8 @@
                  [index]='number'
                  [columns]="columns"
                  [metadata]="metadata"
+                 [filter_parameters]="filter_params"
+                 [totalRows]="totalRows"
                  (addFilterElem)='addElement()'
                  (pushFilterParams)="pushParams($event)"
                  (saveFilter)='storeFilter()'
