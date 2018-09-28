@@ -28,7 +28,7 @@ def fields_definition(file_name, filter=False):
     for cl_name in cl_names:
         cl_name_val = list(df[cl_name])
         if type(cl_name_val[0]) == str:
-            field_def[cl_name] = set(df[cl_name])
+            field_def[cl_name] = list(set(df[cl_name]))
         else:
             field_def[cl_name] = dict(min=min(cl_name_val), max=max(cl_name_val))
 
