@@ -21,7 +21,7 @@ export class DataService {
         return this._http.get<any>(this.get_statistics_url+dataset_id);
     }
 
-    getRows(dataset_id: number): Observable<any> {
-        return this._http.get<any>(this.get_rows_url+dataset_id);
+    getRows(dataset_id, number_of_rows: number): Observable<any> {
+        return this._http.get<any>(this.get_rows_url+dataset_id+'/'+number_of_rows);
     }
 }

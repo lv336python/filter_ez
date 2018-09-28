@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, Input, OnInit} from '@angular/core';
 import {SocketService} from "../socket.service";
 import {DataService} from "../data.service";
 
@@ -8,6 +8,7 @@ import {DataService} from "../data.service";
   styleUrls: ['./notification.component.css']
 })
 export class NotificationComponent implements OnInit {
+    @Input() loggedIn : string;
 
   constructor(private socket: SocketService,
               private data: DataService) {
@@ -26,7 +27,6 @@ export class NotificationComponent implements OnInit {
     }
 
     removeNotification(element : Node, index: number) {
-        console.log(element.parentElement);
         element.parentElement.remove();
         this.messages.splice(index, 1);
     }

@@ -2,6 +2,7 @@
 Initialization of app, mail, manager, database objects
 
 '''
+import eventlet
 import logging.config
 
 from flask import Flask
@@ -14,8 +15,8 @@ from flask_mail import Mail
 from app.config import Config
 from app.celery_manage import create_celery
 
-import eventlet
 eventlet.monkey_patch()
+
 
 app = Flask(__name__)
 app.config.from_object(Config)
@@ -36,10 +37,9 @@ logging.config.fileConfig(app.config['LOGGING_CONFIG_FILE'])
 logger = logging.getLogger('main')
 
 socketio = SocketIO(app, async_mode='eventlet', message_queue='amqp://')
-clients = {}
 
 from .routers import (
-    test,
+    main,
     register,
     confirm_email,
     auth,
@@ -51,4 +51,3 @@ from .routers import (
     notification,
     filter
 )
-

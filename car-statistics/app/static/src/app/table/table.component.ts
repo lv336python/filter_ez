@@ -22,7 +22,7 @@ export class TableComponent implements OnInit {
     }
 
     updateTable() {
-        this.data.getRows(this.dataset_id)
+        this.data.getRows(this.dataset_id, 10)
             .subscribe(
               res => {this.columns = res['columns']; this.rows = res['rows']},
               error => {console.log(error)}

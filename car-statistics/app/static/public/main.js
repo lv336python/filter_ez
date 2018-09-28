@@ -45,7 +45,6 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _reset_password_reset_password_component__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ./reset-password/reset-password.component */ "./src/app/reset-password/reset-password.component.ts");
 /* harmony import */ var _confirm_reset_confirm_reset_component__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! ./confirm-reset/confirm-reset.component */ "./src/app/confirm-reset/confirm-reset.component.ts");
 /* harmony import */ var _filter_filter_component__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! ./filter/filter.component */ "./src/app/filter/filter.component.ts");
-/* harmony import */ var _file_uploads_file_uploads_component__WEBPACK_IMPORTED_MODULE_12__ = __webpack_require__(/*! ./file-uploads/file-uploads.component */ "./src/app/file-uploads/file-uploads.component.ts");
 var __decorate = (undefined && undefined.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -64,16 +63,14 @@ var __decorate = (undefined && undefined.__decorate) || function (decorators, ta
 
 
 
-
 var routes = [
     { path: '', component: _home_home_component__WEBPACK_IMPORTED_MODULE_2__["HomeComponent"], canActivate: [_auth_guard__WEBPACK_IMPORTED_MODULE_5__["AuthGuardService"]] },
     { path: 'register', component: _registration_registration_component__WEBPACK_IMPORTED_MODULE_4__["RegistrationComponent"] },
     { path: 'confirm/:token', component: _confirm_email_confirm_email_component__WEBPACK_IMPORTED_MODULE_6__["ConfirmEmailComponent"] },
     { path: 'login', component: _login_login_component__WEBPACK_IMPORTED_MODULE_7__["LoginComponent"] },
-    { path: 'logout', component: _logout_logout_component__WEBPACK_IMPORTED_MODULE_8__["LogoutComponent"], canActivate: [_auth_guard__WEBPACK_IMPORTED_MODULE_5__["AuthGuardService"]] },
+    { path: 'logout', component: _logout_logout_component__WEBPACK_IMPORTED_MODULE_8__["LogoutComponent"] },
     { path: 'reset', component: _reset_password_reset_password_component__WEBPACK_IMPORTED_MODULE_9__["ResetPasswordComponent"] },
     { path: 'reset_password_confirm/:token', component: _confirm_reset_confirm_reset_component__WEBPACK_IMPORTED_MODULE_10__["ConfirmResetComponent"] },
-    { path: 'upload', component: _file_uploads_file_uploads_component__WEBPACK_IMPORTED_MODULE_12__["FileUploadsComponent"] },
     { path: 'filter', component: _filter_filter_component__WEBPACK_IMPORTED_MODULE_11__["FilterComponent"] },
     { path: '**', component: _notfound_notfound_component__WEBPACK_IMPORTED_MODULE_3__["NotfoundComponent"] },
 ];
@@ -111,7 +108,7 @@ module.exports = ".navbar{\nbackground-color: rgb(22, 17, 17);\nborder-radius: 4
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = "<app-navbar></app-navbar>\n<router-outlet></router-outlet>\n"
+module.exports = "<app-navbar></app-navbar>\n<app-notification [loggedIn]=\"loggedIn\"></app-notification>\n<router-outlet></router-outlet>\n\n"
 
 /***/ }),
 
@@ -126,22 +123,32 @@ module.exports = "<app-navbar></app-navbar>\n<router-outlet></router-outlet>\n"
 __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "AppComponent", function() { return AppComponent; });
 /* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @angular/core */ "./node_modules/@angular/core/fesm5/core.js");
+/* harmony import */ var _auth_guard__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./auth.guard */ "./src/app/auth.guard.ts");
 var __decorate = (undefined && undefined.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
     else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
     return c > 3 && r && Object.defineProperty(target, key, r), r;
 };
+var __metadata = (undefined && undefined.__metadata) || function (k, v) {
+    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
+};
+
 
 var AppComponent = /** @class */ (function () {
-    function AppComponent() {
+    function AppComponent(auth) {
+        this.auth = auth;
     }
+    AppComponent.prototype.ngOnInit = function () {
+        this.loggedIn = this.auth.isLogined();
+    };
     AppComponent = __decorate([
         Object(_angular_core__WEBPACK_IMPORTED_MODULE_0__["Component"])({
             selector: 'app-root',
             template: __webpack_require__(/*! ./app.component.html */ "./src/app/app.component.html"),
             styles: [__webpack_require__(/*! ./app.component.css */ "./src/app/app.component.css")]
-        })
+        }),
+        __metadata("design:paramtypes", [_auth_guard__WEBPACK_IMPORTED_MODULE_1__["AuthGuardService"]])
     ], AppComponent);
     return AppComponent;
 }());
@@ -182,12 +189,14 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _file_uploads_file_uploads_component__WEBPACK_IMPORTED_MODULE_19__ = __webpack_require__(/*! ./file-uploads/file-uploads.component */ "./src/app/file-uploads/file-uploads.component.ts");
 /* harmony import */ var _auth_guard__WEBPACK_IMPORTED_MODULE_20__ = __webpack_require__(/*! ./auth.guard */ "./src/app/auth.guard.ts");
 /* harmony import */ var _statistics_statistics_component__WEBPACK_IMPORTED_MODULE_21__ = __webpack_require__(/*! ./statistics/statistics.component */ "./src/app/statistics/statistics.component.ts");
+/* harmony import */ var _notification_notification_component__WEBPACK_IMPORTED_MODULE_22__ = __webpack_require__(/*! ./notification/notification.component */ "./src/app/notification/notification.component.ts");
 var __decorate = (undefined && undefined.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
     else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
     return c > 3 && r && Object.defineProperty(target, key, r), r;
 };
+
 
 
 
@@ -229,6 +238,7 @@ var AppModule = /** @class */ (function () {
                 _file_uploads_file_uploads_component__WEBPACK_IMPORTED_MODULE_19__["FileUploadsComponent"],
                 _table_table_component__WEBPACK_IMPORTED_MODULE_18__["TableComponent"],
                 _statistics_statistics_component__WEBPACK_IMPORTED_MODULE_21__["StatisticsComponent"],
+                _notification_notification_component__WEBPACK_IMPORTED_MODULE_22__["NotificationComponent"],
                 _filter_filter_component__WEBPACK_IMPORTED_MODULE_11__["FilterComponent"],
                 _filter_item_filter_item_component__WEBPACK_IMPORTED_MODULE_12__["FilterItemComponent"],
             ],
@@ -595,11 +605,14 @@ var DataService = /** @class */ (function () {
         this.get_statistics_url = 'api/statistics/';
         this.get_rows_url = 'api/get_rows/';
     }
+    DataService.prototype.get = function () {
+        return this._http.get('http://localhost:8000/test');
+    };
     DataService.prototype.getStatistics = function (dataset_id) {
         return this._http.get(this.get_statistics_url + dataset_id);
     };
-    DataService.prototype.getRows = function (dataset_id) {
-        return this._http.get(this.get_rows_url + dataset_id);
+    DataService.prototype.getRows = function (dataset_id, number_of_rows) {
+        return this._http.get(this.get_rows_url + dataset_id + '/' + number_of_rows);
     };
     DataService = __decorate([
         Object(_angular_core__WEBPACK_IMPORTED_MODULE_0__["Injectable"])({
@@ -652,7 +665,7 @@ module.exports = ""
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = "<h3>File Upload</h3>\n<input type=\"file\" (change)=\"onFileSelected($event)\">\n<button type=\"button\" (click)=\"onUpload()\">Upload</button>\n\n"
+module.exports = "<h3>File Upload</h3>\n<div class=\"custom-file\">\n    <input type=\"file\" (change)=\"onFileSelected($event)\" class=\"custom-file\">\n    <button type=\"button\" (click)=\"onUpload()\">Upload</button>\n</div>\n\n"
 
 /***/ }),
 
@@ -683,20 +696,27 @@ var FileUploadsComponent = /** @class */ (function () {
     function FileUploadsComponent(http) {
         this.http = http;
         this.selectedFile = null;
+        this.fileUploaded = new _angular_core__WEBPACK_IMPORTED_MODULE_0__["EventEmitter"]();
     }
     FileUploadsComponent.prototype.onFileSelected = function (event) {
         this.selectedFile = event.target.files[0];
     };
     FileUploadsComponent.prototype.onUpload = function () {
+        var _this = this;
         var filedata = new FormData();
         filedata.append('upload_file', this.selectedFile, this.selectedFile.name);
         this.http.post('api/upload', filedata)
             .subscribe(function (res) {
             console.log(res);
+            _this.fileUploaded.emit(res['result'][2]);
         });
     };
     FileUploadsComponent.prototype.ngOnInit = function () {
     };
+    __decorate([
+        Object(_angular_core__WEBPACK_IMPORTED_MODULE_0__["Output"])(),
+        __metadata("design:type", _angular_core__WEBPACK_IMPORTED_MODULE_0__["EventEmitter"])
+    ], FileUploadsComponent.prototype, "fileUploaded", void 0);
     FileUploadsComponent = __decorate([
         Object(_angular_core__WEBPACK_IMPORTED_MODULE_0__["Component"])({
             selector: 'app-file-uploads',
@@ -1104,7 +1124,7 @@ module.exports = ""
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = "\n<p>\n    TODO: home page which is accessible if user is logged in\n</p>\n<app-file-uploads></app-file-uploads>\n<app-statistics *ngIf=\"dataset_id\" [dataset_id]=\"dataset_id\"> Loading statistics... </app-statistics>\n<app-table *ngIf=\"dataset_id\" [dataset_id]=\"dataset_id\">Loading preview table...</app-table>\n"
+module.exports = "\n<app-file-uploads (fileUploaded)=\"fileUploadHandler($event)\"></app-file-uploads>\n\n<button (click)=\"sendFile()\" >TEST: Send file to email</button>\n\n<app-statistics *ngIf=\"dataset_id\" [dataset_id]=\"dataset_id\"> Loading statistics... </app-statistics>\n<app-table *ngIf=\"dataset_id\" [dataset_id]=\"dataset_id\">Loading preview table...</app-table>\n"
 
 /***/ }),
 
@@ -1119,6 +1139,7 @@ module.exports = "\n<p>\n    TODO: home page which is accessible if user is logg
 __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "HomeComponent", function() { return HomeComponent; });
 /* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @angular/core */ "./node_modules/@angular/core/fesm5/core.js");
+/* harmony import */ var _data_service__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../data.service */ "./src/app/data.service.ts");
 var __decorate = (undefined && undefined.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -1129,13 +1150,20 @@ var __metadata = (undefined && undefined.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
 
+
 var HomeComponent = /** @class */ (function () {
-    function HomeComponent() {
+    function HomeComponent(data) {
+        this.data = data;
     }
     HomeComponent.prototype.ngOnInit = function () {
     };
-    HomeComponent.prototype.fileUploadhandler = function (dataset_id) {
+    HomeComponent.prototype.fileUploadHandler = function (dataset_id) {
+        console.log(dataset_id);
         this.dataset_id = dataset_id;
+    };
+    HomeComponent.prototype.sendFile = function () {
+        this.data.get()
+            .subscribe(function (res) { return console.log(res); });
     };
     HomeComponent = __decorate([
         Object(_angular_core__WEBPACK_IMPORTED_MODULE_0__["Component"])({
@@ -1143,7 +1171,7 @@ var HomeComponent = /** @class */ (function () {
             template: __webpack_require__(/*! ./home.component.html */ "./src/app/home/home.component.html"),
             styles: [__webpack_require__(/*! ./home.component.css */ "./src/app/home/home.component.css")]
         }),
-        __metadata("design:paramtypes", [])
+        __metadata("design:paramtypes", [_data_service__WEBPACK_IMPORTED_MODULE_1__["DataService"]])
     ], HomeComponent);
     return HomeComponent;
 }());
@@ -1386,7 +1414,7 @@ module.exports = "@import url(\"//maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = "<nav class=\"navbar navbar-icon-top navbar-expand-lg navbar-dark bg-dark\">\n    <a class=\"navbar-brand\" routerLink=\"/\">CarStatistic</a>\n    <button class=\"navbar-toggler\" type=\"button\" data-toggle=\"collapse\" data-target=\"#navbarSupportedContent\"\n            aria-controls=\"navbarSupportedContent\" aria-expanded=\"false\" aria-label=\"Toggle navigation\">\n        <span class=\"navbar-toggler-icon\"></span>\n    </button>\n\n    <div class=\"collapse navbar-collapse\" id=\"navbarSupportedContent\">\n        <ul class=\"navbar-nav mr-auto\">\n            <li class=\"nav-item active\">\n                <a class=\"nav-link\" routerLink=\"/\">\n                    <i class=\"fa fa-home\"></i>\n                    Home\n                </a>\n            </li>\n            <li class=\"nav-item active nav-right\">\n                <a class=\"nav-link\" routerLink=\"/upload\">\n                    Upload\n                </a>\n            </li>\n\n            <li class=\"nav-item\">\n                <a class=\"nav-link\" href=\"#\">\n                    Messages\n                </a>\n            </li>\n             <li class=\"nav-item active\">\n                <a class=\"nav-link\" href=\"/filter\">\n                    Filter\n                </a>\n            </li>\n            <li class=\"nav-item active nav-right\" *ngIf=\"!isLogined()\">\n                <a class=\"nav-link\" routerLink=\"/login\">\n                    Login\n                </a>\n            </li>\n            <li class=\"nav-item active nav-right\" *ngIf=\"!isLogined()\">\n                <a class=\"nav-link\" routerLink=\"/register\">\n                    Sign up\n                </a>\n            </li>\n            <li class=\"nav-item active nav-right\" *ngIf=\"isLogined()\">\n                <a class=\"nav-link\" routerLink=\"/logout\">\n                    Logout\n                </a>\n            </li>\n\n        </ul>\n\n    </div>\n</nav>"
+module.exports = "<nav class=\"navbar navbar-icon-top navbar-expand-lg navbar-dark bg-dark\">\n    <a class=\"navbar-brand\" routerLink=\"/\">CarStatistic</a>\n    <button class=\"navbar-toggler\" type=\"button\" data-toggle=\"collapse\" data-target=\"#navbarSupportedContent\"\n            aria-controls=\"navbarSupportedContent\" aria-expanded=\"false\" aria-label=\"Toggle navigation\">\n        <span class=\"navbar-toggler-icon\"></span>\n    </button>\n\n    <div class=\"collapse navbar-collapse\" id=\"navbarSupportedContent\">\n        <ul class=\"navbar-nav mr-auto\">\n            <li class=\"nav-item active\">\n                <a class=\"nav-link\" routerLink=\"/\">\n                    <i class=\"fa fa-home\"></i>\n                    Home\n                </a>\n            </li>\n            <li class=\"nav-item\">\n                <a class=\"nav-link\" href=\"#\">\n                    Messages\n                </a>\n            </li>\n             <li class=\"nav-item active\">\n                <a class=\"nav-link\" href=\"/filter\">\n                    Filter\n                </a>\n            </li>\n            <li class=\"nav-item active nav-right\" *ngIf=\"!isLogined()\">\n                <a class=\"nav-link\" routerLink=\"/login\">\n                    Login\n                </a>\n            </li>\n            <li class=\"nav-item active nav-right\" *ngIf=\"!isLogined()\">\n                <a class=\"nav-link\" routerLink=\"/register\">\n                    Sign up\n                </a>\n            </li>\n            <li class=\"nav-item active nav-right\" *ngIf=\"isLogined()\">\n                <a class=\"nav-link\" routerLink=\"/logout\">\n                    Logout\n                </a>\n            </li>\n\n        </ul>\n\n    </div>\n</nav>"
 
 /***/ }),
 
@@ -1502,6 +1530,90 @@ var NotfoundComponent = /** @class */ (function () {
 
 /***/ }),
 
+/***/ "./src/app/notification/notification.component.css":
+/*!*********************************************************!*\
+  !*** ./src/app/notification/notification.component.css ***!
+  \*********************************************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+module.exports = "\n.notification {\n    position: absolute;\n      top: 12%;\n      left: 83%;\n    width: 15%;\n    min-width: 100px;\n    min-height: 30px;\n    z-index: 10;\n}\n\n.notification-box {\n    padding: 20px;\n    background-color: #4d9ef4;\n    color: white;\n    opacity: 1;\n    transition: opacity 0.6s;\n    margin-bottom: 15px;\n    width: 100%;\n    height: 10%;\n    border-radius: 5%;\n}\n\n.closebtn {\n    top: 100%;\n    right: 100%;\n    color: white;\n    font-weight: bold;\n    float: right;\n    font-size: 22px;\n    line-height: 20px;\n    cursor: pointer;\n    transition: 0.3s;\n}\n\n.closebtn:hover {\n    color: black;\n}"
+
+/***/ }),
+
+/***/ "./src/app/notification/notification.component.html":
+/*!**********************************************************!*\
+  !*** ./src/app/notification/notification.component.html ***!
+  \**********************************************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+module.exports = "\n<div class=\"notification\">\n  <div class=\"notification-box\" *ngFor=\"let msg of messages; let i = index\">\n    <span class=\"closebtn\" (click)=\"removeNotification($event.target, i)\">&times;</span>\n      {{msg.data}}\n  </div>\n</div>"
+
+/***/ }),
+
+/***/ "./src/app/notification/notification.component.ts":
+/*!********************************************************!*\
+  !*** ./src/app/notification/notification.component.ts ***!
+  \********************************************************/
+/*! exports provided: NotificationComponent */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "NotificationComponent", function() { return NotificationComponent; });
+/* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @angular/core */ "./node_modules/@angular/core/fesm5/core.js");
+/* harmony import */ var _socket_service__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../socket.service */ "./src/app/socket.service.ts");
+/* harmony import */ var _data_service__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../data.service */ "./src/app/data.service.ts");
+var __decorate = (undefined && undefined.__decorate) || function (decorators, target, key, desc) {
+    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
+};
+var __metadata = (undefined && undefined.__metadata) || function (k, v) {
+    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
+};
+
+
+
+var NotificationComponent = /** @class */ (function () {
+    function NotificationComponent(socket, data) {
+        this.socket = socket;
+        this.data = data;
+        this.messages = [];
+    }
+    NotificationComponent.prototype.ngOnInit = function () {
+        var _this = this;
+        this.connection = this.socket.getMessages()
+            .subscribe(function (data) {
+            _this.messages.push(data);
+        });
+    };
+    NotificationComponent.prototype.removeNotification = function (element, index) {
+        element.parentElement.remove();
+        this.messages.splice(index, 1);
+    };
+    __decorate([
+        Object(_angular_core__WEBPACK_IMPORTED_MODULE_0__["Input"])(),
+        __metadata("design:type", String)
+    ], NotificationComponent.prototype, "loggedIn", void 0);
+    NotificationComponent = __decorate([
+        Object(_angular_core__WEBPACK_IMPORTED_MODULE_0__["Component"])({
+            selector: 'app-notification',
+            template: __webpack_require__(/*! ./notification.component.html */ "./src/app/notification/notification.component.html"),
+            styles: [__webpack_require__(/*! ./notification.component.css */ "./src/app/notification/notification.component.css")]
+        }),
+        __metadata("design:paramtypes", [_socket_service__WEBPACK_IMPORTED_MODULE_1__["SocketService"],
+            _data_service__WEBPACK_IMPORTED_MODULE_2__["DataService"]])
+    ], NotificationComponent);
+    return NotificationComponent;
+}());
+
+
+
+/***/ }),
+
 /***/ "./src/app/registration/registration.component.css":
 /*!*********************************************************!*\
   !*** ./src/app/registration/registration.component.css ***!
@@ -1520,7 +1632,7 @@ module.exports = "@media(min-width: 768px) {\n  .field-label-responsive {\n    p
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = "<div class=\"auth\">\n    <div class=\"form\">\n        <div class=\"row\">\n                <div class=\"col-md-3\">\n\n                </div>\n                <div class=\"col-md-6\">\n                    <div *ngIf=\"message\" class=\"alert alert-success\">\n                        <br><br>{{ message }}\n                    </div>\n                </div>\n                <div class=\"col-md-3\">\n\n                </div>\n            </div>\n        <form class=\"form-horizontal\"  [formGroup]=\"registerGroup\" (ngSubmit)=\"toRegister()\">\n            <div class=\"row\">\n                <div class=\"col-md-3\"></div>\n                <div class=\"col-md-6\">\n                    <h2>Register New User</h2>\n                    <hr>\n                    <br><br>\n                </div>\n            </div>\n\n            <div class=\"row\">\n                <div class=\"col-md-3 field-label-responsive\">\n                    <label for=\"email\">E-Mail Address</label>\n                </div>\n                <div class=\"col-md-6\">\n                    <div class=\"form-group\">\n                        <div class=\"input-group mb-2 mr-sm-2 mb-sm-0\">\n                            <div class=\"input-group-addon\" style=\"width: 2.6rem\"><i class=\"fa fa-at\"></i></div>\n                            <input type=\"text\" formControlName=\"email\" required class=\"form-control\" id=\"email\"\n                                   placeholder=\"you@example.com\" autofocus>\n\n                        </div>\n                    </div>\n                </div>\n                <div class=\"col-md-3\">\n\n                </div>\n            </div>\n            <div class=\"row\">\n                <div class=\"col-md-3\">\n\n                </div>\n                <div class=\"col-md-6\">\n                    <div *ngIf=\"email == ''\">\n                        Email can not be empty\n                    </div>\n                    <div *ngIf=\"email.invalid && (email.dirty || email.touched)\"\n                         class=\"alert alert-danger\">\n\n                        <div *ngIf=\"email.errors.required\">\n                            Email is required.\n                        </div>\n                        <div *ngIf=\"email.errors.wrongFormat\">\n                            Wrong format of email.\n                        </div>\n\n\n\n                    </div>\n                    <div class=\" alert alert-danger\" *ngIf=\"isEmailBusy == true\">\n                            {{ error_message }}\n                        </div>\n                </div>\n                <div class=\"col-md-3\">\n\n                </div>\n\n            </div>\n            <div class=\"row\">\n                <div class=\"col-md-3 field-label-responsive\">\n                    <label for=\"password\">Password</label>\n                </div>\n                <div class=\"col-md-6\">\n                    <div class=\"form-group has-danger\">\n                        <div class=\"input-group mb-2 mr-sm-2 mb-sm-0\">\n                            <div class=\"input-group-addon\" style=\"width: 2.6rem\"><i class=\"fa fa-key\"></i></div>\n                            <input type=\"password\" formControlName=\"password\" class=\"form-control\" id=\"password\"\n                                   placeholder=\"Password\" required>\n                        </div>\n                    </div>\n                </div>\n                <div class=\"col-md-3\">\n\n                </div>\n            </div>\n            <div class=\"row\">\n                <div class=\"col-md-3\">\n\n                </div>\n                <div class=\"col-md-6\">\n                     <div class=\"alert alert-danger\" *ngIf=\"password.invalid && (password.dirty || password.touched)\">\n                        <ul>\n                            <li *ngIf=\"password.errors || password.errors\">Password must be from 8\n                                to 40 characters long and contain at least one digit.\n                            </li>\n                        </ul>\n                    </div>\n                </div>\n                <div class=\"col-md-3\">\n\n                </div>\n            </div>\n\n            <div class=\"row\">\n                <div class=\"col-md-3\"></div>\n                <div class=\"col-md-6\">\n                    <button type=\"submit\" class=\"btn btn-success\" [disabled]=\"!registerGroup.valid\"> Register</button>\n                </div>\n            </div>\n\n        </form>\n    </div>\n</div>\n\n\n"
+module.exports = "<div class=\"auth\">\n    <div class=\"form\">\n        <div class=\"row\">\n                <div class=\"col-md-3\">\n\n                </div>\n                <div class=\"col-md-6\">\n                    <div *ngIf=\"message\" class=\"alert alert-success\">\n                        <br><br>{{ message }}\n                    </div>\n                </div>\n                <div class=\"col-md-3\">\n\n                </div>\n            </div>\n        <form class=\"form-horizontal\"  [formGroup]=\"registerGroup\" (ngSubmit)=\"toRegister()\">\n            <div class=\"row\">\n                <div class=\"col-md-3\"></div>\n                <div class=\"col-md-6\">\n                    <h2>Register New User</h2>\n                    <hr>\n                    <br><br>\n                </div>\n            </div>\n\n            <div class=\"row\">\n                <div class=\"col-md-3 field-label-responsive\">\n                    <label for=\"email\">E-Mail Address</label>\n                </div>\n                <div class=\"col-md-6\">\n                    <div class=\"form-group\">\n                        <div class=\"input-group mb-2 mr-sm-2 mb-sm-0\">\n                            <div class=\"input-group-addon\" style=\"width: 2.6rem\"><i class=\"fa fa-at\"></i></div>\n                            <input type=\"text\" formControlName=\"email\" required class=\"form-control\" id=\"email\"\n                                   placeholder=\"you@example.com\" autofocus>\n\n                        </div>\n                    </div>\n                </div>\n                <div class=\"col-md-3\">\n\n                </div>\n            </div>\n            <div class=\"row\">\n                <div class=\"col-md-3\">\n\n                </div>\n                <div class=\"col-md-6\">\n                    <div *ngIf=\"email == ''\">\n                        Email can not be empty\n                    </div>\n                    <div *ngIf=\"email.invalid && (email.dirty || email.touched) && validation_passed\"\n                         class=\"alert alert-danger\">\n\n                        <div *ngIf=\"email.errors.required\">\n                            Email is required.\n                        </div>\n                        <div *ngIf=\"email.errors.wrongFormat\">\n                            Wrong format of email.\n                        </div>\n\n\n\n                    </div>\n                    <div class=\" alert alert-danger\" *ngIf=\"isEmailBusy == true\">\n                            {{ error_message }}\n                        </div>\n                </div>\n                <div class=\"col-md-3\">\n\n                </div>\n\n            </div>\n            <div class=\"row\">\n                <div class=\"col-md-3 field-label-responsive\">\n                    <label for=\"password\">Password</label>\n                </div>\n                <div class=\"col-md-6\">\n                    <div class=\"form-group has-danger\">\n                        <div class=\"input-group mb-2 mr-sm-2 mb-sm-0\">\n                            <div class=\"input-group-addon\" style=\"width: 2.6rem\"><i class=\"fa fa-key\"></i></div>\n                            <input type=\"password\" formControlName=\"password\" class=\"form-control\" id=\"password\"\n                                   placeholder=\"Password\" required>\n                        </div>\n                    </div>\n                </div>\n                <div class=\"col-md-3\">\n\n                </div>\n            </div>\n            <div class=\"row\">\n                <div class=\"col-md-3\">\n\n                </div>\n                <div class=\"col-md-6\">\n                     <div class=\"alert alert-danger\" *ngIf=\"password.invalid && (password.dirty || password.touched) && validation_passed\">\n                        <ul>\n                            <li *ngIf=\"password.errors || password.errors\">Password must be from 8\n                                to 40 characters long and contain at least one digit.\n                            </li>\n                        </ul>\n                    </div>\n                </div>\n                <div class=\"col-md-3\">\n\n                </div>\n            </div>\n\n            <div class=\"row\">\n                <div class=\"col-md-3\"></div>\n                <div class=\"col-md-6\">\n                    <button type=\"submit\" class=\"btn btn-success\" [disabled]=\"!registerGroup.valid\"> Register</button>\n                </div>\n            </div>\n\n        </form>\n    </div>\n</div>\n\n\n"
 
 /***/ }),
 
@@ -1561,6 +1673,7 @@ var RegistrationComponent = /** @class */ (function () {
         this.router = router;
         this.route = route;
         this.isEmailBusy = false;
+        this.validation_passed = true;
         this.registerGroup = new _angular_forms__WEBPACK_IMPORTED_MODULE_1__["FormGroup"]({
             email: new _angular_forms__WEBPACK_IMPORTED_MODULE_1__["FormControl"]('', [
                 _angular_forms__WEBPACK_IMPORTED_MODULE_1__["Validators"].required,
@@ -1583,6 +1696,7 @@ var RegistrationComponent = /** @class */ (function () {
             var response_data = JSON.parse(data_txt);
             _this.message = response_data.message;
             _this.registerGroup.setValue({ email: '', password: '' });
+            _this.validation_passed = false;
         }, function (err) {
             _this.isEmailBusy = true;
             var data_txt = (JSON.stringify(err));
@@ -1728,6 +1842,58 @@ var ResetPasswordComponent = /** @class */ (function () {
 
 /***/ }),
 
+/***/ "./src/app/socket.service.ts":
+/*!***********************************!*\
+  !*** ./src/app/socket.service.ts ***!
+  \***********************************/
+/*! exports provided: SocketService */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "SocketService", function() { return SocketService; });
+/* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @angular/core */ "./node_modules/@angular/core/fesm5/core.js");
+/* harmony import */ var rxjs_Observable__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! rxjs/Observable */ "./node_modules/rxjs-compat/_esm5/Observable.js");
+/* harmony import */ var socket_io_client__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! socket.io-client */ "./node_modules/socket.io-client/lib/index.js");
+/* harmony import */ var socket_io_client__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(socket_io_client__WEBPACK_IMPORTED_MODULE_2__);
+var __decorate = (undefined && undefined.__decorate) || function (decorators, target, key, desc) {
+    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
+};
+
+
+
+var SocketService = /** @class */ (function () {
+    function SocketService() {
+        this.url = 'http://localhost:8000/';
+    }
+    SocketService.prototype.getMessages = function () {
+        var _this = this;
+        var observable = new rxjs_Observable__WEBPACK_IMPORTED_MODULE_1__["Observable"](function (observer) {
+            _this.socketio = socket_io_client__WEBPACK_IMPORTED_MODULE_2__(_this.url);
+            _this.socketio.on('notification', function (data) {
+                observer.next(data);
+            });
+            return function () {
+                _this.socketio.disconnect();
+            };
+        });
+        return observable;
+    };
+    SocketService = __decorate([
+        Object(_angular_core__WEBPACK_IMPORTED_MODULE_0__["Injectable"])({
+            providedIn: 'root'
+        })
+    ], SocketService);
+    return SocketService;
+}());
+
+
+
+/***/ }),
+
 /***/ "./src/app/statistics/statistics.component.css":
 /*!*****************************************************!*\
   !*** ./src/app/statistics/statistics.component.css ***!
@@ -1735,7 +1901,7 @@ var ResetPasswordComponent = /** @class */ (function () {
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = ""
+module.exports = ".tab {\n    overflow: hidden;\n    border: 1px solid #ccc;\n    border-bottom: none;\n    background-color: #f1f1f1;\n    width: 600px;\n}\n\n/* Style the buttons that are used to open the tab content */\n\n.tab button {\n    background-color: inherit;\n    float: left;\n    border: none;\n    outline: none;\n    cursor: pointer;\n    padding: 14px 16px;\n    transition: 0.3s;\n    width: 50%;\n}\n\n/* Change background color of buttons on hover */\n\n.tab button:hover {\n    background-color: #ddd;\n}\n\n/* Create an active/current tablink class */\n\n.tab button.active {\n    background-color: #ccc;\n}"
 
 /***/ }),
 
@@ -1746,7 +1912,7 @@ module.exports = ""
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = "\n<div>\n    <label for=\"column_selection\">Select Column: </label>\n    <select id=\"column_selection\" #selection (change)=\"makeSelection(selection.value)\" class=\"selectpicker\">\n        <option *ngFor=\"let column of columns\"> {{column}}</option>\n    </select>\n    <plotly-plot [config]=\"graph['config']\" [data]=\"graph['data']\" [layout]=\"graph['layout']\"></plotly-plot>\n</div>"
+module.exports = "\n<div>\n    <div class=\"plot\">\n        <div class=\"tab\">\n          <button #pie class=\"tablinks\" (click)=\"setPlot('pie', pie, bar) \">Pie</button>\n          <button #bar class=\"tablinks\" (click)=\"setPlot('bar', bar, pie)\">Bar</button>\n        </div>\n        <label for=\"column_selection\">Select Column: </label>\n        <select id=\"column_selection\" #selection (change)=\"makeSelection(selection.value)\" class=\"selectpicker\">\n            <option *ngFor=\"let column of columns\"> {{column}}</option>\n        </select>\n        <plotly-plot *ngIf=\"this.plot=='pie'\"\n                     [config]=\"graph['config']\" [data]=\"graph['pie']\" [layout]=\"graph['layout']\"></plotly-plot>\n        <plotly-plot *ngIf=\"this.plot=='bar'\"\n            [config]=\"graph['config']\" [data]=\"graph['bar']\" [layout]=\"graph['layout']\"></plotly-plot>\n    </div>\n\n</div>"
 
 /***/ }),
 
@@ -1776,9 +1942,13 @@ var __metadata = (undefined && undefined.__metadata) || function (k, v) {
 var StatisticsComponent = /** @class */ (function () {
     function StatisticsComponent(data) {
         this.data = data;
+        this.plot = 'bar';
         this.graph = {
-            data: [
-                { x: ['', '', ''], y: [], type: 'bar' },
+            pie: [
+                { labels: [], values: [], type: 'pie' },
+            ],
+            bar: [
+                { x: [], y: [], type: 'bar' },
             ],
             layout: {
                 width: 600, height: 400, title: 'Column1',
@@ -1793,26 +1963,50 @@ var StatisticsComponent = /** @class */ (function () {
             }
         };
     }
-    StatisticsComponent.prototype.ngOnInit = function () {
+    Object.defineProperty(StatisticsComponent.prototype, "dataset_id", {
+        get: function () {
+            return this.dataset_id_;
+        },
+        set: function (name) {
+            this.dataset_id_ = name;
+            this.updateGraph();
+        },
+        enumerable: true,
+        configurable: true
+    });
+    StatisticsComponent.prototype.updateGraph = function () {
         var _this = this;
         this.data.getStatistics(this.dataset_id)
             .subscribe(function (res) {
             _this.statistics = res;
             _this.columns = Object.keys(res);
-            _this.graph.data[0].x = Object.keys(res[_this.columns[0]]);
             _this.graph.layout.title = _this.columns[0];
-            _this.graph.data[0].y = Object.values(res[_this.columns[0]]);
+            _this.graph.pie[0].labels = Object.keys(res[_this.columns[0]]);
+            _this.graph.pie[0].values = Object.values(res[_this.columns[0]]);
+            _this.graph.bar[0].x = Object.keys(res[_this.columns[0]]);
+            _this.graph.bar[0].y = Object.values(res[_this.columns[0]]);
         }, function (error) { console.log(error); });
+    };
+    StatisticsComponent.prototype.ngOnInit = function () {
+        this.updateGraph();
+    };
+    StatisticsComponent.prototype.setPlot = function (plot_type, target, opp) {
+        this.plot = plot_type;
+        target.className += ' active';
+        opp.className = opp.className.replace(' active', '');
     };
     StatisticsComponent.prototype.makeSelection = function (value) {
         this.graph.layout.title = value;
-        this.graph.data[0].x = Object.keys(this.statistics[value]);
-        this.graph.data[0].y = Object.values(this.statistics[value]);
+        this.graph.pie[0].labels = Object.keys(this.statistics[value]);
+        this.graph.pie[0].values = Object.values(this.statistics[value]);
+        this.graph.bar[0].x = Object.keys(this.statistics[value]);
+        this.graph.bar[0].y = Object.values(this.statistics[value]);
     };
     __decorate([
         Object(_angular_core__WEBPACK_IMPORTED_MODULE_0__["Input"])(),
-        __metadata("design:type", Number)
-    ], StatisticsComponent.prototype, "dataset_id", void 0);
+        __metadata("design:type", Number),
+        __metadata("design:paramtypes", [Number])
+    ], StatisticsComponent.prototype, "dataset_id", null);
     StatisticsComponent = __decorate([
         Object(_angular_core__WEBPACK_IMPORTED_MODULE_0__["Component"])({
             selector: 'app-statistics',
@@ -1877,15 +2071,30 @@ var TableComponent = /** @class */ (function () {
     function TableComponent(data) {
         this.data = data;
     }
-    TableComponent.prototype.ngOnInit = function () {
+    Object.defineProperty(TableComponent.prototype, "dataset_id", {
+        get: function () {
+            return this.dataset_id_;
+        },
+        set: function (dataset_id) {
+            this.dataset_id_ = dataset_id;
+            this.updateTable();
+        },
+        enumerable: true,
+        configurable: true
+    });
+    TableComponent.prototype.updateTable = function () {
         var _this = this;
-        this.data.getRows(this.dataset_id)
+        this.data.getRows(this.dataset_id, 10)
             .subscribe(function (res) { _this.columns = res['columns']; _this.rows = res['rows']; }, function (error) { console.log(error); });
+    };
+    TableComponent.prototype.ngOnInit = function () {
+        this.updateTable();
     };
     __decorate([
         Object(_angular_core__WEBPACK_IMPORTED_MODULE_0__["Input"])(),
-        __metadata("design:type", Number)
-    ], TableComponent.prototype, "dataset_id", void 0);
+        __metadata("design:type", Number),
+        __metadata("design:paramtypes", [Number])
+    ], TableComponent.prototype, "dataset_id", null);
     TableComponent = __decorate([
         Object(_angular_core__WEBPACK_IMPORTED_MODULE_0__["Component"])({
             selector: 'app-table',
@@ -1961,8 +2170,19 @@ Object(_angular_platform_browser_dynamic__WEBPACK_IMPORTED_MODULE_1__["platformB
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-module.exports = __webpack_require__(/*! /home/izhyk/PycharmProjects/car-statistics/car-statistics/app/static/src/main.ts */"./src/main.ts");
+module.exports = __webpack_require__(/*! /home/sturss22/PycharmProjects/car-statistics/car-statistics/app/static/src/main.ts */"./src/main.ts");
 
+
+/***/ }),
+
+/***/ 1:
+/*!********************!*\
+  !*** ws (ignored) ***!
+  \********************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+/* (ignored) */
 
 /***/ })
 

@@ -13,6 +13,7 @@ from app import app, login_manager
 from app.models.user import User
 from app.services.validate_service import data_validator
 
+
 @login_manager.user_loader
 def load_user(user_id):
     """

@@ -16,7 +16,8 @@ def rewrite_file(file, file_path):
     """
     file.save(file_path)  # saving file to filesystem rewrites file which exist
     file_attr = attributes(file_path)  # getting attributes from file
-    upd_file = File.query.filter_by(path=file_path).first()  # getting file data from DB to be updated
+    name = os.path.basename(file_path)
+    upd_file = File.query.filter_by(path=name).first()  # getting file data from DB to be updated
     upd_file.attributes = {"loaded": "Updated"}  # updating record in DB
     db.session.commit()
     return upd_file.id
@@ -32,7 +33,9 @@ def upload_file(file, user_id):
     upload_dir = user_dir(user_id)
     path = save_path(upload_dir, file.filename, user_id)
     if os.path.exists(path):
-        return rewrite_file(file, path)
+        file_id = rewrite_file(file, path)
+        dataset_id = Dataset.query.filter(Dataset.file_id == file_id).first().id
+        return "Updated", file_id, dataset_id
 
     # filesystem manipulation
     create_dir(upload_dir)  # creates directory recursively if not exist

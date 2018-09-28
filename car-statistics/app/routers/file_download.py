@@ -1,10 +1,13 @@
+"""
+    Module for with routes for downloading users files
+"""
 import json
 
-from app import app, logger
-from app.models import Dataset, File
-from app.services import utils, notify_admin, send_result_to_mail
 from flask import send_file, session
 from flask_login import login_required
+from app import app, logger
+from app.models import Dataset
+from app.services import utils, notify_admin, send_result_to_mail
 
 
 @app.route("/api/download/<int:dataset_id>", methods=['GET'])
@@ -26,26 +29,30 @@ def download(dataset_id):
     if dataset.user_id != user_id:
         return json.dumps({'message': 'access forbidden'}), 403
 
-    if dataset.filter_id:
-        file_data = utils.dataset_to_excel(dataset)  # Creates BytesIO objects with dataset
-        if file_data:
-            logger.info(f"User {user_id} successfully downloaded dataset {dataset_id}")
-            return send_file(file_data,
-                             attachment_filename='result.xlsx',
-                             as_attachment=True,
-                             mimetype="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet")
-        else:
-            logger.error(f"error when user {user_id} downloaded {dataset_id}")
-            notify_admin(error_level="ERROR",
-                         message=f"Unexpected error occurred when user {user_id} tried to download"
-                                 f" dataset {dataset_id}")
-            return json.dumps({'message': 'couldn\'t send file to user'}), 500
-    else:
-        return send_file(utils.get_file_path(dataset.file_id))
+    if not dataset.filter_id:
+        return send_file(utils.get_user_file(dataset.file_id, dataset.user_id))
+
+    file_data = utils.dataset_to_excel(dataset)  # Creates BytesIO objects with dataset
+    if file_data:
+        logger.info(f"User %s successfully downloaded dataset %s", user_id, dataset_id)
+        return send_file(file_data,
+                         attachment_filename='result.xlsx',
+                         as_attachment=True,
+                         mimetype="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
+                         )
+    logger.error(f"error when user %s downloaded %s", user_id, dataset_id)
+    notify_admin(error_level="ERROR",
+                 message=f"Unexpected error occurred when user {user_id} tried to download"
+                         f" dataset {dataset_id}")
+    return json.dumps({'message': 'couldn\'t send file to user'}), 500
 
 
 @app.route('/test')
 def test():
+    """
+    Sends latest dataset on the mail invoking celery worker to send a notification
+    :return:
+    """
     dataset = Dataset.query.all()[-1]
     print(utils.get_user_file(dataset.file_id, dataset.user_id))
     send_result_to_mail(['sturss22@gmail.com'],
