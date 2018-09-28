@@ -49,7 +49,7 @@
                     <div *ngIf="email == ''">
                         Email can not be empty
                     </div>
-                    <div *ngIf="email.invalid && (email.dirty || email.touched)"
+                    <div *ngIf="email.invalid && (email.dirty || email.touched) && validation_passed"
                          class="alert alert-danger">
 
                         <div *ngIf="email.errors.required">
@@ -93,7 +93,7 @@
 
                 </div>
                 <div class="col-md-6">
-                     <div class="alert alert-danger" *ngIf="password.invalid && (password.dirty || password.touched)">
+                     <div class="alert alert-danger" *ngIf="password.invalid && (password.dirty || password.touched) && validation_passed">
                         <ul>
                             <li *ngIf="password.errors || password.errors">Password must be from 8
                                 to 40 characters long and contain at least one digit.

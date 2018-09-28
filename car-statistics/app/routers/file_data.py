@@ -19,7 +19,7 @@ def get_statistics(dataset_id):
     if dataset.user_id != user_id:
         return json.dumps({'message': 'access forbidden'}), 403
 
-    file_path = utils.get_file_path(dataset.file_id)
+    file_path = utils.get_user_file(dataset.file_id, user_id)
     statistics = file_data.fields_statistics(file_path)
     return json.dumps(statistics), 200
 
@@ -34,7 +34,6 @@ def get_rows(dataset_id):
 
     if dataset.user_id != user_id:
         return json.dumps({'message': 'access forbidden'}), 403
-
-    file_path = utils.get_file_path(dataset.file_id)
+    file_path = utils.get_user_file(dataset.file_id, user_id)
     result = file_data.get_data_preview(file_path)
     return json.dumps(result), 200

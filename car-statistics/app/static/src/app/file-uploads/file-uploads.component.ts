@@ -1,4 +1,4 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, EventEmitter, OnInit, Output} from '@angular/core';
 import {HttpClient} from '@angular/common/http';
 
 
@@ -9,6 +9,8 @@ import {HttpClient} from '@angular/common/http';
 })
 export class FileUploadsComponent implements OnInit {
     selectedFile: File = null;
+
+    @Output() fileUploaded: EventEmitter<number> =   new EventEmitter();
 
     constructor(
         private http: HttpClient,
@@ -23,8 +25,11 @@ export class FileUploadsComponent implements OnInit {
         const filedata = new FormData();
         filedata.append('upload_file', this.selectedFile, this.selectedFile.name);
         this.http.post('api/upload', filedata)
-            .subscribe(res => {console.log(res);
+            .subscribe(res => {
+                console.log(res);
+                this.fileUploaded.emit(res['result'][2]);
         });
+
     }
 
     ngOnInit() {
