@@ -18,6 +18,7 @@ import { TableComponent } from './table/table.component';
 import { FileUploadsComponent } from './file-uploads/file-uploads.component';
 import {AuthGuardService} from './auth.guard';
 import { StatisticsComponent } from './statistics/statistics.component';
+import { NotificationComponent } from './notification/notification.component';
 
 @NgModule({
   declarations: [
@@ -34,6 +35,7 @@ import { StatisticsComponent } from './statistics/statistics.component';
       FileUploadsComponent,
     TableComponent,
     StatisticsComponent,
+    NotificationComponent,
   ],
   imports: [
     BrowserModule,
