@@ -6,12 +6,16 @@ import * as io from 'socket.io-client';
     providedIn: 'root'
 })
 export class SocketService {
-  private url = 'http://localhost:8000/';
+  private url = window.location.origin;
   private socketio;
 
+  joinRoom(user_id : string) {
+    this.socketio.emit('join_room', user_id);
+  }
+
   getMessages() {
-    let observable = new Observable(observer => {
-      this.socketio = io(this.url);
+    return new Observable(observer => {
+      this.socketio = io(this.url, {query:1});
       this.socketio.on('notification', (data) => {
         observer.next(data);
       });
@@ -19,6 +23,5 @@ export class SocketService {
         this.socketio.disconnect();
       };
     });
-    return observable;
-}
+  }
 }

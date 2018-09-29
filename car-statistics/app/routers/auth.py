@@ -83,3 +83,9 @@ def logout():
     return json.dumps({
         'message': f'User: {user.email} is logged out'
     }), 200
+
+
+@app.route('/api/get_user_data')
+@login_required
+def get_user_data():
+    return json.dumps({'user_id': session['user_id']}), 200

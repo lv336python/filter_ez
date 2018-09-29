@@ -14,7 +14,7 @@ export class DataService {
     constructor(private _http: HttpClient) { }
 
       get(): Observable<any> {
-        return this._http.get<any>('http://localhost:8000/test');
+        return this._http.get<any>('test');
     }
 
     getStatistics(dataset_id: number): Observable<any> {

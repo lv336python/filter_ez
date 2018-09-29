@@ -9,8 +9,8 @@ try:
 except EnvironmentError:
     pass
 
-BASEDIR = os.path.abspath(os.path.dirname(__file__))
-
+APPLICATION_ROOT = os.path.abspath(os.path.dirname(__file__))
+BASEDIR = os.path.join(APPLICATION_ROOT, '..')
 
 class Config:
     """
@@ -25,6 +25,8 @@ class Config:
     SQLALCHEMY_DATABASE_URI = f"postgresql://{DATABASE['POSTGRES_USER']}:" \
                               f"{DATABASE['POSTGRES_PASSWORD']}@" \
                               f"{DATABASE['HOST']}:{DATABASE['PORT']}/{DATABASE['DB_NAME']}"
+
+    MIGRATION_DIR = os.path.join(BASEDIR, 'migrations')
     # mail settings
     MAIL_SERVER = 'smtp.googlemail.com'
     MAIL_PORT = 587
@@ -40,8 +42,8 @@ class Config:
     MAIL_DEFAULT_SENDER = 'statisticcar@gmail.com'
 
     # logging parameters
-    LOGGING_CONFIG_FILE = os.path.join(BASEDIR, 'logging.conf')
-
+    LOGGING_CONFIG_FILE = os.path.join(APPLICATION_ROOT, 'logging_conf.py')
+    LOG_FILE_PATH = os.path.join(BASEDIR, 'logs/log.txt')
 
     # file storage
     DATA_FOLDER = 'usersdata'

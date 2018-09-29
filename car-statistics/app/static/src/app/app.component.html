@@ -1,4 +1,4 @@
 <app-navbar></app-navbar>
-<app-notification [loggedIn]="loggedIn"></app-notification>
+<app-notification *ngIf="loggedIn"></app-notification>
 <router-outlet></router-outlet>
 

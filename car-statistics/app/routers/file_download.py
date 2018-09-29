@@ -54,7 +54,6 @@ def test():
     :return:
     """
     dataset = Dataset.query.all()[-1]
-    print(utils.get_user_file(dataset.file_id, dataset.user_id))
     send_result_to_mail(['sturss22@gmail.com'],
                         'result.xls',
                         open(utils.get_user_file(dataset.file_id, dataset.user_id), 'rb').read())

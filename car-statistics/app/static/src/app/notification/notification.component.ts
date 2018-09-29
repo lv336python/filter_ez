@@ -1,6 +1,9 @@
 import {Component, Input, OnInit} from '@angular/core';
 import {SocketService} from "../socket.service";
 import {DataService} from "../data.service";
+import {AuthGuardService} from "../auth.guard";
+import {stringify} from "querystring";
+import {AuthService} from "../auth.service";
 
 @Component({
   selector: 'app-notification',
@@ -8,22 +11,31 @@ import {DataService} from "../data.service";
   styleUrls: ['./notification.component.css']
 })
 export class NotificationComponent implements OnInit {
-    @Input() loggedIn : string;
 
   constructor(private socket: SocketService,
-              private data: DataService) {
+              private auth: AuthService,
+              private auth_guard: AuthGuardService) {
     }
 
     messages = [];
     connection;
 
     ngOnInit() {
-        this.connection = this.socket.getMessages()
-            .subscribe(
-            data => {
-                this.messages.push(data);
-               }
-            );
+        if(this.auth_guard.isLogined()) {
+            this.connection = this.socket.getMessages()
+                .subscribe(
+                    data => {
+                        this.messages.push(data);
+                    }
+                );
+            this.auth.isLoggedIn()
+                .subscribe(
+                    res => {
+                        this.socket.joinRoom(res['user_id']);
+                        console.log('asf')
+                    }
+                );
+        }
     }
 
     removeNotification(element : Node, index: number) {

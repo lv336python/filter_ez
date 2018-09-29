@@ -108,7 +108,7 @@ module.exports = ".navbar{\nbackground-color: rgb(22, 17, 17);\nborder-radius: 4
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = "<app-navbar></app-navbar>\n<app-notification [loggedIn]=\"loggedIn\"></app-notification>\n<router-outlet></router-outlet>\n\n"
+module.exports = "<app-navbar></app-navbar>\n<app-notification *ngIf=\"loggedIn\"></app-notification>\n<router-outlet></router-outlet>\n\n"
 
 /***/ }),
 
@@ -294,8 +294,7 @@ var AuthGuardService = /** @class */ (function () {
             var matches = document.cookie.match(new RegExp("(?:^|; )" + name.replace(/([\.$?*|{}\(\)\[\]\\\/\+^])/g, '\\$1') + "=([^;]*)"));
             return matches ? decodeURIComponent(matches[1]) : undefined;
         }
-        var isLog = getCookie("session");
-        return isLog;
+        return getCookie("session");
     };
     AuthGuardService.prototype.canActivate = function (route, state) {
         if (this.isLogined()) {
@@ -366,11 +365,13 @@ var AuthService = /** @class */ (function () {
         return this._http.post(this.reset_password_url, { 'email': email });
     };
     AuthService.prototype.toResetPasswordConfirm = function (token, password) {
-        console.log("asfasfasf");
         return this._http.put(this.reset_password_confirm_api + '/' + token, { 'password': password });
     };
     AuthService.prototype.confirmEmail = function (token) {
         return this._http.get(this.confirm_url + token);
+    };
+    AuthService.prototype.isLoggedIn = function () {
+        return this._http.get('api/get_user_data');
     };
     AuthService = __decorate([
         Object(_angular_core__WEBPACK_IMPORTED_MODULE_0__["Injectable"])({
@@ -606,7 +607,7 @@ var DataService = /** @class */ (function () {
         this.get_rows_url = 'api/get_rows/';
     }
     DataService.prototype.get = function () {
-        return this._http.get('http://localhost:8000/test');
+        return this._http.get('test');
     };
     DataService.prototype.getStatistics = function (dataset_id) {
         return this._http.get(this.get_statistics_url + dataset_id);
@@ -1564,7 +1565,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "NotificationComponent", function() { return NotificationComponent; });
 /* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @angular/core */ "./node_modules/@angular/core/fesm5/core.js");
 /* harmony import */ var _socket_service__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../socket.service */ "./src/app/socket.service.ts");
-/* harmony import */ var _data_service__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../data.service */ "./src/app/data.service.ts");
+/* harmony import */ var _auth_guard__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../auth.guard */ "./src/app/auth.guard.ts");
+/* harmony import */ var _auth_service__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../auth.service */ "./src/app/auth.service.ts");
 var __decorate = (undefined && undefined.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -1577,27 +1579,32 @@ var __metadata = (undefined && undefined.__metadata) || function (k, v) {
 
 
 
+
 var NotificationComponent = /** @class */ (function () {
-    function NotificationComponent(socket, data) {
+    function NotificationComponent(socket, auth, auth_guard) {
         this.socket = socket;
-        this.data = data;
+        this.auth = auth;
+        this.auth_guard = auth_guard;
         this.messages = [];
     }
     NotificationComponent.prototype.ngOnInit = function () {
         var _this = this;
-        this.connection = this.socket.getMessages()
-            .subscribe(function (data) {
-            _this.messages.push(data);
-        });
+        if (this.auth_guard.isLogined()) {
+            this.connection = this.socket.getMessages()
+                .subscribe(function (data) {
+                _this.messages.push(data);
+            });
+            this.auth.isLoggedIn()
+                .subscribe(function (res) {
+                _this.socket.joinRoom(res['user_id']);
+                console.log('asf');
+            });
+        }
     };
     NotificationComponent.prototype.removeNotification = function (element, index) {
         element.parentElement.remove();
         this.messages.splice(index, 1);
     };
-    __decorate([
-        Object(_angular_core__WEBPACK_IMPORTED_MODULE_0__["Input"])(),
-        __metadata("design:type", String)
-    ], NotificationComponent.prototype, "loggedIn", void 0);
     NotificationComponent = __decorate([
         Object(_angular_core__WEBPACK_IMPORTED_MODULE_0__["Component"])({
             selector: 'app-notification',
@@ -1605,7 +1612,8 @@ var NotificationComponent = /** @class */ (function () {
             styles: [__webpack_require__(/*! ./notification.component.css */ "./src/app/notification/notification.component.css")]
         }),
         __metadata("design:paramtypes", [_socket_service__WEBPACK_IMPORTED_MODULE_1__["SocketService"],
-            _data_service__WEBPACK_IMPORTED_MODULE_2__["DataService"]])
+            _auth_service__WEBPACK_IMPORTED_MODULE_3__["AuthService"],
+            _auth_guard__WEBPACK_IMPORTED_MODULE_2__["AuthGuardService"]])
     ], NotificationComponent);
     return NotificationComponent;
 }());
@@ -1867,12 +1875,15 @@ var __decorate = (undefined && undefined.__decorate) || function (decorators, ta
 
 var SocketService = /** @class */ (function () {
     function SocketService() {
-        this.url = 'http://localhost:8000/';
+        this.url = window.location.origin;
     }
+    SocketService.prototype.joinRoom = function (user_id) {
+        this.socketio.emit('join_room', user_id);
+    };
     SocketService.prototype.getMessages = function () {
         var _this = this;
-        var observable = new rxjs_Observable__WEBPACK_IMPORTED_MODULE_1__["Observable"](function (observer) {
-            _this.socketio = socket_io_client__WEBPACK_IMPORTED_MODULE_2__(_this.url);
+        return new rxjs_Observable__WEBPACK_IMPORTED_MODULE_1__["Observable"](function (observer) {
+            _this.socketio = socket_io_client__WEBPACK_IMPORTED_MODULE_2__(_this.url, { query: 1 });
             _this.socketio.on('notification', function (data) {
                 observer.next(data);
             });
@@ -1880,7 +1891,6 @@ var SocketService = /** @class */ (function () {
                 _this.socketio.disconnect();
             };
         });
-        return observable;
     };
     SocketService = __decorate([
         Object(_angular_core__WEBPACK_IMPORTED_MODULE_0__["Injectable"])({
