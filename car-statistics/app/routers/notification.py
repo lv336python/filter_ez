@@ -5,7 +5,6 @@ from app import socketio
 
 @socketio.on('connect')
 def test_connect():
-    print(session['user_id'])
     join_room(session['user_id'])
     print('User connected')
 
