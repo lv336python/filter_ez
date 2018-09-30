@@ -48,6 +48,7 @@ from .routers import (
     file_upload,
     file_download,
     file_data,
-    notification
+    notification,
+    filter
 )
 

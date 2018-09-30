@@ -33,6 +33,10 @@ run:
 	python run.py
 
 back:
-	make setup
-	make db
-	make RabbitMQ
+	@if [ ! -d "~/home/oleksandr/lv-336/car-statistics/car-statistics/migrations" ]; then \
+		echo "Your database has already been initialized. Run the server with a command make run";\
+	else\
+	    	make setup \
+		make db \
+		make RabbitMQ;\
+	fi

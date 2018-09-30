@@ -3,19 +3,22 @@
 """
 import pandas as pd
 from collections import defaultdict
+from .filtering import dataframe_actualization
 
 
 def mask(df, key, value):
     return df[df[key] == value]
 
 
-def fields_definition(file_name, filter=False):
+def fields_definition(file_id, user_id, filter=False):
     """ This function defines fields to defaultdict in dict
     to store column names, their values and count of this values in column for statistic
     :param file_name: parameter for your file name
     :return dict: {'Air bags': {'max': 4, 'min': 0}, 'Body': {'MPV': 11, 'Sedan': 7}, 'Climate control': {'Yes': 30, 'No': 19}}
     """
-    df = pd.read_excel(file_name)
+
+    df = dataframe_actualization(file_id, user_id)
+    # df = pd.read_excel(file_name)
 
     if filter:
         pd.DataFrame.mask = mask
@@ -28,7 +31,7 @@ def fields_definition(file_name, filter=False):
     for cl_name in cl_names:
         cl_name_val = list(df[cl_name])
         if type(cl_name_val[0]) == str:
-            field_def[cl_name] = set(df[cl_name])
+            field_def[cl_name] = list(set(df[cl_name]))
         else:
             field_def[cl_name] = dict(min=min(cl_name_val), max=max(cl_name_val))
 
