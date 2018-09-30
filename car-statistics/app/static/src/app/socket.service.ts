@@ -6,7 +6,7 @@ import * as io from 'socket.io-client';
     providedIn: 'root'
 })
 export class SocketService {
-  private url = 'http://localhost:8000/';
+  private url = 'http://0.0.0.0:8000/';
   private socketio;
 
   getMessages() {

@@ -20,11 +20,9 @@ def load_user(user_id):
     :param user_id:
     :return: user if is logged in or None
     """
-    user = User.query.filter_by(id=user_id).first()
+    user = User.query.get(user_id)
 
-    if user:
-        return user
-    return None
+    return user
 
 
 @app.route("/api/login", methods=['POST'])
