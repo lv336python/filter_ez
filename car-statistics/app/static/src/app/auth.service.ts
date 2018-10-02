@@ -52,8 +52,4 @@ export class AuthService {
 
         return this._http.get<any>(this.confirm_url + token);
     }
-
-    isLoggedIn() : Observable<any> {
-        return this._http.get<any>('api/get_user_data');
-    }
 }

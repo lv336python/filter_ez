@@ -1596,8 +1596,7 @@ var NotificationComponent = /** @class */ (function () {
             });
             this.auth.isLoggedIn()
                 .subscribe(function (res) {
-                _this.socket.joinRoom(res['user_id']);
-                console.log('asf');
+                _this.socket.joinRoom();
             });
         }
     };
@@ -1877,8 +1876,8 @@ var SocketService = /** @class */ (function () {
     function SocketService() {
         this.url = window.location.origin;
     }
-    SocketService.prototype.joinRoom = function (user_id) {
-        this.socketio.emit('join_room', user_id);
+    SocketService.prototype.joinRoom = function () {
+        this.socketio.emit('join_room');
     };
     SocketService.prototype.getMessages = function () {
         var _this = this;

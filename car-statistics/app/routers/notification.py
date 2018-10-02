@@ -1,4 +1,3 @@
-from flask import session
 from flask_socketio import join_room, leave_room
 from flask_login import current_user
 from app import socketio
@@ -10,7 +9,7 @@ def on_connect():
 
 
 @socketio.on('join_room')
-def on_join(s):
+def on_join():
     print(f'User joined room {current_user}')
     join_room(current_user.id)
 

@@ -9,8 +9,8 @@ export class SocketService {
   private url = window.location.origin;
   private socketio;
 
-  joinRoom(user_id : string) {
-    this.socketio.emit('join_room', user_id);
+  joinRoom() {
+    this.socketio.emit('join_room');
   }
 
   getMessages() {
