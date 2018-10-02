@@ -3,7 +3,7 @@ Module for mail sending function
 '''
 from datetime import datetime
 from smtplib import SMTPException
-from flask import session, request
+from flask_login import current_user
 from flask_mail import Message, Attachment
 
 from app import app, mail, celery, socketio
@@ -74,8 +74,7 @@ def send_result_to_mail(recipients, file_name, file_content):
             data=file_content
         )]
     )
-    print(session['user_id'])
-    send.apply_async([msg], serializer='pickle', link=notify_user.s(session['user_id']))
+    send.apply_async([msg], serializer='pickle', link=notify_user.s(current_user.id))
 
 
 def notify_admin(message, error_level):
