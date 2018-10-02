@@ -107,30 +107,19 @@ venv.bak/
 # Pycharm
 .idea/
 
-# Project
-car-statistics/app/static/node_modules/
-car-statistics/app/static/public/
-car-statistics/app/services/fields_definition.json
-result.xls
-logs.txt
-
-# file_uploads
-car-statistics/uploads_temp/
-
-# package-lock.json
-car-statistics/app/static/package-lock.json
-
 #VSC
 .vscode/
 
+# Project
+car-statistics/app/static/node_modules/
+car-statistics/app/static/package-lock.json
+car-statistics/app/static/public/
+car-statistics/usersdata/
+car-statistics/logs/
+result.xls
+
+postgres/
+rabbitmq/
+
 #testing files
 car-statistics/testing/
-
-#ng build result
-car-statistics/app/static/public
-
-#migrations
-car-statistics/migrations
-
-#result_test.xls
-car-statistics/app/services/result_test.xls

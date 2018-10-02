@@ -1,18 +1,19 @@
 """
     Module for creating fake data about cars
 """
+import csv
 import json
 import sys
+import xlsxwriter
+import xlwt
 
 from random import choice, randint
 from string import ascii_lowercase, digits
 
-import xlwt
 
-
-def frange(start, end, step):
+def float_range(start, end, step):
     """
-    Yield float values in range from start to end
+    Helping function: yields float values in range from start to end
     :param start:
     :param end:
     :param step:
@@ -24,167 +25,237 @@ def frange(start, end, step):
         curr += step
 
 
-def generate_row(config):
+class ExcelGenerator:
     """
-    Returns a list of values for one row of car characteristics data
-    :return: ['X5', 'Audi', 'Sedan', ...]
+    Generates .xlsx, .xls, or .csv file with information generated
+    according to configuration file.
     """
-    stats = []
-    for column in config['COLUMNS']:
-        stats.append(choice(config['COL_DATA'][column]))
-    return stats
+    def __init__(self, configs=None, path=None):
+        """
+        :param configs: - dict object with configurations. may be string object, will cast to str
+        {
+            "ROW_NUMBER": 10000
+            "COLUMNS": {
+                    "Mark": ['BMW', 'Audi', 'Mercedes'],
+                    "Color": ['Red', 'Blue', 'Green'],
+                    "Year": [1995, 1992, 2012],
+                    "Volume": [12.2, 13.5, 16.4],
+                    "Weight": range(100, 4000)
+                }
+        }
 
+        :param path: path to configuration file in json format
+        If the configs given, the configs will be validated and the path will be omitted
+        """
+        self.configs_path = path
+        self.configs = configs
 
-def generate_bool_data(**kwargs):
-    """
-    Creates a list of values for bool type using given parameters
-    :param kwargs: parameters for list generation
-    :return list: [True] || [False] || [True, False]
-    """
-    return list(map(lambda x: "True" if x else "False", kwargs.get('choice', [True, False])))
+        if configs:
+            if self.is_valid_config(configs):
+                self.configs = configs
+            raise Exception("Wrong configuration format")
 
+        elif path:
+            self.configs = configs or self.read_configs(path)
 
-def generate_int_data(**kwargs):
-    """
-    Creates a list of possible values for float type using given parameters
-    :param kwargs: parameters for list generation
-    :return list: all possible values column can have
-    """
-    data_choice_range = kwargs.get('choice', [])
-    min_value = kwargs.get('min_value', 2)
-    max_value = kwargs.get('max_value', 10)
-    step = kwargs.get('step', 1)
+    @staticmethod
+    def is_valid_config(configs):
 
-    unique = min(kwargs.get('unique', 20), (max_value - min_value) / step)
+        row_number = configs.get('ROW_NUMBER')
+        if not(isinstance(row_number, int) and row_number > 0):
+            return False
 
-    if data_choice_range:
-        return list(filter(lambda x: isinstance(x, int), data_choice_range))
+        columns = configs.get('COLUMNS')
+        if not isinstance(columns, dict):
+            return False
 
-    while len(data_choice_range) < unique:
-        choice_element = choice(range(min_value, max_value, step))
-        if choice_element not in data_choice_range:
-            data_choice_range.append(choice_element)
-    return data_choice_range
+        if not len(configs['COLUMNS']):
+            return False
 
+        for column in configs['COLUMNS']:
+            if not isinstance(column, str):
+                return False
 
-def generate_float_data(**kwargs):
-    """
-    Creates a list of possible values for float type using given parameters
-    :param kwargs: parameters for list generation
-    :return list: all possible values column can have
-    """
-    data_choice_range = kwargs.get('choice', [])
-    min_value = kwargs.get('min_value', 2)
-    max_value = kwargs.get('max_value', 10)
-    step = kwargs.get('step', 1)
+            if not isinstance(configs['COLUMNS'][column], list) \
+                    or len(configs['COLUMNS'][column]) == 0:
+                return False
 
-    unique = min(kwargs.get('unique', 20), (max_value - min_value) / step)
+        return True
 
-    if data_choice_range:
-        return filter(lambda x: isinstance(x, float), data_choice_range)
+    def read_configs(self, config_path):
+        """
+        Opens file to which the path leads and reads configuration from it
+        :param config_path: str value - path to file
+        """
+        self.configs = {}
 
-    while len(data_choice_range) < unique:
-        choice_element = choice(list(frange(min_value, max_value, step)))
-        if choice_element not in data_choice_range:
-            data_choice_range.append(choice_element)
-    return data_choice_range
+        with open(config_path) as conf_file:
+            configs_json = json.loads(conf_file.read())
+            self.configs['ROW_NUMBER'] = configs_json.get('row_number', 50000)
+            self.configs['COLUMNS'] = {}
+            cols = list(configs_json['columns'].keys())
+            for column in cols:
+                self.configs['COLUMNS'][column] = self.generate_cell_data(configs_json['columns'][column])
 
+    def generate_cell_data(self, row_config):
+        """
+        Returns list of possible values for a column of defined type or None
+        :param row_config: meta-data for a column
+        :return list or [None]: values for column
+        """
+        if row_config['type'] == "int":
+            return self.generate_int_data(row_config)
+        if row_config['type'] == 'string':
+            return self.generate_string_data(row_config)
+        if row_config['type'] == 'float':
+            return self.generate_float_data(row_config)
+        if row_config['type'] == 'bool':
+            return self.generate_bool_data(row_config)
+        return ['None']
 
-def generate_string_data(**kwargs):
-    """
-    Creates a list of possible values for string type using given parameters
-    :param kwargs: parameters for list generation
-    :return list: all possible values column can have
-    """
-    data_choice_range = kwargs.get('choice', [])
-    unique = kwargs.get('unique', 20)
-    min_length = kwargs.get('min_length', 2)
-    max_length = kwargs.get('max_length', 10)
-    are_digits_allowed = kwargs.get('digit', False)
-    capitalize = kwargs.get('capitalize', False)
+    @staticmethod
+    def generate_bool_data(row_config):
+        """
+        Creates a list of values for bool type using given parameters
+        :param row_config: parameters for list generation
+        :return list: [True] || [False] || [True, False]
+        """
+        return list(map(lambda x: "True" if x else "False", row_config.get('choice', [True, False])))
 
-    if data_choice_range:
-        return list(map(str, data_choice_range))
+    @staticmethod
+    def generate_int_data(row_config):
+        """
+        Creates a list of possible values for float type using given parameters
+        :param row_config: parameters for list generation
+        :return list: all possible values column can have
+        """
+        data_choice_range = row_config.get('choice', [])
+        min_value = row_config.get('min_value', 2)
+        max_value = row_config.get('max_value', 10)
+        step = row_config.get('step', 1)
 
-    while len(data_choice_range) < unique:
-        if are_digits_allowed:
-            choice_element = ''.join([choice(ascii_lowercase+digits)
-                                      for _ in range(randint(min_length, max_length))])
-        else:
-            choice_element = ''.join([choice(ascii_lowercase)
-                                      for _ in range(randint(min_length, max_length))])
-        if choice_element not in data_choice_range:
-            if capitalize:
-                choice_element = choice_element.capitalize()
-            data_choice_range.append(choice_element)
+        unique = min(row_config.get('unique', 20), (max_value - min_value) / step)
 
-    return data_choice_range
+        if data_choice_range:
+            return list(filter(lambda x: isinstance(x, int), data_choice_range))
 
+        while len(data_choice_range) < unique:
+            choice_element = choice(range(min_value, max_value, step))
+            if choice_element not in data_choice_range:
+                data_choice_range.append(choice_element)
+        return data_choice_range
 
-def generate_cell_data(**kwargs):
-    """
-    Returns list of possible values for a column of defined type or None
-    :param kwargs: meta-data for a column
-    :return list or [None]: values for column
-    """
-    if kwargs['type'] == "int":
-        return generate_int_data(**kwargs)
-    if kwargs['type'] == 'string':
-        return generate_string_data(**kwargs)
-    if kwargs['type'] == 'float':
-        return generate_float_data(**kwargs)
-    if kwargs['type'] == 'bool':
-        return generate_bool_data(**kwargs)
-    return ['None']
+    @staticmethod
+    def generate_float_data(row_config):
+        """
+        Creates a list of possible values for float type using given parameters
+        :param row_config: parameters for list generation
+        :return list: all possible values column can have
+        """
+        data_choice_range = row_config.get('choice', [])
+        min_value = row_config.get('min_value', 2)
+        max_value = row_config.get('max_value', 10)
+        step = row_config.get('step', 1)
 
+        unique = min(row_config.get('unique', 20), (max_value - min_value) / step)
 
-def configure_data_sets():
-    """
-    Parses json file with configurations and set necessary values like number of rows,
-    columns and their data type, minimum and maximum values, etc
-    :return dict: {'ROW_NUMBER': 20000, 'COLUMNS':['Country'], 'COL_DATA': {'Name': ['saf']}
-    """
-    configs = {}
-    with open(sys.argv[1]) as conf_file:
-        plain_text = conf_file.read()
-        conf_json = json.loads(plain_text)
-        configs['ROW_NUMBER'] = conf_json.get('row_number', 50000)
-        if 'columns' in conf_json:
-            configs['COLUMNS'] = list(conf_json['columns'].keys())
-            configs['COL_DATA'] = {}
-            for column in configs['COLUMNS']:
-                configs['COL_DATA'][column] = generate_cell_data(**conf_json['columns'][column])
-    return configs
+        if data_choice_range:
+            return filter(lambda x: isinstance(x, float), data_choice_range)
 
+        while len(data_choice_range) < unique:
+            choice_element = choice(list(float_range(min_value, max_value, step)))
+            if choice_element not in data_choice_range:
+                data_choice_range.append(choice_element)
+        return data_choice_range
 
-def generate_data(configs):
-    """
-    Creates data frame with 50k rows of characteristics of
-    cars and writes it to Excel file 'stats.xls'
-    :return: None
-    """
-    workbook = xlwt.Workbook()
-    sheet = workbook.add_sheet("Sheet 1")
+    @staticmethod
+    def generate_string_data(row_config):
+        """
+        Creates a list of possible values for string type using given parameters
+        :param row_config: parameters for list generation
+        :return list: all possible values column can have
+        """
+        data_choice_range = row_config.get('choice', [])
+        unique = row_config.get('unique', 20)
+        min_length = row_config.get('min_length', 2)
+        max_length = row_config.get('max_length', 10)
+        are_digits_allowed = row_config.get('digit', False)
+        capitalize = row_config.get('capitalize', False)
 
-    for index, column in enumerate(configs['COLUMNS']):
-        sheet.write(0, index, column)
-    for row_index in range(1, configs['ROW_NUMBER']+1):
-        for col_index, col_value in enumerate(generate_row(configs)):
-            sheet.write(row_index, col_index, col_value)
+        if data_choice_range:
+            return list(map(str, data_choice_range))
 
-    workbook.save("result.xls")
+        while len(data_choice_range) < unique:
+            if are_digits_allowed:
+                choice_element = ''.join([choice(ascii_lowercase + digits)
+                                          for _ in range(randint(min_length, max_length))])
+            else:
+                choice_element = ''.join([choice(ascii_lowercase)
+                                          for _ in range(randint(min_length, max_length))])
+            if choice_element not in data_choice_range:
+                if capitalize:
+                    choice_element = choice_element.capitalize()
+                data_choice_range.append(choice_element)
 
+        return data_choice_range
 
-def main():
-    """
-    Entrance point of the program with default config parameters
-    If config file path is given as a system argument, configurations are taken from it
-    :return: None
-    """
+    def generate_row(self):
+        """
+        Returns a list of values for one row of car characteristics data
+        :return: ['X5', 'Audi', 'Sedan', ...]
+        """
+        row_data = []
+        for column in self.configs['COLUMNS'].keys():
+            row_data.append(choice(self.configs['COLUMNS'][column]))
+        return row_data
 
-    configs = configure_data_sets()
-    generate_data(configs)
+    def save_xlsx(self, name, sheet_name='Sheet 1'):
+        workbook = xlsxwriter.Workbook(name)
+        sheet = workbook.add_worksheet(sheet_name)
+
+        for index, column in enumerate(self.configs['COLUMNS']):
+            sheet.write(0, index, column)
+        for row_index in range(1, self.configs['ROW_NUMBER'] + 1):
+            for col_index, col_value in enumerate(self.generate_row()):
+                sheet.write(row_index, col_index, col_value)
+
+        workbook.close()
+
+    def save_xls(self, name, sheet_name='Sheet 1'):
+        if self.configs['ROW_NUMBER'] > 65536:
+            print('Cannot save more than 65536 rows to XLS file')
+            return False
+        workbook = xlwt.Workbook()
+        sheet = workbook.add_sheet(sheet_name)
+
+        for index, column in enumerate(self.configs['COLUMNS']):
+            sheet.write(0, index, column)
+        for row_index in range(1, self.configs['ROW_NUMBER'] + 1):
+            for col_index, col_value in enumerate(self.generate_row()):
+                sheet.write(row_index, col_index, col_value)
+
+        workbook.save(name)
+
+    def save_csv(self, name):
+        with open(name, 'w', newline='') as csvfile:
+            csv_writer = csv.writer(csvfile, delimiter=';',
+                                    quotechar='|', quoting=csv.QUOTE_MINIMAL)
+            csv_writer.writerow(self.configs['COLUMNS'].keys())
+
+            for row_index in range(self.configs['ROW_NUMBER']):
+                csv_writer.writerow(self.generate_row())
 
 
 if __name__ == '__main__':
-    main()
+    generator = ExcelGenerator()
+    generator.read_configs(sys.argv[1])
+
+    if len(sys.argv == 3):
+        if sys.argv[2] == 'csv':
+            generator.save_csv('result.csv')
+        elif sys.argv[2] == 'xls':
+            generator.save_xls('result.xls')
+        elif sys.argv[2] == 'xlsx':
+            generator.save_xlsx('result.xlsx')
+    else:
+        generator.save_csv('result.csv')
