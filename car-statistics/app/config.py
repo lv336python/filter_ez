@@ -11,6 +11,8 @@ except EnvironmentError:
 
 APPLICATION_ROOT = os.path.abspath(os.path.dirname(__file__))
 BASEDIR = os.path.join(APPLICATION_ROOT, '..')
+DOCKER_ENV = os.environ.get('DOCKER', default=False)
+
 
 class Config:
     """
@@ -22,7 +24,10 @@ class Config:
     SECRET_KEY = 'this-really-needs-to-be-changed'
     SECURITY_PASSWORD_SALT = 'my_precious_two'
     SQLALCHEMY_TRACK_MODIFICATIONS = False
-    SQLALCHEMY_DATABASE_URI = f"postgresql://{DATABASE['POSTGRES_USER']}:" \
+    if DOCKER_ENV:
+        SQLALCHEMY_DATABASE_URI = "postgresql://car_stats:carstatistics@postgres:5432/car_stats"
+    else:
+        SQLALCHEMY_DATABASE_URI = f"postgresql://{DATABASE['POSTGRES_USER']}:" \
                               f"{DATABASE['POSTGRES_PASSWORD']}@" \
                               f"{DATABASE['HOST']}:{DATABASE['PORT']}/{DATABASE['DB_NAME']}"
 
@@ -53,8 +58,11 @@ class Config:
     ALLOWED_EXTENSIONS = ('csv', 'xls', 'xlsx')
 
     #Celery configurations
-    CELERY_RESULT_BACKEND = 'rpc://'
-    CELERY_BROKER_URL = 'amqp://guest@localhost//'
+    RESULT_BACKEND = 'rpc://'
+    if DOCKER_ENV:
+        BROKER_URL = 'amqp://rabbitmq:rabbitmq@rabbitmq:5672/'
+    else:
+        BROKER_URL = 'amqp://rabbitmq:rabbitmq@localhost:5671/'
     CELERY_ACCEPT_CONTENT = ['json', 'pickle']
     CELERY_ROUTES = {
         'app.services.mail_service.*': {'queue': 'email'}
