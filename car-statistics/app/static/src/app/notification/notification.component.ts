@@ -28,13 +28,7 @@ export class NotificationComponent implements OnInit {
                         this.messages.push(data);
                     }
                 );
-            this.auth.isLoggedIn()
-                .subscribe(
-                    res => {
-                        this.socket.joinRoom(res['user_id']);
-                        console.log('asf')
-                    }
-                );
+            this.socket.joinRoom();
         }
     }
 
