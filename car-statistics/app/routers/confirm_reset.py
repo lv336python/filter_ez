@@ -23,6 +23,8 @@ def reset_with_token(token):
     """
     email = confirm_token(token)
 
+
+    print(email)
     if not email:
         return json.dumps({
             'message': 'Link has been expired'
