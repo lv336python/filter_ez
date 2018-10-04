@@ -15,7 +15,6 @@ services:
 
   rabbitmq:
     image: "rabbitmq:3-management"
-    hostname: "rabbitmq"
     environment:
       RABBITMQ_ERLANG_COOKIE: "SWQOKODSQALRPCLNMEQG"
       RABBITMQ_DEFAULT_USER: "rabbitmq"
@@ -24,8 +23,6 @@ services:
     ports:
       - 15672:15672
       - 5672:5672
-    labels:
-      NAME: "rabbitmq1"
     volumes:
       - ./rabbitmq:/var/lib/rabbitmq
 
@@ -58,12 +55,3 @@ services:
     depends_on:
       - rabbitmq
     scale: 3
-
-
-#  front:
-#    build:
-#      context: .
-#      dockerfile: Dockerfile_FE
-#    entrypoint: ["ng", "build"]
-#    volumes:
-#    - './car-statistics:/car-statistics'
