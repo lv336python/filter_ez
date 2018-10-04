@@ -34,10 +34,11 @@ def login():
     or incorrect responses
     """
     data = request.get_json()
+
     if 'user_id' in session:
         return json.dumps({
             'message': 'User is already logged in'
-        }), 400
+        }), 401
 
     user = User.query.filter(User.email == data['email']).first()
 
