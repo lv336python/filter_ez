@@ -10,8 +10,6 @@ from app import app
 @pytest.fixture
 def client():
     db_fd, app.config['DATABASE_FAKE'] = tempfile.mkstemp()
-    print(db_fd)
-    print(app.config['DATABASE_FAKE'])
     app.config['TESTING'] = True
     client = app.test_client()
 
