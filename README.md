@@ -32,6 +32,7 @@ $ python manage.py db init
 $ python manage.py db migrate
 $ python manage.py db upgrade
 ```
+Please, if you want to make a migration, pull others migrations from git and right after you migrate push new versions
 5. Install RabbitMQ and run it
 ```commandline
 $ sudo apt install rabbitmq-server
