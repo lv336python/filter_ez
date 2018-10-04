@@ -1,4 +1,4 @@
-version: '3.1'
+version: '2.2'
 
 services:
   postgres:
@@ -11,7 +11,7 @@ services:
     volumes:
       - ./postgres:/var/lib/postgresql/data
     ports:
-      - 5431:5432
+      - 5432:5432
 
   rabbitmq:
     image: "rabbitmq:3-management"
@@ -23,7 +23,7 @@ services:
       RABBITMQ_DEFAULT_VHOST: "/"
     ports:
       - 15672:15672
-      - 5671:5672
+      - 5672:5672
     labels:
       NAME: "rabbitmq1"
     volumes:
@@ -31,9 +31,9 @@ services:
 
   app:
     restart: always
-    build: 
+    build:
        context: .
-       dockerfile: dockerfile
+       dockerfile: Dockerfile
     environment:
       FLASK_ENV: development
       FLASK_DEBUG: 1 
@@ -42,19 +42,28 @@ services:
     volumes:
       - ./car-statistics:/car-statistics
     ports:
-      - 8001:8000
+      - 8000:8000
     depends_on: 
       - rabbitmq
       - postgres
-    entrypoint: ["python", "run.py"]
+    entrypoint: ["python3.6", "run.py"]
 
   celery:
     build: .
     entrypoint: ["celery", "worker", "-l", "info", "-A", "app.celery", "-Q", "email"]
     environment:
       C_FORCE_ROOT: "True"
-      DOCKER: 1
     volumes:
       - './car-statistics:/car-statistics'
     depends_on:
       - rabbitmq
+    scale: 3
+
+
+#  front:
+#    build:
+#      context: .
+#      dockerfile: Dockerfile_FE
+#    entrypoint: ["ng", "build"]
+#    volumes:
+#    - './car-statistics:/car-statistics'

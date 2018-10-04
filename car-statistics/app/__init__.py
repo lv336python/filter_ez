@@ -38,7 +38,6 @@ logger = make_logger(app.config['LOG_FILE_PATH'])
 
 socketio = SocketIO(app, async_mode='eventlet', message_queue=app.config['BROKER_URL'])
 
-
 from .routers import (
     main,
     register,
