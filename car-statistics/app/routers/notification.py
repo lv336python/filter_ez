@@ -1,17 +1,21 @@
+from flask import session
 from flask_socketio import join_room, leave_room
-from flask import request, session
-from app import socketio, clients
+from flask_login import current_user
+from app import socketio
 
 
 @socketio.on('connect')
-def test_connect():
-    clients[session['user_id']] = request.sid
-    join_room(request.sid)
-    print('User connected')
+def on_connect():
+    print(f'{str(current_user)} connected')
+
+
+@socketio.on('join_room')
+def on_join(s):
+    print(f'User joined room {current_user}')
+    join_room(current_user.id)
 
 
 @socketio.on('disconnect')
-def test_disconnect():
-    clients.remove(session['user_id'])
-    leave_room(request.sid)
-    print('Client disconnected')
+def on_disconnect():
+    leave_room(current_user.id)
+    print(f'{current_user} disconnected')

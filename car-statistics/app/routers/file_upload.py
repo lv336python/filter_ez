@@ -6,6 +6,7 @@ from flask_login import login_required
 from app.services.user_data import upload_file
 from app.services.utils import file_ext
 from app.validators import validate_file_ext
+from app.models.files import File
 
 
 @app.route('/api/upload', methods=['POST'])
@@ -25,3 +26,10 @@ def uploader():
 
     else:
         return make_response(jsonify({'error': 'no file, empty form'}), 400)
+
+
+@app.route('/api/get_files', methods=['POST'])
+def getfiles():
+    files = [[i.id, i.path, i.attributes] for i in File.query.all()]
+    return make_response(jsonify(files), 200)
+

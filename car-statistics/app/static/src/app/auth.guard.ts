@@ -14,8 +14,7 @@ export class AuthGuardService implements CanActivate {
         return matches ? decodeURIComponent(matches[1]) : undefined;
 
     }
-    let isLog = getCookie("session");
-    return isLog;
+    return getCookie("session");
   }
 
   canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot) {

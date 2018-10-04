@@ -13,6 +13,7 @@ from app import app, login_manager
 from app.models.user import User
 from app.services.validate_service import data_validator
 
+
 @login_manager.user_loader
 def load_user(user_id):
     """
@@ -82,3 +83,9 @@ def logout():
     return json.dumps({
         'message': f'User: {user.email} is logged out'
     }), 200
+
+
+@app.route('/api/get_user_data')
+@login_required
+def get_user_data():
+    return json.dumps({'user_id': session['user_id']}), 200
