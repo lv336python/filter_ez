@@ -22,6 +22,7 @@ export class NotificationComponent implements OnInit {
 
     ngOnInit() {
         if(this.auth_guard.isLogined()) {
+            this.socket.connect();
             this.connection = this.socket.getMessages()
                 .subscribe(
                     data => {
