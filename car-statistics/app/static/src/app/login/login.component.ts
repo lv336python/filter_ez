@@ -39,6 +39,7 @@ export class LoginComponent implements OnInit {
             .subscribe(
                 res => {
                     this.socket.connect();
+                    this.socket.joinRoom();
                     this.router.navigate([this.returnUrl]);
                 },
                 err => {
