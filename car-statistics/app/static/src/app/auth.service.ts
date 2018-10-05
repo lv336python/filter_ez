@@ -45,15 +45,11 @@ export class AuthService {
     }
 
     toResetPasswordConfirm(token, password: string): Observable<any> {
-        return this._http.put<any>(this.reset_password_confirm_api+'/'+token, {'password': password})
+        return this._http.put<any>(this.reset_password_confirm_api + '/' + token, {'password': password})
     }
 
     confirmEmail(token: string): Observable<any> {
 
         return this._http.get<any>(this.confirm_url + token);
-    }
-
-    isLoggedIn() : Observable<any> {
-        return this._http.get<any>('api/get_user_data');
     }
 }
