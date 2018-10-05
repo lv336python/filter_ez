@@ -1,6 +1,5 @@
-import {Component, ElementRef, Input, OnInit} from '@angular/core';
+import {Component, Input, OnInit} from '@angular/core';
 import {DataService} from "../data.service";
-import {update} from "plotly.js";
 
 
 @Component({
@@ -9,12 +8,13 @@ import {update} from "plotly.js";
   styleUrls: ['./statistics.component.css']
 })
 export class StatisticsComponent implements OnInit {
-
     dataset_id_ : number;
     columns : Array<string>;
     statistics : Object;
 
+
     plot : string = 'bar';
+    size : string = 'min';
 
     public graph = {
         pie: [
@@ -63,6 +63,7 @@ export class StatisticsComponent implements OnInit {
             );
     }
 
+
     ngOnInit() {
         this.updateGraph();
     }
@@ -81,5 +82,17 @@ export class StatisticsComponent implements OnInit {
 
         this.graph.bar[0].x = Object.keys(this.statistics[value]);
         this.graph.bar[0].y = Object.values(this.statistics[value]);
+    }
+
+    increaseSize() {
+        this.size = 'max';
+        this.graph.layout.width = 800;
+        this.graph.layout.height = 600;
+    }
+
+    reduceSize() {
+        this.size = 'min';
+        this.graph.layout.width = 600;
+        this.graph.layout.height = 400;
     }
 }

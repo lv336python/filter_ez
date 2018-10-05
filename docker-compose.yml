@@ -1,0 +1,57 @@
+version: '2.2'
+
+services:
+  postgres:
+    image: postgres:10
+    restart: always
+    environment:
+      POSTGRES_USER: car_stats
+      POSTGRES_PASSWORD: carstatistics
+      POSTGRES_DATABASE: car_stats
+    volumes:
+      - ./postgres:/var/lib/postgresql/data
+    ports:
+      - 5432:5432
+
+  rabbitmq:
+    image: "rabbitmq:3-management"
+    environment:
+      RABBITMQ_ERLANG_COOKIE: "SWQOKODSQALRPCLNMEQG"
+      RABBITMQ_DEFAULT_USER: "rabbitmq"
+      RABBITMQ_DEFAULT_PASS: "rabbitmq"
+      RABBITMQ_DEFAULT_VHOST: "/"
+    ports:
+      - 15672:15672
+      - 5672:5672
+    volumes:
+      - ./rabbitmq:/var/lib/rabbitmq
+
+  app:
+    restart: always
+    build:
+       context: .
+       dockerfile: Dockerfile
+    environment:
+      FLASK_ENV: development
+      FLASK_DEBUG: 1 
+      DOCKER: 1
+      PYTHONUNBUFFERED: 0
+    volumes:
+      - ./car-statistics:/car-statistics
+    ports:
+      - 8000:8000
+    depends_on: 
+      - rabbitmq
+      - postgres
+    entrypoint: ["python3.6", "run.py"]
+
+  celery:
+    build: .
+    entrypoint: ["celery", "worker", "-l", "info", "-A", "app.celery", "-Q", "email"]
+    environment:
+      C_FORCE_ROOT: "True"
+    volumes:
+      - './car-statistics:/car-statistics'
+    depends_on:
+      - rabbitmq
+    scale: 3

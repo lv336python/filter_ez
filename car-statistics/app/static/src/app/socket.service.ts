@@ -13,17 +13,9 @@ export class SocketService {
     this.socketio.emit('join_room');
   }
 
-  connect() {
-    this.socketio = io(this.url);
-  }
-
-  disconnect() {
-    this.socketio.disconnect();
-  }
-
   getMessages() {
-    this.connect();
     return new Observable(observer => {
+      this.socketio = io(this.url, {query:1});
       this.socketio.on('notification', (data) => {
         observer.next(data);
       });

@@ -1,9 +1,13 @@
 
 <div>
-    <div class="plot">
+    <div class="plot" [style.width]="graph.layout.width+'px'" [style.height]="graph.layout.height+200+'px'">
         <div class="tab">
           <button #pie class="tablinks" (click)="setPlot('pie', pie, bar) ">Pie</button>
           <button #bar class="tablinks" (click)="setPlot('bar', bar, pie)">Bar</button>
+        </div>
+        <div class="tab">
+            <button class="tablinks" *ngIf="size=='min'" [style.width]="'100%'" (click)="increaseSize()">Increase size</button>
+            <button class="tablinks" *ngIf="size=='max'" [style.width]="'100%'" (click)="reduceSize()">Decrease size</button>
         </div>
         <label for="column_selection">Select Column: </label>
         <select id="column_selection" #selection (change)="makeSelection(selection.value)" class="selectpicker">
