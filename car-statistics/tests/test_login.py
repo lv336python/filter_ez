@@ -60,7 +60,7 @@ def test_login_not_user(client):
         mock_get_user.query.filter().first.return_value = None
         rv = login(client, 'vovapetryna1995@gmail.com', 'qwerty111')
 
-    assert rv._status_code == 400
+    assert rv.status_code == 404
 
 
 def test_login_not_user_confirmed(client):

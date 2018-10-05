@@ -46,7 +46,7 @@ def login():
     if not user:
         return json.dumps({
             'message': 'User not found'
-        }), 400
+        }), 404
 
     if not user.confirmed:
         return json.dumps({

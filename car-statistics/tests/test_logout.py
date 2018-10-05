@@ -44,7 +44,7 @@ def test_login_required_with_bd(client):
     :param client:
     :return: response 200
     """
-    rv = login(client, 'vovapetryna1995@gmail.com', 'qwerty111')
+    rv = login(client, 'vovapetryna1995@gmail.com', 'qwerty1111')
     rv = logout(client)
     assert rv._status_code == 200
 

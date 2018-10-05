@@ -8,7 +8,7 @@ class FakeUser(UserMixin):
     Fake confirmed user
     """
     id = 1
-    email= "fake_usergmai.com"
+    email= "fake_user@gmai.com"
     password = generate_password_hash("admin1234")
     confirmed = True
 
