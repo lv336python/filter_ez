@@ -30,11 +30,13 @@ class Config:
                                   f"{DATABASE['HOST']}:{DATABASE['PORT']}/{DATABASE['DB_NAME']}"
 
     MIGRATION_DIR = os.path.join(BASEDIR, 'migrations')
+    
     # mail settings
     MAIL_SERVER = 'smtp.googlemail.com'
     MAIL_PORT = 587
     MAIL_USE_TLS = True
     MAIL_USE_SSL = False
+
     MAIL_USERNAME = MAIL['MAIL_USERNAME']
     MAIL_PASSWORD = MAIL['MAIL_PASSWORD']
     MAIL_DEFAULT_SENDER = 'statisticcar@gmail.com'
