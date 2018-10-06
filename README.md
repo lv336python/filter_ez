@@ -1,54 +1,21 @@
 # car-statistics
 
-<h3> To run server </h3>
+<h3>Start application in docker</h3>
+1. Install docker and docker-compose with support of compose files at least version 2.2
 
-1. Install all needed modules for python with command.
- ```commandline
-$ pip install -r requirements.txt
+2. Build bundle js with ng build:
+```sh
+    /car-statistics/app/static$ ng build
 ```
-2. Go to directory car-statistics/app/static and install all modules with npm.
-```commandline
-$ npm install
+3. Make migrations to data base
+```sh
+    /car-statistics$ python manage.py db upgrade
 ```
-3. Update file local_settings.py in directory car-statistics/app.
-```python
-DATABASE = {
-    'POSTGRES_USER': 'postgres',
-    'POSTGRES_PASSWORD' : 'pass',
-    'HOST' : 'localhost',
-    'PORT' : 5432,
-    'DB_NAME' : 'car_stats'
-}
-
-MAIL = {
-    'MAIL_USERNAME': "your@mail.com",
-    'MAIL_PASSWORD': "mysecretpassword",
-    'ADMIN_MAIL' : 'admin_mail@gmail.com'
-}
-```
-4. Move to directory car-statistics and run command for database migrations.
-```commandline
-$ python manage.py db init
-$ python manage.py db migrate
-$ python manage.py db upgrade
-```
-Please, if you want to make a migration, pull others migrations from git and right after you migrate push new versions
-5. Install RabbitMQ and run it
-```commandline
-$ sudo apt install rabbitmq-server
-...
-$ sudo rabbitmq-server
+4. Run docker-compose command in the directory with Dockerfile
+```sh
+   sudo docker-compose up 
 ```
 
-6. Start celery worker which is going to complete all the time-consuming functions like filtering data, sending result files to email. Change directory to car-statistics and complete
-```commandline
-$ celery -A app.celery worker -l info -n email@%h -Q email
-```
-
-7. Run app
-```commandline
-$ python run.py
-``` 
 <h3>To generate data with your own parameters:</h3>
 
  1. Create a json file with configuration settings.
@@ -91,7 +58,7 @@ $ python run.py
 }
 ```
 
- 2. Run script with configuration file as an argument.
+ 2. Run script with configuration file as an argument and type of output file (optional).
 ```commandline
-$ python car_statistics_generator.py generator_config.json
+$ python car_statistics_generator.py generator_config.json csv
 ```

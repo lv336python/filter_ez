@@ -114,7 +114,6 @@ venv.bak/
 car-statistics/app/static/node_modules/
 car-statistics/app/static/package-lock.json
 car-statistics/app/static/public/
-car-statistics/app/static/public/main.js
 car-statistics/usersdata/
 car-statistics/logs/
 result.xls
