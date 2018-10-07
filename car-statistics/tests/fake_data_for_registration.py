@@ -1,8 +1,10 @@
+from datetime import datetime
 class FakeUser:
     id = 1
-    email = "blabl1a@gmai.com"
+    email = "mock_testinga@gmai.com"
     password = "admin1234"
     confirmed = True
+    confirmed_date = datetime.now()
 
     def mock_url_for(self, *args, **kwargs):
         return "mocked_url_for"
