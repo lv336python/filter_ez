@@ -38,7 +38,6 @@ def reset_password():
             }), 415
 
     user = User.query.filter(User.email == email).first()
-
     if not user:
         return json.dumps({
             'message': f'Email {email} not found'
