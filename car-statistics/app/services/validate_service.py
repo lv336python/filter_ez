@@ -23,10 +23,10 @@ def data_validator(func):
         data = request.get_json()
         schema = UserSchema()
         validate = schema.validate({'email': data['email'], 'password': data['password']})
-        for k in validate:
-            if k:
+        for key in validate:
+            if key:
                 return json.dumps({
-                    'message': validate[k][0]
+                    'message': validate[key][0]
                 }), 400
 
         return func(*args, **kwargs)

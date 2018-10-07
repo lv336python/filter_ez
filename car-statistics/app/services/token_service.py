@@ -2,7 +2,6 @@
 Token generation and validation functions
 '''
 
-import json
 import datetime
 
 import jwt
@@ -13,7 +12,7 @@ def generate_confirmation_token(email):
     '''
     Accept user email and return generated token with expiration date
     :param email:
-    :return: token
+    :return: encoded token
     '''
     token = jwt.encode({'email': email,
                         'exp': datetime.datetime.utcnow() \
@@ -27,7 +26,7 @@ def confirm_token(token):
     '''
     Verify token  and decode it for email returning
     :param token:
-    :return:
+    :return: return decoded token
     '''
     try:
         decoded_token = jwt.decode(token, app.config['SECRET_KEY'], algorithms='HS256')

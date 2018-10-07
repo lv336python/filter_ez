@@ -1,8 +1,18 @@
+'''
+Module for register view testing
+'''
 import mock
 from .fake_data_for_registration import FakeUser
 
 
 def register(client, email, password):
+    '''
+    Function that call registration view
+    :param client:
+    :param email: user email
+    :param password:  user password
+    :return: response message nad code
+    '''
     return client.post('/api/register', json=dict(
         email=email,
         password=password
@@ -10,6 +20,11 @@ def register(client, email, password):
 
 
 def test_register_user_already_exist(client):
+    '''
+    Testing register user who is already exist.
+    :param client:
+    :return:
+    '''
     user = FakeUser()
     with mock.patch("app.routers.register.User") as mock_query_filter:
         mock_query_filter.query.filter().first.return_value = user
@@ -18,6 +33,11 @@ def test_register_user_already_exist(client):
 
 
 def test_register_bad_password(client):
+    '''
+    Test case when decode password is bad
+    :param client:
+    :return: check if response status code is equal to 400
+    '''
     user = FakeUser()
     with mock.patch('app.routers.register.User') as mock_create_user:
         mock_create_user.query.filter().first.return_value = None
@@ -29,6 +49,11 @@ def test_register_bad_password(client):
 
 
 def test_success_register(client):
+    '''
+    Test successful registering
+    :param client:
+    :return:check if response status code is equal to 201
+    '''
     user = FakeUser()
     with mock.patch('app.routers.register.User') as mock_create_user:
         mock_create_user.query.filter().first.return_value = None

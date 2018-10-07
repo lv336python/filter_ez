@@ -22,19 +22,14 @@ export class NotificationComponent implements OnInit {
 
     ngOnInit() {
         if(this.auth_guard.isLogined()) {
+            this.socket.connect();
             this.connection = this.socket.getMessages()
                 .subscribe(
                     data => {
                         this.messages.push(data);
                     }
                 );
-            this.auth.isLoggedIn()
-                .subscribe(
-                    res => {
-                        this.socket.joinRoom(res['user_id']);
-                        console.log('asf')
-                    }
-                );
+            this.socket.joinRoom();
         }
     }
 
