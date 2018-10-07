@@ -1,3 +1,6 @@
+'''
+Module for confirm_reset (reset password) view
+'''
 import mock
 
 from .fake_data import FakeUser
@@ -20,8 +23,8 @@ def test_confirm_reset_email(client):
     """
     with mock.patch("app.routers.confirm_reset.confirm_token") as mock_confirm_token:
         mock_confirm_token.return_value = None
-        rv = confirm_reset(client)
-    assert rv._status_code == 400
+        response = confirm_reset(client)
+    assert response.status_code == 400
 
 
 
@@ -35,9 +38,9 @@ def test_confirm_reset_email_password(client):
         mock_confirm_token.return_value = FakeUser.email
         with mock.patch("app.routers.confirm_reset.request") as mock_get_json:
             mock_get_json.get_json.return_value = {'password': 'admin1234@'}
-            rv = confirm_reset(client)
+            response = confirm_reset(client)
 
-    assert rv._status_code == 400
+    assert response.status_code == 400
 
 def test_confirm_reset_email_user_not_found(client):
     """
@@ -51,9 +54,9 @@ def test_confirm_reset_email_user_not_found(client):
             mock_get_json.get_json.return_value = {'password': 'admin1234'}
             with mock.patch("app.routers.confirm_reset.User") as mock_get_user:
                 mock_get_user.query.filter().first.return_value = None
-                rv = confirm_reset(client)
+                response = confirm_reset(client)
 
-    assert rv._status_code == 404
+    assert response.status_code == 404
 
 def test_confirm_reset_email_user_found(client):
     """
@@ -69,6 +72,6 @@ def test_confirm_reset_email_user_found(client):
                 mock_get_user.query.filter().first.return_value = FakeUser()
                 with mock.patch("app.routers.confirm_reset.db.session.add") as mock_db:
                     mock_db.return_value = 'admin12345'
-                    rv = confirm_reset(client)
+                    response = confirm_reset(client)
 
-    assert rv._status_code == 200
+    assert response.status_code == 200

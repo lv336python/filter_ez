@@ -6,9 +6,6 @@ import pytest
 from app import app
 
 
-
-
-
 @pytest.fixture
 def client():
     '''
@@ -23,4 +20,3 @@ def client():
 
     os.close(db_fd)
     os.unlink(app.config['DATABASE'])
-

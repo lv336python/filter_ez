@@ -2,6 +2,10 @@ import mock
 
 from .fake_data import FakeUser
 
+'''
+Module for logout view testing
+'''
+
 
 def login(client, email, password):
     """
@@ -26,30 +30,6 @@ def logout(client):
     return client.post('/api/logout', follow_redirects=True)
 
 
-
-def test_login_required_unautorized(client):
-    """
-    Test checks logn_required decorator
-    :param client:
-    :return: 401 response due to unautorised user
-    """
-    rv = logout(client)
-    assert rv._status_code == 401
-
-
-
-def test_login_required_with_bd(client):
-    """
-    simple login logout tests with bd
-    :param client:
-    :return: response 200
-    """
-    rv = login(client, 'vovapetryna1995@gmail.com', 'qwerty1111')
-    rv = logout(client)
-    assert rv._status_code == 200
-
-
-
 def test_login_required(client):
     """
     Full login and logout process
@@ -57,12 +37,11 @@ def test_login_required(client):
     :return: 200 response
     """
     user = FakeUser()
-
     with mock.patch("app.routers.auth.request") as mock_get_json:
         mock_get_json.get_json.return_value = {'email': user.email, 'password': 'admin1234'}
         with mock.patch("app.routers.auth.User") as mock_get_user:
             mock_get_user.query.filter().first.return_value = FakeUser()
-            rv = login(client, 'vovapetryna1995@gmail.com', 'qwerty111')
-            rv = logout(client)
+            response = login(client, 'vovapetryna1995@gmail.com', 'qwerty111')
+            response = logout(client)
 
-    assert rv._status_code == 200
+    assert response.status_code == 200
