@@ -4,4 +4,5 @@
 <button (click)="sendFile()" >TEST: Send file to email</button>
 
 <app-statistics *ngIf="dataset_id" [dataset_id]="dataset_id"> Loading statistics... </app-statistics>
+<app-email-file *ngIf="dataset_id" [dataset_id]="dataset_id">Loading email...</app-email-file>
 <app-table *ngIf="dataset_id" [dataset_id]="dataset_id">Loading preview table...</app-table>

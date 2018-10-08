@@ -21,6 +21,8 @@ import { FileUploadsComponent } from './file-uploads/file-uploads.component';
 import {AuthGuardService} from './auth.guard';
 import { StatisticsComponent } from './statistics/statistics.component';
 import { NotificationComponent } from './notification/notification.component';
+import { EmailFileComponent } from './email-file/email-file.component';
+import {BrowserAnimationsModule} from "@angular/platform-browser/animations";
 
 @NgModule({
   declarations: [
@@ -40,6 +42,7 @@ import { NotificationComponent } from './notification/notification.component';
     NotificationComponent,
     FilterComponent,
     FilterItemComponent,
+    EmailFileComponent,
   ],
   imports: [
     BrowserModule,
@@ -47,7 +50,9 @@ import { NotificationComponent } from './notification/notification.component';
     AppRoutingModule,
     HttpClientModule,
       ReactiveFormsModule,
-      PlotlyModule
+      PlotlyModule,
+      BrowserAnimationsModule
+
   ],
   providers: [AuthGuardService],
   bootstrap: [AppComponent]
