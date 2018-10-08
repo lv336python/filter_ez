@@ -8,21 +8,23 @@ class FakeUser(UserMixin):
     Fake confirmed user
     """
     id = 1
-    email= "fake_user@gmai.com"
+    email = "fake_user@gmai.com"
     password = generate_password_hash("admin1234")
     confirmed = True
 
     def __repr__(self):
         return self.email
 
+
 class FakeUser1:
     """
     Fake user that not confirmed
     """
     id = 2
-    email= "vova@gmai.com"
+    email = "vova@gmai.com"
     password = generate_password_hash("admin123")
     confirmed = False
+
     def __repr__(self):
         return self.email
 
