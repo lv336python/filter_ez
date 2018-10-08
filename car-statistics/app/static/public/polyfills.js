@@ -5474,7 +5474,7 @@ window.global = window;
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-module.exports = __webpack_require__(/*! /home/sturss22/PycharmProjects/car-statistics/car-statistics/app/static/src/polyfills.ts */"./src/polyfills.ts");
+module.exports = __webpack_require__(/*! /home/oleksandr/lv-336/car-statistics/car-statistics/app/static/src/polyfills.ts */"./src/polyfills.ts");
 
 
 /***/ })
