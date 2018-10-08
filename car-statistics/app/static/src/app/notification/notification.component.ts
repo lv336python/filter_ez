@@ -1,8 +1,6 @@
-import {Component, Input, OnInit} from '@angular/core';
+import {Component, OnDestroy, OnInit} from '@angular/core';
 import {SocketService} from "../socket.service";
-import {DataService} from "../data.service";
 import {AuthGuardService} from "../auth.guard";
-import {stringify} from "querystring";
 import {AuthService} from "../auth.service";
 
 @Component({
@@ -10,7 +8,7 @@ import {AuthService} from "../auth.service";
   templateUrl: './notification.component.html',
   styleUrls: ['./notification.component.css']
 })
-export class NotificationComponent implements OnInit {
+export class NotificationComponent implements OnInit, OnDestroy {
 
   constructor(private socket: SocketService,
               private auth: AuthService,
@@ -21,6 +19,7 @@ export class NotificationComponent implements OnInit {
     connection;
 
     ngOnInit() {
+        console.log("Notification Created");
         if(this.auth_guard.isLogined()) {
             this.socket.connect();
             this.connection = this.socket.getMessages()
@@ -29,8 +28,12 @@ export class NotificationComponent implements OnInit {
                         this.messages.push(data);
                     }
                 );
-            this.socket.joinRoom();
         }
+    }
+
+    ngOnDestroy() {
+        this.socket.disconnect();
+        console.log("Notification destroyed");
     }
 
     removeNotification(element : Node, index: number) {
