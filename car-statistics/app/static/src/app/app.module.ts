@@ -21,6 +21,7 @@ import { FileUploadsComponent } from './file-uploads/file-uploads.component';
 import {AuthGuardService} from './auth.guard';
 import { StatisticsComponent } from './statistics/statistics.component';
 import { NotificationComponent } from './notification/notification.component';
+import { FilterTreeComponent } from './filter-tree/filter-tree.component';
 
 @NgModule({
   declarations: [
@@ -40,6 +41,7 @@ import { NotificationComponent } from './notification/notification.component';
     NotificationComponent,
     FilterComponent,
     FilterItemComponent,
+    FilterTreeComponent,
   ],
   imports: [
     BrowserModule,

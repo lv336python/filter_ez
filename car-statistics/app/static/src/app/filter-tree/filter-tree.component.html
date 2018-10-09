@@ -1,0 +1,65 @@
+<div class="jumbotron">
+    <div class="row justify-content-md-center">
+        <div class="col col-md-auto">
+            <h2 class="display-4">Filtering data section</h2>
+            <select class="form-control" (change)="selectFile($event.target.value)">
+                <option value="" disabled selected>Chose file</option>
+                <option *ngFor="let file of files" value="{{ file[0] }}">
+                    {{ file[2].name }}
+                </option>
+            </select>
+            <hr class="my-4">
+            <input type="text" placeholder="Filter name"
+                   [className]="valid_filter_name ? 'form-control' : 'form-control is-invalid'"
+                   [ngModel]="filter_name"
+                   (ngModelChange)="setFilterName($event)"
+            >
+        </div>
+    </div>
+</div>
+<table class="table table-hover">
+    <thead>
+    <tr>
+        <th class="per30" scope="col">First</th>
+        <th class="per30" scope="col">Second</th>
+        <th class="per30" scope="col">Third</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr *ngFor="let index of  filter_params | keyvalue">
+        <td class="per30">
+            <filter-item
+                    [columns]="columns"
+                    [f_index]="index.key"
+                    [file_id]="file_id"
+                    [totalRows]="totalRows"
+                    [metadata]="metadata"
+                    [f_param]="filter_params"
+                    (updateFilterItemParams)="updateFilterParams($event)"
+            ></filter-item>
+        </td>
+        <td>
+             <filter-item *ngIf="(index.value.child | json) != '{}'; else childFilter"
+                    [columns]="columns"
+                    [f_index]="index.key"
+                    [file_id]="file_id"
+                    [totalRows]="totalRows"
+                    [metadata]="metadata"
+                    [f_param]="filter_params"
+                    (updateFilterItemParams)="updateFilterParams($event)"
+            ></filter-item>
+            <ng-template #childFilter>
+               <button type="button" class="btn btn-success" (click)="addChild(index.key)">Add Child</button>
+            </ng-template>
+        </td>
+        <td>@mdo</td>
+    </tr>
+    <tr>
+        <th scope="row">
+            dssdfAdd Column
+        </th>
+        <td>Thornton</td>
+        <td>@fat</td>
+    </tr>
+    </tbody>
+</table>

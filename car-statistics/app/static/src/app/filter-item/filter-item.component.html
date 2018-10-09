@@ -1,73 +1,72 @@
-<div class="row row-padding">
-    <div class="col-md-4"></div>
-    <div class="col-md-4">
-        <div class="card primary">
-            <div class="card-body">
-                <form class="form">
-                    <div class="form-row">
-                        <div class="col-7">
-                            <select class="form-control" (change)="addColumn($event.target.value)"
-                                    [disabled]="disColumn">
-                                <option value="" disabled selected>Chose column</option>
-                                <option *ngFor="let row of columns">
-                                    {{ row }}
-                                </option>
-                            </select>
-                        </div>
-                        <div>
-                            <span class="btn btn-success" *ngIf="count_rows">{{ count_rows }}</span>
-                        </div>
-                        <div class="col input-group">
-                            <input type="number" name="user_quantity" [ngModel]="quantity"
-                                   (ngModelChange)="setQuantity($event)"
-                                   [className]="valid_quantity ? 'form-control' : 'form-control is-invalid'"
-                                   placeholder="Max {{ maxPercentageForUser }}">
-                            <div class="input-group-prepend">
-                                <span class="input-group-text">%</span>
-                            </div>
-                            <div class="invalid-feedback">
-                                {{ quantityError }}
-                            </div>
-                        </div>
-                    </div>
-                    <div class="form-group mx-sm-2 mb-2">
-                        <div class="button-group" *ngIf="column && !operator">
-                            <button type="button" class="btn btn-primary btn-sm" (click)="addOperator('==')">=</button>
-                            <button type="button" class="btn btn-primary btn-sm" (click)="addOperator('!=')">!=</button>
-                            <button type="button" *ngIf="valueMaxMin.max" class="btn btn-primary btn-sm" (click)="addOperator('<')"><</button>
-                            <button type="button" *ngIf="valueMaxMin.max" class="btn btn-primary btn-sm" (click)="addOperator('>')">></button>
-                        </div>
-                        <div class="button-group" *ngIf="column && operator">
-                            <button type="button" class="btn btn-primary btn-sm">{{ operator }}</button>
-                        </div>
-                    </div>
-                    <div class="form-group mb-2">
-                        <select class="form-control" *ngIf="operator && !valueMaxMin.max" (change)="addValue($event.target.value)"
-                                [disabled]="disValue">
-                            <option value="" disabled selected>Chose value</option>
-                            <option *ngFor="let row of values">
-                                {{ row }}
-                            </option>
-                        </select>
-                        <input *ngIf="operator && valueMaxMin.max" type="number"
-                                   name="range_value"
-                                   [ngModel]="rangeValue"
-                                   (ngModelChange)="setRangeValue($event)"
-                                   [className]="rangeValueError ? 'form-control  is-invalid' : 'form-control'"
-                                   placeholder="Min: {{ valueMaxMin.min }} Max: {{ valueMaxMin.max }}">
-                        <div class="invalid-feedback">
-                                {{ rangeValueError }}
-                            </div>
-                    </div>
-                </form>
+<div class="row">
+    <div class="form-row col-md-12">
+        <div class="col-md-4">
+            <select class="form-control" *ngIf="!column && !disColumn; else disableColumn"
+                    (change)="selectedColumnName($event.target.value)">
+                <option value="" disabled selected>Chose column</option>
+                <option *ngFor="let row of columns">
+                    {{ row }}
+                </option>
+            </select>
+            <ng-template #disableColumn>
+                <select class="form-control" disabled>
+                    <option value="" selected>{{ column }}</option>
+                </select>
+            </ng-template>
+        </div>
+        <div class="button-group col-md-2" *ngIf="column && !operator">
+            <button type="button" class="btn btn-primary btn-sm" (click)="addOperator('==')">=</button>
+            <button type="button" class="btn btn-primary btn-sm" (click)="addOperator('!=')">!=</button>
+            <button type="button" *ngIf="valueMaxMin.max" class="btn btn-primary btn-sm" (click)="addOperator('<')"><
+            </button>
+            <button type="button" *ngIf="valueMaxMin.max" class="btn btn-primary btn-sm" (click)="addOperator('>')">>
+            </button>
+        </div>
+        <div class="button-group col-md-1" *ngIf="column && operator">
+            <button type="button" class="btn btn-primary btn-sm">{{ operator }}</button>
+        </div>
+        <div class="col-md-3">
+            <select class="form-control" *ngIf="operator && !valueMaxMin.max && !disValue "
+                    (change)="addValue($event.target.value)"
+                    [disabled]="disValue">
+                <option value="" disabled selected>Chose value</option>
+                <option *ngFor="let row of values">
+                    {{ row }}
+                </option>
+            </select>
+            <input *ngIf="operator && valueMaxMin.max" type="number"
+                   name="range_value"
+                   [ngModel]="rangeValue"
+                   (ngModelChange)="setRangeValue($event)"
+                   [className]="rangeValueError ? 'form-control  is-invalid' : 'form-control'"
+                   placeholder="Min: {{ valueMaxMin.min }} Max: {{ valueMaxMin.max }}">
+            <select class="form-control" *ngIf="operator && value && disValue" [disabled]="disValue">
+                <option value="" disabled selected>{{ value }}</option>
+            </select>
+        </div>
+    </div>
+</div>
+<div class="row" *ngIf="count_rows">
+    <div class="form-row col-md-12">
+        <div class="col-md-4">
+            <span class="btn btn-success">{{ count_rows }}</span>
+        </div>
+        <div class="col-md-4 input-group">
+            <input type="number" name="user_quantity" [ngModel]="quantity"
+                   (ngModelChange)="setQuantity($event)"
+                   [className]="valid_quantity ? 'form-control' : 'form-control is-invalid'"
+                   placeholder="Max {{ maxPercentageForUser }}"
+                   [readonly]="qtt_readonly"
+            >
+            <div class="input-group-prepend">
+                <span class="input-group-text">%</span>
+            </div>
+            <div class="invalid-feedback">
+                {{ quantityError }}
             </div>
         </div>
-        <div class="operator-button" *ngIf="(value || rangeValue) && !operatorBtwElem">
-            <button type="button" class="btn btn-info" (click)="addElem('And')">Add column</button>
-            <button type="button" class="btn btn-primary" (click)="save()">Save filter</button>
-        </div>
-        <div class="operator-button" *ngIf="value && operatorBtwElem">
-            <button type="button" class="btn btn-info">{{ operatorBtwElem }}</button>
+        <div *ngIf="quantity && !qtt_readonly" class="col-md-2 pull-right">
+            <button type="button" class="btn btn-info" (click)="addNewColumn()">Add Column</button>
         </div>
     </div>
 </div>
