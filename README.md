@@ -62,3 +62,25 @@
 ```commandline
 $ python car_statistics_generator.py generator_config.json csv
 ```
+
+<h3>To run your pytests</h3>
+```
+1. Move to tests/ directory
+```
+
+```comandline
+$ pytest # to run all tests
+$ pytest -s # to run and see all prints
+$ pytest test_register.py # to run the test-script
+```
+<h3>Check test coverage</h3>
+```comandline
+pip install pytest-cov
+
+pytest --cov=app tests/                     # shows statistic in teminal
+
+pytest --cov-report html  --cov=app tests/  # shows statistic in localhost:<port> (html page)
+
+pytest --cov-report html --cov-config .coveragerc  --cov=app tests/ # same that previous just
+                                                                    # omits on files that are listed in .coverage.rc
+```

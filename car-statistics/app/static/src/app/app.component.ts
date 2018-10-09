@@ -1,5 +1,6 @@
 import {Component} from '@angular/core';
 import {AuthGuardService} from "./auth.guard";
+import {EventEmitterService} from "./event-emitter.service";
 
 
 @Component({
@@ -10,11 +11,20 @@ import {AuthGuardService} from "./auth.guard";
 export class AppComponent{
     loggedIn : string;
 
-    constructor(private auth : AuthGuardService) {
+    constructor(
+        private auth : AuthGuardService,
+        private emitter: EventEmitterService
+    ) {
     }
 
     ngOnInit() {
         this.loggedIn =  this.auth.isLogined();
+        this.emitter.emitter.subscribe(
+            res => {
+                console.log(res + " Emitted");
+                this.loggedIn = res;
+            }
+        );
     }
 
 }
