@@ -1,4 +1,4 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, EventEmitter, OnInit, Output} from '@angular/core';
 import {ActivatedRoute, Router} from "@angular/router";
 import {FormControl, FormGroup, Validators} from "@angular/forms";
 import {AuthService} from "../auth.service";
@@ -6,6 +6,7 @@ import {User} from "../models/user";
 import {style} from "@angular/animations";
 import {TextFormatDirective} from "../directives/text-format.directive";
 import {SocketService} from "../socket.service";
+import {EventEmitterService} from "../event-emitter.service";
 
 @Component({
     selector: 'app-login',
@@ -38,7 +39,7 @@ export class LoginComponent implements OnInit {
             this.loginGroup.controls['password'].value))
             .subscribe(
                 res => {
-                    this.socket.connect();
+                    this.emitter.sendMessage("loggedIn");
                     this.router.navigate([this.returnUrl]);
                 },
                 err => {
@@ -53,7 +54,8 @@ export class LoginComponent implements OnInit {
         private auth_: AuthService,
         private router: Router,
         private route: ActivatedRoute,
-        private socket: SocketService
+        private socket: SocketService,
+        private emitter: EventEmitterService
     ) {
     }
 

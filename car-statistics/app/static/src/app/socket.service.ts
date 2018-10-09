@@ -9,22 +9,20 @@ export class SocketService {
   private url = window.location.origin;
   private socketio;
 
-  joinRoom() {
-    this.socketio.emit('join_room');
-  }
-
   connect() {
+    console.log("user connected");
     this.socketio = io(this.url);
   }
 
   disconnect() {
+    console.log("user disconnected");
     this.socketio.disconnect();
   }
 
   getMessages() {
-    this.connect();
     return new Observable(observer => {
       this.socketio.on('notification', (data) => {
+        console.log("got message");
         observer.next(data);
       });
       return () => {
