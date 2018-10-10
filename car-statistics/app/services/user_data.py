@@ -18,7 +18,6 @@ def rewrite_file(file, path):
     shape = serialize(path)
     file_attr = attributes(path)  # getting attributes from file
     file_attr['name'] = file.filename
-    file_attr['loaded'] = 'updated'
     file_attr['rows'] = shape[0]
     name = os.path.basename(path)
     upd_file = File.query.filter_by(path=name).first()  # getting file data from DB to be updated

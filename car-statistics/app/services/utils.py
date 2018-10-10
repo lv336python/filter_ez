@@ -4,6 +4,7 @@ Different utils like small functions that a used in different scripts
 
 import os
 import pandas as pd
+import time
 
 from io import BytesIO
 from app import app
@@ -96,7 +97,7 @@ def attributes(file_path):
     attrbts['name'] = 'name'
     attrbts['size'] = os.path.getsize(file_path)
     attrbts['modified'] = os.path.getctime(file_path)
-    attrbts['loaded'] = 'new'
+    attrbts['date'] = time.time()
 
     return attrbts
 
