@@ -26,7 +26,7 @@ def reset_password():
     if 'user_id' in session:
         return json.dumps({
             'message': 'Logged user cannot reset password'
-        }), 400
+        }), 401
 
     data = request.get_json()
     email = data['email']
@@ -35,14 +35,13 @@ def reset_password():
     if not re.match(schema, email):
         return json.dumps({
             'message': 'Email is invalid'
-            }), 400
+            }), 415
 
     user = User.query.filter(User.email == email).first()
-
     if not user:
         return json.dumps({
             'message': f'Email {email} not found'
-        }), 400
+        }), 404
 
     token = generate_confirmation_token(user.email)
     subject = "Password reset requested"
