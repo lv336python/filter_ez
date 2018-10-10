@@ -1,79 +1,10 @@
-import os
 import pandas as pd
+import numpy as np
 
 from app import db
 from app.models import Dataset, Filter
 from math import ceil
-from pathlib import Path
 from app.services.utils import serialized_file, get_user_file
-
-file_temp = './result.pkl'
-
-hc_filter = {
-    'amount': 300,
-    'filter': {
-        'Make': {
-            'Audi': {
-                'Body': {
-                    'Sedan': {
-                        'Trim level': {
-                            'EX': 0.21, 'SE': 0.49, 'GL': 0.3
-                        },
-                        'val': 0.33
-                    },
-                    'SUV': {
-                        'Trim level': {
-                            'EX': 0.49, 'LS': 0.3, 'GL': 0.21
-                        },
-                        'val': 0.2
-                    },
-                    'Crossover': {
-                        'Trim level': {
-                            'SE': 0.15, 'GT': 0.6, 'LS': 0.25
-                        },
-                        'val': 0.47}
-                },
-                'val': 0.25},
-
-            'BMW': {
-                'Body': {
-                    'Sedan': {
-                        'Trim level': {
-                            'EX': 0.22, 'GT': 0.58, 'GL': 0.2},
-                        'val': 0.22
-                    },
-                    'Hatchback': {
-                        'Trim level': {
-                            'EX': 0.36, 'GT': 0.34, 'GL': 0.3},
-                        'val': 0.5
-                    },
-                    'Crossover': {
-                        'Trim level': {
-                            'EX': 0.15, 'GT': 0.35, 'GL': 0.5},
-                        'val': 0.28}
-                },
-                'val': 0.3},
-
-            'Dacia': {
-                'Body': {
-                    'MPV': {
-                        'Trim level': {
-                            'EX': 0.26, 'LS': 0.54, 'GL': 0.1},
-                        'val': 0.2
-                    },
-                    'SUV': {
-                        'Trim level': {
-                            'EX': 0.25, 'GT': 0.5, 'SE': 0.25},
-                        'val': 0.48},
-                    'Hatchback': {
-                        'Trim level': {
-                            'LS': 0.35, 'GT': 0.35, 'GL': 0.3},
-                        'val': 0.32}
-                },
-                'val': 0.45}
-        }
-    }
-}
 
 
 def mask(df, key, value):  # DataFrame custom mask
@@ -81,12 +12,6 @@ def mask(df, key, value):  # DataFrame custom mask
 
 
 pd.DataFrame.mask = mask  # mask reload for DF
-
-
-def get_file(db_flpath):
-    # todo: need to change it
-    file_pth = Path('db_flpath')
-    return file_pth
 
 
 def filter_masks(filter):
@@ -97,16 +22,6 @@ def filter_masks(filter):
     """
     masks = tuple((key, key2) for key, val in filter.items() if key != 'val' for key2 in val.keys())
     return masks
-
-def fltr_blncng(fltr):
-    """
-    Function for balancing filter params to get exactly needed amount of rows in DataSet
-    :param fltr: filter which to balance
-    :return: balanced filter
-    """
-    fltr_nm = 'new filter'
-
-    return new_fltr.id
 
 
 def save_filter(filter, name):
@@ -129,9 +44,10 @@ def dataframe_actualization(file_id, user_id):
     :return: dataFrame with available data
     """
     file = get_user_file(file_id, user_id)
-    subsets = [x.included_rows for x in Dataset.query.filter_by(file_id=file_id).filter(Dataset.included_rows != None).all()]
+    subsets = Dataset.query.filter_by(file_id=file_id).filter(Dataset.included_rows != None).all()
+    reserved = [x.included_rows for x in subsets]
     drop_list = list()
-    drop_list = [ids for subset in subsets for ids in subset]
+    drop_list = [ids for subset in reserved for ids in subset]
     work_file = serialized_file(file)
 
     dataframe = pd.read_pickle(work_file)
@@ -152,7 +68,7 @@ def make_dataset(user_id, file_id, filter_id):
     """
     filters = Filter.query.get(filter_id).params  # getting params for filtering from DB
     dataframe = dataframe_actualization(file_id, user_id)  # getting actual DataFrame with dropped earlier DataSets formed from same File
-    result = filtering(dataframe, filters)  # getting results from filtering function as a list of included rows indexes
+    result = filter_apply(dataframe, filters)  # getting results from filtering function as a list of included rows indexes
     result = [int(x) for x in result]  # transform numpy int[64] to regular int to store array in DB
 
     new_dataframe = Dataset(file_id=file_id, user_id=user_id, included_rows=result, filter_id=filter_id)
@@ -161,7 +77,7 @@ def make_dataset(user_id, file_id, filter_id):
     return new_dataframe.id
 
 
-def filtering(dataframe, filter):
+def filter_apply(dataframe, filter):
     """
     Function apply user filters to given DataFrame.
     it can handle 3 filter layers
@@ -177,17 +93,83 @@ def filtering(dataframe, filter):
         qty = amount  # getting total amount of items for DataSet
         subdict = filters[mask_key][mask_val]  # getting sub dict from dict
         fract = qty * subdict.get('val')  # get fraction for this filter
-        df0 = dataframe.mask(mask_key, mask_val)  # filtering DataFrame
+        df0 = mask_apply(dataframe, mask_key, mask_val)  # filtering DataFrame
 
         for mask_key1, mask_val1 in filter_masks(subdict):
             subdict1 = subdict[mask_key1][mask_val1]  # getting sub dict from dict
             fract1 = fract * subdict1.get('val')  # get fraction for this filter
-            df1 = df0.mask(mask_key1, mask_val1)  # filtering DataFrame
+            df1 = mask_apply(df0, mask_key1, mask_val1)  # filtering DataFrame
 
             for mask_key2, mask_val2 in filter_masks(subdict1):
                 fract2 = fract1 * subdict1[mask_key2][mask_val2]
-                df2 = df1.mask(mask_key2, mask_val2).sample(n=ceil(fract2))  # filtering DataFrame, extracting number of random rows
+                df2 = mask_apply(df1, mask_key2, mask_val2).sample(n=ceil(fract2))  # filtering DataFrame, extracting number of random rows
                 result = result.append(df2)  # appending filtered results to DataSet
                 print(df2)
     print(result)
     return result.index.values  # list of indexes which get to DataSet
+
+
+def filters(file_id, user_id, key = False, value = False, buff=False):
+    file = get_user_file(file_id, user_id)
+    file = serialized_file(file)
+    df = pd.read_pickle(file)
+    # df = pd.read_excel(file)
+    if not buff:
+        dbuf(key, value)
+        print(dbuf)
+
+    return definition(df)
+
+
+def definition(df):  # copied part of Oleksandr's function
+
+    cl_names = list(df.columns.values)
+    field_def = {}
+    for cl_name in cl_names:
+        field_def[cl_name] = set(df[cl_name])
+    return field_def
+
+
+def deep_filtering(dataframe):
+    """
+    Function for deep filtering DataFrame
+    :param dataframe:
+    """
+    df = dataframe
+
+    def filter_by_mask(key, value):
+        nonlocal df
+        result = df.mask(key, value)
+        return result
+    return filter_by_mask
+
+
+def masks_accu():
+    """
+    Function for buffering dataframe masks forming list of pairs (filter, value)
+    """
+    filters = list()
+
+    def buffer(key, value):
+        nonlocal filters
+        fl = (key, value)
+        filters.append(fl)
+        return filters
+    return buffer
+
+
+def mask_apply(dataframe, key, val):
+    """
+    Function check is column numeric and give value to mask in needed type
+    :param dataframe: DataFrame to be filtered
+    :param key: name of column
+    :param val: value for filtering
+    :return: filtered DataFrame
+    """
+    if dataframe[key].dtype == np.float64:
+        return dataframe.mask(key, float(val))
+
+    if dataframe[key].dtype == np.int64:
+        return dataframe.mask(key, int(val))
+
+    return dataframe.mask(key, val)

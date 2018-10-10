@@ -4,6 +4,7 @@ Different utils like small functions that a used in different scripts
 
 import os
 import pandas as pd
+import time
 
 from io import BytesIO
 from app import app
@@ -92,7 +93,12 @@ def attributes(file_path):
     :param file_path: file which will be added to DB
     :return: json with file attributes
     """
-    attrbts = {'loaded': 'new'}
+    attrbts = dict()
+    attrbts['name'] = 'name'
+    attrbts['size'] = os.path.getsize(file_path)
+    attrbts['modified'] = os.path.getctime(file_path)
+    attrbts['date'] = time.time()
+
     return attrbts
 
 
@@ -132,11 +138,13 @@ def serialize(file):
     Serialized file has the same name but another extension.
     To get this file instead excel file use function serialized_file()
     :param file: path to file to serialize
-    :return: create serialized DataFrame
+    :return: shape of DataFrame
     """
     file_pth = ext_free(file)
     df_to_serialize = pd.read_excel(file)
-    return df_to_serialize.to_pickle(f'{file_pth}.pkl')
+    shape = df_to_serialize.shape
+    df_to_serialize.to_pickle(f'{file_pth}.pkl')
+    return shape
 
 
 def serialized_file(file):
