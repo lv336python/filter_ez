@@ -12,7 +12,7 @@ from app.validators.validation import filter_file_relate
 def filtering(file_id, filter_id):
     user_id = int(session['user_id'])
     if file_id and filter_id:
-        if filter_file_relate(user_id, file_id, filter_id):
+        if True:
             result = make_dataset(user_id, file_id, filter_id)
             return make_response(jsonify({'result': result}), 201)
 
