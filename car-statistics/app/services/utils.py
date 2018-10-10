@@ -4,10 +4,11 @@ Different utils like small functions that a used in different scripts
 
 import os
 import pandas as pd
+import time
 
 from io import BytesIO
-from app import app
-from app.models import File
+from app import app, logger
+from app.models import Dataset
 from app.models.files import File
 from hashlib import md5
 from werkzeug.utils import secure_filename
@@ -110,8 +111,16 @@ def get_user_file(file_id, user_id):
     return file_path
 
 
-def dataset_to_excel(dataset):
+def dataset_to_excel(dataset_id):
+    """
+    Writes dataset to excel file in-memory without creating excel file in the local storage
+    :param dataset_id: id of dataset to create
+    :return: BytesIO object or None
+    """
     try:
+        t1 = time.time()
+        logger.warning("Start creating file: %s", t1)
+        dataset = Dataset.query.get(dataset_id)
         byte_writer = BytesIO()
         excel_writer = pd.ExcelWriter(byte_writer, engine='xlwt')
         path_to_file = get_user_file(dataset.file_id, dataset.user_id)
@@ -120,6 +129,7 @@ def dataset_to_excel(dataset):
         df.to_excel(excel_writer, sheet_name='Sheet1', index=False)
         excel_writer.save()
         byte_writer.seek(0)
+        logger.warning("Finished creating file in %s", time.time() - t1)
         return byte_writer
     except:
         return None
