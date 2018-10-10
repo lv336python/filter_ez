@@ -131,6 +131,7 @@ def dataset_to_excel(dataset_id):
         byte_writer.seek(0)
         logger.warning("Finished creating file in %s", time.time() - t1)
         return byte_writer
+
     except:
         return None
 
