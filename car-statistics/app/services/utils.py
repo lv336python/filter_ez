@@ -96,7 +96,11 @@ def attributes(file_path):
     :param file_path: file which will be added to DB
     :return: json with file attributes
     """
-    attrbts = {'loaded': 'new'}
+    attrbts = dict()
+    attrbts['name'] = 'name'
+    attrbts['size'] = os.path.getsize(file_path)
+    attrbts['modified'] = os.path.getctime(file_path)
+    attrbts['date'] = time.time()
     return attrbts
 
 
