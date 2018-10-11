@@ -32,7 +32,8 @@ def download(dataset_id):
     if not dataset.filter_id:
         return send_file(utils.get_user_file(dataset.file_id, dataset.user_id))
 
-    file_data = utils.dataset_to_excel(dataset)  # Creates BytesIO objects with dataset
+    file_data = utils.dataset_to_excel(dataset.id)  # Creates BytesIO objects with dataset
+
     if file_data:
         logger.info(f"User %s successfully downloaded dataset %s", user_id, dataset_id)
         return send_file(file_data,
@@ -54,7 +55,7 @@ def test():
     :return:
     """
     dataset = Dataset.query.all()[-1]
-    send_result_to_mail(['sturss22@gmail.com'],
+    send_result_to_mail(['hannashymanska@gmail.com'],
                         'result.xls',
                         open(utils.get_user_file(dataset.file_id, dataset.user_id), 'rb').read())
     return json.dumps({'data': 'Email has been sent'})

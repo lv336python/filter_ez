@@ -27,7 +27,22 @@ def save_filter():
         else:
             xl_file = xl_file[mask_f(xl_file, elem)]
 
-    included_rows = xl_file.index.tolist()
+    # included_rows = xl_file.index.tolist()
+    # # file_name = 'result.xlsx'
+    # # writer = pd.ExcelWriter(file_name)
+    # # xl_file.to_excel(writer, 'Sheet1')
+    # # writer.save()
+    # # file_name = save_file(xl_file)
+    # # token = get_jwt(file_name)
+    # # sendmail(token, user)
+    # file_name = 'result.xls'
+    # writer = pd.ExcelWriter(file_name)
+    # xl_file.to_excel(writer, 'Sheet1')
+    # writer.save()
+    # token = get_jwt(file_name)
+    # send_mail(token, user)
+
+
 
     new_filter = Filter(name, parameters)
     db.session.add(new_filter)
