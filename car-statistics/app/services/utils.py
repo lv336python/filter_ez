@@ -108,7 +108,7 @@ def get_user_file(file_id, user_id):
     :param user_id: id of file owner
     :return: path to file
     """
-    file = File.query.filter(File.id == file_id).first()
+    file = File.query.get(file_id)
     filename = file.path
     file_path = os.path.join(user_dir(user_id), filename)
     return file_path

@@ -1,0 +1,23 @@
+<p>
+  user-data works!
+</p>
+<div>
+    <section style="display: inline-flex" class="user-data" *ngIf="userdata">
+        <app-user-files>loading user files...</app-user-files>
+        <app-user-filters>loading user filters...</app-user-filters>
+        <app-user-data-sets>loading user datasets...</app-user-data-sets>
+    </section>
+    <section class="empty-user-data" *ngIf="!userdata">
+        <h3>You have no files to work with</h3>
+        <p>Please upload file use button below or drag files here</p>
+        <div>
+            <input
+                    style="display: none"
+                    type="file" (change)="onFileSelected($event)"
+                    class="custom-file"
+                    #fileInput
+            >
+            <button type="button" (click)="fileInput.click()">+</button>
+        </div>
+    </section>
+</div>

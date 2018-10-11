@@ -1,0 +1,15 @@
+<p>
+  user-files works!
+</p>
+<div>
+    <app-user-file *ngFor="let item of userfiles" [userfile]="item"></app-user-file>
+</div>
+<div>
+    <input
+            style="display: none"
+            type="file" (change)="onFileSelected($event)"
+            class="custom-file"
+            #fileInput
+    >
+    <button type="button" (click)="fileInput.click()">+</button>
+</div>
