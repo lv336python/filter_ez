@@ -6,9 +6,11 @@ import {AuthService} from "../auth.service";
 @Component({
   selector: 'app-notification',
   templateUrl: './notification.component.html',
-  styleUrls: ['./notification.component.css']
+  styleUrls: ['./notification.component.css'],
+
 })
 export class NotificationComponent implements OnInit, OnDestroy {
+
 
   constructor(private socket: SocketService,
               private auth: AuthService,
@@ -17,6 +19,8 @@ export class NotificationComponent implements OnInit, OnDestroy {
 
     messages = [];
     connection;
+    isMarked = [];
+
 
     ngOnInit() {
         console.log("Notification Created");
@@ -36,10 +40,29 @@ export class NotificationComponent implements OnInit, OnDestroy {
         console.log("Notification destroyed");
     }
 
-    removeNotification(element : Node, index: number) {
-        element.parentElement.remove();
-        this.messages.splice(index, 1);
+    removeNotification_in_time(element : Node, index: number) {
+        function remove() {
+            element.parentElement.remove();
+            this.messages.splice(index, 1);
+        }
+        setTimeout(remove, 5000)
     }
 
+
+    removeNotification(element : Node, index: number) {
+            element.parentElement.remove();
+            this.messages.splice(index, 1);
+    }
+
+
+    onOver(index: number): void {
+
+        this.isMarked[index] = true;
+
+    }
+
+    onNotOver(index: number): void{
+        this.isMarked[index] = false;
+    }
 
 }

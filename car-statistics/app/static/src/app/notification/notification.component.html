@@ -1,7 +1,6 @@
 
-<div class="notification">
-  <div class="notification-box" *ngFor="let msg of messages; let i = index">
-    <span class="closebtn" (click)="removeNotification($event.target, i)">&times;</span>
+<div class="notification" #check >
+  <div class="notification-box" *ngFor="let msg of messages; let i = index" [ngClass]="{'marked': isMarked[i]}" (mouseover)="onOver(i)" (mouseleave)="onNotOver(i)"  >
+    <span class="closebtn" (click)="removeNotification($event.target, i)">x</span>
       {{msg.data}}
-  </div>
-</div>
+  </div></div>

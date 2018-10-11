@@ -54,7 +54,7 @@ def test():
     :return:
     """
     dataset = Dataset.query.all()[-1]
-    send_result_to_mail(['sturss22@gmail.com'],
+    send_result_to_mail(['vovapetryna1995@gmail.com'],
                         'result.xls',
                         open(utils.get_user_file(dataset.file_id, dataset.user_id), 'rb').read())
     return json.dumps({'data': 'Email has been sent'})

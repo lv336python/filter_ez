@@ -37,3 +37,10 @@
 .closebtn:hover {
     color: black;
 }
+
+.marked {
+    transform: scale(1.20);
+    transition: .5s all;
+    z-index: 10;
+    background-color: red;
+}

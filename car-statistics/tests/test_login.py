@@ -3,8 +3,12 @@ Module for login view testing
 '''
 
 import mock
+from werkzeug.security import check_password_hash
 
 from .fake_data import FakeUser, FakeUser1
+
+
+from app.models import User
 
 
 def login(client, email, password):
@@ -40,7 +44,8 @@ def test_login_not_user_confirmed(client):
     :param client:
     :return: 400 response if user no confirmed
     """
-    user = FakeUser1()
+    user = FakeUser()
+    user.confirmed = False
 
     with mock.patch("app.routers.auth.User") as mock_get_user:
         mock_get_user.query.filter().first.return_value = user
@@ -80,3 +85,8 @@ def test_login(client):
             response = login(client, 'vovapetryna1995@gmail.com', 'qwerty111')
 
     assert response.status_code == 200
+
+def test_new_user(new_user):
+    password = check_password_hash(pwhash=new_user.password, password='qwerty1111')
+    assert new_user.email == 'vova@gmail.com'
+    assert password == True
