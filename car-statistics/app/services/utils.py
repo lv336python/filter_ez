@@ -99,8 +99,9 @@ def attributes(file_path):
     attrbts = dict()
     attrbts['name'] = 'name'
     attrbts['size'] = os.path.getsize(file_path)
-    attrbts['modified'] = os.path.getctime(file_path)
+    attrbts['rows'] = 0
     attrbts['date'] = time.time()
+    attrbts['modified'] = os.path.getctime(file_path)
     return attrbts
 
 
