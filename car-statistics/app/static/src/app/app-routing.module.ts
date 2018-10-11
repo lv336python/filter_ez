@@ -4,7 +4,7 @@ import {RouterModule, Routes} from '@angular/router';
 import {HomeComponent} from "./home/home.component";
 import {NotfoundComponent} from "./notfound/notfound.component";
 import {RegistrationComponent} from "./registration/registration.component";
-import { AuthGuardService} from "./auth.guard";
+import {AuthGuardService} from "./auth.guard";
 import {ConfirmEmailComponent} from "./confirm-email/confirm-email.component";
 import {LoginComponent} from "./login/login.component";
 import {LogoutComponent} from "./logout/logout.component"

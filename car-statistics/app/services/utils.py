@@ -155,11 +155,13 @@ def serialize(file):
     Serialized file has the same name but another extension.
     To get this file instead excel file use function serialized_file()
     :param file: path to file to serialize
-    :return: create serialized DataFrame
+    :return: shape of DataFrame
     """
     file_pth = ext_free(file)
     df_to_serialize = pd.read_excel(file)
-    return df_to_serialize.to_pickle(f'{file_pth}.pkl')
+    shape = df_to_serialize.shape
+    df_to_serialize.to_pickle(f'{file_pth}.pkl')
+    return shape
 
 
 def serialized_file(file):
