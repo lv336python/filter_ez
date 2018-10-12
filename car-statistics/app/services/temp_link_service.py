@@ -1,32 +1,32 @@
+from sys import getsizeof
+
+from flask import url_for
+
 from app import app
-import datetime
-import jwt
+from app.services.mail_service import send_email
+from app.services.token_service import generate_confirmation_token
+from app.services.utils import temp_file, dataset_to_excel
 
 
-def generate_temp_token(filename):
-    """
-    Accept user filename and return generated token with expiration date
-    :param filename:
-    :return: token
-    """
-    token = jwt.encode({'filename': filename,
-                        'exp': datetime.datetime.utcnow() + datetime.timedelta(hours=1)},
-                       app.config['SECRET_KEY'],
-                       algorithm='HS256')
-    return token
+def send_to_user(dataset_id):
+    file_data = dataset_to_excel(dataset_id)
+    if file_data and getsizeof(file_data) > app.config['UPLOAD_LIMIT']:
+        return send_templink(dataset_id)
+    else:
+        return send_user_file(dataset_id)
 
 
-def temp_token(token):
-    """
-    Verify token  and decode it for filename returning
-    :param token:
-    :return:
-    """
-    try:
-        decoded_token = jwt.decode(token, app.config['SECRET_KEY'], algorithms='HS256')
-    except:
-        return None
-    if datetime.datetime.utcnow() > datetime.datetime.timedelta():
-        return None
-    return decoded_token['filename']
+def send_templink(dataset_id):
+    token = generate_confirmation_token(temp_file(dataset_id))
+    subject = "Download file by clicking on the link"
+    recover_url = url_for(
+        'index', _external=True) + \
+                  'api/temp_link/' + \
+                  token.decode('utf-8')
+    html = f'Download file by clicking on the link {recover_url}'
+    send_email('hannashymanska@gmail.com', subject, html)
+    return 'Download file by clicking on the link'
 
+
+def send_user_file(dataset_id):
+    pass

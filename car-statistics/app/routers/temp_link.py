@@ -1,42 +1,38 @@
-'''
-Module for temp_link view
-'''
+"""
+Module for temp link view
+"""
 import json
 
-from flask import url_for
+from flask import send_file
 
 from app import app
-from app.models import File
-from app.services.mail_service import send_email
-from app.services.token_service import generate_confirmation_token
+from app.services.temp_link_service import send_to_user
+from app.services.token_service import confirm_token
 
 
-
-@app.route("/api/temp_link", methods=['POST'])
-def temp_link():
+@app.route("/api/temp_link/<token>", methods=['GET'])
+def get_temp_file(token):
     """
-    POST method that sends temp link reset link
+    GET method
+    :param token:
+    :return:
+    """
+    file_path = confirm_token(token)
+
+    return send_file(file_path, as_attachment=True)
+
+
+@app.route("/api/send_file/<dataset_id>", methods=['POST'])
+def temp_link(dataset_id):
+    """
+    POST method that sends temp link
     to the email address that is registered
     in our system
     :return: eather link sent to email or no correct
     response
     """
-    # file_id = 3
-    # file = File.query.filter(File.id == file_id).first()
-    # if not file:
-    #     return json.dumps({
-    #         'message': f'File not found'
-    #     }), 404
 
-    token = generate_confirmation_token('jhbb')
-    subject = "Download file by clicking on the link"
-    recover_url = url_for(
-        'index', _external=True) + \
-        'temp_link/' + \
-        token.decode('utf-8')
-    html = f'Download file by clicking on the link {recover_url}'
-    send_email('hannashymanska@gmail.com', subject, html)
+    res = send_to_user(dataset_id)
     return json.dumps({
-        'message': f'Download file by clicking on the link'
-        }), 201
-
+        'message': res
+    }), 201
