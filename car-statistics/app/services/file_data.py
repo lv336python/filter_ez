@@ -3,7 +3,7 @@
 """
 import pandas as pd
 from collections import defaultdict
-from .filtering import dataframe_actualization
+from .filtering_service import dataframe_actualization
 
 
 def mask(df, key, value):

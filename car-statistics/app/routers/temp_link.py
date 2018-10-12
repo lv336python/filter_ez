@@ -13,9 +13,9 @@ from app.services.token_service import confirm_token
 @app.route("/api/temp_link/<token>", methods=['GET'])
 def get_temp_file(token):
     """
-    GET method
+    GET method that returns generated token with expiration date.
     :param token:
-    :return:
+    :return: temp link for downloads file to the email
     """
     file_path = confirm_token(token)
 
@@ -25,13 +25,11 @@ def get_temp_file(token):
 @app.route("/api/send_file/<dataset_id>", methods=['POST'])
 def temp_link(dataset_id):
     """
-    POST method that sends temp link
-    to the email address that is registered
-    in our system
-    :return: eather link sent to email or no correct
-    response
+    POST method that sends file to the email address that is
+    registered in system.
+    :param dataset_id:
+    :return: file to the email
     """
-
     res = send_to_user(dataset_id)
     return json.dumps({
         'message': res
