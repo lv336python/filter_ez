@@ -10,7 +10,16 @@ import { from } from 'rxjs';
 export class UserFileComponent implements OnInit {
   @Input() userfile: File;
   @Input() i; //for files numeration
+  @Input() dataset_id; //for files numeration
 
+  showDatasetStat : boolean = false;
+  
+  getStatDataset(){
+    this.showDatasetStat = true;
+  }
+  hideDatasetStat(){
+    this.showDatasetStat = false;
+  }
   constructor() {
   }
 
