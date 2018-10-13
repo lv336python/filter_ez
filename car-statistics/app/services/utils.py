@@ -15,8 +15,7 @@ from app.models import Dataset
 from app.models.files import File
 from hashlib import md5
 from werkzeug.utils import secure_filename
-
-
+import math
 def file_ext(filename):
     """
     Function will extract suffix from file name
@@ -98,7 +97,8 @@ def attributes(file_path):
     """
     attrbts = dict()
     attrbts['name'] = 'name'
-    attrbts['size'] = os.path.getsize(file_path)
+    file_size_MB = os.path.getsize(file_path)/(1024*1024.0) #in MBytes
+    attrbts['size'] = math.ceil(file_size_MB*100)/100       # round 2 decimals after poin
     attrbts['rows'] = 0
     attrbts['date'] = time.time()
     attrbts['modified'] = os.path.getctime(file_path)
