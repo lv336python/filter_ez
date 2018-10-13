@@ -29,7 +29,7 @@ import { UserFileComponent } from './user-data/user-files/user-file/user-file.co
 import { UserFilterComponent } from './user-data/user-filters/user-filter/user-filter.component';
 import { UserDataSetComponent } from './user-data/user-data-sets/user-data-set/user-data-set.component';
 import { UserDataService } from './_services/user-data.service';
-
+import { Ng2SearchPipeModule } from 'ng2-search-filter';
 @NgModule({
   declarations: [
     AppComponent,
@@ -62,7 +62,9 @@ import { UserDataService } from './_services/user-data.service';
     AppRoutingModule,
     HttpClientModule,
       ReactiveFormsModule,
-      PlotlyModule
+      PlotlyModule,
+      Ng2SearchPipeModule
+
   ],
   providers: [AuthGuardService, UserDataService],
   bootstrap: [AppComponent]

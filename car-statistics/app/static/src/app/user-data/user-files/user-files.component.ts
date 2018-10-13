@@ -2,6 +2,7 @@ import { Component, OnInit, Input} from '@angular/core';
 import { UserDataService } from '../../_services/user-data.service';
 import {File} from '../../models/data';
 
+
 @Component({
   selector: 'app-user-files',
   templateUrl: './user-files.component.html',
