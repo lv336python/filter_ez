@@ -1,11 +1,16 @@
-<p>
-  user-data works!
-</p>
+
 <div>
-    <section style="display: inline-flex" class="user-data" *ngIf="userdata">
-        <app-user-files>loading user files...</app-user-files>
-        <app-user-filters>loading user filters...</app-user-filters>
-        <app-user-data-sets>loading user datasets...</app-user-data-sets>
+    <section class="user-data" *ngIf="userdata">
+        <h2 class="heading-user-data">All history of your activity</h2><hr>
+    <div class="row">
+        <div class="col-md-1"></div>
+        <div class="col-md-3"><app-user-files></app-user-files></div>
+        <div class="verticalLine"></div>
+        <div class="col-md-3"><app-user-filters></app-user-filters></div>
+        <div class="verticalLine"></div>
+        <div class="col-md-3"><app-user-data-sets></app-user-data-sets></div>
+        <div class="col-md-2"></div>
+    </div>
     </section>
     <section class="empty-user-data" *ngIf="!userdata">
         <h3>You have no files to work with</h3>

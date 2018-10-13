@@ -1,5 +1,6 @@
 import {Component, Input, OnInit} from '@angular/core';
 import {File} from '../../../models/data';
+import { from } from 'rxjs';
 
 @Component({
   selector: 'app-user-file',
@@ -8,6 +9,7 @@ import {File} from '../../../models/data';
 })
 export class UserFileComponent implements OnInit {
   @Input() userfile: File;
+  @Input() i; //for files numeration
 
   constructor() {
   }
