@@ -1,6 +1,8 @@
 import {Component, Input, OnInit} from '@angular/core';
 import {File} from '../../../models/data';
 import { from } from 'rxjs';
+import {UserFileService} from "../../../user-file.service";
+
 
 @Component({
   selector: 'app-user-file',
@@ -13,14 +15,23 @@ export class UserFileComponent implements OnInit {
   @Input() dataset_id; //for files numeration
 
   showDatasetStat : boolean = false;
-  
+  fileDeleted :boolean = false;
+
   getStatDataset(){
     this.showDatasetStat = true;
   }
   hideDatasetStat(){
     this.showDatasetStat = false;
   }
-  constructor() {
+
+  deleteFile(fileId){
+    this.file.deleteUserFile(fileId).subscribe(
+        res =>{
+          this.fileDeleted = true;
+        }
+    )
+  }
+  constructor(private file :UserFileService ) {
   }
 
   ngOnInit() {

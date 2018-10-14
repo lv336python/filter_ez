@@ -1,13 +1,13 @@
-
-<div>
-    <h3>{{i+1 }}.   {{ userfile.name }}</h3>
+<div *ngIf="!fileDeleted">
+    <h3>{{ i+1 }}. {{ userfile.name }}</h3>
     <button *ngIf="!showDatasetStat" class="stat" (click)="getStatDataset()">Stat</button>
     <button *ngIf="showDatasetStat" class="stat" (click)="hideDatasetStat()">Hide</button>
     <div class="file-stat">
         <span> rows: {{ userfile.rows }} </span>
         <span> size: {{ userfile.size }} MB </span>
         <span>       {{ userfile.date }}</span>
-        
+
     </div>
+    <button  class="btn btn-danger" (click)="deleteFile(userfile.id)">Stat</button>
     <app-statistics *ngIf="showDatasetStat" [dataset_id]="userfile.id"></app-statistics>
 </div>

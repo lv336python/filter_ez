@@ -10,14 +10,6 @@ export class UserDataSetComponent implements OnInit {
   @Input() userdataset: DataSet;
   constructor() { }
 
-  showDatasetStat : boolean = false;
-  
-  getStatDataset(){
-    this.showDatasetStat = true;
-  }
-  hideDatasetStat(){
-    this.showDatasetStat = false;
-  }
   ngOnInit() {
   }
 

@@ -2,7 +2,6 @@ import { Component, OnInit, Input} from '@angular/core';
 import { UserDataService } from '../../_services/user-data.service';
 import {File} from '../../models/data';
 
-
 @Component({
   selector: 'app-user-files',
   templateUrl: './user-files.component.html',
@@ -10,8 +9,10 @@ import {File} from '../../models/data';
 })
 export class UserFilesComponent implements OnInit {
   userfiles: File[] = [];
-  constructor(private userData: UserDataService) {
+  file_id : any;
+  constructor(private userData: UserDataService  ) {
   }
+
 
   ngOnInit() {
     this.userData.getUserData().subscribe(data => this.userfiles = data['user_files'] );
