@@ -53,11 +53,7 @@ def user_dir(user_id):
     :param user_id: id of file owner(user that uploaded this file)
     :return: path to the file directory like /user/file/
     """
-    upload_dir = os.path.join(os.path.dirname(app.root_path),
-                              app.config['DATA_FOLDER'],
-                              app.config['UPLOAD_FOLDER'])
-    directory = os.path.join(upload_dir, str(user_id))
-    return directory
+    return os.path.join(app.config['UPLOAD_FOLDER'], str(user_id))
 
 
 def save_path(directory, filename, user_id):
