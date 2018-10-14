@@ -4,29 +4,33 @@ functionality needed to work with user files in local storage: saving, deleting,
 fetching, etc.
 """
 import os
-import pandas as pd
 from datetime import datetime
-
-from app import app, db
 from hashlib import md5
 
+import pandas as pd
+
+from app import app, db
 from app.models import Dataset, File  # Remove when DBM is ready
 
 
 class UserFilesManager:
-
+    """
+    Class for working with local user files. It provides all necessary functionality
+    to work with files of a given user
+    """
     def __init__(self, user_id):
         self.user_id = user_id
         self.files_dir = os.path.join(app.config['UPLOAD_FOLDER'], user_id)
 
         os.makedirs(self.files_dir, exist_ok=True)
 
-        self.files_list = []
+        self.files = set()
 
     def upload_file(self, file):
         """
         Accepts FileStorage object
-        Saves original uploaded file and serialized DataFrame for this file. Creates records in database
+        Saves original uploaded file and serialized DataFrame for this file.
+        Creates records in database
         :param file: FileStorage
         :return: IDs of created data set and file
         """
@@ -48,10 +52,10 @@ class UserFilesManager:
         file_attributes['cols'] = shape[1]
 
         # Save to db, update when dbm is ready
-        new_file = File(path=file_full_name, attributes=file_attributes)  # adding uploaded File to DB
+        new_file = File(path=file_full_name, attributes=file_attributes)
         db.session.add(new_file)
         db.session.flush()
-        new_dataset = Dataset(user_id=self.user_id, file_id=new_file.id)  # adding empty DataSet to DB
+        new_dataset = Dataset(user_id=self.user_id, file_id=new_file.id)
         db.session.add(new_dataset)
         db.session.commit()
 
@@ -73,6 +77,42 @@ class UserFilesManager:
 
         shape = df_to_serialize.shape
         return shape
+
+    def get_user_file_name(self, file_id):
+        """
+        Returns name of the stored file with the given file_id if this file belongs to the User
+        :param file_id:
+        :return: path to file or None
+        """
+        if not self.files:
+            for dataset in Dataset.query.filter(Dataset.user_id == self.user_id):
+                self.files.add(File.query.filter(File.id == dataset.id).first())
+
+        file = File.query.get(file_id)
+        return file.path if file in self.files else None
+
+    def get_file_path(self, file_id):
+        """
+        Returns path to original file with the given file_id if this file belongs to the User
+        :param file_id:
+        :return: path to file or None
+        """
+        file_name = self.get_user_file_name(file_id)
+        if file_name:
+            return os.path.join(self.files_dir, file_name)
+        return None
+
+    def get_serialized_file_path(self, file_id):
+        """
+        Returns path to serialized file with the given file_id if this file belongs to the User
+        :param file_id:
+        :return: path to file or None
+        """
+        file_full_name = self.get_user_file_name(file_id)
+        if file_full_name:
+            file_name = self.get_file_name(file_full_name)
+            return os.path.join(self.files_dir, f'{file_name}.pkl')
+        return None
 
     @classmethod
     def get_attributes(cls, file_path):
@@ -98,8 +138,7 @@ class UserFilesManager:
         """
         if '.' in file_name:
             return file_name.rsplit('.', 1)[-1].lower()
-        else:
-            return None
+        return None
 
     @classmethod
     def get_file_name(cls, file_name):
@@ -111,13 +150,16 @@ class UserFilesManager:
         """
         if '.' in file_name:
             return file_name.rsplit('.', 1)[0]
-        else:
-            return file_name
+        return file_name
 
     @classmethod
     def validate_file_extension(cls, file):
+        """
+        Checks if file extension is one that exists in the allowed_extension list
+        :param file:
+        :return: True or False
+        """
         extension = cls.get_file_extension(file.filename)
         if extension in app.config['ALLOWED_EXTENSIONS']:
             return True
-        else:
-            return False
+        return False
