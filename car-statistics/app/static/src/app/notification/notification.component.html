@@ -1,6 +1,8 @@
 
-<div class="notification" #check >
-  <div class="notification-box" *ngFor="let msg of messages; let i = index" [ngClass]="{'marked': isMarked[i]}" (mouseover)="onOver(i)" (mouseleave)="onNotOver(i)"  >
-    <span class="closebtn" (click)="removeNotification($event.target, i)">x</span>
-      {{msg.data}}
-  </div></div>
+<div class="notification">
+  <div class="notification-box" *ngFor="let msg of messages; let i = index" [@changeState]="toState[i]" (mouseover)="changeState(i)" (mouseleave)="changeState_back(i)"  >
+    <span title="delete notification" class="closebtn" (click)="removeNotification($event.target, i)">x</span>
+      <p *ngIf="!toState[i] || toState[i] == 'state1'">{{ msg.data }}</p>
+      <p *ngIf="toState[i] == 'state2'">Delete me!</p>
+  </div>
+</div>

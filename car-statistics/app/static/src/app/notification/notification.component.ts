@@ -2,13 +2,30 @@ import {Component, OnDestroy, OnInit} from '@angular/core';
 import {SocketService} from "../socket.service";
 import {AuthGuardService} from "../auth.guard";
 import {AuthService} from "../auth.service";
+import { trigger, state, style, animate, transition  } from '@angular/animations';
+
+
 
 @Component({
   selector: 'app-notification',
   templateUrl: './notification.component.html',
   styleUrls: ['./notification.component.css'],
-
+    animations: [
+    trigger('changeState', [
+      state('state1', style({
+        backgroundColor: '#4d9ef4',
+        transform: 'scale(1)'
+      })),
+      state('state2', style({
+        backgroundColor: 'red',
+        transform: 'scale(1.3)'
+      })),
+      transition('*=>state1', animate('300ms')),
+      transition('*=>state2', animate('900ms'))
+    ])
+  ]
 })
+
 export class NotificationComponent implements OnInit, OnDestroy {
 
 
@@ -19,7 +36,15 @@ export class NotificationComponent implements OnInit, OnDestroy {
 
     messages = [];
     connection;
-    isMarked = [];
+    toState = [];
+
+    changeState(index: number): void{
+        this.toState[index] = 'state2';
+    }
+
+    changeState_back(index: number): void{
+        this.toState[index] = 'state1';
+    }
 
 
     ngOnInit() {
@@ -30,6 +55,11 @@ export class NotificationComponent implements OnInit, OnDestroy {
                 .subscribe(
                     data => {
                         this.messages.push(data);
+                                if(this.messages.length) {
+                                setTimeout(() => {
+                                this.messages.shift();
+                                this.toState.shift();
+                                }, 10000)}
                     }
                 );
         }
@@ -40,29 +70,10 @@ export class NotificationComponent implements OnInit, OnDestroy {
         console.log("Notification destroyed");
     }
 
-    removeNotification_in_time(element : Node, index: number) {
-        function remove() {
-            element.parentElement.remove();
-            this.messages.splice(index, 1);
-        }
-        setTimeout(remove, 5000)
-    }
-
 
     removeNotification(element : Node, index: number) {
             element.parentElement.remove();
             this.messages.splice(index, 1);
+            this.toState.splice(index, 1);
     }
-
-
-    onOver(index: number): void {
-
-        this.isMarked[index] = true;
-
-    }
-
-    onNotOver(index: number): void{
-        this.isMarked[index] = false;
-    }
-
 }
