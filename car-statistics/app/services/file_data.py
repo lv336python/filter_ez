@@ -1,5 +1,5 @@
 """
-    Module for fields definition and field statistics
+    Module for fields definition and fields statistics
 """
 from collections import defaultdict
 from app.helper.DataSetPandas import DataSetPandas
