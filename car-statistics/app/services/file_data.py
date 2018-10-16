@@ -2,6 +2,8 @@
     Module for fields definition and fields statistics
 """
 from collections import defaultdict
+
+from .utils import get_user_file
 from app.helper.DataSetPandas import DataSetPandas
 
 
@@ -32,15 +34,18 @@ def fields_definition(filename, filter=None):
     return field_def
 
 
-def fields_statistics(filename):
-    """This function defines fields to defaultdict in dict
+def fields_statistics(dataset):
+    """ This function defines fields to defaultdict in dict
     to store column names, their values and count of this values in column for statistic
-    :param file_name: parameter for your file name
-    :return dict: {'Air bags': {4: 8, 0: 8}, 'Body': {'MPV': 11, 'Sedan': 7},
-    'Climate control': {'Yes': 30, 'No': 19}}
+    :param dataset: dataset instance
+    :return dict: {'Air bags': {4: 8, 0: 8}, 'Body': {'MPV': 11, 'Sedan': 7}, 'Climate control': {'Yes': 30, 'No': 19}}
     """
+    file_path = get_user_file(dataset.file_id, dataset.user_id)  # Exchange with UserFileManager
     dataframe = DataSetPandas()
-    dataframe.read(filename)
+    dataframe.read(file_path)
+
+    if dataset.included_rows:
+        dataframe.dataframe = dataframe.dataframe.iloc[dataset.included_rows]
 
     cl_names = list(dataframe.get_column_names())
 
@@ -49,24 +54,24 @@ def fields_statistics(filename):
         default_dict = defaultdict(int)
         cl_name_val = list(dataframe.get_column_values(cl_name))
         for val in cl_name_val:
-            if isinstance(val, float):
-                val = round(val, 2)
             default_dict[val] += 1
         field_def[cl_name] = default_dict
     return field_def
 
 
-def get_data_preview(file_path, number_of_rows=10):
+def get_data_preview(dataset, number_of_rows):
     """
     Returns dict with names of columns and first 10 or less rows
-    :param file_path: path to excel file to open
+    :param dataset: dataset instance
     :param number_of_rows: number of rows to show
-    :return:
+    :return: dict with list with names of columns and list with lists of values of rows
     """
+    file_path = get_user_file(dataset.file_id, dataset.user_id)  # Exchange with UserFileManager
     dataframe = DataSetPandas()
     dataframe.read(file_path)
 
-    columns = list(dataframe.get_column_names())
-    rows = dataframe.amount_of_rows(number_of_rows)
-    return {'columns': columns,
-            'rows': rows}
+    if dataset.included_rows:
+        dataframe.dataframe = dataframe.dataframe.iloc[dataset.included_rows]
+
+    return {'columns': list(dataframe.get_column_names()),
+            'rows': dataframe.amount_of_rows(number_of_rows)}
