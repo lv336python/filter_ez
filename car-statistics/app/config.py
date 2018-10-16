@@ -49,7 +49,7 @@ class Config:
 
     #temp files
     TEMP_FOLDER = os.path.join(BASEDIR, DATA_FOLDER, 'Temp files')
-    UPLOAD_LIMIT = 50000
+    UPLOAD_LIMIT = 40000  # in kB
 
     # uploads params
     UPLOAD_FOLDER = 'uploads'
