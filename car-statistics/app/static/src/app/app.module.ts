@@ -30,6 +30,9 @@ import { UserFilterComponent } from './user-data/user-filters/user-filter/user-f
 import { UserDataSetComponent } from './user-data/user-data-sets/user-data-set/user-data-set.component';
 import { UserDataService } from './_services/user-data.service';
 import { Ng2SearchPipeModule } from 'ng2-search-filter';
+import { EmailFileComponent } from './email-file/email-file.component';
+import {BrowserAnimationsModule} from "@angular/platform-browser/animations";
+
 @NgModule({
   declarations: [
     AppComponent,
@@ -48,6 +51,7 @@ import { Ng2SearchPipeModule } from 'ng2-search-filter';
     NotificationComponent,
     FilterComponent,
     FilterItemComponent,
+    EmailFileComponent,
     UserDataComponent,
     UserFilesComponent,
     UserFiltersComponent,
@@ -64,6 +68,9 @@ import { Ng2SearchPipeModule } from 'ng2-search-filter';
       ReactiveFormsModule,
       PlotlyModule,
       Ng2SearchPipeModule
+
+      PlotlyModule,
+      BrowserAnimationsModule
 
   ],
   providers: [AuthGuardService, UserDataService],

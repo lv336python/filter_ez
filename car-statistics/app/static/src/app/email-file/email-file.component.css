@@ -1,0 +1,102 @@
+
+.correct-email {
+    background-color: rgba(68, 128, 18, 0.79);
+}
+
+.wrong-email {
+    background-color: rgb(255, 153, 122);
+}
+
+.empty-email {
+    background-color: #fdfffc;
+}
+
+.send-to-email {
+   background-color: rgba(236, 235, 231, 0.99);
+    width: 50%;
+    display: inline;
+    float: left;
+border-radius: 10px;
+
+
+}
+
+.left-part {
+    float: left;
+    width: 55%;
+    z-index: 200;
+    min-height: 100%;
+}
+
+.list {
+    padding-top: 2%;
+    padding-left: 2%;
+    padding-right: 2%;
+    min-height: 70%;
+    max-height: 70%;
+}
+
+.warning-list {
+    padding-left: 2%;
+    height: 20%;
+    min-height: 40px;
+    max-height: 40px;
+}
+
+.email-field {
+    border-top-right-radius: 0px;
+    border-bottom-right-radius: 0px;
+    display: inline;
+    position: relative;
+    z-index: 10;
+    width: 90%;
+    height: 30px;
+}
+
+.email-input-group {
+    margin-top: 5px;
+}
+
+.remove-button {
+    border-top-left-radius: 0px;
+    border-bottom-left-radius: 0px;
+    margin-bottom: 2px;
+    position: relative;
+    z-index: 10;
+    width: 10%;
+    height: 30px;
+     background-color: rgba(41, 41, 42, 0.54);
+    padding: 0px;
+}
+
+
+
+
+.menu {
+    background-color: rgba(9, 20, 31, 0.96);
+    padding-top: 8%;
+    padding-bottom: 8%;
+    margin-left: auto;
+    margin-right: 0;
+    text-align:center;
+    width: 40%;
+    min-height:120%;
+
+    display: block;
+    border-radius: 0px 10px 10px 0px;
+
+}
+
+.menu button{
+    margin: auto;
+    width: 50%;
+    display: block;
+    margin-bottom: 9px;
+    background-color: rgba(246, 245, 241, 0.87);
+    }
+
+.send-to-email button:hover {
+    background-color: rgba(179, 178, 176, 0.99);
+}
+
+
