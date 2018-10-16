@@ -52,5 +52,6 @@ from .routers import (
     filter,
     file_data,
     datasets,
-    user_data
+    user_data,
+    delete_file
 )
