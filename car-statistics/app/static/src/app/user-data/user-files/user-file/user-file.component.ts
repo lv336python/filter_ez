@@ -17,6 +17,7 @@ export class UserFileComponent implements OnInit {
     showDatasetStat: boolean = false;
     fileDeleted: boolean = false;
     errorMessage: string;
+    confirmed : boolean;
     getStatDataset() {
         if (this.showDatasetStat == true) {
             this.showDatasetStat = false;
@@ -26,7 +27,12 @@ export class UserFileComponent implements OnInit {
         }
     }
 
+
     deleteFile(fileId) {
+        this.confirmed = confirm("Are you realy want to delete this file?")
+        if (!this.confirmed) {
+            return false;
+        }
         this.file.deleteUserFile(fileId).subscribe(
             res => {
                 this.fileDeleted = true;

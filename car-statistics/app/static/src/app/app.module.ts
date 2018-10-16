@@ -67,7 +67,7 @@ import {BrowserAnimationsModule} from "@angular/platform-browser/animations";
     HttpClientModule,
       ReactiveFormsModule,
       PlotlyModule,
-      Ng2SearchPipeModule
+      Ng2SearchPipeModule,
 
       PlotlyModule,
       BrowserAnimationsModule

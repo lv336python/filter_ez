@@ -1,8 +1,9 @@
 <div>
-    <button class="stat">stat</button>
+    <button *ngIf="!showDatasetStat" class="stat" (click)="getStatDataset()">Stat</button>
+    <button *ngIf="showDatasetStat" class="stat" (click)="getStatDataset()">Hide</button>
     <h3>{{ userdataset.name }}</h3>
     <div>
     <span>date: {{ userdataset.date }}</span>
     </div>
-    <select>opt</select>
+    <app-statistics class="dataset-statistic" *ngIf="showDatasetStat" [dataset_id]="userdataset.id"></app-statistics>
 </div>
