@@ -3,7 +3,7 @@ from app.models import File, Filter, Dataset
 
 def get_user_datasets(user_id):
     """
-
+    retruns user datasets
     :param user_id:
     :return:
     """
@@ -18,7 +18,7 @@ def get_user_datasets(user_id):
 
 def get_user_files(user_id):
     """
-
+    Returns user files
     :param user_id:
     :return:
     """
@@ -35,9 +35,9 @@ def get_user_files(user_id):
 
 def get_user_filters(user_id):
     """
-
-    :param user_id:
-    :return:
+    Returns user filters
+    :param user_id: user i
+    :return: filters
     """
     filters_ids = [dts['filter_id'] for dts in get_user_datasets(user_id) if type(dts['filter_id']) == int]
     user_filters = [Filter.query.get(id) for id in set(filters_ids)]
@@ -50,9 +50,9 @@ def get_user_filters(user_id):
 
 def get_all_user_data(user_id):
     """
-
+    Function that return all user data.
     :param user_id:
-    :return:
+    :return: all user data
     """
     user_files = get_user_files(user_id)
     user_filters = get_user_filters(user_id)

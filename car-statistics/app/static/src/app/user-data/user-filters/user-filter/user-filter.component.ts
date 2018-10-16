@@ -8,7 +8,6 @@ import {Filter} from '../../../models/data';
 })
 export class UserFilterComponent implements OnInit {
   @Input() userfilter: Filter;
-  constructor() { }
 
   ngOnInit() {
   }

@@ -16,6 +16,8 @@ from app.models.files import File
 from hashlib import md5
 from werkzeug.utils import secure_filename
 import math
+
+
 def file_ext(filename):
     """
     Function will extract suffix from file name
@@ -97,12 +99,21 @@ def attributes(file_path):
     """
     attrbts = dict()
     attrbts['name'] = 'name'
-    file_size_MB = os.path.getsize(file_path)/(1024*1024.0) #in MBytes
-    attrbts['size'] = math.ceil(file_size_MB*100)/100       # round 2 decimals after poin
+    attrbts['size'] = get_size_in_MB(file_path)
     attrbts['rows'] = 0
     attrbts['date'] = time.time()
     attrbts['modified'] = os.path.getctime(file_path)
     return attrbts
+
+
+def get_size_in_MB(file_path):
+    '''
+    Function that return
+    :param file_path: path to
+    :return:
+    '''
+    file_size_in_MB = os.path.getsize(file_path) / (1024 * 1024.0)  # in MBytes
+    return math.ceil(file_size_in_MB * 100) / 100  # round 2 decimals after poin
 
 
 def get_user_file(file_id, user_id):
@@ -152,7 +163,6 @@ def dataset_to_excel(dataset_id):
         print(e)
 
 
-
 def serialize(file):
     """
     Serializes DataFrame extracted from .xls file.
@@ -178,8 +188,13 @@ def serialized_file(file):
     file_pth = ext_free(file)
     return (f'{file_pth}.pkl')
 
-def delete_files_from_dir(dir, file):
 
+def delete_files_from_dir(dir, file):
+    '''
+    Function that delete file from user directory
+    :param dir: user directory
+    :param file: user file to be deleted
+    '''
     os.remove(os.path.join(dir, file))
     file = ext_free(file)
     pickle_file = f"{file}.pkl"
