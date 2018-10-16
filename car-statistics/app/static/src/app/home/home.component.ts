@@ -8,7 +8,7 @@ import {DataService} from "../data.service";
 })
 export class HomeComponent implements OnInit {
 
-    dataset_id : number = 12;
+    dataset_id : number;
 
     constructor(private data: DataService) { }
 
