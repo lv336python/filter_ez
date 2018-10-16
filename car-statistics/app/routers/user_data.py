@@ -8,6 +8,10 @@ from app.services.user_data_collection import get_all_user_data
 @app.route('/api/userdata', methods=['GET'])
 @login_required
 def get_all_data():
+    '''
+    View that return all userdata by user id in session
+    :return: response with user data JSON object
+    '''
     user_id = session.get('user_id')
     user_data = get_all_user_data(user_id)
     return make_response(jsonify(user_data), 201)

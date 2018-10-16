@@ -1,8 +1,9 @@
 export class UserData {
-    constructor(public user_files: any,
-                public user_datasets: any,
-                public user_filters: any
-                ) {}
+    constructor(public user_files: object,
+                public user_datasets: object,
+                public user_filters: object
+    ) {
+    }
 }
 
 
@@ -12,13 +13,15 @@ export class File {
                 public size: number,
                 public date: number,
                 public rows: number
-                ) {}
+    ) {
+    }
 }
 
 export class Filter {
     constructor(public id: number,
                 public name: string
-                ) {}
+    ) {
+    }
 }
 
 export class DataSet {
@@ -28,5 +31,6 @@ export class DataSet {
                 public name: string,
                 public date: number,
                 public items: number
-                ) {}
+    ) {
+    }
 }
