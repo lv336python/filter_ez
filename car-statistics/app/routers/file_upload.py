@@ -3,8 +3,8 @@ from flask import request, jsonify, make_response, session
 
 from flask_login import login_required
 
-from app.services.user_file_manager import UserFilesManager
-from app.models.files import File
+from app.helper import UserFilesManager
+from app.models import File
 
 
 @app.route('/api/upload', methods=['POST'])
