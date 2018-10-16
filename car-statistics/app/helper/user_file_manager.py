@@ -20,7 +20,7 @@ class UserFilesManager:
     """
     def __init__(self, user_id):
         self.user_id = user_id
-        self.files_dir = os.path.join(app.config['UPLOAD_FOLDER'], user_id)
+        self.files_dir = os.path.join(app.config['UPLOAD_FOLDER'], str(user_id))
 
         os.makedirs(self.files_dir, exist_ok=True)
 
@@ -123,7 +123,7 @@ class UserFilesManager:
         """
         attributes = dict()
         attributes['name'] = os.path.basename(file_path)
-        attributes['size'] = round(os.path.getsize(file_path) / (1024 * 1024), 2)  # In megabytes
+        attributes['size'] = round(os.path.getsize(file_path), 2)
         attributes['date'] = datetime.now().isoformat()
         attributes['modified'] = datetime.fromtimestamp(os.path.getctime(file_path)).isoformat()
         return attributes
