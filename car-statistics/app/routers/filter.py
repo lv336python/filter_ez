@@ -65,15 +65,22 @@ def filter_num_rows():
     data = json.loads(request.data)
     params = data['params']
     file_id = data['file_id']
+
     file = File.query.get(file_id)
 
     xl_file = pd.read_excel(file.path)
-
-    for elem in params:
-        if 'quantity'in elem:
-            xl_file = xl_file[mask_f(xl_file, elem)].head(elem['quantity'])
+    print(params)
+    if type(params) is list or type(params) is tuple:
+        for elem in params:
+            if 'quantity' in elem:
+                xl_file = xl_file[mask_f(xl_file, elem)].head(elem['quantity'])
+            else:
+                xl_file = xl_file[mask_f(xl_file, elem)]
+    else:
+        if 'quantity' in params:
+            xl_file = xl_file[mask_f(xl_file, params)].head(params['quantity'])
         else:
-            xl_file = xl_file[mask_f(xl_file, elem)]
+            xl_file = xl_file[mask_f(xl_file, params)]
 
     return make_response(jsonify(xl_file.shape[0]), 200)
 

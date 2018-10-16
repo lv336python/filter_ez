@@ -49,7 +49,7 @@
 <div class="row" *ngIf="count_rows">
     <div class="form-row col-md-12">
         <div class="col-md-4">
-            <span class="btn btn-success">{{ count_rows }}</span>
+            <span class="btn btn-success">{{ count_rows + ' / ' + totalRows }}</span>
         </div>
         <div class="col-md-4 input-group">
             <input type="number" name="user_quantity" [ngModel]="quantity"
@@ -65,8 +65,19 @@
                 {{ quantityError }}
             </div>
         </div>
-        <div *ngIf="quantity && !qtt_readonly" class="col-md-2 pull-right">
-            <button type="button" class="btn btn-info" (click)="addNewColumn()">Add Column</button>
-        </div>
+    </div>
+</div>
+<div class="row">
+    <div *ngIf="quantity && !qtt_readonly && !parent_id && !child_id" class="button-group col-md-4">
+        <button type="button" class="btn btn-info" (click)="addNewColumn()">Add Column</button>
+        <button type="button" *ngIf="!parent_id" class="btn btn-info" (click)="saveParent()">Save</button>
+    </div>
+    <div *ngIf="quantity && !qtt_readonly && parent_id && !child_id" class="button-group col-md-4">
+        <button type="button" class="btn btn-info" (click)="addChild(parent_id)">Add Child</button>
+        <button type="button" *ngIf="parent_id" class="btn btn-info" (click)="saveChild()">Save</button>
+    </div>
+    <div *ngIf="quantity && !qtt_readonly && parent_id && child_id" class="button-group col-md-4">
+        <button type="button" class="btn btn-info" (click)="addLastChild(parent_id, child_id)">Add New</button>
+        <button type="button" *ngIf="parent_id" class="btn btn-info" (click)="saveLastChild()">Save</button>
     </div>
 </div>

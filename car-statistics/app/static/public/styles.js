@@ -532,7 +532,7 @@ if(false) {}
 
 /***/ }),
 
-/***/ 2:
+/***/ 3:
 /*!******************************!*\
   !*** multi ./src/styles.css ***!
   \******************************/
@@ -544,5 +544,5 @@ module.exports = __webpack_require__(/*! /home/izhyk/PycharmProjects/car-statist
 
 /***/ })
 
-},[[2,"runtime"]]]);
+},[[3,"runtime"]]]);
 //# sourceMappingURL=styles.js.map

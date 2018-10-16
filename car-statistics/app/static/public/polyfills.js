@@ -5430,6 +5430,7 @@ __webpack_require__.r(__webpack_exports__);
 // import 'core-js/es6/map';
 // import 'core-js/es6/weak-map';
 // import 'core-js/es6/set';
+window.global = window;
 /** IE10 and IE11 requires the following for NgClass support on SVG elements */
 // import 'classlist.js';  // Run `npm install --save classlist.js`.
 /** IE10 and IE11 requires the following for the Reflect API. */
@@ -5466,7 +5467,7 @@ __webpack_require__.r(__webpack_exports__);
 
 /***/ }),
 
-/***/ 1:
+/***/ 2:
 /*!********************************!*\
   !*** multi ./src/polyfills.ts ***!
   \********************************/
@@ -5478,5 +5479,5 @@ module.exports = __webpack_require__(/*! /home/izhyk/PycharmProjects/car-statist
 
 /***/ })
 
-},[[1,"runtime"]]]);
+},[[2,"runtime"]]]);
 //# sourceMappingURL=polyfills.js.map

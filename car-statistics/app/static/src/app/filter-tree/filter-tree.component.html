@@ -21,8 +21,7 @@
     <thead>
     <tr>
         <th class="per30" scope="col">First</th>
-        <th class="per30" scope="col">Second</th>
-        <th class="per30" scope="col">Third</th>
+        <th class="per60" scope="col">Second</th>
     </tr>
     </thead>
     <tbody>
@@ -32,6 +31,9 @@
                     [columns]="columns"
                     [f_index]="index.key"
                     [file_id]="file_id"
+                    [child]="false"
+                    [parent_id]="false"
+                    [child_id]="false"
                     [totalRows]="totalRows"
                     [metadata]="metadata"
                     [f_param]="filter_params"
@@ -39,27 +41,51 @@
             ></filter-item>
         </td>
         <td>
-             <filter-item *ngIf="(index.value.child | json) != '{}'; else childFilter"
-                    [columns]="columns"
-                    [f_index]="index.key"
-                    [file_id]="file_id"
-                    [totalRows]="totalRows"
-                    [metadata]="metadata"
-                    [f_param]="filter_params"
-                    (updateFilterItemParams)="updateFilterParams($event)"
-            ></filter-item>
-            <ng-template #childFilter>
-               <button type="button" class="btn btn-success" (click)="addChild(index.key)">Add Child</button>
+            <table *ngIf="index.value.child; else chl" class="table table-hover">
+                <tr *ngFor="let ch_index of  index.value.child | keyvalue">
+                    <td>
+                        <filter-item
+                                [columns]="columns"
+                                [f_index]="ch_index.key"
+                                [file_id]="file_id"
+                                [child]="'first'"
+                                [parent_id]="index.key"
+                                [child_id]="false"
+                                [totalRows]="index.value.params.quantity"
+                                [metadata]="metadata"
+                                [f_param]="filter_params"
+                                (updateFilterItemParams)="updateFilterParams($event)"
+                        ></filter-item>
+                    </td>
+                    <td>
+                        <table *ngIf="ch_index.value.child; else last_child" class="table table-hover">
+                            <tr *ngFor="let ls_ch_index of  ch_index.value.child | keyvalue">
+                                <td>
+                                    <filter-item
+                                            [columns]="columns"
+                                            [f_index]="ls_ch_index.key"
+                                            [file_id]="file_id"
+                                            [child]="'last'"
+                                            [parent_id]="index.key"
+                                            [child_id]="ch_index.key"
+                                            [totalRows]="ch_index.value.params.quantity"
+                                            [metadata]="metadata"
+                                            [f_param]="filter_params"
+                                            (updateFilterItemParams)="updateFilterParams($event)"
+                                    ></filter-item>
+                                </td>
+                            </tr>
+                        </table>
+                        <ng-template #last_child>
+                            <button type="button" class="btn btn-success" (click)="addLastChild(index.key, ch_index.key)">Add Last Child</button>
+                        </ng-template>
+                    </td>
+                </tr>
+            </table>
+            <ng-template #chl>
+                <button type="button" class="btn btn-success" (click)="addChild(index.key)">Add Child</button>
             </ng-template>
         </td>
-        <td>@mdo</td>
-    </tr>
-    <tr>
-        <th scope="row">
-            dssdfAdd Column
-        </th>
-        <td>Thornton</td>
-        <td>@fat</td>
     </tr>
     </tbody>
 </table>

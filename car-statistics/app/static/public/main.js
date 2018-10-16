@@ -44,8 +44,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _logout_logout_component__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ./logout/logout.component */ "./src/app/logout/logout.component.ts");
 /* harmony import */ var _reset_password_reset_password_component__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ./reset-password/reset-password.component */ "./src/app/reset-password/reset-password.component.ts");
 /* harmony import */ var _confirm_reset_confirm_reset_component__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! ./confirm-reset/confirm-reset.component */ "./src/app/confirm-reset/confirm-reset.component.ts");
-/* harmony import */ var _filter_filter_component__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! ./filter/filter.component */ "./src/app/filter/filter.component.ts");
-/* harmony import */ var _file_uploads_file_uploads_component__WEBPACK_IMPORTED_MODULE_12__ = __webpack_require__(/*! ./file-uploads/file-uploads.component */ "./src/app/file-uploads/file-uploads.component.ts");
+/* harmony import */ var _filter_tree_filter_tree_component__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! ./filter-tree/filter-tree.component */ "./src/app/filter-tree/filter-tree.component.ts");
 var __decorate = (undefined && undefined.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -64,17 +63,15 @@ var __decorate = (undefined && undefined.__decorate) || function (decorators, ta
 
 
 
-
 var routes = [
     { path: '', component: _home_home_component__WEBPACK_IMPORTED_MODULE_2__["HomeComponent"], canActivate: [_auth_guard__WEBPACK_IMPORTED_MODULE_5__["AuthGuardService"]] },
     { path: 'register', component: _registration_registration_component__WEBPACK_IMPORTED_MODULE_4__["RegistrationComponent"] },
     { path: 'confirm/:token', component: _confirm_email_confirm_email_component__WEBPACK_IMPORTED_MODULE_6__["ConfirmEmailComponent"] },
     { path: 'login', component: _login_login_component__WEBPACK_IMPORTED_MODULE_7__["LoginComponent"] },
-    { path: 'logout', component: _logout_logout_component__WEBPACK_IMPORTED_MODULE_8__["LogoutComponent"], canActivate: [_auth_guard__WEBPACK_IMPORTED_MODULE_5__["AuthGuardService"]] },
+    { path: 'logout', component: _logout_logout_component__WEBPACK_IMPORTED_MODULE_8__["LogoutComponent"] },
     { path: 'reset', component: _reset_password_reset_password_component__WEBPACK_IMPORTED_MODULE_9__["ResetPasswordComponent"] },
     { path: 'reset_password_confirm/:token', component: _confirm_reset_confirm_reset_component__WEBPACK_IMPORTED_MODULE_10__["ConfirmResetComponent"] },
-    { path: 'upload', component: _file_uploads_file_uploads_component__WEBPACK_IMPORTED_MODULE_12__["FileUploadsComponent"] },
-    { path: 'filter', component: _filter_filter_component__WEBPACK_IMPORTED_MODULE_11__["FilterComponent"] },
+    { path: 'filter', component: _filter_tree_filter_tree_component__WEBPACK_IMPORTED_MODULE_11__["FilterTreeComponent"] },
     { path: '**', component: _notfound_notfound_component__WEBPACK_IMPORTED_MODULE_3__["NotfoundComponent"] },
 ];
 var AppRoutingModule = /** @class */ (function () {
@@ -111,7 +108,7 @@ module.exports = ".navbar{\nbackground-color: rgb(22, 17, 17);\nborder-radius: 4
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = "<app-navbar></app-navbar>\n<router-outlet></router-outlet>\n"
+module.exports = "<app-navbar></app-navbar>\n<app-notification></app-notification>\n<router-outlet></router-outlet>\n\n"
 
 /***/ }),
 
@@ -182,12 +179,16 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _file_uploads_file_uploads_component__WEBPACK_IMPORTED_MODULE_19__ = __webpack_require__(/*! ./file-uploads/file-uploads.component */ "./src/app/file-uploads/file-uploads.component.ts");
 /* harmony import */ var _auth_guard__WEBPACK_IMPORTED_MODULE_20__ = __webpack_require__(/*! ./auth.guard */ "./src/app/auth.guard.ts");
 /* harmony import */ var _statistics_statistics_component__WEBPACK_IMPORTED_MODULE_21__ = __webpack_require__(/*! ./statistics/statistics.component */ "./src/app/statistics/statistics.component.ts");
+/* harmony import */ var _notification_notification_component__WEBPACK_IMPORTED_MODULE_22__ = __webpack_require__(/*! ./notification/notification.component */ "./src/app/notification/notification.component.ts");
+/* harmony import */ var _filter_tree_filter_tree_component__WEBPACK_IMPORTED_MODULE_23__ = __webpack_require__(/*! ./filter-tree/filter-tree.component */ "./src/app/filter-tree/filter-tree.component.ts");
 var __decorate = (undefined && undefined.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
     else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
     return c > 3 && r && Object.defineProperty(target, key, r), r;
 };
+
+
 
 
 
@@ -229,8 +230,10 @@ var AppModule = /** @class */ (function () {
                 _file_uploads_file_uploads_component__WEBPACK_IMPORTED_MODULE_19__["FileUploadsComponent"],
                 _table_table_component__WEBPACK_IMPORTED_MODULE_18__["TableComponent"],
                 _statistics_statistics_component__WEBPACK_IMPORTED_MODULE_21__["StatisticsComponent"],
+                _notification_notification_component__WEBPACK_IMPORTED_MODULE_22__["NotificationComponent"],
                 _filter_filter_component__WEBPACK_IMPORTED_MODULE_11__["FilterComponent"],
                 _filter_item_filter_item_component__WEBPACK_IMPORTED_MODULE_12__["FilterItemComponent"],
+                _filter_tree_filter_tree_component__WEBPACK_IMPORTED_MODULE_23__["FilterTreeComponent"],
             ],
             imports: [
                 _angular_platform_browser__WEBPACK_IMPORTED_MODULE_0__["BrowserModule"],
@@ -595,6 +598,9 @@ var DataService = /** @class */ (function () {
         this.get_statistics_url = 'api/statistics/';
         this.get_rows_url = 'api/get_rows/';
     }
+    DataService.prototype.get = function () {
+        return this._http.get('http://localhost:8000/test');
+    };
     DataService.prototype.getStatistics = function (dataset_id) {
         return this._http.get(this.get_statistics_url + dataset_id);
     };
@@ -652,7 +658,7 @@ module.exports = ""
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = "<h3>File Upload</h3>\n<input type=\"file\" (change)=\"onFileSelected($event)\">\n<button type=\"button\" (click)=\"onUpload()\">Upload</button>\n\n"
+module.exports = "<h3>File Upload</h3>\n<div class=\"custom-file\">\n    <input type=\"file\" (change)=\"onFileSelected($event)\" class=\"custom-file\">\n    <button type=\"button\" (click)=\"onUpload()\">Upload</button>\n</div>\n\n"
 
 /***/ }),
 
@@ -683,20 +689,27 @@ var FileUploadsComponent = /** @class */ (function () {
     function FileUploadsComponent(http) {
         this.http = http;
         this.selectedFile = null;
+        this.fileUploaded = new _angular_core__WEBPACK_IMPORTED_MODULE_0__["EventEmitter"]();
     }
     FileUploadsComponent.prototype.onFileSelected = function (event) {
         this.selectedFile = event.target.files[0];
     };
     FileUploadsComponent.prototype.onUpload = function () {
+        var _this = this;
         var filedata = new FormData();
         filedata.append('upload_file', this.selectedFile, this.selectedFile.name);
         this.http.post('api/upload', filedata)
             .subscribe(function (res) {
             console.log(res);
+            _this.fileUploaded.emit(res['result'][2]);
         });
     };
     FileUploadsComponent.prototype.ngOnInit = function () {
     };
+    __decorate([
+        Object(_angular_core__WEBPACK_IMPORTED_MODULE_0__["Output"])(),
+        __metadata("design:type", _angular_core__WEBPACK_IMPORTED_MODULE_0__["EventEmitter"])
+    ], FileUploadsComponent.prototype, "fileUploaded", void 0);
     FileUploadsComponent = __decorate([
         Object(_angular_core__WEBPACK_IMPORTED_MODULE_0__["Component"])({
             selector: 'app-file-uploads',
@@ -730,7 +743,7 @@ module.exports = ".card {\n    border-color: dodgerblue;\n}\n\n.button-group {\n
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = "<div class=\"row row-padding\">\n    <div class=\"col-md-4\"></div>\n    <div class=\"col-md-4\">\n        <div class=\"card primary\">\n            <div class=\"card-body\">\n                <form class=\"form\">\n                    <div class=\"form-row\">\n                        <div class=\"col-7\">\n                            <select class=\"form-control\" (change)=\"addColumn($event.target.value)\"\n                                    [disabled]=\"disColumn\">\n                                <option value=\"\" disabled selected>Chose column</option>\n                                <option *ngFor=\"let row of columns\">\n                                    {{ row }}\n                                </option>\n                            </select>\n                        </div>\n                        <div>\n                            <span class=\"btn btn-success\" *ngIf=\"count_rows\">{{ count_rows }}</span>\n                        </div>\n                        <div class=\"col input-group\">\n                            <input type=\"number\" name=\"user_quantity\" [ngModel]=\"quantity\"\n                                   (ngModelChange)=\"setQuantity($event)\"\n                                   [className]=\"valid_quantity ? 'form-control' : 'form-control is-invalid'\"\n                                   placeholder=\"Max {{ maxPercentageForUser }}\">\n                            <div class=\"input-group-prepend\">\n                                <span class=\"input-group-text\">%</span>\n                            </div>\n                            <div class=\"invalid-feedback\">\n                                {{ quantityError }}\n                            </div>\n                        </div>\n                    </div>\n                    <div class=\"form-group mx-sm-2 mb-2\">\n                        <div class=\"button-group\" *ngIf=\"column && !operator\">\n                            <button type=\"button\" class=\"btn btn-primary btn-sm\" (click)=\"addOperator('==')\">=</button>\n                            <button type=\"button\" class=\"btn btn-primary btn-sm\" (click)=\"addOperator('!=')\">!=</button>\n                            <button type=\"button\" *ngIf=\"valueMaxMin.max\" class=\"btn btn-primary btn-sm\" (click)=\"addOperator('<')\"><</button>\n                            <button type=\"button\" *ngIf=\"valueMaxMin.max\" class=\"btn btn-primary btn-sm\" (click)=\"addOperator('>')\">></button>\n                        </div>\n                        <div class=\"button-group\" *ngIf=\"column && operator\">\n                            <button type=\"button\" class=\"btn btn-primary btn-sm\">{{ operator }}</button>\n                        </div>\n                    </div>\n                    <div class=\"form-group mb-2\">\n                        <select class=\"form-control\" *ngIf=\"operator && !valueMaxMin.max\" (change)=\"addValue($event.target.value)\"\n                                [disabled]=\"disValue\">\n                            <option value=\"\" disabled selected>Chose value</option>\n                            <option *ngFor=\"let row of values\">\n                                {{ row }}\n                            </option>\n                        </select>\n                        <input *ngIf=\"operator && valueMaxMin.max\" type=\"number\"\n                                   name=\"range_value\"\n                                   [ngModel]=\"rangeValue\"\n                                   (ngModelChange)=\"setRangeValue($event)\"\n                                   [className]=\"rangeValueError ? 'form-control  is-invalid' : 'form-control'\"\n                                   placeholder=\"Min: {{ valueMaxMin.min }} Max: {{ valueMaxMin.max }}\">\n                        <div class=\"invalid-feedback\">\n                                {{ rangeValueError }}\n                            </div>\n                    </div>\n                </form>\n            </div>\n        </div>\n        <div class=\"operator-button\" *ngIf=\"(value || rangeValue) && !operatorBtwElem\">\n            <button type=\"button\" class=\"btn btn-info\" (click)=\"addElem('And')\">Add column</button>\n            <button type=\"button\" class=\"btn btn-primary\" (click)=\"save()\">Save filter</button>\n        </div>\n        <div class=\"operator-button\" *ngIf=\"value && operatorBtwElem\">\n            <button type=\"button\" class=\"btn btn-info\">{{ operatorBtwElem }}</button>\n        </div>\n    </div>\n</div>"
+module.exports = "<div class=\"row\">\n    <div class=\"form-row col-md-12\">\n        <div class=\"col-md-4\">\n            <select class=\"form-control\" *ngIf=\"!column && !disColumn; else disableColumn\"\n                    (change)=\"selectedColumnName($event.target.value)\">\n                <option value=\"\" disabled selected>Chose column</option>\n                <option *ngFor=\"let row of columns\">\n                    {{ row }}\n                </option>\n            </select>\n            <ng-template #disableColumn>\n                <select class=\"form-control\" disabled>\n                    <option value=\"\" selected>{{ column }}</option>\n                </select>\n            </ng-template>\n        </div>\n        <div class=\"button-group col-md-2\" *ngIf=\"column && !operator\">\n            <button type=\"button\" class=\"btn btn-primary btn-sm\" (click)=\"addOperator('==')\">=</button>\n            <button type=\"button\" class=\"btn btn-primary btn-sm\" (click)=\"addOperator('!=')\">!=</button>\n            <button type=\"button\" *ngIf=\"valueMaxMin.max\" class=\"btn btn-primary btn-sm\" (click)=\"addOperator('<')\"><\n            </button>\n            <button type=\"button\" *ngIf=\"valueMaxMin.max\" class=\"btn btn-primary btn-sm\" (click)=\"addOperator('>')\">>\n            </button>\n        </div>\n        <div class=\"button-group col-md-1\" *ngIf=\"column && operator\">\n            <button type=\"button\" class=\"btn btn-primary btn-sm\">{{ operator }}</button>\n        </div>\n        <div class=\"col-md-3\">\n            <select class=\"form-control\" *ngIf=\"operator && !valueMaxMin.max && !disValue \"\n                    (change)=\"addValue($event.target.value)\"\n                    [disabled]=\"disValue\">\n                <option value=\"\" disabled selected>Chose value</option>\n                <option *ngFor=\"let row of values\">\n                    {{ row }}\n                </option>\n            </select>\n            <input *ngIf=\"operator && valueMaxMin.max\" type=\"number\"\n                   name=\"range_value\"\n                   [ngModel]=\"rangeValue\"\n                   (ngModelChange)=\"setRangeValue($event)\"\n                   [className]=\"rangeValueError ? 'form-control  is-invalid' : 'form-control'\"\n                   placeholder=\"Min: {{ valueMaxMin.min }} Max: {{ valueMaxMin.max }}\">\n            <select class=\"form-control\" *ngIf=\"operator && value && disValue\" [disabled]=\"disValue\">\n                <option value=\"\" disabled selected>{{ value }}</option>\n            </select>\n        </div>\n    </div>\n</div>\n<div class=\"row\" *ngIf=\"count_rows\">\n    <div class=\"form-row col-md-12\">\n        <div class=\"col-md-4\">\n            <span class=\"btn btn-success\">{{ count_rows + ' / ' + totalRows }}</span>\n        </div>\n        <div class=\"col-md-4 input-group\">\n            <input type=\"number\" name=\"user_quantity\" [ngModel]=\"quantity\"\n                   (ngModelChange)=\"setQuantity($event)\"\n                   [className]=\"valid_quantity ? 'form-control' : 'form-control is-invalid'\"\n                   placeholder=\"Max {{ maxPercentageForUser }}\"\n                   [readonly]=\"qtt_readonly\"\n            >\n            <div class=\"input-group-prepend\">\n                <span class=\"input-group-text\">%</span>\n            </div>\n            <div class=\"invalid-feedback\">\n                {{ quantityError }}\n            </div>\n        </div>\n    </div>\n</div>\n<div class=\"row\">\n    <div *ngIf=\"quantity && !qtt_readonly && !parent_id && !child_id\" class=\"button-group col-md-4\">\n        <button type=\"button\" class=\"btn btn-info\" (click)=\"addNewColumn()\">Add Column</button>\n        <button type=\"button\" *ngIf=\"!parent_id\" class=\"btn btn-info\" (click)=\"saveParent()\">Save</button>\n    </div>\n    <div *ngIf=\"quantity && !qtt_readonly && parent_id && !child_id\" class=\"button-group col-md-4\">\n        <button type=\"button\" class=\"btn btn-info\" (click)=\"addChild(parent_id)\">Add Child</button>\n        <button type=\"button\" *ngIf=\"parent_id\" class=\"btn btn-info\" (click)=\"saveChild()\">Save</button>\n    </div>\n    <div *ngIf=\"quantity && !qtt_readonly && parent_id && child_id\" class=\"button-group col-md-4\">\n        <button type=\"button\" class=\"btn btn-info\" (click)=\"addLastChild(parent_id, child_id)\">Add New</button>\n        <button type=\"button\" *ngIf=\"parent_id\" class=\"btn btn-info\" (click)=\"saveLastChild()\">Save</button>\n    </div>\n</div>"
 
 /***/ }),
 
@@ -765,60 +778,94 @@ var FilterItemComponent = /** @class */ (function () {
         this.maxPercentageForUser = 100;
         this.new_column = true;
         this.param_index = 0;
+        this.qtt_readonly = false;
         this.disColumn = false;
         this.disValue = false;
         this.disQuantity = false;
         this.valuesPushed = false;
         this.valueMaxMin = {};
         this.values = [];
-        this.addFilterElem = new _angular_core__WEBPACK_IMPORTED_MODULE_0__["EventEmitter"]();
-        this.pushFilterParams = new _angular_core__WEBPACK_IMPORTED_MODULE_0__["EventEmitter"]();
-        this.saveFilter = new _angular_core__WEBPACK_IMPORTED_MODULE_0__["EventEmitter"]();
+        // @Output() addFilterElem: EventEmitter<any> = new EventEmitter<any>();
+        this.updateFilterItemParams = new _angular_core__WEBPACK_IMPORTED_MODULE_0__["EventEmitter"]();
     }
     FilterItemComponent.prototype.ngOnInit = function () {
+        if (this.child == 'first') {
+            if (this.f_param[this.parent_id]['child'][this.f_index]['params']['column']) {
+                this.selectedColumnName(this.f_param[this.parent_id]['child'][this.f_index]['params']['column']);
+                this.disColumn = true;
+            }
+            this.operator = this.f_param[this.parent_id]['child'][this.f_index]['params']['operator'] ? this.f_param[this.parent_id]['child'][this.f_index]['params']['operator'] : '';
+            if (this.f_param[this.parent_id]['child'][this.f_index]['params']['value']) {
+                this.value = this.f_param[this.parent_id]['child'][this.f_index]['params']['value'];
+                this.disValue = true;
+            }
+            this.parseSettings(this.f_param[this.parent_id]['child'][this.f_index]['settings']);
+        }
+        else if (this.child == 'last') {
+            if (this.f_param[this.parent_id]['child'][this.child_id]['child'][this.f_index]['params']['column']) {
+                this.selectedColumnName(this.f_param[this.parent_id]['child'][this.child_id]['child'][this.f_index]['params']['column']);
+                this.disColumn = true;
+            }
+            this.operator = this.f_param[this.parent_id]['child'][this.child_id]['child'][this.f_index]['params']['operator'] ? this.f_param[this.parent_id]['child'][this.f_index]['params']['operator'] : '';
+            if (this.f_param[this.parent_id]['child'][this.child_id]['child'][this.f_index]['params']['value']) {
+                this.value = this.f_param[this.parent_id]['child'][this.child_id]['child'][this.f_index]['params']['value'];
+                this.disValue = true;
+            }
+            this.parseSettings(this.f_param[this.parent_id]['child'][this.child_id]['child'][this.f_index]['settings']);
+        }
+        else {
+            if (this.f_param[this.f_index]['params']['column']) {
+                this.selectedColumnName(this.f_param[this.f_index]['params']['column']);
+                this.disColumn = true;
+            }
+            this.operator = this.f_param[this.f_index]['params']['operator'] ? this.f_param[this.f_index]['params']['operator'] : '';
+            if (this.f_param[this.f_index]['params']['value']) {
+                this.value = this.f_param[this.f_index]['params']['value'];
+                this.disValue = true;
+            }
+            this.parseSettings(this.f_param[this.f_index]['settings']);
+        }
     };
-    FilterItemComponent.prototype.save = function () {
-        if (!this.checkQuantity()) {
-            return false;
-        }
-        if (!this.valuesPushed) {
-            this.pushFilterParams.emit({
-                'column': this.column,
-                'operator': this.operator,
-                'value': this.value,
-                'quantity': this.calculateQuantity(),
-            });
-        }
-        this.valuesPushed = true;
-        this.saveFilter.emit();
-    };
-    FilterItemComponent.prototype.addElem = function (data) {
-        if (!this.checkQuantity()) {
-            return false;
-        }
-        if (!this.checkRangeValue()) {
-            return false;
-        }
-        if (this.rangeValue) {
-            this.value = this.rangeValue.toString();
-        }
-        this.valid_quantity = true;
-        this.operatorElems(data);
-        this.disQuantity = true;
-        this.addFilterElem.emit();
-        this.pushFilterParams.emit({
-            'column': this.column,
-            'operator': this.operator,
-            'value': this.value,
-            'quantity': this.calculateQuantity(),
-            'btw_elem_operator': this.operatorBtwElem,
-        });
-    };
-    FilterItemComponent.prototype.addColumn = function (column) {
+    // save() {
+    //     if (!this.checkQuantity()) {
+    //         return false;
+    //     }
+    //     if (!this.valuesPushed) {
+    //         this.pushFilterParams.emit({
+    //             'column': this.column,
+    //             'operator': this.operator,
+    //             'value': this.value,
+    //             'quantity': this.calculateQuantity(),
+    //         });
+    //     }
+    //     this.valuesPushed = true;
+    //     this.saveFilter.emit();
+    // }
+    // addElem(data) {
+    //     if (!this.checkQuantity()) {
+    //         return false;
+    //     }
+    //     if(!this.checkRangeValue()){
+    //         return false
+    //     }
+    //     if(this.rangeValue){
+    //         this.value = this.rangeValue.toString();
+    //     }
+    //     this.valid_quantity = true;
+    //     this.operatorElems(data);
+    //     this.disQuantity = true;
+    //     this.addFilterElem.emit();
+    //     this.pushFilterParams.emit({
+    //         'column': this.column,
+    //         'operator': this.operator,
+    //         'value': this.value,
+    //         'quantity': this.calculateQuantity(),
+    //         'btw_elem_operator': this.operatorBtwElem,
+    //     });
+    // }
+    FilterItemComponent.prototype.selectedColumnName = function (column) {
         this.column = column;
         this.value = '';
-        // this.rangeValue = 0;
-        this.valueMaxMin = {};
         if ('min' in this.metadata[column] && 'max' in this.metadata[column]) {
             this.valueMaxMin = {
                 'min': this.metadata[column]['min'],
@@ -827,6 +874,7 @@ var FilterItemComponent = /** @class */ (function () {
         }
         else {
             this.values = this.metadata[column];
+            this.valueMaxMin = {};
         }
     };
     FilterItemComponent.prototype.setQuantity = function (quantity) {
@@ -836,32 +884,59 @@ var FilterItemComponent = /** @class */ (function () {
         var _this = this;
         this.disColumn = true;
         this.value = value;
-        var all_params = this.filter_parameters;
-        if (this.new_column) {
-            this.new_column = false;
-            this.param_index = all_params.length;
-            all_params.push({
+        if (this.parent_id && !this.child_id) {
+            this.f_param[this.parent_id]['child'][this.f_index].params = {
                 'column': this.column,
                 'operator': this.operator,
-                'value': this.value,
+                'value': this.value
+            };
+            var child_params = [
+                this.f_param[this.parent_id].params,
+                this.f_param[this.parent_id]['child'][this.f_index].params
+            ];
+            this.http
+                .post('/api/count_rows', { 'file_id': this.file_id, 'params': child_params })
+                .subscribe(function (res) { return _this.setCountRows(res); }, function (error) {
+                console.log(error);
+            });
+        }
+        else if (this.parent_id && this.child_id) {
+            this.f_param[this.parent_id]['child'][this.child_id]['child'][this.f_index].params = {
+                'column': this.column,
+                'operator': this.operator,
+                'value': this.value
+            };
+            var last_child_params = [
+                this.f_param[this.parent_id].params,
+                this.f_param[this.parent_id]['child'][this.child_id].params,
+                this.f_param[this.parent_id]['child'][this.child_id]['child'][this.f_index].params,
+            ];
+            this.http
+                .post('/api/count_rows', { 'file_id': this.file_id, 'params': last_child_params })
+                .subscribe(function (res) { return _this.setCountRows(res); }, function (error) {
+                console.log(error);
             });
         }
         else {
-            all_params[this.param_index].value = this.value;
+            this.f_param[this.f_index].params = {
+                'column': this.column,
+                'operator': this.operator,
+                'value': this.value
+            };
+            this.http
+                .post('/api/count_rows', { 'file_id': this.file_id, 'params': this.f_param[this.f_index].params })
+                .subscribe(function (res) { return _this.setCountRows(res); }, function (error) {
+                console.log(error);
+            });
         }
-        this.http
-            .post('/api/count_rows', { 'file_id': this.file_id, 'params': all_params })
-            .subscribe(function (res) { return _this.setCountRows(res); }, function (error) {
-            console.log(error);
-        });
     };
     FilterItemComponent.prototype.addOperator = function (oper) {
         this.operator = oper;
     };
-    FilterItemComponent.prototype.operatorElems = function (data) {
-        this.disValue = true;
-        this.operatorBtwElem = data;
-    };
+    // operatorElems(data) {
+    //     this.disValue = true;
+    //     this.operatorBtwElem = data;
+    // }
     FilterItemComponent.prototype.setPercentage = function () {
         if (this.totalRows != 0) {
             this.maxPercentageForUser = +(this.count_rows * 100 / this.totalRows).toFixed(2);
@@ -890,13 +965,13 @@ var FilterItemComponent = /** @class */ (function () {
         }
         return true;
     };
-    FilterItemComponent.prototype.setRangeValue = function (data) {
-        this.value = data;
-        if (this.checkRangeValue()) {
-            this.rangeValueError = '';
-            this.addValue(data);
-        }
-    };
+    // setRangeValue(data){
+    //     this.value = data;
+    //     if(this.checkRangeValue()){
+    //         this.rangeValueError = '';
+    //         this.addValue(data)
+    //     }
+    // }
     FilterItemComponent.prototype.checkRangeValue = function () {
         if ('max' in this.valueMaxMin) {
             if (this.value > this.valueMaxMin['max'] || this.value < this.valueMaxMin['min']) {
@@ -906,22 +981,186 @@ var FilterItemComponent = /** @class */ (function () {
         }
         return true;
     };
+    FilterItemComponent.prototype.addNewColumn = function () {
+        if (!this.checkQuantity()) {
+            return false;
+        }
+        if (!this.checkRangeValue()) {
+            return false;
+        }
+        // if(this.rangeValue){
+        //     this.value = this.rangeValue.toString();
+        // }
+        this.f_param[this.f_index]['column'] = this.column;
+        this.f_param[this.f_index]['params'] = {
+            'column': this.column,
+            'operator': this.operator,
+            'value': this.value,
+            'quantity': this.calculateQuantity(),
+        };
+        this.f_param[this.f_index]['settings'] = {
+            'count_rows': this.count_rows,
+            'quantity': this.quantity,
+            'qtt_readonly': true,
+        };
+        var new_index = Object.keys(this.f_param).length;
+        this.f_param[new_index] = {
+            'params': {
+                'column': this.column,
+            },
+            'child': false,
+        };
+        this.updateFilterItemParams.emit(this.f_param);
+    };
+    FilterItemComponent.prototype.parseSettings = function (data) {
+        if (data) {
+            this.count_rows = data['count_rows'];
+            this.quantity = data['quantity'];
+            this.qtt_readonly = data['qtt_readonly'];
+        }
+    };
+    FilterItemComponent.prototype.addChild = function (parentIndex) {
+        if (!this.checkQuantity()) {
+            return false;
+        }
+        if (!this.checkRangeValue()) {
+            return false;
+        }
+        this.f_param[this.parent_id]['child'][this.f_index]['column'] = this.column;
+        this.f_param[this.parent_id]['child'][this.f_index]['params'] = {
+            'column': this.column,
+            'operator': this.operator,
+            'value': this.value,
+            'quantity': this.calculateQuantity(),
+        };
+        this.f_param[this.parent_id]['child'][this.f_index]['parent_id'] = this.parent_id;
+        this.f_param[this.parent_id]['child'][this.f_index]['child'] = false;
+        this.f_param[this.parent_id]['child'][this.f_index]['settings'] = {
+            'count_rows': this.count_rows,
+            'quantity': this.quantity,
+            'qtt_readonly': true,
+        };
+        var new_child_index = Object.keys(this.f_param[parentIndex]['child']).length;
+        this.f_param[parentIndex]['child'][new_child_index] = {
+            'params': {
+                'column': this.column
+            },
+            'child': false,
+            'parent_id': parentIndex,
+            'settings': {
+                'count_rows': '',
+                'quantity': '',
+                'qtt_readonly': ''
+            }
+        };
+        this.updateFilterItemParams.emit(this.f_param);
+    };
+    FilterItemComponent.prototype.saveParent = function () {
+        if (!this.checkQuantity()) {
+            return false;
+        }
+        if (!this.checkRangeValue()) {
+            return false;
+        }
+        // if(this.rangeValue){
+        //     this.value = this.rangeValue.toString();
+        // }
+        this.f_param[this.f_index] = {};
+        this.updateFilterItemParams.emit(this.f_param);
+        this.f_param[this.f_index]['column'] = this.column;
+        this.f_param[this.f_index]['params'] = {
+            'column': this.column,
+            'operator': this.operator,
+            'value': this.value,
+            'quantity': this.calculateQuantity(),
+        };
+        this.f_param[this.f_index]['settings'] = {
+            'count_rows': this.count_rows,
+            'quantity': this.quantity,
+            'qtt_readonly': true,
+        };
+        this.updateFilterItemParams.emit(this.f_param);
+    };
+    FilterItemComponent.prototype.saveChild = function () {
+        this.f_param[this.parent_id]['child'][this.f_index] = {};
+        this.updateFilterItemParams.emit(this.f_param);
+        this.f_param[this.parent_id]['child'][this.f_index]['column'] = this.column;
+        this.f_param[this.parent_id]['child'][this.f_index]['params'] = {
+            'column': this.column,
+            'operator': this.operator,
+            'value': this.value,
+            'quantity': this.calculateQuantity(),
+        };
+        this.f_param[this.parent_id]['child'][this.f_index]['parent_id'] = this.parent_id;
+        this.f_param[this.parent_id]['child'][this.f_index]['child'] = false;
+        this.f_param[this.parent_id]['child'][this.f_index]['settings'] = {
+            'count_rows': this.count_rows,
+            'quantity': this.quantity,
+            'qtt_readonly': true,
+        };
+        this.updateFilterItemParams.emit(this.f_param);
+    };
+    FilterItemComponent.prototype.addLastChild = function (parent_id, child_id) {
+        if (!this.checkQuantity()) {
+            return false;
+        }
+        if (!this.checkRangeValue()) {
+            return false;
+        }
+        this.f_param[this.parent_id]['child'][child_id]['child'][this.f_index]['column'] = this.column;
+        this.f_param[this.parent_id]['child'][child_id]['child'][this.f_index]['params'] = {
+            'column': this.column,
+            'operator': this.operator,
+            'value': this.value,
+            'quantity': this.calculateQuantity(),
+        };
+        this.f_param[this.parent_id]['child'][child_id]['child'][this.f_index]['parent_id'] = this.parent_id;
+        this.f_param[this.parent_id]['child'][child_id]['child'][this.f_index]['child'] = false;
+        this.f_param[this.parent_id]['child'][child_id]['child'][this.f_index]['child_id'] = child_id;
+        this.f_param[this.parent_id]['child'][child_id]['child'][this.f_index]['settings'] = {
+            'count_rows': this.count_rows,
+            'quantity': this.quantity,
+            'qtt_readonly': true,
+        };
+        var last_index = Object.keys(this.f_param[this.parent_id]['child'][child_id]['child']).length;
+        this.f_param[this.parent_id]['child'][child_id]['child'][last_index] = {
+            'params': {
+                'column': this.column
+            },
+            'child': false,
+            'parent_id': parent_id,
+            'child_id': child_id,
+            'settings': {
+                'count_rows': '',
+                'quantity': '',
+                'qtt_readonly': ''
+            }
+        };
+        this.updateFilterItemParams.emit(this.f_param);
+    };
+    FilterItemComponent.prototype.saveLastChild = function () {
+        this.f_param[this.parent_id]['child'][this.child_id]['child'][this.f_index] = {};
+        this.updateFilterItemParams.emit(this.f_param);
+        this.f_param[this.parent_id]['child'][this.child_id]['child'][this.f_index]['column'] = this.column;
+        this.f_param[this.parent_id]['child'][this.child_id]['child'][this.f_index]['params'] = {
+            'column': this.column,
+            'operator': this.operator,
+            'value': this.value,
+            'quantity': this.calculateQuantity(),
+        };
+        this.f_param[this.parent_id]['child'][this.child_id]['child'][this.f_index]['parent_id'] = this.parent_id;
+        this.f_param[this.parent_id]['child'][this.child_id]['child'][this.f_index]['child'] = false;
+        this.f_param[this.parent_id]['child'][this.child_id]['child'][this.f_index]['settings'] = {
+            'count_rows': this.count_rows,
+            'quantity': this.quantity,
+            'qtt_readonly': true,
+        };
+        this.updateFilterItemParams.emit(this.f_param);
+    };
     __decorate([
         Object(_angular_core__WEBPACK_IMPORTED_MODULE_0__["Output"])(),
         __metadata("design:type", _angular_core__WEBPACK_IMPORTED_MODULE_0__["EventEmitter"])
-    ], FilterItemComponent.prototype, "addFilterElem", void 0);
-    __decorate([
-        Object(_angular_core__WEBPACK_IMPORTED_MODULE_0__["Output"])(),
-        __metadata("design:type", _angular_core__WEBPACK_IMPORTED_MODULE_0__["EventEmitter"])
-    ], FilterItemComponent.prototype, "pushFilterParams", void 0);
-    __decorate([
-        Object(_angular_core__WEBPACK_IMPORTED_MODULE_0__["Output"])(),
-        __metadata("design:type", _angular_core__WEBPACK_IMPORTED_MODULE_0__["EventEmitter"])
-    ], FilterItemComponent.prototype, "saveFilter", void 0);
-    __decorate([
-        Object(_angular_core__WEBPACK_IMPORTED_MODULE_0__["Input"])(),
-        __metadata("design:type", Number)
-    ], FilterItemComponent.prototype, "index", void 0);
+    ], FilterItemComponent.prototype, "updateFilterItemParams", void 0);
     __decorate([
         Object(_angular_core__WEBPACK_IMPORTED_MODULE_0__["Input"])(),
         __metadata("design:type", Array)
@@ -933,15 +1172,31 @@ var FilterItemComponent = /** @class */ (function () {
     __decorate([
         Object(_angular_core__WEBPACK_IMPORTED_MODULE_0__["Input"])(),
         __metadata("design:type", Object)
-    ], FilterItemComponent.prototype, "filter_parameters", void 0);
+    ], FilterItemComponent.prototype, "f_param", void 0);
     __decorate([
         Object(_angular_core__WEBPACK_IMPORTED_MODULE_0__["Input"])(),
-        __metadata("design:type", Object)
+        __metadata("design:type", Number)
+    ], FilterItemComponent.prototype, "f_index", void 0);
+    __decorate([
+        Object(_angular_core__WEBPACK_IMPORTED_MODULE_0__["Input"])(),
+        __metadata("design:type", Number)
+    ], FilterItemComponent.prototype, "file_id", void 0);
+    __decorate([
+        Object(_angular_core__WEBPACK_IMPORTED_MODULE_0__["Input"])(),
+        __metadata("design:type", Number)
     ], FilterItemComponent.prototype, "totalRows", void 0);
     __decorate([
         Object(_angular_core__WEBPACK_IMPORTED_MODULE_0__["Input"])(),
-        __metadata("design:type", Object)
-    ], FilterItemComponent.prototype, "file_id", void 0);
+        __metadata("design:type", String)
+    ], FilterItemComponent.prototype, "child", void 0);
+    __decorate([
+        Object(_angular_core__WEBPACK_IMPORTED_MODULE_0__["Input"])(),
+        __metadata("design:type", Number)
+    ], FilterItemComponent.prototype, "parent_id", void 0);
+    __decorate([
+        Object(_angular_core__WEBPACK_IMPORTED_MODULE_0__["Input"])(),
+        __metadata("design:type", Number)
+    ], FilterItemComponent.prototype, "child_id", void 0);
     FilterItemComponent = __decorate([
         Object(_angular_core__WEBPACK_IMPORTED_MODULE_0__["Component"])({
             selector: 'filter-item',
@@ -951,6 +1206,144 @@ var FilterItemComponent = /** @class */ (function () {
         __metadata("design:paramtypes", [_angular_common_http__WEBPACK_IMPORTED_MODULE_1__["HttpClient"]])
     ], FilterItemComponent);
     return FilterItemComponent;
+}());
+
+
+
+/***/ }),
+
+/***/ "./src/app/filter-tree/filter-tree.component.css":
+/*!*******************************************************!*\
+  !*** ./src/app/filter-tree/filter-tree.component.css ***!
+  \*******************************************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+module.exports = ".per30{\n    width: 33%;\n}"
+
+/***/ }),
+
+/***/ "./src/app/filter-tree/filter-tree.component.html":
+/*!********************************************************!*\
+  !*** ./src/app/filter-tree/filter-tree.component.html ***!
+  \********************************************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+module.exports = "<div class=\"jumbotron\">\n    <div class=\"row justify-content-md-center\">\n        <div class=\"col col-md-auto\">\n            <h2 class=\"display-4\">Filtering data section</h2>\n            <select class=\"form-control\" (change)=\"selectFile($event.target.value)\">\n                <option value=\"\" disabled selected>Chose file</option>\n                <option *ngFor=\"let file of files\" value=\"{{ file[0] }}\">\n                    {{ file[2].name }}\n                </option>\n            </select>\n            <hr class=\"my-4\">\n            <input type=\"text\" placeholder=\"Filter name\"\n                   [className]=\"valid_filter_name ? 'form-control' : 'form-control is-invalid'\"\n                   [ngModel]=\"filter_name\"\n                   (ngModelChange)=\"setFilterName($event)\"\n            >\n        </div>\n    </div>\n</div>\n<table class=\"table table-hover\">\n    <thead>\n    <tr>\n        <th class=\"per30\" scope=\"col\">First</th>\n        <th class=\"per60\" scope=\"col\">Second</th>\n    </tr>\n    </thead>\n    <tbody>\n    <tr *ngFor=\"let index of  filter_params | keyvalue\">\n        <td class=\"per30\">\n            <filter-item\n                    [columns]=\"columns\"\n                    [f_index]=\"index.key\"\n                    [file_id]=\"file_id\"\n                    [child]=\"false\"\n                    [parent_id]=\"false\"\n                    [child_id]=\"false\"\n                    [totalRows]=\"totalRows\"\n                    [metadata]=\"metadata\"\n                    [f_param]=\"filter_params\"\n                    (updateFilterItemParams)=\"updateFilterParams($event)\"\n            ></filter-item>\n        </td>\n        <td>\n            <table *ngIf=\"index.value.child; else chl\" class=\"table table-hover\">\n                <tr *ngFor=\"let ch_index of  index.value.child | keyvalue\">\n                    <td>\n                        <filter-item\n                                [columns]=\"columns\"\n                                [f_index]=\"ch_index.key\"\n                                [file_id]=\"file_id\"\n                                [child]=\"'first'\"\n                                [parent_id]=\"index.key\"\n                                [child_id]=\"false\"\n                                [totalRows]=\"index.value.params.quantity\"\n                                [metadata]=\"metadata\"\n                                [f_param]=\"filter_params\"\n                                (updateFilterItemParams)=\"updateFilterParams($event)\"\n                        ></filter-item>\n                    </td>\n                    <td>\n                        <table *ngIf=\"ch_index.value.child; else last_child\" class=\"table table-hover\">\n                            <tr *ngFor=\"let ls_ch_index of  ch_index.value.child | keyvalue\">\n                                <td>\n                                    <filter-item\n                                            [columns]=\"columns\"\n                                            [f_index]=\"ls_ch_index.key\"\n                                            [file_id]=\"file_id\"\n                                            [child]=\"'last'\"\n                                            [parent_id]=\"index.key\"\n                                            [child_id]=\"ch_index.key\"\n                                            [totalRows]=\"ch_index.value.params.quantity\"\n                                            [metadata]=\"metadata\"\n                                            [f_param]=\"filter_params\"\n                                            (updateFilterItemParams)=\"updateFilterParams($event)\"\n                                    ></filter-item>\n                                </td>\n                            </tr>\n                        </table>\n                        <ng-template #last_child>\n                            <button type=\"button\" class=\"btn btn-success\" (click)=\"addLastChild(index.key, ch_index.key)\">Add Last Child</button>\n                        </ng-template>\n                    </td>\n                </tr>\n            </table>\n            <ng-template #chl>\n                <button type=\"button\" class=\"btn btn-success\" (click)=\"addChild(index.key)\">Add Child</button>\n            </ng-template>\n        </td>\n    </tr>\n    </tbody>\n</table>"
+
+/***/ }),
+
+/***/ "./src/app/filter-tree/filter-tree.component.ts":
+/*!******************************************************!*\
+  !*** ./src/app/filter-tree/filter-tree.component.ts ***!
+  \******************************************************/
+/*! exports provided: FilterTreeComponent */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "FilterTreeComponent", function() { return FilterTreeComponent; });
+/* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @angular/core */ "./node_modules/@angular/core/fesm5/core.js");
+/* harmony import */ var _angular_common_http__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @angular/common/http */ "./node_modules/@angular/common/fesm5/http.js");
+var __decorate = (undefined && undefined.__decorate) || function (decorators, target, key, desc) {
+    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
+};
+var __metadata = (undefined && undefined.__metadata) || function (k, v) {
+    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
+};
+
+
+var FilterTreeComponent = /** @class */ (function () {
+    function FilterTreeComponent(http) {
+        this.http = http;
+        this.filter_params = {
+            0: {
+                'params': {},
+                'child': false,
+                'parent_id': false,
+                'settings': {
+                    'count_rows': '',
+                    'quantity': '',
+                    'qtt_readonly': '',
+                },
+            }
+        };
+        this.firstFilterColumn = [0];
+    }
+    FilterTreeComponent.prototype.ngOnInit = function () {
+        this.getFiles();
+    };
+    FilterTreeComponent.prototype.getFiles = function () {
+        var _this = this;
+        this.http
+            .post('/api/get_files', '')
+            .subscribe(function (res) { return _this.files = res; }, function (error) {
+            console.log(error);
+        });
+    };
+    FilterTreeComponent.prototype.selectFile = function (id) {
+        this.file_id = id;
+        this.getMetadata(this.file_id);
+    };
+    FilterTreeComponent.prototype.getMetadata = function (id) {
+        var _this = this;
+        this.http
+            .post('/api/get_metadata', { 'file_id': this.file_id })
+            .subscribe(function (res) { return _this.parseMetadata(res); }, function (error) {
+            console.log(error);
+        });
+    };
+    FilterTreeComponent.prototype.parseMetadata = function (data) {
+        this.totalRows = data['rows'];
+        this.columns = Object.keys(data['metadata']);
+        this.metadata = data['metadata'];
+    };
+    FilterTreeComponent.prototype.updateFilterParams = function (data) {
+        console.log(this.filter_params);
+        this.filter_params = data;
+    };
+    FilterTreeComponent.prototype.addChild = function (parentIndex) {
+        this.filter_params[parentIndex]['child'] = {};
+        this.filter_params[parentIndex]['child'][0] = {
+            'params': {},
+            'child': false,
+            'parent_id': parentIndex,
+            'settings': {
+                'count_rows': '',
+                'quantity': '',
+                'qtt_readonly': ''
+            }
+        };
+        this.updateFilterParams(this.filter_params);
+    };
+    FilterTreeComponent.prototype.addLastChild = function (parentIndex, child_id) {
+        this.filter_params[parentIndex]['child'][child_id]['child'] = {};
+        this.filter_params[parentIndex]['child'][child_id]['child'][0] = {
+            'params': {},
+            'child': false,
+            'parent_id': parentIndex,
+            'child_id': child_id,
+            'settings': {
+                'count_rows': '',
+                'quantity': '',
+                'qtt_readonly': ''
+            }
+        };
+        this.updateFilterParams(this.filter_params);
+    };
+    FilterTreeComponent = __decorate([
+        Object(_angular_core__WEBPACK_IMPORTED_MODULE_0__["Component"])({
+            selector: 'filter-tree',
+            template: __webpack_require__(/*! ./filter-tree.component.html */ "./src/app/filter-tree/filter-tree.component.html"),
+            styles: [__webpack_require__(/*! ./filter-tree.component.css */ "./src/app/filter-tree/filter-tree.component.css")]
+        }),
+        __metadata("design:paramtypes", [_angular_common_http__WEBPACK_IMPORTED_MODULE_1__["HttpClient"]])
+    ], FilterTreeComponent);
+    return FilterTreeComponent;
 }());
 
 
@@ -975,7 +1368,7 @@ module.exports = ".center_div {\n    margin-top: 200px;\n}\n\n.card {\n    borde
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = "<div class=\"jumbotron\">\n    <div class=\"row justify-content-md-center\">\n        <div class=\"col col-md-auto\">\n            <h2 class=\"display-4\">Filtering data section</h2>\n            <select class=\"form-control\" (change)=\"selectFile($event.target.value)\">\n                <option value=\"\" disabled selected>Chose file</option>\n                <option *ngFor=\"let file of files\" value=\"{{ file[0] }}\">\n                    {{ file[2].name }}\n                </option>\n            </select>\n            <hr class=\"my-4\">\n            <input type=\"text\" placeholder=\"Filter name\"\n                   [className]=\"valid_filter_name ? 'form-control' : 'form-control is-invalid'\"\n                   [ngModel]=\"filter_name\"\n                   (ngModelChange)=\"setFilterName($event)\"\n>\n        </div>\n    </div>\n</div>\n<div class=\"row\" *ngIf=\"columns.length > 0\">\n    <div class=\"col-md-4\"></div>\n    <div class=\"col-md-4\">\n        <h3>Select data where:</h3>\n    </div>\n</div>\n\n<div *ngIf=\"columns.length > 0\">\n    <filter-item *ngFor=\"let number of filter_number\"\n                 [index]='number'\n                 [file_id]=\"file_id\"\n                 [columns]=\"columns\"\n                 [metadata]=\"metadata\"\n                 [filter_parameters]=\"filter_params\"\n                 [totalRows]=\"totalRows\"\n                 (addFilterElem)='addElement()'\n                 (pushFilterParams)=\"pushParams($event)\"\n                 (saveFilter)='storeFilter()'\n    ></filter-item>\n</div>"
+module.exports = ""
 
 /***/ }),
 
@@ -1018,7 +1411,7 @@ var FilterComponent = /** @class */ (function () {
         this.filter_params = [];
     }
     FilterComponent.prototype.ngOnInit = function () {
-        this.getFiles();
+        // this.getFiles();
     };
     FilterComponent.prototype.addElement = function () {
         this.filter_number.push(this.filter_number.length);
@@ -1041,14 +1434,6 @@ var FilterComponent = /** @class */ (function () {
     };
     FilterComponent.prototype.pushParams = function (data) {
         this.filter_params.push(data);
-    };
-    FilterComponent.prototype.getFiles = function () {
-        var _this = this;
-        this.http
-            .post('/api/get_files', '')
-            .subscribe(function (res) { return _this.files = res; }, function (error) {
-            console.log(error);
-        });
     };
     FilterComponent.prototype.selectFile = function (id) {
         this.file_id = id;
@@ -1104,7 +1489,7 @@ module.exports = ""
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = "\n<p>\n    TODO: home page which is accessible if user is logged in\n</p>\n<app-file-uploads></app-file-uploads>\n<app-statistics *ngIf=\"dataset_id\" [dataset_id]=\"dataset_id\"> Loading statistics... </app-statistics>\n<app-table *ngIf=\"dataset_id\" [dataset_id]=\"dataset_id\">Loading preview table...</app-table>\n"
+module.exports = "\n<app-file-uploads (fileUploaded)=\"fileUploadHandler($event)\"></app-file-uploads>\n\n<button (click)=\"sendFile()\" >TEST: Send file to email</button>\n\n<app-statistics *ngIf=\"dataset_id\" [dataset_id]=\"dataset_id\"> Loading statistics... </app-statistics>\n<app-table *ngIf=\"dataset_id\" [dataset_id]=\"dataset_id\">Loading preview table...</app-table>\n"
 
 /***/ }),
 
@@ -1119,6 +1504,7 @@ module.exports = "\n<p>\n    TODO: home page which is accessible if user is logg
 __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "HomeComponent", function() { return HomeComponent; });
 /* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @angular/core */ "./node_modules/@angular/core/fesm5/core.js");
+/* harmony import */ var _data_service__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../data.service */ "./src/app/data.service.ts");
 var __decorate = (undefined && undefined.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -1129,13 +1515,20 @@ var __metadata = (undefined && undefined.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
 
+
 var HomeComponent = /** @class */ (function () {
-    function HomeComponent() {
+    function HomeComponent(data) {
+        this.data = data;
     }
     HomeComponent.prototype.ngOnInit = function () {
     };
-    HomeComponent.prototype.fileUploadhandler = function (dataset_id) {
+    HomeComponent.prototype.fileUploadHandler = function (dataset_id) {
+        console.log(dataset_id);
         this.dataset_id = dataset_id;
+    };
+    HomeComponent.prototype.sendFile = function () {
+        this.data.get()
+            .subscribe(function (res) { return console.log(res); });
     };
     HomeComponent = __decorate([
         Object(_angular_core__WEBPACK_IMPORTED_MODULE_0__["Component"])({
@@ -1143,7 +1536,7 @@ var HomeComponent = /** @class */ (function () {
             template: __webpack_require__(/*! ./home.component.html */ "./src/app/home/home.component.html"),
             styles: [__webpack_require__(/*! ./home.component.css */ "./src/app/home/home.component.css")]
         }),
-        __metadata("design:paramtypes", [])
+        __metadata("design:paramtypes", [_data_service__WEBPACK_IMPORTED_MODULE_1__["DataService"]])
     ], HomeComponent);
     return HomeComponent;
 }());
@@ -1386,7 +1779,7 @@ module.exports = "@import url(\"//maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = "<nav class=\"navbar navbar-icon-top navbar-expand-lg navbar-dark bg-dark\">\n    <a class=\"navbar-brand\" routerLink=\"/\">CarStatistic</a>\n    <button class=\"navbar-toggler\" type=\"button\" data-toggle=\"collapse\" data-target=\"#navbarSupportedContent\"\n            aria-controls=\"navbarSupportedContent\" aria-expanded=\"false\" aria-label=\"Toggle navigation\">\n        <span class=\"navbar-toggler-icon\"></span>\n    </button>\n\n    <div class=\"collapse navbar-collapse\" id=\"navbarSupportedContent\">\n        <ul class=\"navbar-nav mr-auto\">\n            <li class=\"nav-item active\">\n                <a class=\"nav-link\" routerLink=\"/\">\n                    <i class=\"fa fa-home\"></i>\n                    Home\n                </a>\n            </li>\n            <li class=\"nav-item active nav-right\">\n                <a class=\"nav-link\" routerLink=\"/upload\">\n                    Upload\n                </a>\n            </li>\n\n            <li class=\"nav-item\">\n                <a class=\"nav-link\" href=\"#\">\n                    Messages\n                </a>\n            </li>\n             <li class=\"nav-item active\">\n                <a class=\"nav-link\" href=\"/filter\">\n                    Filter\n                </a>\n            </li>\n            <li class=\"nav-item active nav-right\" *ngIf=\"!isLogined()\">\n                <a class=\"nav-link\" routerLink=\"/login\">\n                    Login\n                </a>\n            </li>\n            <li class=\"nav-item active nav-right\" *ngIf=\"!isLogined()\">\n                <a class=\"nav-link\" routerLink=\"/register\">\n                    Sign up\n                </a>\n            </li>\n            <li class=\"nav-item active nav-right\" *ngIf=\"isLogined()\">\n                <a class=\"nav-link\" routerLink=\"/logout\">\n                    Logout\n                </a>\n            </li>\n\n        </ul>\n\n    </div>\n</nav>"
+module.exports = "<nav class=\"navbar navbar-icon-top navbar-expand-lg navbar-dark bg-dark\">\n    <a class=\"navbar-brand\" routerLink=\"/\">CarStatistic</a>\n    <button class=\"navbar-toggler\" type=\"button\" data-toggle=\"collapse\" data-target=\"#navbarSupportedContent\"\n            aria-controls=\"navbarSupportedContent\" aria-expanded=\"false\" aria-label=\"Toggle navigation\">\n        <span class=\"navbar-toggler-icon\"></span>\n    </button>\n\n    <div class=\"collapse navbar-collapse\" id=\"navbarSupportedContent\">\n        <ul class=\"navbar-nav mr-auto\">\n            <li class=\"nav-item active\">\n                <a class=\"nav-link\" routerLink=\"/\">\n                    <i class=\"fa fa-home\"></i>\n                    Home\n                </a>\n            </li>\n            <li class=\"nav-item\">\n                <a class=\"nav-link\" href=\"#\">\n                    Messages\n                </a>\n            </li>\n             <li class=\"nav-item active\">\n                <a class=\"nav-link\" href=\"/filter\">\n                    Filter\n                </a>\n            </li>\n            <li class=\"nav-item active nav-right\" *ngIf=\"!isLogined()\">\n                <a class=\"nav-link\" routerLink=\"/login\">\n                    Login\n                </a>\n            </li>\n            <li class=\"nav-item active nav-right\" *ngIf=\"!isLogined()\">\n                <a class=\"nav-link\" routerLink=\"/register\">\n                    Sign up\n                </a>\n            </li>\n            <li class=\"nav-item active nav-right\" *ngIf=\"isLogined()\">\n                <a class=\"nav-link\" routerLink=\"/logout\">\n                    Logout\n                </a>\n            </li>\n\n        </ul>\n\n    </div>\n</nav>"
 
 /***/ }),
 
@@ -1502,6 +1895,87 @@ var NotfoundComponent = /** @class */ (function () {
 
 /***/ }),
 
+/***/ "./src/app/notification/notification.component.css":
+/*!*********************************************************!*\
+  !*** ./src/app/notification/notification.component.css ***!
+  \*********************************************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+module.exports = "\n.notification {\n    position: absolute;\n      top: 12%;\n      left: 83%;\n    width: 15%;\n    min-width: 100px;\n    min-height: 30px;\n    z-index: 10;\n}\n\n.notification-box {\n    padding: 20px;\n    background-color: #4d9ef4;\n    color: white;\n    opacity: 1;\n    transition: opacity 0.6s;\n    margin-bottom: 15px;\n    width: 100%;\n    height: 10%;\n    border-radius: 5%;\n}\n\n.closebtn {\n    top: 100%;\n    right: 100%;\n    color: white;\n    font-weight: bold;\n    float: right;\n    font-size: 22px;\n    line-height: 20px;\n    cursor: pointer;\n    transition: 0.3s;\n}\n\n.closebtn:hover {\n    color: black;\n}"
+
+/***/ }),
+
+/***/ "./src/app/notification/notification.component.html":
+/*!**********************************************************!*\
+  !*** ./src/app/notification/notification.component.html ***!
+  \**********************************************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+module.exports = "\n<div class=\"notification\">\n  <div class=\"notification-box\" *ngFor=\"let msg of messages; let i = index\">\n    <span class=\"closebtn\" (click)=\"removeNotification($event.target, i)\">&times;</span>\n      {{msg.data}}\n  </div>\n</div>"
+
+/***/ }),
+
+/***/ "./src/app/notification/notification.component.ts":
+/*!********************************************************!*\
+  !*** ./src/app/notification/notification.component.ts ***!
+  \********************************************************/
+/*! exports provided: NotificationComponent */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "NotificationComponent", function() { return NotificationComponent; });
+/* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @angular/core */ "./node_modules/@angular/core/fesm5/core.js");
+/* harmony import */ var _socket_service__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../socket.service */ "./src/app/socket.service.ts");
+/* harmony import */ var _data_service__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../data.service */ "./src/app/data.service.ts");
+var __decorate = (undefined && undefined.__decorate) || function (decorators, target, key, desc) {
+    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
+};
+var __metadata = (undefined && undefined.__metadata) || function (k, v) {
+    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
+};
+
+
+
+var NotificationComponent = /** @class */ (function () {
+    function NotificationComponent(socket, data) {
+        this.socket = socket;
+        this.data = data;
+        this.messages = [];
+    }
+    NotificationComponent.prototype.ngOnInit = function () {
+        var _this = this;
+        this.connection = this.socket.getMessages()
+            .subscribe(function (data) {
+            _this.messages.push(data);
+        });
+    };
+    NotificationComponent.prototype.removeNotification = function (element, index) {
+        console.log(element.parentElement);
+        element.parentElement.remove();
+        this.messages.splice(index, 1);
+    };
+    NotificationComponent = __decorate([
+        Object(_angular_core__WEBPACK_IMPORTED_MODULE_0__["Component"])({
+            selector: 'app-notification',
+            template: __webpack_require__(/*! ./notification.component.html */ "./src/app/notification/notification.component.html"),
+            styles: [__webpack_require__(/*! ./notification.component.css */ "./src/app/notification/notification.component.css")]
+        }),
+        __metadata("design:paramtypes", [_socket_service__WEBPACK_IMPORTED_MODULE_1__["SocketService"],
+            _data_service__WEBPACK_IMPORTED_MODULE_2__["DataService"]])
+    ], NotificationComponent);
+    return NotificationComponent;
+}());
+
+
+
+/***/ }),
+
 /***/ "./src/app/registration/registration.component.css":
 /*!*********************************************************!*\
   !*** ./src/app/registration/registration.component.css ***!
@@ -1520,7 +1994,7 @@ module.exports = "@media(min-width: 768px) {\n  .field-label-responsive {\n    p
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = "<div class=\"auth\">\n    <div class=\"form\">\n        <div class=\"row\">\n                <div class=\"col-md-3\">\n\n                </div>\n                <div class=\"col-md-6\">\n                    <div *ngIf=\"message\" class=\"alert alert-success\">\n                        <br><br>{{ message }}\n                    </div>\n                </div>\n                <div class=\"col-md-3\">\n\n                </div>\n            </div>\n        <form class=\"form-horizontal\"  [formGroup]=\"registerGroup\" (ngSubmit)=\"toRegister()\">\n            <div class=\"row\">\n                <div class=\"col-md-3\"></div>\n                <div class=\"col-md-6\">\n                    <h2>Register New User</h2>\n                    <hr>\n                    <br><br>\n                </div>\n            </div>\n\n            <div class=\"row\">\n                <div class=\"col-md-3 field-label-responsive\">\n                    <label for=\"email\">E-Mail Address</label>\n                </div>\n                <div class=\"col-md-6\">\n                    <div class=\"form-group\">\n                        <div class=\"input-group mb-2 mr-sm-2 mb-sm-0\">\n                            <div class=\"input-group-addon\" style=\"width: 2.6rem\"><i class=\"fa fa-at\"></i></div>\n                            <input type=\"text\" formControlName=\"email\" required class=\"form-control\" id=\"email\"\n                                   placeholder=\"you@example.com\" autofocus>\n\n                        </div>\n                    </div>\n                </div>\n                <div class=\"col-md-3\">\n\n                </div>\n            </div>\n            <div class=\"row\">\n                <div class=\"col-md-3\">\n\n                </div>\n                <div class=\"col-md-6\">\n                    <div *ngIf=\"email == ''\">\n                        Email can not be empty\n                    </div>\n                    <div *ngIf=\"email.invalid && (email.dirty || email.touched)\"\n                         class=\"alert alert-danger\">\n\n                        <div *ngIf=\"email.errors.required\">\n                            Email is required.\n                        </div>\n                        <div *ngIf=\"email.errors.wrongFormat\">\n                            Wrong format of email.\n                        </div>\n\n\n\n                    </div>\n                    <div class=\" alert alert-danger\" *ngIf=\"isEmailBusy == true\">\n                            {{ error_message }}\n                        </div>\n                </div>\n                <div class=\"col-md-3\">\n\n                </div>\n\n            </div>\n            <div class=\"row\">\n                <div class=\"col-md-3 field-label-responsive\">\n                    <label for=\"password\">Password</label>\n                </div>\n                <div class=\"col-md-6\">\n                    <div class=\"form-group has-danger\">\n                        <div class=\"input-group mb-2 mr-sm-2 mb-sm-0\">\n                            <div class=\"input-group-addon\" style=\"width: 2.6rem\"><i class=\"fa fa-key\"></i></div>\n                            <input type=\"password\" formControlName=\"password\" class=\"form-control\" id=\"password\"\n                                   placeholder=\"Password\" required>\n                        </div>\n                    </div>\n                </div>\n                <div class=\"col-md-3\">\n\n                </div>\n            </div>\n            <div class=\"row\">\n                <div class=\"col-md-3\">\n\n                </div>\n                <div class=\"col-md-6\">\n                     <div class=\"alert alert-danger\" *ngIf=\"password.invalid && (password.dirty || password.touched)\">\n                        <ul>\n                            <li *ngIf=\"password.errors || password.errors\">Password must be from 8\n                                to 40 characters long and contain at least one digit.\n                            </li>\n                        </ul>\n                    </div>\n                </div>\n                <div class=\"col-md-3\">\n\n                </div>\n            </div>\n\n            <div class=\"row\">\n                <div class=\"col-md-3\"></div>\n                <div class=\"col-md-6\">\n                    <button type=\"submit\" class=\"btn btn-success\" [disabled]=\"!registerGroup.valid\"> Register</button>\n                </div>\n            </div>\n\n        </form>\n    </div>\n</div>\n\n\n"
+module.exports = "<div class=\"auth\">\n    <div class=\"form\">\n        <div class=\"row\">\n                <div class=\"col-md-3\">\n\n                </div>\n                <div class=\"col-md-6\">\n                    <div *ngIf=\"message\" class=\"alert alert-success\">\n                        <br><br>{{ message }}\n                    </div>\n                </div>\n                <div class=\"col-md-3\">\n\n                </div>\n            </div>\n        <form class=\"form-horizontal\"  [formGroup]=\"registerGroup\" (ngSubmit)=\"toRegister()\">\n            <div class=\"row\">\n                <div class=\"col-md-3\"></div>\n                <div class=\"col-md-6\">\n                    <h2>Register New User</h2>\n                    <hr>\n                    <br><br>\n                </div>\n            </div>\n\n            <div class=\"row\">\n                <div class=\"col-md-3 field-label-responsive\">\n                    <label for=\"email\">E-Mail Address</label>\n                </div>\n                <div class=\"col-md-6\">\n                    <div class=\"form-group\">\n                        <div class=\"input-group mb-2 mr-sm-2 mb-sm-0\">\n                            <div class=\"input-group-addon\" style=\"width: 2.6rem\"><i class=\"fa fa-at\"></i></div>\n                            <input type=\"text\" formControlName=\"email\" required class=\"form-control\" id=\"email\"\n                                   placeholder=\"you@example.com\" autofocus>\n\n                        </div>\n                    </div>\n                </div>\n                <div class=\"col-md-3\">\n\n                </div>\n            </div>\n            <div class=\"row\">\n                <div class=\"col-md-3\">\n\n                </div>\n                <div class=\"col-md-6\">\n                    <div *ngIf=\"email == ''\">\n                        Email can not be empty\n                    </div>\n                    <div *ngIf=\"email.invalid && (email.dirty || email.touched) && validation_passed\"\n                         class=\"alert alert-danger\">\n\n                        <div *ngIf=\"email.errors.required\">\n                            Email is required.\n                        </div>\n                        <div *ngIf=\"email.errors.wrongFormat\">\n                            Wrong format of email.\n                        </div>\n\n\n\n                    </div>\n                    <div class=\" alert alert-danger\" *ngIf=\"isEmailBusy == true\">\n                            {{ error_message }}\n                        </div>\n                </div>\n                <div class=\"col-md-3\">\n\n                </div>\n\n            </div>\n            <div class=\"row\">\n                <div class=\"col-md-3 field-label-responsive\">\n                    <label for=\"password\">Password</label>\n                </div>\n                <div class=\"col-md-6\">\n                    <div class=\"form-group has-danger\">\n                        <div class=\"input-group mb-2 mr-sm-2 mb-sm-0\">\n                            <div class=\"input-group-addon\" style=\"width: 2.6rem\"><i class=\"fa fa-key\"></i></div>\n                            <input type=\"password\" formControlName=\"password\" class=\"form-control\" id=\"password\"\n                                   placeholder=\"Password\" required>\n                        </div>\n                    </div>\n                </div>\n                <div class=\"col-md-3\">\n\n                </div>\n            </div>\n            <div class=\"row\">\n                <div class=\"col-md-3\">\n\n                </div>\n                <div class=\"col-md-6\">\n                     <div class=\"alert alert-danger\" *ngIf=\"password.invalid && (password.dirty || password.touched) && validation_passed\">\n                        <ul>\n                            <li *ngIf=\"password.errors || password.errors\">Password must be from 8\n                                to 40 characters long and contain at least one digit.\n                            </li>\n                        </ul>\n                    </div>\n                </div>\n                <div class=\"col-md-3\">\n\n                </div>\n            </div>\n\n            <div class=\"row\">\n                <div class=\"col-md-3\"></div>\n                <div class=\"col-md-6\">\n                    <button type=\"submit\" class=\"btn btn-success\" [disabled]=\"!registerGroup.valid\"> Register</button>\n                </div>\n            </div>\n\n        </form>\n    </div>\n</div>\n\n\n"
 
 /***/ }),
 
@@ -1561,6 +2035,7 @@ var RegistrationComponent = /** @class */ (function () {
         this.router = router;
         this.route = route;
         this.isEmailBusy = false;
+        this.validation_passed = true;
         this.registerGroup = new _angular_forms__WEBPACK_IMPORTED_MODULE_1__["FormGroup"]({
             email: new _angular_forms__WEBPACK_IMPORTED_MODULE_1__["FormControl"]('', [
                 _angular_forms__WEBPACK_IMPORTED_MODULE_1__["Validators"].required,
@@ -1583,6 +2058,7 @@ var RegistrationComponent = /** @class */ (function () {
             var response_data = JSON.parse(data_txt);
             _this.message = response_data.message;
             _this.registerGroup.setValue({ email: '', password: '' });
+            _this.validation_passed = false;
         }, function (err) {
             _this.isEmailBusy = true;
             var data_txt = (JSON.stringify(err));
@@ -1728,6 +2204,58 @@ var ResetPasswordComponent = /** @class */ (function () {
 
 /***/ }),
 
+/***/ "./src/app/socket.service.ts":
+/*!***********************************!*\
+  !*** ./src/app/socket.service.ts ***!
+  \***********************************/
+/*! exports provided: SocketService */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "SocketService", function() { return SocketService; });
+/* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @angular/core */ "./node_modules/@angular/core/fesm5/core.js");
+/* harmony import */ var rxjs_Observable__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! rxjs/Observable */ "./node_modules/rxjs-compat/_esm5/Observable.js");
+/* harmony import */ var socket_io_client__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! socket.io-client */ "./node_modules/socket.io-client/lib/index.js");
+/* harmony import */ var socket_io_client__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(socket_io_client__WEBPACK_IMPORTED_MODULE_2__);
+var __decorate = (undefined && undefined.__decorate) || function (decorators, target, key, desc) {
+    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
+};
+
+
+
+var SocketService = /** @class */ (function () {
+    function SocketService() {
+        this.url = 'http://localhost:8000/';
+    }
+    SocketService.prototype.getMessages = function () {
+        var _this = this;
+        var observable = new rxjs_Observable__WEBPACK_IMPORTED_MODULE_1__["Observable"](function (observer) {
+            _this.socketio = socket_io_client__WEBPACK_IMPORTED_MODULE_2__(_this.url);
+            _this.socketio.on('notification', function (data) {
+                observer.next(data);
+            });
+            return function () {
+                _this.socketio.disconnect();
+            };
+        });
+        return observable;
+    };
+    SocketService = __decorate([
+        Object(_angular_core__WEBPACK_IMPORTED_MODULE_0__["Injectable"])({
+            providedIn: 'root'
+        })
+    ], SocketService);
+    return SocketService;
+}());
+
+
+
+/***/ }),
+
 /***/ "./src/app/statistics/statistics.component.css":
 /*!*****************************************************!*\
   !*** ./src/app/statistics/statistics.component.css ***!
@@ -1735,7 +2263,7 @@ var ResetPasswordComponent = /** @class */ (function () {
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = ""
+module.exports = ".tab {\n    overflow: hidden;\n    border: 1px solid #ccc;\n    border-bottom: none;\n    background-color: #f1f1f1;\n    width: 600px;\n}\n\n/* Style the buttons that are used to open the tab content */\n\n.tab button {\n    background-color: inherit;\n    float: left;\n    border: none;\n    outline: none;\n    cursor: pointer;\n    padding: 14px 16px;\n    transition: 0.3s;\n    width: 50%;\n}\n\n/* Change background color of buttons on hover */\n\n.tab button:hover {\n    background-color: #ddd;\n}\n\n/* Create an active/current tablink class */\n\n.tab button.active {\n    background-color: #ccc;\n}"
 
 /***/ }),
 
@@ -1746,7 +2274,7 @@ module.exports = ""
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = "\n<div>\n    <label for=\"column_selection\">Select Column: </label>\n    <select id=\"column_selection\" #selection (change)=\"makeSelection(selection.value)\" class=\"selectpicker\">\n        <option *ngFor=\"let column of columns\"> {{column}}</option>\n    </select>\n    <plotly-plot [config]=\"graph['config']\" [data]=\"graph['data']\" [layout]=\"graph['layout']\"></plotly-plot>\n</div>"
+module.exports = "\n<div>\n    <div class=\"plot\">\n        <div class=\"tab\">\n          <button #pie class=\"tablinks\" (click)=\"setPlot('pie', pie, bar) \">Pie</button>\n          <button #bar class=\"tablinks\" (click)=\"setPlot('bar', bar, pie)\">Bar</button>\n        </div>\n        <label for=\"column_selection\">Select Column: </label>\n        <select id=\"column_selection\" #selection (change)=\"makeSelection(selection.value)\" class=\"selectpicker\">\n            <option *ngFor=\"let column of columns\"> {{column}}</option>\n        </select>\n        <plotly-plot *ngIf=\"this.plot=='pie'\"\n                     [config]=\"graph['config']\" [data]=\"graph['pie']\" [layout]=\"graph['layout']\"></plotly-plot>\n        <plotly-plot *ngIf=\"this.plot=='bar'\"\n            [config]=\"graph['config']\" [data]=\"graph['bar']\" [layout]=\"graph['layout']\"></plotly-plot>\n    </div>\n\n</div>"
 
 /***/ }),
 
@@ -1776,9 +2304,13 @@ var __metadata = (undefined && undefined.__metadata) || function (k, v) {
 var StatisticsComponent = /** @class */ (function () {
     function StatisticsComponent(data) {
         this.data = data;
+        this.plot = 'bar';
         this.graph = {
-            data: [
-                { x: ['', '', ''], y: [], type: 'bar' },
+            pie: [
+                { labels: [], values: [], type: 'pie' },
+            ],
+            bar: [
+                { x: [], y: [], type: 'bar' },
             ],
             layout: {
                 width: 600, height: 400, title: 'Column1',
@@ -1793,26 +2325,50 @@ var StatisticsComponent = /** @class */ (function () {
             }
         };
     }
-    StatisticsComponent.prototype.ngOnInit = function () {
+    Object.defineProperty(StatisticsComponent.prototype, "dataset_id", {
+        get: function () {
+            return this.dataset_id_;
+        },
+        set: function (name) {
+            this.dataset_id_ = name;
+            this.updateGraph();
+        },
+        enumerable: true,
+        configurable: true
+    });
+    StatisticsComponent.prototype.updateGraph = function () {
         var _this = this;
         this.data.getStatistics(this.dataset_id)
             .subscribe(function (res) {
             _this.statistics = res;
             _this.columns = Object.keys(res);
-            _this.graph.data[0].x = Object.keys(res[_this.columns[0]]);
             _this.graph.layout.title = _this.columns[0];
-            _this.graph.data[0].y = Object.values(res[_this.columns[0]]);
+            _this.graph.pie[0].labels = Object.keys(res[_this.columns[0]]);
+            _this.graph.pie[0].values = Object.values(res[_this.columns[0]]);
+            _this.graph.bar[0].x = Object.keys(res[_this.columns[0]]);
+            _this.graph.bar[0].y = Object.values(res[_this.columns[0]]);
         }, function (error) { console.log(error); });
+    };
+    StatisticsComponent.prototype.ngOnInit = function () {
+        this.updateGraph();
+    };
+    StatisticsComponent.prototype.setPlot = function (plot_type, target, opp) {
+        this.plot = plot_type;
+        target.className += ' active';
+        opp.className = opp.className.replace(' active', '');
     };
     StatisticsComponent.prototype.makeSelection = function (value) {
         this.graph.layout.title = value;
-        this.graph.data[0].x = Object.keys(this.statistics[value]);
-        this.graph.data[0].y = Object.values(this.statistics[value]);
+        this.graph.pie[0].labels = Object.keys(this.statistics[value]);
+        this.graph.pie[0].values = Object.values(this.statistics[value]);
+        this.graph.bar[0].x = Object.keys(this.statistics[value]);
+        this.graph.bar[0].y = Object.values(this.statistics[value]);
     };
     __decorate([
         Object(_angular_core__WEBPACK_IMPORTED_MODULE_0__["Input"])(),
-        __metadata("design:type", Number)
-    ], StatisticsComponent.prototype, "dataset_id", void 0);
+        __metadata("design:type", Number),
+        __metadata("design:paramtypes", [Number])
+    ], StatisticsComponent.prototype, "dataset_id", null);
     StatisticsComponent = __decorate([
         Object(_angular_core__WEBPACK_IMPORTED_MODULE_0__["Component"])({
             selector: 'app-statistics',
@@ -1877,15 +2433,30 @@ var TableComponent = /** @class */ (function () {
     function TableComponent(data) {
         this.data = data;
     }
-    TableComponent.prototype.ngOnInit = function () {
+    Object.defineProperty(TableComponent.prototype, "dataset_id", {
+        get: function () {
+            return this.dataset_id_;
+        },
+        set: function (dataset_id) {
+            this.dataset_id_ = dataset_id;
+            this.updateTable();
+        },
+        enumerable: true,
+        configurable: true
+    });
+    TableComponent.prototype.updateTable = function () {
         var _this = this;
         this.data.getRows(this.dataset_id)
             .subscribe(function (res) { _this.columns = res['columns']; _this.rows = res['rows']; }, function (error) { console.log(error); });
     };
+    TableComponent.prototype.ngOnInit = function () {
+        this.updateTable();
+    };
     __decorate([
         Object(_angular_core__WEBPACK_IMPORTED_MODULE_0__["Input"])(),
-        __metadata("design:type", Number)
-    ], TableComponent.prototype, "dataset_id", void 0);
+        __metadata("design:type", Number),
+        __metadata("design:paramtypes", [Number])
+    ], TableComponent.prototype, "dataset_id", null);
     TableComponent = __decorate([
         Object(_angular_core__WEBPACK_IMPORTED_MODULE_0__["Component"])({
             selector: 'app-table',
@@ -1963,6 +2534,17 @@ Object(_angular_platform_browser_dynamic__WEBPACK_IMPORTED_MODULE_1__["platformB
 
 module.exports = __webpack_require__(/*! /home/izhyk/PycharmProjects/car-statistics/car-statistics/app/static/src/main.ts */"./src/main.ts");
 
+
+/***/ }),
+
+/***/ 1:
+/*!********************!*\
+  !*** ws (ignored) ***!
+  \********************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+/* (ignored) */
 
 /***/ })
 

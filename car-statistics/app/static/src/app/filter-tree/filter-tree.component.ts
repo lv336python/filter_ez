@@ -14,7 +14,8 @@ export class FilterTreeComponent implements OnInit {
     filter_params: object = {
         0: {
             'params': {},
-            'child': {},
+            'child': false,
+            'parent_id': false,
             'settings':{
                 'count_rows':'',
                 'quantity':'',
@@ -65,21 +66,38 @@ export class FilterTreeComponent implements OnInit {
     }
 
     updateFilterParams(data) {
-        this.filter_params = data;
         console.log(this.filter_params);
+        this.filter_params = data;
     }
 
      addChild(parentIndex) {
-        let new_child_index = Object.keys(this.filter_params[parentIndex]['child']).length;
-        this.filter_params[parentIndex]['child'][new_child_index] = {
+        this.filter_params[parentIndex]['child'] = {};
+        this.filter_params[parentIndex]['child'][0] = {
             'params': {},
-            'child': {},
+            'child': false,
+            'parent_id': parentIndex,
             'settings': {
                 'count_rows': '',
                 'quantity': '',
-                'qtt_readonly': '',
-                'parentIndex':parentIndex
+                'qtt_readonly': ''
             }
-        }
+        };
+        this.updateFilterParams(this.filter_params);
+    }
+
+    addLastChild(parentIndex, child_id) {
+        this.filter_params[parentIndex]['child'][child_id]['child'] = {};
+        this.filter_params[parentIndex]['child'][child_id]['child'][0] = {
+            'params': {},
+            'child': false,
+            'parent_id': parentIndex,
+            'child_id':child_id,
+            'settings': {
+                'count_rows': '',
+                'quantity': '',
+                'qtt_readonly': ''
+            }
+        };
+        this.updateFilterParams(this.filter_params);
     }
 }

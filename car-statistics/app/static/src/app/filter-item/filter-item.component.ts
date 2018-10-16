@@ -39,26 +39,53 @@ export class FilterItemComponent implements OnInit {
     //
     // @Input() index: number;
     @Input() columns: string[];
-    @Input() metadata;
-    @Input() f_param;
-    @Input() f_index;
-    @Input() file_id;
-    @Input() totalRows;
+    @Input() metadata: object;
+    @Input() f_param: object;
+    @Input() f_index: number;
+    @Input() file_id: number;
+    @Input() totalRows: number;
+    @Input() child: string;
+    @Input() parent_id: number;
+    @Input() child_id: number;
 
     constructor(private http: HttpClient) {
     }
 
     ngOnInit() {
-        if (this.f_param[this.f_index]['params']['column']) {
-            this.selectedColumnName(this.f_param[this.f_index]['params']['column']);
-            this.disColumn = true;
+        if (this.child == 'first') {
+            if (this.f_param[this.parent_id]['child'][this.f_index]['params']['column']) {
+                this.selectedColumnName(this.f_param[this.parent_id]['child'][this.f_index]['params']['column']);
+                this.disColumn = true;
+            }
+            this.operator = this.f_param[this.parent_id]['child'][this.f_index]['params']['operator'] ? this.f_param[this.parent_id]['child'][this.f_index]['params']['operator'] : '';
+            if (this.f_param[this.parent_id]['child'][this.f_index]['params']['value']) {
+                this.value = this.f_param[this.parent_id]['child'][this.f_index]['params']['value'];
+                this.disValue = true;
+            }
+            this.parseSettings(this.f_param[this.parent_id]['child'][this.f_index]['settings']);
+        } else if (this.child == 'last') {
+            if (this.f_param[this.parent_id]['child'][this.child_id]['child'][this.f_index]['params']['column']) {
+                this.selectedColumnName(this.f_param[this.parent_id]['child'][this.child_id]['child'][this.f_index]['params']['column']);
+                this.disColumn = true;
+            }
+            this.operator = this.f_param[this.parent_id]['child'][this.child_id]['child'][this.f_index]['params']['operator'] ? this.f_param[this.parent_id]['child'][this.f_index]['params']['operator'] : '';
+            if (this.f_param[this.parent_id]['child'][this.child_id]['child'][this.f_index]['params']['value']) {
+                this.value = this.f_param[this.parent_id]['child'][this.child_id]['child'][this.f_index]['params']['value'];
+                this.disValue = true;
+            }
+            this.parseSettings(this.f_param[this.parent_id]['child'][this.child_id]['child'][this.f_index]['settings']);
+        } else {
+            if (this.f_param[this.f_index]['params']['column']) {
+                this.selectedColumnName(this.f_param[this.f_index]['params']['column']);
+                this.disColumn = true;
+            }
+            this.operator = this.f_param[this.f_index]['params']['operator'] ? this.f_param[this.f_index]['params']['operator'] : '';
+            if (this.f_param[this.f_index]['params']['value']) {
+                this.value = this.f_param[this.f_index]['params']['value'];
+                this.disValue = true;
+            }
+            this.parseSettings(this.f_param[this.f_index]['settings']);
         }
-        this.operator = this.f_param[this.f_index]['params']['operator'] ? this.f_param[this.f_index]['params']['operator'] : '';
-        if (this.f_param[this.f_index]['params']['value']) {
-            this.value = this.f_param[this.f_index]['params']['value'];
-            this.disValue = true;
-        }
-        this.parseSettings(this.f_param[this.f_index]['settings']);
     }
 
     // save() {
@@ -121,17 +148,52 @@ export class FilterItemComponent implements OnInit {
     addValue(value) {
         this.disColumn = true;
         this.value = value;
-        this.f_param[this.f_index].params = {
-            'column': this.column,
-            'operator': this.operator,
-            'value': this.value
-        };
-        this.http
-            .post('/api/count_rows', {'file_id': this.file_id, 'params': this.f_param[this.f_index].params})
-            .subscribe(res => this.setCountRows(res),
-                error => {
-                    console.log(error);
-                });
+        if (this.parent_id && !this.child_id) {
+            this.f_param[this.parent_id]['child'][this.f_index].params = {
+                'column': this.column,
+                'operator': this.operator,
+                'value': this.value
+            };
+            let child_params = [
+                this.f_param[this.parent_id].params,
+                this.f_param[this.parent_id]['child'][this.f_index].params
+            ];
+            this.http
+                .post('/api/count_rows', {'file_id': this.file_id, 'params': child_params})
+                .subscribe(res => this.setCountRows(res),
+                    error => {
+                        console.log(error);
+                    });
+        } else if (this.parent_id && this.child_id) {
+            this.f_param[this.parent_id]['child'][this.child_id]['child'][this.f_index].params = {
+                'column': this.column,
+                'operator': this.operator,
+                'value': this.value
+            };
+            let last_child_params = [
+                this.f_param[this.parent_id].params,
+                this.f_param[this.parent_id]['child'][this.child_id].params,
+                this.f_param[this.parent_id]['child'][this.child_id]['child'][this.f_index].params,
+            ];
+            this.http
+                .post('/api/count_rows', {'file_id': this.file_id, 'params': last_child_params})
+                .subscribe(res => this.setCountRows(res),
+                    error => {
+                        console.log(error);
+                    });
+        } else {
+            this.f_param[this.f_index].params = {
+                'column': this.column,
+                'operator': this.operator,
+                'value': this.value
+            };
+            this.http
+                .post('/api/count_rows', {'file_id': this.file_id, 'params': this.f_param[this.f_index].params})
+                .subscribe(res => this.setCountRows(res),
+                    error => {
+                        console.log(error);
+                    });
+        }
     }
 
     addOperator(oper) {
@@ -156,9 +218,9 @@ export class FilterItemComponent implements OnInit {
         this.setPercentage();
     }
 
-    // calculateQuantity() {
-    //     return Math.floor(this.totalRows * this.quantity / 100);
-    // }
+    calculateQuantity() {
+        return Math.floor(this.totalRows * this.quantity / 100);
+    }
 
     checkQuantity() {
         if (!this.quantity) {
@@ -201,11 +263,13 @@ export class FilterItemComponent implements OnInit {
         // if(this.rangeValue){
         //     this.value = this.rangeValue.toString();
         // }
+
         this.f_param[this.f_index]['column'] = this.column;
         this.f_param[this.f_index]['params'] = {
             'column': this.column,
             'operator': this.operator,
-            'value': this.value
+            'value': this.value,
+            'quantity': this.calculateQuantity(),
         };
         this.f_param[this.f_index]['settings'] = {
             'count_rows': this.count_rows,
@@ -217,28 +281,167 @@ export class FilterItemComponent implements OnInit {
             'params': {
                 'column': this.column,
             },
-            'child': {},
+            'child': false,
         };
         this.updateFilterItemParams.emit(this.f_param);
     }
 
     parseSettings(data) {
-        this.count_rows = data['count_rows'];
-        this.quantity = data['quantity'];
-        this.qtt_readonly = data['qtt_readonly'];
+        if (data) {
+            this.count_rows = data['count_rows'];
+            this.quantity = data['quantity'];
+            this.qtt_readonly = data['qtt_readonly'];
+        }
     }
 
     addChild(parentIndex) {
+        if (!this.checkQuantity()) {
+            return false;
+        }
+        if (!this.checkRangeValue()) {
+            return false
+        }
+        this.f_param[this.parent_id]['child'][this.f_index]['column'] = this.column;
+        this.f_param[this.parent_id]['child'][this.f_index]['params'] = {
+            'column': this.column,
+            'operator': this.operator,
+            'value': this.value,
+            'quantity': this.calculateQuantity(),
+        };
+        this.f_param[this.parent_id]['child'][this.f_index]['parent_id'] = this.parent_id;
+        this.f_param[this.parent_id]['child'][this.f_index]['child'] = false;
+        this.f_param[this.parent_id]['child'][this.f_index]['settings'] = {
+            'count_rows': this.count_rows,
+            'quantity': this.quantity,
+            'qtt_readonly': true,
+        };
+
         let new_child_index = Object.keys(this.f_param[parentIndex]['child']).length;
         this.f_param[parentIndex]['child'][new_child_index] = {
-            'params': {},
-            'child': {},
+            'params': {
+                'column': this.column
+            },
+            'child': false,
+            'parent_id': parentIndex,
             'settings': {
                 'count_rows': '',
                 'quantity': '',
-                'qtt_readonly': '',
-                'parentIndex':parentIndex
+                'qtt_readonly': ''
             }
+        };
+        this.updateFilterItemParams.emit(this.f_param);
+    }
+
+    saveParent() {
+        if (!this.checkQuantity()) {
+            return false;
         }
+        if (!this.checkRangeValue()) {
+            return false
+        }
+        // if(this.rangeValue){
+        //     this.value = this.rangeValue.toString();
+        // }
+
+        this.f_param[this.f_index] = {};
+        this.updateFilterItemParams.emit(this.f_param);
+
+        this.f_param[this.f_index]['column'] = this.column;
+        this.f_param[this.f_index]['params'] = {
+            'column': this.column,
+            'operator': this.operator,
+            'value': this.value,
+            'quantity': this.calculateQuantity(),
+        };
+        this.f_param[this.f_index]['settings'] = {
+            'count_rows': this.count_rows,
+            'quantity': this.quantity,
+            'qtt_readonly': true,
+        };
+        this.updateFilterItemParams.emit(this.f_param);
+    }
+
+    saveChild() {
+
+        this.f_param[this.parent_id]['child'][this.f_index] = {};
+        this.updateFilterItemParams.emit(this.f_param);
+
+        this.f_param[this.parent_id]['child'][this.f_index]['column'] = this.column;
+        this.f_param[this.parent_id]['child'][this.f_index]['params'] = {
+            'column': this.column,
+            'operator': this.operator,
+            'value': this.value,
+            'quantity': this.calculateQuantity(),
+        };
+        this.f_param[this.parent_id]['child'][this.f_index]['parent_id'] = this.parent_id;
+        this.f_param[this.parent_id]['child'][this.f_index]['child'] = false;
+        this.f_param[this.parent_id]['child'][this.f_index]['settings'] = {
+            'count_rows': this.count_rows,
+            'quantity': this.quantity,
+            'qtt_readonly': true,
+        };
+        this.updateFilterItemParams.emit(this.f_param);
+
+    }
+
+    addLastChild(parent_id, child_id) {
+        if (!this.checkQuantity()) {
+            return false;
+        }
+        if (!this.checkRangeValue()) {
+            return false
+        }
+        this.f_param[this.parent_id]['child'][child_id]['child'][this.f_index]['column'] = this.column;
+        this.f_param[this.parent_id]['child'][child_id]['child'][this.f_index]['params'] = {
+            'column': this.column,
+            'operator': this.operator,
+            'value': this.value,
+            'quantity': this.calculateQuantity(),
+        };
+        this.f_param[this.parent_id]['child'][child_id]['child'][this.f_index]['parent_id'] = this.parent_id;
+        this.f_param[this.parent_id]['child'][child_id]['child'][this.f_index]['child'] = false;
+        this.f_param[this.parent_id]['child'][child_id]['child'][this.f_index]['child_id'] = child_id;
+        this.f_param[this.parent_id]['child'][child_id]['child'][this.f_index]['settings'] = {
+            'count_rows': this.count_rows,
+            'quantity': this.quantity,
+            'qtt_readonly': true,
+        };
+
+        let last_index = Object.keys(this.f_param[this.parent_id]['child'][child_id]['child']).length;
+        this.f_param[this.parent_id]['child'][child_id]['child'][last_index] = {
+            'params': {
+                'column': this.column
+            },
+            'child': false,
+            'parent_id': parent_id,
+            'child_id': child_id,
+            'settings': {
+                'count_rows': '',
+                'quantity': '',
+                'qtt_readonly': ''
+            }
+        };
+        this.updateFilterItemParams.emit(this.f_param);
+    }
+
+    saveLastChild(){
+        this.f_param[this.parent_id]['child'][this.child_id]['child'][this.f_index] = {};
+        this.updateFilterItemParams.emit(this.f_param);
+
+        this.f_param[this.parent_id]['child'][this.child_id]['child'][this.f_index]['column'] = this.column;
+        this.f_param[this.parent_id]['child'][this.child_id]['child'][this.f_index]['params'] = {
+            'column': this.column,
+            'operator': this.operator,
+            'value': this.value,
+            'quantity': this.calculateQuantity(),
+        };
+        this.f_param[this.parent_id]['child'][this.child_id]['child'][this.f_index]['parent_id'] = this.parent_id;
+        this.f_param[this.parent_id]['child'][this.child_id]['child'][this.f_index]['child'] = false;
+        this.f_param[this.parent_id]['child'][this.child_id]['child'][this.f_index]['settings'] = {
+            'count_rows': this.count_rows,
+            'quantity': this.quantity,
+            'qtt_readonly': true,
+        };
+        this.updateFilterItemParams.emit(this.f_param);
     }
 }
