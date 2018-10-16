@@ -1,5 +1,6 @@
 import {Component, Input, OnInit} from '@angular/core';
 import {animate, style, transition, trigger} from "@angular/animations";
+import {DataService} from "../data.service";
 
 @Component({
   selector: 'app-email-file',
@@ -42,7 +43,7 @@ export class EmailFileComponent implements OnInit {
       return this.dataset_id_;
   }
 
-  constructor() { }
+  constructor(private data_service : DataService) { }
 
   ngOnInit() {
 
@@ -95,6 +96,13 @@ export class EmailFileComponent implements OnInit {
     ) || this.addresses.length == 0) {
       this.cantSendMessage = true;
       setTimeout(() => {this.cantSendMessage = false}, 3000);
+    }
+    else {
+        this.data_service.sendFile(this.dataset_id_, this.addresses)
+            .subscribe(
+                (res) => console.log("File sent successfully"),
+                (error) => console.error(error)
+            );
     }
   }
 
