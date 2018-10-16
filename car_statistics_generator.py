@@ -250,7 +250,7 @@ if __name__ == '__main__':
     generator = ExcelGenerator()
     generator.read_configs(sys.argv[1])
 
-    if len(sys.argv == 3):
+    if len(sys.argv) == 3:
         if sys.argv[2] == 'csv':
             generator.save_csv('result.csv')
         elif sys.argv[2] == 'xls':

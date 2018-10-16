@@ -4,10 +4,14 @@ Different utils like small functions that a used in different scripts
 
 import os
 import pandas as pd
+import pickle
+import time
+import xlrd
+import xlsxwriter
 
 from io import BytesIO
-from app import app
-from app.models import File
+from app import app, logger
+from app.models import Dataset
 from app.models.files import File
 from hashlib import md5
 from werkzeug.utils import secure_filename
@@ -110,19 +114,38 @@ def get_user_file(file_id, user_id):
     return file_path
 
 
-def dataset_to_excel(dataset):
+def dataset_to_excel(dataset_id):
+    """
+    Writes dataset to excel file in-memory without creating excel file in the local storage
+    :param dataset_id: id of dataset to create
+    :return: BytesIO object or None
+    """
     try:
+        t1 = time.time()
+        logger.warning("Start creating file: %s", t1)
+        dataset = Dataset.query.get(dataset_id)
         byte_writer = BytesIO()
-        excel_writer = pd.ExcelWriter(byte_writer, engine='xlwt')
+
+        excel_writer = xlsxwriter.Workbook(byte_writer)
+        sheet = excel_writer.add_worksheet('Sheet1')
         path_to_file = get_user_file(dataset.file_id, dataset.user_id)
-        df = pd.read_excel(path_to_file)
-        df = df.iloc[dataset.included_rows]
-        df.to_excel(excel_writer, sheet_name='Sheet1', index=False)
-        excel_writer.save()
+
+        with open(serialized_file(path_to_file), 'rb') as file:
+            df = pickle.load(file)
+
+        df = df.iloc[dataset.included_rows].values.tolist()
+
+        for i in range(len(dataset.included_rows)):
+            for j in range(len(df[i])):
+                sheet.write(i, j, df[i][j])
+
+        excel_writer.close()
         byte_writer.seek(0)
+        logger.warning("Finished creating file in %s", time.time() - t1)
         return byte_writer
-    except:
-        return None
+    except Exception as e:
+        print(e)
+
 
 
 def serialize(file):
@@ -132,11 +155,13 @@ def serialize(file):
     Serialized file has the same name but another extension.
     To get this file instead excel file use function serialized_file()
     :param file: path to file to serialize
-    :return: create serialized DataFrame
+    :return: shape of DataFrame
     """
     file_pth = ext_free(file)
     df_to_serialize = pd.read_excel(file)
-    return df_to_serialize.to_pickle(f'{file_pth}.pkl')
+    shape = df_to_serialize.shape
+    df_to_serialize.to_pickle(f'{file_pth}.pkl')
+    return shape
 
 
 def serialized_file(file):

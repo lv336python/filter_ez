@@ -32,7 +32,8 @@ def download(dataset_id):
     if not dataset.filter_id:
         return send_file(utils.get_user_file(dataset.file_id, dataset.user_id))
 
-    file_data = utils.dataset_to_excel(dataset)  # Creates BytesIO objects with dataset
+    file_data = utils.dataset_to_excel(dataset.id)  # Creates BytesIO objects with dataset
+
     if file_data:
         logger.info(f"User %s successfully downloaded dataset %s", user_id, dataset_id)
         return send_file(file_data,
