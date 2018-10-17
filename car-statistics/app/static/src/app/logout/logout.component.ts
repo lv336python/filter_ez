@@ -3,6 +3,7 @@ import {AuthService} from "../auth.service";
 import {ActivatedRoute, Router} from "@angular/router";
 import {User} from "../models/user";
 import {SocketService} from "../socket.service";
+import {EventEmitterService} from "../event-emitter.service";
 
 @Component({
     selector: 'app-logout',
@@ -16,8 +17,7 @@ export class LogoutComponent implements OnInit {
     constructor(
         private auth_: AuthService,
         private router: Router,
-        private route: ActivatedRoute,
-        private socket: SocketService
+        private emitter: EventEmitterService
     ) {
     }
 
@@ -25,7 +25,7 @@ export class LogoutComponent implements OnInit {
         
         this.auth_.toLogout(null).subscribe(
             res => {
-                this.socket.disconnect();
+                this.emitter.sendMessage("loggedOut");
                 this.router.navigate([this.returnUrl]);
             },
         )

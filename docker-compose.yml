@@ -50,6 +50,7 @@ services:
     entrypoint: ["celery", "worker", "-l", "info", "-A", "app.celery", "-Q", "email"]
     environment:
       C_FORCE_ROOT: "True"
+      DOCKER: 1
     volumes:
       - './car-statistics:/car-statistics'
     depends_on:

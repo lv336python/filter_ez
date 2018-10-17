@@ -1,0 +1,12 @@
+<div>
+    <h3>Your files:</h3>
+    <label>Search: <input [(ngModel)]="term" placeholder="name, size, or any information"></label>  
+    <app-user-file *ngFor="let item of userfiles|filter:term ; let i = index"[file_index]="i" [userfile]="item"></app-user-file>
+</div>
+<div>
+    <input
+        style="display: none"
+        type="file" (change)="onFileSelected($event)"
+        class="custom-file"
+        #fileInput>
+</div>
