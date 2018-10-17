@@ -5,7 +5,6 @@
 <div>
     <app-file-upload-item *ngFor="let item of uploadFiles"
                      [uploadfile]="item"
-                     [id]="item[i]"
                      (removeItem)="removeItemFromUpload($event)"></app-file-upload-item>
 </div>
 <div>

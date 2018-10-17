@@ -11,7 +11,6 @@ import {FileUploadService} from '../../_services/file-upload.service';
 export class FileUploadConfirmComponent implements OnInit {
     @Input() uploadFiles: File[];
     @Output() onUploadFiles: EventEmitter<Array<File>> = new EventEmitter<Array<File>>();
-    selected: Array<File>;
 
     constructor(private modalService: ModalService,
                 private http: HttpClient,
@@ -19,19 +18,19 @@ export class FileUploadConfirmComponent implements OnInit {
     }
 
     ngOnInit() {
-        this.selected = Array.from(this.uploadFiles);
     }
 
     closeModal(id: string) {
         this.modalService.close(id);
+
     }
 
     removeItemFromUpload(file) {
-        this.uploadService.onRemove(this.selected, file);
+        this.uploadService.onRemove(this.uploadFiles, file);
     }
 
     onUpload() {
-    this.onUploadFiles.emit(this.selected);
-    console.log(this.selected);
+        this.onUploadFiles.emit(this.uploadFiles);
+        console.log(this.uploadFiles);
   }
 }

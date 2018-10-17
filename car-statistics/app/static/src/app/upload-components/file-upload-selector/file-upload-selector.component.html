@@ -1,13 +1,16 @@
 <div>
     <input style="display: none"
-            type="file" (change)="onFileSelected($event); openModal('custom-modal-1')" multiple
+            type="file" #files (change)="onFileSelected(files, $event);
+                                         openModal('custom-modal-1')"
+            multiple
             class="custom-file"
             accept=".csv,
                     application/vnd.openxmlformats-officedocument.spreadsheetml.sheet,
                     application/vnd.ms-excel"
             #fileInput>
-    <button type="button" (click)="fileInput.click()">+</button>
-    <button type="button" (click)="clearSelectedFiles($event)">-</button>
+    <div class="file-add-button">
+        <button type="button" (click)="fileInput.click()">+</button>
+    </div>
 </div>
 <app-modal id="custom-modal-1">
     <div class="custom-modal">

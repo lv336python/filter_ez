@@ -5,7 +5,6 @@ app-modal {
 }
 .custom-modal {
   /* modal container fixed across whole screen */
-
   position: fixed;
   top: 0;
   right: 0;
@@ -19,6 +18,8 @@ app-modal {
   overflow: auto;
 }
 .custom-modal .custom-modal-body {
+  display: inline-block;
+  position: center;
   padding: 20px;
   background: #fff;
   /* margin exposes part of the modal background */
@@ -40,4 +41,9 @@ app-modal {
   /* z-index must be below .modal and above everything else  */
 
   z-index: 900;
+}
+
+.file-add-button {
+  position: center;
+  padding: 20px;
 }

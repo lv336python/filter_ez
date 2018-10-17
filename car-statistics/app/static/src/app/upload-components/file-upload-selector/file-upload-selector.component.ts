@@ -9,7 +9,7 @@ import {ModalService} from '../../_services/modal.service';
     styleUrls: ['./file-upload-selector.component.css']
 })
 export class FileUploadSelectorComponent implements OnInit {
-    selectedFile: File = null;
+    selectedFile: Array<File>;
     @Input() uploads: Array<File>;
     @Output() fileUploaded: EventEmitter<number> = new EventEmitter();
 
@@ -18,14 +18,13 @@ export class FileUploadSelectorComponent implements OnInit {
         private modalService: ModalService,
     ) {
     }
-    clearSelectedFiles() {
-        this.selectedFile = null;
-    }
 
-    onFileSelected(event) {
-        this.selectedFile = <File>event.target.files;
-        console.log(this.selectedFile);
-
+    onFileSelected(files, event) {
+        if (files.value != null) {
+            this.selectedFile = Array.from(event.target.files);
+            console.log(this.selectedFile);
+            files.value = null;
+        }
     }
 
     ngOnInit() {
