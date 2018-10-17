@@ -12,7 +12,7 @@ from werkzeug.security import check_password_hash
 from app import app, login_manager
 from app.models.user import User
 from app.services.validate_service import data_validator
-
+from flask.ext.api import status
 
 @login_manager.user_loader
 def load_user(user_id):
@@ -39,32 +39,32 @@ def login():
     if 'user_id' in session:
         return json.dumps({
             'message': 'User is already logged in'
-        }), 401
+        }), status.HTTP_401_UNAUTHORIZED
 
     user = User.query.filter(User.email == data['email']).first()
 
     if not user:
         return json.dumps({
             'message': 'User not found'
-        }), 404
+        }), status.HTTP_404_NOT_FOUND
 
     if not user.confirmed:
         return json.dumps({
             'message': f"You need to confirm registration via email {user.email}"
-        }), 400
+        }), status.HTTP_400_BAD_REQUEST
 
     password = check_password_hash(pwhash=user.password, password=data['password'])
 
     if not password:
         return json.dumps({
             'message': 'You entered incorrect password'
-        }), 400
+        }), status.HTTP_400_BAD_REQUEST
 
     login_user(user)
 
     return json.dumps({
         'message': f'User: {data["email"]} is logged in'
-    }), 200
+    }), status.HTTP_200_OK
 
 
 @app.route('/api/logout', methods=['POST'])

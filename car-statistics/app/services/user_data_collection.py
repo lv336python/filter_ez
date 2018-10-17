@@ -39,7 +39,7 @@ def get_user_filters(user_id):
     :param user_id: user i
     :return: filters
     """
-    filters_ids = [dts['filter_id'] for dts in get_user_datasets(user_id) if type(dts['filter_id']) == int]
+    filters_ids = [dts['filter_id'] for dts in get_user_datasets(user_id) if isinstance(dts['filter_id'], int)]
     user_filters = [Filter.query.get(id) for id in set(filters_ids)]
     filters = [{
         'id': item.id,
