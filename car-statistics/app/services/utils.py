@@ -6,13 +6,13 @@ import os
 import pandas as pd
 import pickle
 import time
-import xlrd
 import xlsxwriter
 
 from io import BytesIO
-from app import app, logger, db
-from app.models import Dataset
-from app.models.files import File
+from app import app, logger,db
+from app.models import Dataset, File
+from app.services.mail_service import notify_admin
+from app.helper.user_file_manager import UserFilesManager
 from hashlib import md5
 from werkzeug.utils import secure_filename
 import math
@@ -54,11 +54,7 @@ def user_dir(user_id):
     :param user_id: id of file owner(user that uploaded this file)
     :return: path to the file directory like /user/file/
     """
-    upload_dir = os.path.join(os.path.dirname(app.root_path),
-                              app.config['DATA_FOLDER'],
-                              app.config['UPLOAD_FOLDER'])
-    directory = os.path.join(upload_dir, str(user_id))
-    return directory
+    return os.path.join(app.config['UPLOAD_FOLDER'], str(user_id))
 
 
 def save_path(directory, filename, user_id):
@@ -130,7 +126,7 @@ def get_user_file(file_id, user_id):
     return file_path
 
 
-def dataset_to_excel(dataset_id):
+def dataset_to_excel(dataset):
     """
     Writes dataset to excel file in-memory without creating excel file in the local storage
     :param dataset_id: id of dataset to create
@@ -139,14 +135,15 @@ def dataset_to_excel(dataset_id):
     try:
         t1 = time.time()
         logger.warning("Start creating file: %s", t1)
-        dataset = Dataset.query.get(dataset_id)
-        byte_writer = BytesIO()
 
+        file_manager = UserFilesManager(dataset.user_id)
+        path_to_file = file_manager.get_serialized_file_path(dataset.file_id)
+
+        byte_writer = BytesIO()
         excel_writer = xlsxwriter.Workbook(byte_writer)
         sheet = excel_writer.add_worksheet('Sheet1')
-        path_to_file = get_user_file(dataset.file_id, dataset.user_id)
 
-        with open(serialized_file(path_to_file), 'rb') as file:
+        with open(path_to_file, 'rb') as file:
             df = pickle.load(file)
         logger.warning("Finished creating file in %s", time.time() - t1)
         df = df.iloc[dataset.included_rows].values.tolist()
@@ -160,8 +157,10 @@ def dataset_to_excel(dataset_id):
         # logger.warning("Finished creating file in %s", time.time() - t1)
         return byte_writer
     except Exception as e:
-        print(e)
-
+        logger.error("Error occurred when tried to create a byteIO"
+                     " object for dataset %d: %s", dataset.id, e)
+        notify_admin(f"Error occurred when tried to create a byteIO"
+                     f" object for dataset {dataset.id}: {e}", 'ERROR')
 
 def serialize(file):
     """
