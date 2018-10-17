@@ -54,6 +54,6 @@ def send_user_file(path, user_id):
     """
     email = User.query.get(user_id).email
     send_result_to_mail([email],
-                        'result.xls',
+                        'result.xlsx',
                         open(path, 'rb').read())
     return 'File send'
