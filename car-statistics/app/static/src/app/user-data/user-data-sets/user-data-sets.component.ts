@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import {UserDataService} from '../../_services/user-data.service'
-import {DataSet} from '../../models/data';
+import {DataSet} from '../../_models/data';
 
 @Component({
   selector: 'app-user-data-sets',

@@ -11,7 +11,6 @@ import {LogoutComponent} from "./logout/logout.component"
 import {ResetPasswordComponent} from "./reset-password/reset-password.component"
 import {ConfirmResetComponent} from "./confirm-reset/confirm-reset.component"
 import {FilterComponent} from "./filter/filter.component";
-import {FileUploadsComponent} from "./file-uploads/file-uploads.component";
 import {UserDataComponent} from "./user-data/user-data.component";
 
 const routes: Routes = [

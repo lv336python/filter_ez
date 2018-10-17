@@ -1,5 +1,5 @@
 import {Component, Input, OnInit} from '@angular/core';
-import {File} from '../../../models/data';
+import {File} from '../../../_models/data';
 import {from} from 'rxjs';
 import {UserFileService} from "../../../user-file.service";
 

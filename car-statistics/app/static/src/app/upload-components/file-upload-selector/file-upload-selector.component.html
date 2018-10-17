@@ -1,0 +1,22 @@
+<div>
+    <input style="display: none"
+            type="file" (change)="onFileSelected($event); openModal('custom-modal-1')" multiple
+            class="custom-file"
+            accept=".csv,
+                    application/vnd.openxmlformats-officedocument.spreadsheetml.sheet,
+                    application/vnd.ms-excel"
+            #fileInput>
+    <button type="button" (click)="fileInput.click()">+</button>
+    <button type="button" (click)="clearSelectedFiles($event)">-</button>
+</div>
+<app-modal id="custom-modal-1">
+    <div class="custom-modal">
+        <div class="custom-modal-body">
+            <app-upload-confirm
+                    *ngIf="selectedFile"
+                    [uploadFiles]="selectedFile">
+            </app-upload-confirm>
+        </div>
+    </div>
+    <div class="custom-modal-background"></div>
+</app-modal>

@@ -1,5 +1,5 @@
 import {Component, Input, OnInit} from '@angular/core';
-import {DataSet} from '../../../models/data';
+import {DataSet} from '../../../_models/data';
 
 @Component({
   selector: 'app-user-data-set',

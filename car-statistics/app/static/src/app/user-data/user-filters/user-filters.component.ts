@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import {Filter} from '../../models/data';
+import {Filter} from '../../_models/data';
 import {UserDataService} from '../../_services/user-data.service';
 
 @Component({
