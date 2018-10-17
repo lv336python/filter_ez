@@ -5,7 +5,7 @@ Module for login view testing
 import mock
 from werkzeug.security import check_password_hash
 
-from .fake_data import FakeUser, FakeUser1
+from .fake_data import FakeUser
 
 
 from app.models import User

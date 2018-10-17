@@ -37,7 +37,7 @@ export class NotificationComponent implements OnInit, OnDestroy {
     messages = [];
     connection;
     toState = [];
-
+    count = 0;
     changeState(index: number): void{
         this.toState[index] = 'state2';
     }
@@ -54,15 +54,30 @@ export class NotificationComponent implements OnInit, OnDestroy {
             this.connection = this.socket.getMessages()
                 .subscribe(
                     data => {
-                        this.messages.push(data);
-                                if(this.messages.length) {
-                                setTimeout(() => {
-                                this.messages.shift();
-                                this.toState.shift();
-                                }, 10000)}
+                        let elem = {'id': this.count,
+                                    'msg': data['data']};
+
+                        this.messages.push(elem);
+                        console.log(this.messages);
+                        console.log(this.count)
+                        setTimeout(() => {
+                            this.removeMessage(this.count);
+                        }, 10000);
+                        this.count++;
+                        console.log(this.count)
+
                     }
                 );
         }
+    }
+
+
+    removeMessage(id) {
+        this.messages.forEach(function (elem, i, arr) {
+            if (elem.id = id) {
+                arr.splice(i, 1)
+            }
+        })
     }
 
     ngOnDestroy() {
