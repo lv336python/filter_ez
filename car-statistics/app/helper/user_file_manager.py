@@ -9,7 +9,7 @@ from hashlib import md5
 
 import pandas as pd
 
-from app import app, db
+from app import app, db, logger
 from app.models import Dataset, File  # Remove when DBM is ready
 
 
@@ -25,6 +25,8 @@ class UserFilesManager:
         os.makedirs(self.files_dir, exist_ok=True)
 
         self.files = set()
+        for dataset in Dataset.query.filter(Dataset.user_id == self.user_id):
+            self.files.add(File.query.filter(File.id == dataset.id).first().path)
 
     def upload_file(self, file):
         """
@@ -34,12 +36,23 @@ class UserFilesManager:
         :param file: FileStorage
         :return: IDs of created data set and file
         """
+        # Get check sum of file
+        hashed_file_name = f'{self.get_file_checksum(file)}'
+
         # Change file name and save it under this name
-        hashed_file_name = md5(f'{str(datetime.now())}{file.filename}'.encode()).hexdigest()
         file_extension = self.get_file_extension(file.filename)
         file_full_name = f'{hashed_file_name}.{file_extension}'
-
         file_path = os.path.join(self.files_dir, file_full_name)
+
+        # Send existing file instead of uploading a new one
+        if file_full_name in self.files:
+            _file = File.query.filter(File.path == file_full_name).first()
+            _dataset = Dataset.query.filter(Dataset.file_id == _file.id).first()
+            logger.info('User {0} uploaded which already existed under id {1}'
+                        .format(self.user_id, _file.id))
+            return 'Uploaded', _file.id, _dataset.id
+
+        file.seek(0)
         file.save(file_path)
 
         # Serialize uploaded file as DataFrame (Update when DataFrame interface is ready)
@@ -58,7 +71,7 @@ class UserFilesManager:
         new_dataset = Dataset(user_id=self.user_id, file_id=new_file.id)
         db.session.add(new_dataset)
         db.session.commit()
-
+        logger.info('User {0} uploaded a new file {1}'.format(self.user_id, new_file.id))
         return 'Uploaded', new_file.id, new_dataset.id
 
     def serialize(self, file_full_name):
@@ -84,10 +97,6 @@ class UserFilesManager:
         :param file_id:
         :return: path to file or None
         """
-        if not self.files:
-            for dataset in Dataset.query.filter(Dataset.user_id == self.user_id):
-                self.files.add(File.query.filter(File.id == dataset.id).first())
-
         file = File.query.get(file_id)
         return file.path if file in self.files else None
 
@@ -163,3 +172,10 @@ class UserFilesManager:
         if extension in app.config['ALLOWED_EXTENSIONS']:
             return True
         return False
+
+    @classmethod
+    def get_file_checksum(cls, file):
+        hash_md5 = md5()
+        for chunk in iter(lambda: file.read(4096), b""):
+            hash_md5.update(chunk)
+        return hash_md5.hexdigest()

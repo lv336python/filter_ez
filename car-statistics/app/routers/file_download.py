@@ -40,7 +40,7 @@ def download(dataset_id):
                          )
 
     file_data = utils.dataset_to_excel(dataset)  # Creates BytesIO objects with dataset
-
+    
     if file_data:
         logger.info(f"User %s successfully downloaded dataset %s", user_id, dataset_id)
         return send_file(file_data,

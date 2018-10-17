@@ -45,6 +45,7 @@ from .routers import (
     datasets,
     delete_file,
     file_data,
+    temp_link,
     file_data,
     file_download,
     file_upload,
