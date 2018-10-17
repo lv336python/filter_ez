@@ -9,9 +9,9 @@ try:
 except EnvironmentError:
     pass
 
-APPLICATION_ROOT = os.path.abspath(os.path.dirname(__file__))
-BASEDIR = os.path.join(APPLICATION_ROOT, '..')
+BASEDIR = os.path.dirname(os.path.abspath(os.path.dirname(__file__)))
 
+IS_IN_DOCKER = os.environ.get('DOCKER', False)
 
 class Config:
     """
@@ -21,7 +21,13 @@ class Config:
     SECURITY_PASSWORD_SALT = 'my_precious_two'
 
     SQLALCHEMY_TRACK_MODIFICATIONS = False
-    SQLALCHEMY_DATABASE_URI = "postgresql://car_stats:carstatistics@postgres:5432/car_stats"
+
+    if IS_IN_DOCKER:
+        SQLALCHEMY_DATABASE_URI = "postgresql://car_stats:carstatistics@postgres:5432/car_stats"
+    else:
+        SQLALCHEMY_DATABASE_URI = f"postgresql://{DATABASE['POSTGRES_USER']}:" \
+                                  f"{DATABASE['POSTGRES_PASSWORD']}@" \
+                                  f"{DATABASE['HOST']}:{DATABASE['PORT']}/{DATABASE['DB_NAME']}"
 
     MIGRATION_DIR = os.path.join(BASEDIR, 'migrations')
     # mail settings
@@ -47,7 +53,11 @@ class Config:
 
     #Celery configurations
     RESULT_BACKEND = 'rpc://'
-    BROKER_URL = 'amqp://rabbitmq:rabbitmq@rabbitmq:5672/'
+
+    if IS_IN_DOCKER:
+        BROKER_URL = 'amqp://rabbitmq:rabbitmq@rabbitmq:5672/'
+    else:
+        BROKER_URL = 'amqp://guest@localhost//'
 
     CELERY_ACCEPT_CONTENT = ['json', 'pickle']
     CELERY_ROUTES = {
