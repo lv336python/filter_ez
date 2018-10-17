@@ -21,4 +21,5 @@ def make_logger(file_path):
     logger.addHandler(console_handler)
     logger.addHandler(file_handler)
     logger.setLevel(logging.INFO)
+
     return logger
