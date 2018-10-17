@@ -1,5 +1,5 @@
 {
-  "name": "angular-tour-of-heroes",
+  "name": "cstats",
   "version": "0.0.0",
   "scripts": {
     "ng": "ng",
@@ -27,6 +27,7 @@
     "bootstrap": "^4.0.0-beta.2",
     "core-js": "^2.5.4",
     "font-awesome": "^4.7.0",
+    "ng2-search-filter": "^0.4.7",
     "plotly.js": "^1.41.2",
     "rxjs": "^6.0.0",
     "rxjs-compat": "^6.3.3",

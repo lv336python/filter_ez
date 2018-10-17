@@ -10,6 +10,8 @@ export class DataService {
 
     get_statistics_url = 'api/statistics/';
     get_rows_url = 'api/get_rows/';
+    send_dataset_on_email = 'api/send_file/';
+
 
     constructor(private _http: HttpClient) { }
 
@@ -23,5 +25,9 @@ export class DataService {
 
     getRows(dataset_id, number_of_rows: number): Observable<any> {
         return this._http.get<any>(this.get_rows_url+dataset_id+'/'+number_of_rows);
+    }
+
+    sendFile(dataset_id: number, emails:  Array<string>) {
+        return this._http.post<any>(this.send_dataset_on_email+dataset_id, {'emails': emails});
     }
 }

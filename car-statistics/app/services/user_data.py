@@ -8,17 +8,20 @@ from app.models.files import File, Dataset
 from app.services.utils import create_dir, user_dir,  save_path, attributes, serialize
 
 
-def rewrite_file(file, file_path):
+def rewrite_file(file, path):
     """
     :param file:
-    :param file_path:
+    :param path:
     :return:
     """
-    file.save(file_path)  # saving file to filesystem rewrites file which exist
-    file_attr = attributes(file_path)  # getting attributes from file
-    name = os.path.basename(file_path)
+    file.save(path)  # saving file to filesystem rewrites file which exist
+    shape = serialize(path)
+    file_attr = attributes(path)  # getting attributes from file
+    file_attr['name'] = file.filename
+    file_attr['rows'] = shape[0]
+    name = os.path.basename(path)
     upd_file = File.query.filter_by(path=name).first()  # getting file data from DB to be updated
-    upd_file.attributes = {"loaded": "Updated"}  # updating record in DB
+    upd_file.attributes = file_attr  # updating record in DB
     db.session.commit()
     return upd_file.id
 
@@ -30,6 +33,7 @@ def upload_file(file, user_id):
     :param user_id: id of User uploading file
     :return: File and DataSet id's
     """
+
     upload_dir = user_dir(user_id)
     path = save_path(upload_dir, file.filename, user_id)
     if os.path.exists(path):
@@ -40,8 +44,10 @@ def upload_file(file, user_id):
     # filesystem manipulation
     create_dir(upload_dir)  # creates directory recursively if not exist
     file.save(path)  # saving file to filesystem
+    shape = serialize(path)
     file_attr = attributes(path)  # getting attributes from file
-
+    file_attr['name'] = file.filename
+    file_attr['rows'] = shape[0]
     # db manipulation
     new_file = File(path=os.path.basename(path), attributes=file_attr)  # adding uploaded File to DB
     db.session.add(new_file)
@@ -50,5 +56,4 @@ def upload_file(file, user_id):
     db.session.add(new_dataset)
     db.session.commit()
 
-    serialize(path)
     return 'Uploaded', new_file.id, new_dataset.id
