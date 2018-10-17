@@ -1,0 +1,91 @@
+<div class="jumbotron">
+    <div class="row justify-content-md-center">
+        <div class="col col-md-auto">
+            <h2 class="display-4">Filtering data section</h2>
+            <select class="form-control" (change)="selectFile($event.target.value)">
+                <option value="" disabled selected>Chose file</option>
+                <option *ngFor="let file of files" value="{{ file[0] }}">
+                    {{ file[2].name }}
+                </option>
+            </select>
+            <hr class="my-4">
+            <input type="text" placeholder="Filter name"
+                   [className]="valid_filter_name ? 'form-control' : 'form-control is-invalid'"
+                   [ngModel]="filter_name"
+                   (ngModelChange)="setFilterName($event)"
+            >
+        </div>
+    </div>
+</div>
+<table class="table table-hover">
+    <thead>
+    <tr>
+        <th class="per30" scope="col">First</th>
+        <th class="per60" scope="col">Second</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr *ngFor="let index of  filter_params | keyvalue">
+        <td class="per30">
+            <filter-item
+                    [columns]="columns"
+                    [f_index]="index.key"
+                    [file_id]="file_id"
+                    [child]="false"
+                    [parent_id]="false"
+                    [child_id]="false"
+                    [totalRows]="totalRows"
+                    [metadata]="metadata"
+                    [f_param]="filter_params"
+                    (updateFilterItemParams)="updateFilterParams($event)"
+            ></filter-item>
+        </td>
+        <td>
+            <table *ngIf="index.value.child; else chl" class="table table-hover">
+                <tr *ngFor="let ch_index of  index.value.child | keyvalue">
+                    <td>
+                        <filter-item
+                                [columns]="columns"
+                                [f_index]="ch_index.key"
+                                [file_id]="file_id"
+                                [child]="'first'"
+                                [parent_id]="index.key"
+                                [child_id]="false"
+                                [totalRows]="index.value.params.quantity"
+                                [metadata]="metadata"
+                                [f_param]="filter_params"
+                                (updateFilterItemParams)="updateFilterParams($event)"
+                        ></filter-item>
+                    </td>
+                    <td>
+                        <table *ngIf="ch_index.value.child; else last_child" class="table table-hover">
+                            <tr *ngFor="let ls_ch_index of  ch_index.value.child | keyvalue">
+                                <td>
+                                    <filter-item
+                                            [columns]="columns"
+                                            [f_index]="ls_ch_index.key"
+                                            [file_id]="file_id"
+                                            [child]="'last'"
+                                            [parent_id]="index.key"
+                                            [child_id]="ch_index.key"
+                                            [totalRows]="ch_index.value.params.quantity"
+                                            [metadata]="metadata"
+                                            [f_param]="filter_params"
+                                            (updateFilterItemParams)="updateFilterParams($event)"
+                                    ></filter-item>
+                                </td>
+                            </tr>
+                        </table>
+                        <ng-template #last_child>
+                            <button type="button" class="btn btn-success" (click)="addLastChild(index.key, ch_index.key)">Add Last Child</button>
+                        </ng-template>
+                    </td>
+                </tr>
+            </table>
+            <ng-template #chl>
+                <button type="button" class="btn btn-success" (click)="addChild(index.key)">Add Child</button>
+            </ng-template>
+        </td>
+    </tr>
+    </tbody>
+</table>

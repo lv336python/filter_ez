@@ -28,8 +28,7 @@ export class FilterComponent implements OnInit {
     }
 
     ngOnInit() {
-        this.getFiles();
-
+        // this.getFiles();
     }
 
     addElement(): void {
@@ -57,14 +56,7 @@ export class FilterComponent implements OnInit {
         this.filter_params.push(data);
     }
 
-    getFiles() {
-        this.http
-            .post('/api/get_files', '')
-            .subscribe(res => this.files = res,
-                error => {
-                    console.log(error);
-                });
-    }
+
 
     selectFile(id) {
         this.file_id = id;
