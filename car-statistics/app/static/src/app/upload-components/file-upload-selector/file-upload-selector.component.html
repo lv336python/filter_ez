@@ -12,12 +12,16 @@
         <button type="button" (click)="fileInput.click()">+</button>
     </div>
 </div>
+<div *ngIf="filesToUpload">
+    <app-file-upload-process *ngFor="let item of filesToUpload" [fileUpload]="item"></app-file-upload-process>
+</div>
 <app-modal id="custom-modal-1">
     <div class="custom-modal">
         <div class="custom-modal-body">
             <app-upload-confirm
                     *ngIf="selectedFile"
-                    [uploadFiles]="selectedFile">
+                    [uploadFiles]="selectedFile"
+                    (onUploadFiles)="onUploadFiles($event)">
             </app-upload-confirm>
         </div>
     </div>

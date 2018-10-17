@@ -1,5 +1,4 @@
 import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
-import {HttpClient} from '@angular/common/http';
 import {ModalService} from '../../_services/modal.service';
 
 
@@ -10,11 +9,9 @@ import {ModalService} from '../../_services/modal.service';
 })
 export class FileUploadSelectorComponent implements OnInit {
     selectedFile: Array<File>;
-    @Input() uploads: Array<File>;
-    @Output() fileUploaded: EventEmitter<number> = new EventEmitter();
+    filesToUpload: Array<File>;
 
     constructor(
-        private http: HttpClient,
         private modalService: ModalService,
     ) {
     }
@@ -32,5 +29,9 @@ export class FileUploadSelectorComponent implements OnInit {
 
     openModal(id: string) {
         this.modalService.open(id);
+    }
+
+    onUploadFiles($event) {
+        this.filesToUpload = $event;
     }
 }

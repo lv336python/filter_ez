@@ -1,6 +1,5 @@
 import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
 import {ModalService} from '../../_services/modal.service';
-import {HttpClient} from '@angular/common/http';
 import {FileUploadService} from '../../_services/file-upload.service';
 
 @Component({
@@ -13,7 +12,6 @@ export class FileUploadConfirmComponent implements OnInit {
     @Output() onUploadFiles: EventEmitter<Array<File>> = new EventEmitter<Array<File>>();
 
     constructor(private modalService: ModalService,
-                private http: HttpClient,
                 private uploadService: FileUploadService) {
     }
 
@@ -26,11 +24,15 @@ export class FileUploadConfirmComponent implements OnInit {
     }
 
     removeItemFromUpload(file) {
-        this.uploadService.onRemove(this.uploadFiles, file);
+        if (this.uploadFiles.length > 1) {
+            this.uploadService.onRemove(this.uploadFiles, file);
+        }
+        else {
+            this.closeModal('custom-modal-1')
+        }
     }
 
     onUpload() {
         this.onUploadFiles.emit(this.uploadFiles);
-        console.log(this.uploadFiles);
   }
 }

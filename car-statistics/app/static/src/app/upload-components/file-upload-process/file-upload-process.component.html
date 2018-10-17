@@ -1,3 +1,11 @@
-<p>
-  file-upload-process works!
-</p>
+<div>
+    {{ fileUpload.name }}
+    {{ fileUpload.size }}
+</div>
+<div class="row">
+    <div class="col-md-6">
+        <div class="upload-process-bar">
+            <app-process-bar [value]="status"></app-process-bar>
+        </div>
+    </div>
+</div>

@@ -38,6 +38,7 @@ import { ModalsComponent } from './_directives/modals.component';
 import { FileUploadItemComponent } from './upload-components/file-upload-item/file-upload-item.component';
 import {FileUploadService} from "./_services/file-upload.service";
 import {ModalService} from "./_services/modal.service";
+import { ProcessBarComponent } from './upload-components/process-bar/process-bar.component';
 
 @NgModule({
   declarations: [
@@ -69,6 +70,7 @@ import {ModalService} from "./_services/modal.service";
     FileUploadProcessComponent,
     ModalsComponent,
     FileUploadItemComponent,
+    ProcessBarComponent,
   ],
   imports: [
     BrowserModule,
