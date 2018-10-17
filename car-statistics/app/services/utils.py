@@ -134,7 +134,7 @@ def dataset_to_excel(dataset):
     """
     try:
         t1 = time.time()
-        logger.warning("Start creating file: %s", t1)
+        logger.info("Start creating file: %s", t1)
 
         file_manager = UserFilesManager(dataset.user_id)
         path_to_file = file_manager.get_serialized_file_path(dataset.file_id)
@@ -145,16 +145,14 @@ def dataset_to_excel(dataset):
 
         with open(path_to_file, 'rb') as file:
             df = pickle.load(file)
-        logger.warning("Finished creating file in %s", time.time() - t1)
         df = df.iloc[dataset.included_rows].values.tolist()
-        logger.warning("Finished creating file in %s", time.time() - t1)
         for i in range(len(dataset.included_rows)):
             for j in range(len(df[i])):
                 sheet.write(i, j, df[i][j])
 
         excel_writer.close()
         byte_writer.seek(0)
-        # logger.warning("Finished creating file in %s", time.time() - t1)
+        logger.info("Finished creating file in %s", time.time() - t1)
         return byte_writer
     except Exception as e:
         logger.error("Error occurred when tried to create a byteIO"
