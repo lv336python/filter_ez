@@ -39,17 +39,19 @@ logger = make_logger(app.config['LOG_FILE_PATH'])
 socketio = SocketIO(app, async_mode='eventlet', message_queue=app.config['BROKER_URL'])
 
 from .routers import (
-    main,
-    register,
-    confirm_email,
     auth,
-    reset_password,
+    confirm_email,
     confirm_reset,
-    file_upload,
-    file_download,
-    file_data,
-    notification,
-    filter,
-    file_data,
     datasets,
+    delete_file,
+    file_data,
+    file_data,
+    file_download,
+    file_upload,
+    filter,
+    main,
+    notification,
+    register,
+    reset_password,
+    user_data
 )
