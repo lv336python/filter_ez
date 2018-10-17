@@ -9,29 +9,28 @@ from flask import session
 from flask_login import login_required
 
 from app import app
-from app.services import utils, file_data
+from app.services import file_data
 from app.models import Dataset
 
 
-@app.route('/api/statistics/<dataset_id>', methods=["GET"])
+@app.route('/api/statistics/<int:dataset_id>', methods=["GET"])
 @login_required
 def get_statistics(dataset_id):
     """
     Returns json with statistics information about the file. This json contains
     rate of occurrences for each value of each column.
     :param dataset_id: id of data set
-    :return:
+    :return: json with data about how many records there are of each value for each column
     """
-    user_id = int(session['user_id'])
-    dataset = Dataset.query.filter(Dataset.id == dataset_id).first()
+    dataset = Dataset.query.get(dataset_id)
+    print(dataset)
     if not dataset:
         return json.dumps({'message': 'file does not exist'}), 404
 
-    if dataset.user_id != user_id:
+    if dataset.user_id != int(session['user_id']):
         return json.dumps({'message': 'access forbidden'}), 403
 
-    file_path = utils.get_user_file(dataset.file_id, user_id)
-    statistics = file_data.fields_statistics(file_path)
+    statistics = file_data.fields_statistics(dataset)
     return json.dumps(statistics), 200
 
 
@@ -40,18 +39,19 @@ def get_statistics(dataset_id):
 def get_rows(dataset_id, number_of_rows):
     """
     Returns first n rows of file
-    :param dataset_id:
+    :param dataset_id: Id of dataset to get first rows
     :param number_of_rows: amount of rows to return
-    :return:
+    :return: json with names of columns and first n rows of the table (list of lists)
     """
-    user_id = int(session['user_id'])
-    dataset = Dataset.query.filter(Dataset.id == int(dataset_id)).first()
+    dataset = Dataset.query.get(dataset_id)
+
     if not dataset:
         return json.dumps({'message': 'file does not exist'}), 404
 
-    if dataset.user_id != user_id:
+    if dataset.user_id != int(session['user_id']):
         return json.dumps({'message': 'access forbidden'}), 403
 
-    file_path = utils.get_user_file(dataset.file_id, user_id)
-    result = file_data.get_data_preview(file_path, number_of_rows)
-    return json.dumps(result), 200
+    number_of_rows = number_of_rows if 5 < number_of_rows < 100 else 10
+
+    preview = file_data.get_data_preview(dataset, number_of_rows)
+    return json.dumps(preview), 200

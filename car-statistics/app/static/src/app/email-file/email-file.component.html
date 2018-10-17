@@ -1,0 +1,38 @@
+<div class="send-to-email">
+    <div class="left-part">
+        <div class="list">
+            <div class="email-input-group" *ngFor='let index of address_indexes; let i = index' [@fieldAppear]>
+                <input [ngClass]="{
+                            'correct-email' : isValidEmail(addresses[i]),
+                            'wrong-email' : !isValidEmail(addresses[i]),
+                            'empty-email' : addresses[i].trim() == ''
+                        }"
+                       [(ngModel)]="addresses[i]"
+                       class="form-control email-field">
+                <button class="btn btn-default remove-button" (click)="removeField(i)">-</button>
+            </div>
+
+        </div>
+        <div class="warning-list">
+            <p *ngIf="cantCreateMessage" [@warnignAppear] class="warning">
+                    Wrong value in previous field. Can't create new
+            </p>
+            <p *ngIf="maxNumberOfFields" [@warnignAppear] class="warning">
+                Max number of fields
+            </p>
+            <p *ngIf="cantSendMessage && addresses.length > 1" [@warnignAppear] class="warning">
+                Can't send mail to these addresses
+            </p>
+            <p *ngIf="cantSendMessage && addresses.length == 1" [@warnignAppear] class="warning">
+                Can't send mail to this address
+            </p>
+            <p *ngIf="cantSendMessage && addresses.length == 0" [@warnignAppear] class="warning">
+                Add address to send the result
+            </p>
+        </div>
+    </div>
+    <div class="menu">
+        <button (click)="addField()" class="btn btn-default">Add field</button>
+        <button (click)="sendResult()" class="btn btn-default">Send</button>
+    </div>
+</div>

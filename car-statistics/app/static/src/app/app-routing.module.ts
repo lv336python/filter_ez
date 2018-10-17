@@ -12,6 +12,7 @@ import {ResetPasswordComponent} from "./reset-password/reset-password.component"
 import {ConfirmResetComponent} from "./confirm-reset/confirm-reset.component"
 import {FilterComponent} from "./filter/filter.component";
 import {FileUploadsComponent} from "./file-uploads/file-uploads.component";
+import {UserDataComponent} from "./user-data/user-data.component";
 
 const routes: Routes = [
     {path: '', component: HomeComponent, canActivate: [AuthGuardService]},
@@ -22,6 +23,7 @@ const routes: Routes = [
     {path: 'reset', component: ResetPasswordComponent},
     {path: 'reset_password_confirm/:token', component: ConfirmResetComponent},
 	{path: 'filter', component: FilterComponent},
+    {path: 'data', component: UserDataComponent},
 	{path: '**', component: NotfoundComponent},
 ];
 

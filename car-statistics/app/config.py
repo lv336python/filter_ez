@@ -44,15 +44,14 @@ class Config:
     # logging parameters
     LOG_FILE_PATH = os.path.join(BASEDIR, 'logs/log.txt')
 
-    # file storage
-    DATA_FOLDER = 'usersdata'
-
     #temp files
     TEMP_FOLDER = os.path.join(BASEDIR, DATA_FOLDER, 'Temp files')
     UPLOAD_LIMIT = 40000  # in kB
 
-    # uploads params
-    UPLOAD_FOLDER = 'uploads'
+    # user data
+    USER_DATA_FOLDER = os.path.join(BASEDIR, 'usersdata')
+    UPLOAD_FOLDER = os.path.join(USER_DATA_FOLDER, 'uploads')
+
     ALLOWED_EXTENSIONS = ('csv', 'xls', 'xlsx')
 
     #Celery configurations

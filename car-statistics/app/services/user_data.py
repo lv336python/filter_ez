@@ -46,6 +46,7 @@ def upload_file(file, user_id):
     file.save(path)  # saving file to filesystem
     shape = serialize(path)
     file_attr = attributes(path)  # getting attributes from file
+    file_attr['name'] = file.filename
     file_attr['rows'] = shape[0]
     # db manipulation
     new_file = File(path=os.path.basename(path), attributes=file_attr)  # adding uploaded File to DB
