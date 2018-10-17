@@ -9,12 +9,13 @@ import time
 import xlsxwriter
 
 from io import BytesIO
-from app import app, logger
+from app import app, logger,db
 from app.models import Dataset, File
 from app.services.mail_service import notify_admin
 from app.helper.user_file_manager import UserFilesManager
 from hashlib import md5
 from werkzeug.utils import secure_filename
+import math
 
 
 def file_ext(filename):
@@ -92,8 +93,23 @@ def attributes(file_path):
     :param file_path: file which will be added to DB
     :return: json with file attributes
     """
-    attrbts = {'loaded': 'new'}
+    attrbts = dict()
+    attrbts['name'] = 'name'
+    attrbts['size'] = get_size_in_MB(file_path)
+    attrbts['rows'] = 0
+    attrbts['date'] = time.time()
+    attrbts['modified'] = os.path.getctime(file_path)
     return attrbts
+
+
+def get_size_in_MB(file_path):
+    '''
+    Function that return
+    :param file_path: path to
+    :return:
+    '''
+    file_size_in_MB = os.path.getsize(file_path) / (1024 * 1024.0)  # in MBytes
+    return math.ceil(file_size_in_MB * 100) / 100  # round 2 decimals after poin
 
 
 def get_user_file(file_id, user_id):
@@ -104,7 +120,7 @@ def get_user_file(file_id, user_id):
     :param user_id: id of file owner
     :return: path to file
     """
-    file = File.query.filter(File.id == file_id).first()
+    file = File.query.get(file_id)
     filename = file.path
     file_path = os.path.join(user_dir(user_id), filename)
     return file_path
@@ -129,23 +145,22 @@ def dataset_to_excel(dataset):
 
         with open(path_to_file, 'rb') as file:
             df = pickle.load(file)
-
+        logger.warning("Finished creating file in %s", time.time() - t1)
         df = df.iloc[dataset.included_rows].values.tolist()
-
+        logger.warning("Finished creating file in %s", time.time() - t1)
         for i in range(len(dataset.included_rows)):
             for j in range(len(df[i])):
                 sheet.write(i, j, df[i][j])
 
         excel_writer.close()
         byte_writer.seek(0)
-        logger.warning("Finished creating file in %s", time.time() - t1)
+        # logger.warning("Finished creating file in %s", time.time() - t1)
         return byte_writer
     except Exception as e:
         logger.error("Error occurred when tried to create a byteIO"
                      " object for dataset %d: %s", dataset.id, e)
         notify_admin(f"Error occurred when tried to create a byteIO"
                      f" object for dataset {dataset.id}: {e}", 'ERROR')
-
 
 def serialize(file):
     """
@@ -171,3 +186,16 @@ def serialized_file(file):
     """
     file_pth = ext_free(file)
     return (f'{file_pth}.pkl')
+
+
+def delete_files_from_dir(dir, file):
+    '''
+    Function that delete file from user directory
+    :param dir: user directory
+    :param file: user file to be deleted
+    '''
+    os.remove(os.path.join(dir, file))
+    file = ext_free(file)
+    pickle_file = f"{file}.pkl"
+    os.remove(os.path.join(dir, pickle_file))
+    db.session.commit()
