@@ -5,14 +5,15 @@ from flask import session
 from flask_login import login_required
 from app.models import File, Dataset
 from app.services.utils import user_dir, ext_free, delete_files_from_dir
-from flask.ext.api import status
+from flask_api import status
+
 
 @app.route('/api/delete_file/<int:file_id>')
 @login_required
 def delete_file(file_id):
     """
     Delete user files from DB and folder
-    :param dataset_id:
+    :param datasetId_:
     :param file_id: file id 
     :return: None
     """
