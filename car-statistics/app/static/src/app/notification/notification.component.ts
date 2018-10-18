@@ -51,22 +51,20 @@ export class NotificationComponent implements OnInit, OnDestroy {
 
     ngOnInit() {
         console.log("Notification Created");
-        if(this.auth_guard.isLogined()) {
-            this.socket.connect();
-            this.connection = this.socket.getMessages()
-                .subscribe(
-                    data => {
-                        let elem = {'id': this.count,
-                                    'msg': data['data']};
+        this.socket.connect();
+        this.connection = this.socket.getMessages()
+            .subscribe(
+                data => {
+                    let elem = {'id': this.count,
+                                'msg': data['data']};
 
-                        this.messages.push(elem);
-                        setTimeout(() => {
-                            this.removeMessage(this.count);
-                        }, 10000);
-                        this.count++;
-                    }
-                );
-        }
+                    this.messages.push(elem);
+                    setTimeout(() => {
+                        this.removeMessage(this.count);
+                    }, 10000);
+                    this.count++;
+                }
+            );
     }
 
 
