@@ -30,5 +30,6 @@ def uploader():
 @app.route('/api/get_files', methods=['POST'])
 def getfiles():
     files = [[i.id, i.path, i.attributes] for i in File.query.all()]
+    # files = [[i.id, i.path, i.attributes] for i in File.query.filter_by(user_id=session['user_id']).all()]
     return make_response(jsonify(files), 200)
 
