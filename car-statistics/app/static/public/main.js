@@ -1051,7 +1051,7 @@ var FileUploadsComponent = /** @class */ (function () {
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = ".card {\n    border-color: dodgerblue;\n}\n\n.button-group {\n    display: flex;\n    justify-content: space-evenly;\n}\n\n.operator-button {\n    margin-top: 20px;\n    display: flex;\n    justify-content: space-evenly;\n}\n\n.row-padding {\n    margin-bottom: 20px;\n    position:relative;\n}\n\n.ribbon {\n  position:absolute;\n  top:0;\n  right:0;\n}\n"
+module.exports = ".card {\n    border-color: dodgerblue;\n}\n\n.button-group {\n    display: flex;\n    justify-content: space-evenly;\n}\n\n.operator-button {\n    margin-top: 20px;\n    display: flex;\n    justify-content: space-evenly;\n}\n\n.row-padding {\n    margin-bottom: 20px;\n    position: relative;\n}\n\n.ribbon {\n    position: absolute;\n    top: 0;\n    right: 0;\n}\n\n.span-width {\n    width: 100%;\n}\n\n.quantity-group {\n    margin-left: 8.4%;\n    width: 100%;\n}\n\n.button-justify {\n    margin-top: 5px;\n    display: flex;\n    flex-direction: row;\n    justify-content: space-around;\n}"
 
 /***/ }),
 
@@ -1062,7 +1062,7 @@ module.exports = ".card {\n    border-color: dodgerblue;\n}\n\n.button-group {\n
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = "<div class=\"row\">\n    <div class=\"form-row col-md-12\">\n        <div class=\"col-md-4\">\n            <select class=\"form-control\" *ngIf=\"!column && !disColumn; else disableColumn\"\n                    (change)=\"selectedColumnName($event.target.value)\">\n                <option value=\"\" disabled selected>Chose column</option>\n                <option *ngFor=\"let row of columns\">\n                    {{ row }}\n                </option>\n            </select>\n            <ng-template #disableColumn>\n                <select class=\"form-control\" disabled>\n                    <option value=\"\" selected>{{ column }}</option>\n                </select>\n            </ng-template>\n        </div>\n        <div class=\"button-group col-md-2\" *ngIf=\"column && !operator\">\n            <button type=\"button\" class=\"btn btn-primary btn-sm\" (click)=\"addOperator('==')\">=</button>\n            <button type=\"button\" class=\"btn btn-primary btn-sm\" (click)=\"addOperator('!=')\">!=</button>\n            <button type=\"button\" *ngIf=\"valueMaxMin.max\" class=\"btn btn-primary btn-sm\" (click)=\"addOperator('<')\"><\n            </button>\n            <button type=\"button\" *ngIf=\"valueMaxMin.max\" class=\"btn btn-primary btn-sm\" (click)=\"addOperator('>')\">>\n            </button>\n        </div>\n        <div class=\"button-group col-md-1\" *ngIf=\"column && operator\">\n            <button type=\"button\" class=\"btn btn-primary btn-sm\">{{ operator }}</button>\n        </div>\n        <div class=\"col-md-3\">\n            <select class=\"form-control\" *ngIf=\"operator && !valueMaxMin.max && !disValue \"\n                    (change)=\"addValue($event.target.value)\"\n                    [disabled]=\"disValue\">\n                <option value=\"\" disabled selected>Chose value</option>\n                <option *ngFor=\"let row of values\">\n                    {{ row }}\n                </option>\n            </select>\n            <input *ngIf=\"operator && valueMaxMin.max\" type=\"number\"\n                   name=\"range_value\"\n                   [ngModel]=\"rangeValue\"\n                   (ngModelChange)=\"setRangeValue($event)\"\n                   [className]=\"rangeValueError ? 'form-control  is-invalid' : 'form-control'\"\n                   placeholder=\"Min: {{ valueMaxMin.min }} Max: {{ valueMaxMin.max }}\">\n            <select class=\"form-control\" *ngIf=\"operator && value && disValue\" [disabled]=\"disValue\">\n                <option value=\"\" disabled selected>{{ value }}</option>\n            </select>\n        </div>\n    </div>\n</div>\n<div class=\"row\" *ngIf=\"count_rows\">\n    <div class=\"form-row col-md-12\">\n        <div class=\"col-md-4\">\n            <span class=\"btn btn-success\">{{ count_rows + ' / ' + totalRows }}</span>\n        </div>\n        <div class=\"col-md-4 input-group\">\n            <input type=\"number\" name=\"user_quantity\" [ngModel]=\"quantity\"\n                   (ngModelChange)=\"setQuantity($event)\"\n                   [className]=\"valid_quantity ? 'form-control' : 'form-control is-invalid'\"\n                   placeholder=\"Max {{ maxPercentageForUser }}\"\n                   [readonly]=\"qtt_readonly\"\n            >\n            <div class=\"input-group-prepend\">\n                <span class=\"input-group-text\">%</span>\n            </div>\n            <div class=\"invalid-feedback\">\n                {{ quantityError }}\n            </div>\n        </div>\n    </div>\n</div>\n<div class=\"row\">\n    <div *ngIf=\"quantity && !qtt_readonly && !parent_id && !child_id\" class=\"button-group col-md-4\">\n        <button type=\"button\" class=\"btn btn-info\" (click)=\"addNewColumn()\">Add Column</button>\n        <button type=\"button\" *ngIf=\"!parent_id\" class=\"btn btn-info\" (click)=\"saveParent()\">Save</button>\n    </div>\n    <div *ngIf=\"quantity && !qtt_readonly && parent_id && !child_id\" class=\"button-group col-md-4\">\n        <button type=\"button\" class=\"btn btn-info\" (click)=\"addChild(parent_id)\">Add Child</button>\n        <button type=\"button\" *ngIf=\"parent_id\" class=\"btn btn-info\" (click)=\"saveChild()\">Save</button>\n    </div>\n    <div *ngIf=\"quantity && !qtt_readonly && parent_id && child_id\" class=\"button-group col-md-4\">\n        <button type=\"button\" class=\"btn btn-info\" (click)=\"addLastChild(parent_id, child_id)\">Add New</button>\n        <button type=\"button\" *ngIf=\"parent_id\" class=\"btn btn-info\" (click)=\"saveLastChild()\">Save</button>\n    </div>\n</div>"
+module.exports = "<div class=\"row\">\n    <div class=\"form-row col-md-12\">\n        <div class=\"col-md-4\">\n            <select class=\"form-control\" *ngIf=\"!column && !disColumn; else disableColumn\"\n                    (change)=\"selectedColumnName($event.target.value)\">\n                <option value=\"\" disabled selected>Chose column</option>\n                <option *ngFor=\"let row of columns\">\n                    {{ row }}\n                </option>\n            </select>\n            <ng-template #disableColumn>\n                <select class=\"form-control\" disabled>\n                    <option value=\"\" selected>{{ column }}</option>\n                </select>\n            </ng-template>\n        </div>\n        <div class=\"button-group col-md-2\" *ngIf=\"column && !operator\">\n            <button type=\"button\" class=\"btn btn-primary btn-sm\" (click)=\"addOperator('==')\">=</button>\n            <button type=\"button\" class=\"btn btn-primary btn-sm\" (click)=\"addOperator('!=')\">!=</button>\n            <button type=\"button\" *ngIf=\"valueMaxMin.max\" class=\"btn btn-primary btn-sm\" (click)=\"addOperator('<')\"><\n            </button>\n            <button type=\"button\" *ngIf=\"valueMaxMin.max\" class=\"btn btn-primary btn-sm\" (click)=\"addOperator('>')\">>\n            </button>\n        </div>\n        <div class=\"button-group col-md-1\" *ngIf=\"column && operator\">\n            <button type=\"button\" class=\"btn btn-primary btn-sm\">{{ operator }}</button>\n        </div>\n        <div class=\"col-md-5\">\n            <select class=\"form-control\" *ngIf=\"operator && !valueMaxMin.max && !disValue\"\n                    (change)=\"addValue($event.target.value)\"\n                    [disabled]=\"disValue\">\n                <option value=\"\" disabled selected>Chose value</option>\n                <option *ngFor=\"let row of values\">\n                    {{ row }}\n                </option>\n            </select>\n            <input *ngIf=\"operator && valueMaxMin.max && !disValue\" type=\"number\"\n                   name=\"range_value\"\n                   [ngModel]=\"rangeValue\"\n                   (ngModelChange)=\"setRangeValue($event)\"\n                   [className]=\"rangeValueError ? 'form-control input-item  is-invalid' : 'form-control input-item'\"\n                   placeholder=\"Min: {{ valueMaxMin.min }} Max: {{ valueMaxMin.max }}\">\n            <div class=\"invalid-feedback\">\n                                {{ rangeValueError }}\n            </div>\n            <select class=\"form-control\" *ngIf=\"operator && value && disValue\" [disabled]=\"disValue\">\n                <option value=\"\" disabled selected>{{ value }}</option>\n            </select>\n        </div>\n    </div>\n</div>\n<div class=\"row\" *ngIf=\"count_rows\">\n    <div class=\"form-row col-md-12\">\n        <div class=\"col-md-4\">\n            <span class=\"btn btn-success span-width\">{{ count_rows + ' / ' + totalRows }}</span>\n        </div>\n        <div class=\"col-md-5 quantity-group input-group\">\n            <input type=\"number\" name=\"user_quantity\" [ngModel]=\"quantity\"\n                   (ngModelChange)=\"setQuantity($event)\"\n                   [className]=\"valid_quantity ? 'form-control' : 'form-control is-invalid'\"\n                   placeholder=\"Max {{ maxPercentageForUser }}\"\n                   [readonly]=\"qtt_readonly\"\n            >\n            <div class=\"input-group-prepend\">\n                <span class=\"input-group-text\">%</span>\n            </div>\n            <div class=\"invalid-feedback\">\n                {{ quantityError }}\n            </div>\n        </div>\n    </div>\n</div>\n<div class=\"row\">\n    <div *ngIf=\"quantity && !qtt_readonly && !parent_id && !child_id\" class=\"col-md-9 button-justify\">\n        <button type=\"button\" class=\"btn btn-info\" (click)=\"addNewColumn()\">Add Column</button>\n        <button type=\"button\" *ngIf=\"!parent_id\" class=\"btn btn-info\" (click)=\"saveParent()\">Save</button>\n    </div>\n    <div *ngIf=\"quantity && !qtt_readonly && parent_id && !child_id\" class=\"col-md-9 button-justify\">\n        <button type=\"button\" class=\"btn btn-info\" (click)=\"addChild(parent_id)\">Add Child</button>\n        <button type=\"button\" *ngIf=\"parent_id\" class=\"btn btn-info\" (click)=\"saveChild()\">Save</button>\n    </div>\n    <div *ngIf=\"quantity && !qtt_readonly && parent_id && child_id\" class=\"col-md-9 button-justify\">\n        <button type=\"button\" class=\"btn btn-info\" (click)=\"addLastChild(parent_id, child_id)\">Add New</button>\n        <button type=\"button\" *ngIf=\"parent_id\" class=\"btn btn-info\" (click)=\"saveLastChild()\">Save</button>\n    </div>\n</div>"
 
 /***/ }),
 
@@ -1159,28 +1159,6 @@ var FilterItemComponent = /** @class */ (function () {
     //     }
     //     this.valuesPushed = true;
     //     this.saveFilter.emit();
-    // }
-    // addElem(data) {
-    //     if (!this.checkQuantity()) {
-    //         return false;
-    //     }
-    //     if(!this.checkRangeValue()){
-    //         return false
-    //     }
-    //     if(this.rangeValue){
-    //         this.value = this.rangeValue.toString();
-    //     }
-    //     this.valid_quantity = true;
-    //     this.operatorElems(data);
-    //     this.disQuantity = true;
-    //     this.addFilterElem.emit();
-    //     this.pushFilterParams.emit({
-    //         'column': this.column,
-    //         'operator': this.operator,
-    //         'value': this.value,
-    //         'quantity': this.calculateQuantity(),
-    //         'btw_elem_operator': this.operatorBtwElem,
-    //     });
     // }
     FilterItemComponent.prototype.selectedColumnName = function (column) {
         this.column = column;
@@ -1284,13 +1262,13 @@ var FilterItemComponent = /** @class */ (function () {
         }
         return true;
     };
-    // setRangeValue(data){
-    //     this.value = data;
-    //     if(this.checkRangeValue()){
-    //         this.rangeValueError = '';
-    //         this.addValue(data)
-    //     }
-    // }
+    FilterItemComponent.prototype.setRangeValue = function (data) {
+        this.value = data;
+        if (this.checkRangeValue()) {
+            this.rangeValueError = '';
+            this.addValue(data);
+        }
+    };
     FilterItemComponent.prototype.checkRangeValue = function () {
         if ('max' in this.valueMaxMin) {
             if (this.value > this.valueMaxMin['max'] || this.value < this.valueMaxMin['min']) {
@@ -1307,10 +1285,9 @@ var FilterItemComponent = /** @class */ (function () {
         if (!this.checkRangeValue()) {
             return false;
         }
-        // if(this.rangeValue){
-        //     this.value = this.rangeValue.toString();
-        // }
-        this.f_param[this.f_index]['column'] = this.column;
+        if (this.rangeValue) {
+            this.value = this.rangeValue.toString();
+        }
         this.f_param[this.f_index]['params'] = {
             'column': this.column,
             'operator': this.operator,
@@ -1345,7 +1322,9 @@ var FilterItemComponent = /** @class */ (function () {
         if (!this.checkRangeValue()) {
             return false;
         }
-        this.f_param[this.parent_id]['child'][this.f_index]['column'] = this.column;
+        if (this.rangeValue) {
+            this.value = this.rangeValue.toString();
+        }
         this.f_param[this.parent_id]['child'][this.f_index]['params'] = {
             'column': this.column,
             'operator': this.operator,
@@ -1381,12 +1360,11 @@ var FilterItemComponent = /** @class */ (function () {
         if (!this.checkRangeValue()) {
             return false;
         }
-        // if(this.rangeValue){
-        //     this.value = this.rangeValue.toString();
-        // }
+        if (this.rangeValue) {
+            this.value = this.rangeValue.toString();
+        }
         this.f_param[this.f_index] = {};
         this.updateFilterItemParams.emit(this.f_param);
-        this.f_param[this.f_index]['column'] = this.column;
         this.f_param[this.f_index]['params'] = {
             'column': this.column,
             'operator': this.operator,
@@ -1401,9 +1379,17 @@ var FilterItemComponent = /** @class */ (function () {
         this.updateFilterItemParams.emit(this.f_param);
     };
     FilterItemComponent.prototype.saveChild = function () {
+        if (!this.checkQuantity()) {
+            return false;
+        }
+        if (!this.checkRangeValue()) {
+            return false;
+        }
+        if (this.rangeValue) {
+            this.value = this.rangeValue.toString();
+        }
         this.f_param[this.parent_id]['child'][this.f_index] = {};
         this.updateFilterItemParams.emit(this.f_param);
-        this.f_param[this.parent_id]['child'][this.f_index]['column'] = this.column;
         this.f_param[this.parent_id]['child'][this.f_index]['params'] = {
             'column': this.column,
             'operator': this.operator,
@@ -1426,7 +1412,9 @@ var FilterItemComponent = /** @class */ (function () {
         if (!this.checkRangeValue()) {
             return false;
         }
-        this.f_param[this.parent_id]['child'][child_id]['child'][this.f_index]['column'] = this.column;
+        if (this.rangeValue) {
+            this.value = this.rangeValue.toString();
+        }
         this.f_param[this.parent_id]['child'][child_id]['child'][this.f_index]['params'] = {
             'column': this.column,
             'operator': this.operator,
@@ -1458,9 +1446,17 @@ var FilterItemComponent = /** @class */ (function () {
         this.updateFilterItemParams.emit(this.f_param);
     };
     FilterItemComponent.prototype.saveLastChild = function () {
+        if (!this.checkQuantity()) {
+            return false;
+        }
+        if (!this.checkRangeValue()) {
+            return false;
+        }
+        if (this.rangeValue) {
+            this.value = this.rangeValue.toString();
+        }
         this.f_param[this.parent_id]['child'][this.child_id]['child'][this.f_index] = {};
         this.updateFilterItemParams.emit(this.f_param);
-        this.f_param[this.parent_id]['child'][this.child_id]['child'][this.f_index]['column'] = this.column;
         this.f_param[this.parent_id]['child'][this.child_id]['child'][this.f_index]['params'] = {
             'column': this.column,
             'operator': this.operator,
@@ -1549,7 +1545,7 @@ module.exports = ".per30{\n    width: 33%;\n}"
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = "<div class=\"jumbotron\">\n    <div class=\"row justify-content-md-center\">\n        <div class=\"col col-md-auto\">\n            <h2 class=\"display-4\">Filtering data section</h2>\n            <select class=\"form-control\" (change)=\"selectFile($event.target.value)\">\n                <option value=\"\" disabled selected>Chose file</option>\n                <option *ngFor=\"let file of files\" value=\"{{ file[0] }}\">\n                    {{ file[2].name }}\n                </option>\n            </select>\n            <hr class=\"my-4\">\n            <input type=\"text\" placeholder=\"Filter name\"\n                   [className]=\"valid_filter_name ? 'form-control' : 'form-control is-invalid'\"\n                   [ngModel]=\"filter_name\"\n                   (ngModelChange)=\"setFilterName($event)\"\n            >\n        </div>\n    </div>\n</div>\n<table class=\"table table-hover\">\n    <thead>\n    <tr>\n        <th class=\"per30\" scope=\"col\">First</th>\n        <th class=\"per60\" scope=\"col\">Second</th>\n    </tr>\n    </thead>\n    <tbody>\n    <tr *ngFor=\"let index of  filter_params | keyvalue\">\n        <td class=\"per30\">\n            <filter-item\n                    [columns]=\"columns\"\n                    [f_index]=\"index.key\"\n                    [file_id]=\"file_id\"\n                    [child]=\"false\"\n                    [parent_id]=\"false\"\n                    [child_id]=\"false\"\n                    [totalRows]=\"totalRows\"\n                    [metadata]=\"metadata\"\n                    [f_param]=\"filter_params\"\n                    (updateFilterItemParams)=\"updateFilterParams($event)\"\n            ></filter-item>\n        </td>\n        <td>\n            <table *ngIf=\"index.value.child; else chl\" class=\"table table-hover\">\n                <tr *ngFor=\"let ch_index of  index.value.child | keyvalue\">\n                    <td>\n                        <filter-item\n                                [columns]=\"columns\"\n                                [f_index]=\"ch_index.key\"\n                                [file_id]=\"file_id\"\n                                [child]=\"'first'\"\n                                [parent_id]=\"index.key\"\n                                [child_id]=\"false\"\n                                [totalRows]=\"index.value.params.quantity\"\n                                [metadata]=\"metadata\"\n                                [f_param]=\"filter_params\"\n                                (updateFilterItemParams)=\"updateFilterParams($event)\"\n                        ></filter-item>\n                    </td>\n                    <td>\n                        <table *ngIf=\"ch_index.value.child; else last_child\" class=\"table table-hover\">\n                            <tr *ngFor=\"let ls_ch_index of  ch_index.value.child | keyvalue\">\n                                <td>\n                                    <filter-item\n                                            [columns]=\"columns\"\n                                            [f_index]=\"ls_ch_index.key\"\n                                            [file_id]=\"file_id\"\n                                            [child]=\"'last'\"\n                                            [parent_id]=\"index.key\"\n                                            [child_id]=\"ch_index.key\"\n                                            [totalRows]=\"ch_index.value.params.quantity\"\n                                            [metadata]=\"metadata\"\n                                            [f_param]=\"filter_params\"\n                                            (updateFilterItemParams)=\"updateFilterParams($event)\"\n                                    ></filter-item>\n                                </td>\n                            </tr>\n                        </table>\n                        <ng-template #last_child>\n                            <button type=\"button\" class=\"btn btn-success\" (click)=\"addLastChild(index.key, ch_index.key)\">Add Last Child</button>\n                        </ng-template>\n                    </td>\n                </tr>\n            </table>\n            <ng-template #chl>\n                <button type=\"button\" class=\"btn btn-success\" (click)=\"addChild(index.key)\">Add Child</button>\n            </ng-template>\n        </td>\n    </tr>\n    </tbody>\n</table>"
+module.exports = "<div class=\"jumbotron\">\n    <div class=\"row justify-content-md-center\">\n        <div class=\"col col-md-auto\">\n            <h2 class=\"display-4\">Filtering data section</h2>\n            <select class=\"form-control\" (change)=\"selectFile($event.target.value)\">\n                <option value=\"\" disabled selected>Chose file</option>\n                <option *ngFor=\"let file of files\" value=\"{{ file[0] }}\">\n                    {{ file[1] }}\n                </option>\n            </select>\n            <hr class=\"my-4\">\n            <input type=\"text\" placeholder=\"Filter name\"\n                   [className]=\"valid_filter_name ? 'form-control' : 'form-control is-invalid'\"\n                   [ngModel]=\"filter_name\"\n                   (ngModelChange)=\"setFilterName($event)\"\n            >\n        </div>\n    </div>\n</div>\n<table class=\"table table-hover\">\n    <tbody>\n    <tr *ngFor=\"let index of  filter_params | keyvalue\">\n        <td class=\"per30\">\n            <filter-item\n                    [columns]=\"columns\"\n                    [f_index]=\"index.key\"\n                    [file_id]=\"file_id\"\n                    [child]=\"false\"\n                    [parent_id]=\"false\"\n                    [child_id]=\"false\"\n                    [totalRows]=\"totalRows\"\n                    [metadata]=\"metadata\"\n                    [f_param]=\"filter_params\"\n                    (updateFilterItemParams)=\"updateFilterParams($event)\"\n            ></filter-item>\n        </td>\n        <td>\n            <table *ngIf=\"index.value.child; else chl\" class=\"table table-hover\">\n                <tr *ngFor=\"let ch_index of  index.value.child | keyvalue\">\n                    <td>\n                        <filter-item\n                                [columns]=\"columns\"\n                                [f_index]=\"ch_index.key\"\n                                [file_id]=\"file_id\"\n                                [child]=\"'first'\"\n                                [parent_id]=\"index.key\"\n                                [child_id]=\"false\"\n                                [totalRows]=\"index.value.params.quantity\"\n                                [metadata]=\"metadata\"\n                                [f_param]=\"filter_params\"\n                                (updateFilterItemParams)=\"updateFilterParams($event)\"\n                        ></filter-item>\n                    </td>\n                    <td>\n                        <table *ngIf=\"ch_index.value.child; else last_child\" class=\"table table-hover\">\n                            <tr *ngFor=\"let ls_ch_index of  ch_index.value.child | keyvalue\">\n                                <td>\n                                    <filter-item\n                                            [columns]=\"columns\"\n                                            [f_index]=\"ls_ch_index.key\"\n                                            [file_id]=\"file_id\"\n                                            [child]=\"'last'\"\n                                            [parent_id]=\"index.key\"\n                                            [child_id]=\"ch_index.key\"\n                                            [totalRows]=\"ch_index.value.params.quantity\"\n                                            [metadata]=\"metadata\"\n                                            [f_param]=\"filter_params\"\n                                            (updateFilterItemParams)=\"updateFilterParams($event)\"\n                                    ></filter-item>\n                                </td>\n                            </tr>\n                        </table>\n                        <ng-template #last_child>\n                            <button type=\"button\" class=\"btn btn-success\"\n                                    (click)=\"addLastChild(index.key, ch_index.key)\">Add Last Child\n                            </button>\n                        </ng-template>\n                    </td>\n                </tr>\n            </table>\n            <ng-template #chl>\n                <button type=\"button\" class=\"btn btn-success\" (click)=\"addChild(index.key)\">Add Child</button>\n            </ng-template>\n        </td>\n    </tr>\n    </tbody>\n</table>\n<div class=\"row justify-content-md-center\">\n    <div class=\"col col-md-4\">\n        <hr class=\"my-4\">\n        <button type=\"button\" class=\"btn btn-primary btn-lg btn-block\" (click)=\"saveFilter()\">Save filter</button>\n    </div>\n</div>\n"
 
 /***/ }),
 
@@ -1564,7 +1560,8 @@ module.exports = "<div class=\"jumbotron\">\n    <div class=\"row justify-conten
 __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "FilterTreeComponent", function() { return FilterTreeComponent; });
 /* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @angular/core */ "./node_modules/@angular/core/fesm5/core.js");
-/* harmony import */ var _angular_common_http__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @angular/common/http */ "./node_modules/@angular/common/fesm5/http.js");
+/* harmony import */ var _angular_router__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @angular/router */ "./node_modules/@angular/router/fesm5/router.js");
+/* harmony import */ var _angular_common_http__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @angular/common/http */ "./node_modules/@angular/common/fesm5/http.js");
 var __decorate = (undefined && undefined.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -1576,9 +1573,11 @@ var __metadata = (undefined && undefined.__metadata) || function (k, v) {
 };
 
 
+
 var FilterTreeComponent = /** @class */ (function () {
-    function FilterTreeComponent(http) {
+    function FilterTreeComponent(http, router) {
         this.http = http;
+        this.router = router;
         this.filter_params = {
             0: {
                 'params': {},
@@ -1591,7 +1590,6 @@ var FilterTreeComponent = /** @class */ (function () {
                 },
             }
         };
-        this.firstFilterColumn = [0];
     }
     FilterTreeComponent.prototype.ngOnInit = function () {
         this.getFiles();
@@ -1622,7 +1620,7 @@ var FilterTreeComponent = /** @class */ (function () {
         this.metadata = data['metadata'];
     };
     FilterTreeComponent.prototype.updateFilterParams = function (data) {
-        console.log(this.filter_params);
+        console.log(data);
         this.filter_params = data;
     };
     FilterTreeComponent.prototype.addChild = function (parentIndex) {
@@ -1654,13 +1652,156 @@ var FilterTreeComponent = /** @class */ (function () {
         };
         this.updateFilterParams(this.filter_params);
     };
+    FilterTreeComponent.prototype.saveFilter = function () {
+        var _this = this;
+        var filter_params = {
+            "0": {
+                "params": { "column": "Color", "operator": "==", "value": "Red", "quantity": 4999 },
+                "child": {
+                    "0": {
+                        "params": { "column": "Country", "operator": "==", "value": "USA", "quantity": 749 },
+                        "child": {
+                            "0": {
+                                "params": {
+                                    "column": "Drive Type",
+                                    "operator": "==",
+                                    "value": "All-Wheel",
+                                    "quantity": 149
+                                },
+                                "child": false,
+                                "parent_id": "0",
+                                "child_id": "0",
+                                "settings": { "count_rows": 205, "quantity": 20, "qtt_readonly": true }
+                            },
+                            "1": {
+                                "params": {
+                                    "column": "Drive Type",
+                                    "operator": "==",
+                                    "value": "Front-Wheel",
+                                    "quantity": 74
+                                },
+                                "parent_id": "0",
+                                "child": false,
+                                "settings": { "count_rows": 183, "quantity": 10, "qtt_readonly": true }
+                            }
+                        },
+                        "parent_id": "0",
+                        "settings": { "count_rows": 874, "quantity": 15, "qtt_readonly": true }
+                    },
+                    "1": {
+                        "params": { "column": "Country", "operator": "==", "value": "England", "quantity": 599 },
+                        "parent_id": "0",
+                        "child": {
+                            "0": {
+                                "params": {
+                                    "column": "Engine type",
+                                    "operator": "==",
+                                    "value": "Boxer",
+                                    "quantity": 59
+                                },
+                                "parent_id": "0",
+                                "child": false,
+                                "settings": { "count_rows": 98, "quantity": 10, "qtt_readonly": true }
+                            }
+                        },
+                        "settings": { "count_rows": 825, "quantity": 12, "qtt_readonly": true }
+                    }
+                },
+                "parent_id": false,
+                "settings": { "count_rows": 9829, "quantity": 10, "qtt_readonly": true }
+            },
+            "1": {
+                "params": { "column": "Color", "operator": "==", "value": "Green", "quantity": 2499 },
+                "settings": { "count_rows": 9937, "quantity": 5, "qtt_readonly": true },
+                "child": {
+                    "0": {
+                        "params": { "column": "Fuel type", "operator": "==", "value": "Petrol", "quantity": 299 },
+                        "child": {
+                            "0": {
+                                "params": { "column": "Models", "operator": "==", "value": "X5", "quantity": 14 },
+                                "parent_id": "1",
+                                "child": false,
+                                "settings": { "count_rows": 31, "quantity": 5, "qtt_readonly": true }
+                            }
+                        },
+                        "parent_id": "1",
+                        "settings": { "count_rows": 487, "quantity": 12, "qtt_readonly": true }
+                    },
+                    "1": {
+                        "params": { "column": "Fuel type", "operator": "==", "value": "Gas", "quantity": 499 },
+                        "parent_id": "1",
+                        "child": {
+                            "0": {
+                                "params": {
+                                    "column": "Seat heater",
+                                    "operator": "==",
+                                    "value": "Yes",
+                                    "quantity": 99
+                                },
+                                "parent_id": "1",
+                                "child": false,
+                                "settings": { "count_rows": 239, "quantity": 20, "qtt_readonly": true }
+                            }
+                        },
+                        "settings": { "count_rows": 507, "quantity": 20, "qtt_readonly": true }
+                    }
+                }
+            }
+        };
+        var filter = {};
+        for (var key in filter_params) {
+            filter[key] = this.deleteUnnecessaryElem(filter_params[key]);
+            if (this.checkParams(filter[key])) {
+                this.save_error = true;
+                return 'error';
+            }
+            if ('child' in filter_params[key]) {
+                for (var child_key in filter_params[key]['child']) {
+                    filter[key]['child'][child_key] = this.deleteUnnecessaryElem(filter_params[key]['child'][child_key]);
+                    if (this.checkParams(filter[key]['child'][child_key])) {
+                        this.save_error = true;
+                        return 'error';
+                    }
+                    if ('child' in filter_params[key]['child'][child_key]) {
+                        for (var child_last_key in filter_params[key]['child'][child_key]['child']) {
+                            filter[key]['child'][child_key]['child'][child_last_key] = this.deleteUnnecessaryElem(filter_params[key]['child'][child_key]['child'][child_last_key]);
+                            if (this.checkParams(filter[key]['child'][child_key]['child'][child_last_key])) {
+                                this.save_error = true;
+                                return 'error';
+                            }
+                        }
+                    }
+                }
+            }
+        }
+        console.log(filter);
+        this.http
+            .post('/api/save_filter', {
+            'params': filter,
+            'name': 'ggsgsd',
+            'file_id': 1
+        })
+            .subscribe(function (data) { return _this.router.navigate(['/']); }, function (error) {
+            console.log(error);
+        });
+    };
+    FilterTreeComponent.prototype.deleteUnnecessaryElem = function (object_data) {
+        delete object_data.parent_id;
+        delete object_data.child_id;
+        delete object_data.settings;
+        return object_data;
+    };
+    FilterTreeComponent.prototype.checkParams = function (filter) {
+        return Object.keys(filter.params).length < 4;
+    };
     FilterTreeComponent = __decorate([
         Object(_angular_core__WEBPACK_IMPORTED_MODULE_0__["Component"])({
             selector: 'filter-tree',
             template: __webpack_require__(/*! ./filter-tree.component.html */ "./src/app/filter-tree/filter-tree.component.html"),
             styles: [__webpack_require__(/*! ./filter-tree.component.css */ "./src/app/filter-tree/filter-tree.component.css")]
         }),
-        __metadata("design:paramtypes", [_angular_common_http__WEBPACK_IMPORTED_MODULE_1__["HttpClient"]])
+        __metadata("design:paramtypes", [_angular_common_http__WEBPACK_IMPORTED_MODULE_2__["HttpClient"],
+            _angular_router__WEBPACK_IMPORTED_MODULE_1__["Router"]])
     ], FilterTreeComponent);
     return FilterTreeComponent;
 }());

@@ -36,8 +36,7 @@ export class FilterItemComponent implements OnInit {
     // @Output() addFilterElem: EventEmitter<any> = new EventEmitter<any>();
     @Output() updateFilterItemParams: EventEmitter<object> = new EventEmitter<object>();
     // @Output() saveFilter: EventEmitter<any> = new EventEmitter<any>();
-    //
-    // @Input() index: number;
+
     @Input() columns: string[];
     @Input() metadata: object;
     @Input() f_param: object;
@@ -102,29 +101,6 @@ export class FilterItemComponent implements OnInit {
     //     }
     //     this.valuesPushed = true;
     //     this.saveFilter.emit();
-    // }
-
-    // addElem(data) {
-    //     if (!this.checkQuantity()) {
-    //         return false;
-    //     }
-    //     if(!this.checkRangeValue()){
-    //         return false
-    //     }
-    //     if(this.rangeValue){
-    //         this.value = this.rangeValue.toString();
-    //     }
-    //     this.valid_quantity = true;
-    //     this.operatorElems(data);
-    //     this.disQuantity = true;
-    //     this.addFilterElem.emit();
-    //     this.pushFilterParams.emit({
-    //         'column': this.column,
-    //         'operator': this.operator,
-    //         'value': this.value,
-    //         'quantity': this.calculateQuantity(),
-    //         'btw_elem_operator': this.operatorBtwElem,
-    //     });
     // }
 
     selectedColumnName(column) {
@@ -235,13 +211,13 @@ export class FilterItemComponent implements OnInit {
         return true;
     }
 
-    // setRangeValue(data){
-    //     this.value = data;
-    //     if(this.checkRangeValue()){
-    //         this.rangeValueError = '';
-    //         this.addValue(data)
-    //     }
-    // }
+    setRangeValue(data) {
+        this.value = data;
+        if (this.checkRangeValue()) {
+            this.rangeValueError = '';
+            this.addValue(data)
+        }
+    }
 
     checkRangeValue() {
         if ('max' in this.valueMaxMin) {
@@ -260,11 +236,10 @@ export class FilterItemComponent implements OnInit {
         if (!this.checkRangeValue()) {
             return false
         }
-        // if(this.rangeValue){
-        //     this.value = this.rangeValue.toString();
-        // }
+        if (this.rangeValue) {
+            this.value = this.rangeValue.toString();
+        }
 
-        this.f_param[this.f_index]['column'] = this.column;
         this.f_param[this.f_index]['params'] = {
             'column': this.column,
             'operator': this.operator,
@@ -301,7 +276,9 @@ export class FilterItemComponent implements OnInit {
         if (!this.checkRangeValue()) {
             return false
         }
-        this.f_param[this.parent_id]['child'][this.f_index]['column'] = this.column;
+        if (this.rangeValue) {
+            this.value = this.rangeValue.toString();
+        }
         this.f_param[this.parent_id]['child'][this.f_index]['params'] = {
             'column': this.column,
             'operator': this.operator,
@@ -339,14 +316,13 @@ export class FilterItemComponent implements OnInit {
         if (!this.checkRangeValue()) {
             return false
         }
-        // if(this.rangeValue){
-        //     this.value = this.rangeValue.toString();
-        // }
+        if (this.rangeValue) {
+            this.value = this.rangeValue.toString();
+        }
 
         this.f_param[this.f_index] = {};
         this.updateFilterItemParams.emit(this.f_param);
 
-        this.f_param[this.f_index]['column'] = this.column;
         this.f_param[this.f_index]['params'] = {
             'column': this.column,
             'operator': this.operator,
@@ -362,11 +338,19 @@ export class FilterItemComponent implements OnInit {
     }
 
     saveChild() {
+        if (!this.checkQuantity()) {
+            return false;
+        }
+        if (!this.checkRangeValue()) {
+            return false
+        }
+        if (this.rangeValue) {
+            this.value = this.rangeValue.toString();
+        }
 
         this.f_param[this.parent_id]['child'][this.f_index] = {};
         this.updateFilterItemParams.emit(this.f_param);
 
-        this.f_param[this.parent_id]['child'][this.f_index]['column'] = this.column;
         this.f_param[this.parent_id]['child'][this.f_index]['params'] = {
             'column': this.column,
             'operator': this.operator,
@@ -391,7 +375,9 @@ export class FilterItemComponent implements OnInit {
         if (!this.checkRangeValue()) {
             return false
         }
-        this.f_param[this.parent_id]['child'][child_id]['child'][this.f_index]['column'] = this.column;
+        if (this.rangeValue) {
+            this.value = this.rangeValue.toString();
+        }
         this.f_param[this.parent_id]['child'][child_id]['child'][this.f_index]['params'] = {
             'column': this.column,
             'operator': this.operator,
@@ -424,11 +410,19 @@ export class FilterItemComponent implements OnInit {
         this.updateFilterItemParams.emit(this.f_param);
     }
 
-    saveLastChild(){
+    saveLastChild() {
+        if (!this.checkQuantity()) {
+            return false;
+        }
+        if (!this.checkRangeValue()) {
+            return false
+        }
+        if(this.rangeValue){
+            this.value = this.rangeValue.toString();
+        }
         this.f_param[this.parent_id]['child'][this.child_id]['child'][this.f_index] = {};
         this.updateFilterItemParams.emit(this.f_param);
 
-        this.f_param[this.parent_id]['child'][this.child_id]['child'][this.f_index]['column'] = this.column;
         this.f_param[this.parent_id]['child'][this.child_id]['child'][this.f_index]['params'] = {
             'column': this.column,
             'operator': this.operator,

@@ -25,8 +25,8 @@
         <div class="button-group col-md-1" *ngIf="column && operator">
             <button type="button" class="btn btn-primary btn-sm">{{ operator }}</button>
         </div>
-        <div class="col-md-3">
-            <select class="form-control" *ngIf="operator && !valueMaxMin.max && !disValue "
+        <div class="col-md-5">
+            <select class="form-control" *ngIf="operator && !valueMaxMin.max && !disValue"
                     (change)="addValue($event.target.value)"
                     [disabled]="disValue">
                 <option value="" disabled selected>Chose value</option>
@@ -34,12 +34,15 @@
                     {{ row }}
                 </option>
             </select>
-            <input *ngIf="operator && valueMaxMin.max" type="number"
+            <input *ngIf="operator && valueMaxMin.max && !disValue" type="number"
                    name="range_value"
                    [ngModel]="rangeValue"
                    (ngModelChange)="setRangeValue($event)"
-                   [className]="rangeValueError ? 'form-control  is-invalid' : 'form-control'"
+                   [className]="rangeValueError ? 'form-control input-item  is-invalid' : 'form-control input-item'"
                    placeholder="Min: {{ valueMaxMin.min }} Max: {{ valueMaxMin.max }}">
+            <div class="invalid-feedback">
+                                {{ rangeValueError }}
+            </div>
             <select class="form-control" *ngIf="operator && value && disValue" [disabled]="disValue">
                 <option value="" disabled selected>{{ value }}</option>
             </select>
@@ -49,9 +52,9 @@
 <div class="row" *ngIf="count_rows">
     <div class="form-row col-md-12">
         <div class="col-md-4">
-            <span class="btn btn-success">{{ count_rows + ' / ' + totalRows }}</span>
+            <span class="btn btn-success span-width">{{ count_rows + ' / ' + totalRows }}</span>
         </div>
-        <div class="col-md-4 input-group">
+        <div class="col-md-5 quantity-group input-group">
             <input type="number" name="user_quantity" [ngModel]="quantity"
                    (ngModelChange)="setQuantity($event)"
                    [className]="valid_quantity ? 'form-control' : 'form-control is-invalid'"
@@ -68,15 +71,15 @@
     </div>
 </div>
 <div class="row">
-    <div *ngIf="quantity && !qtt_readonly && !parent_id && !child_id" class="button-group col-md-4">
+    <div *ngIf="quantity && !qtt_readonly && !parent_id && !child_id" class="col-md-9 button-justify">
         <button type="button" class="btn btn-info" (click)="addNewColumn()">Add Column</button>
         <button type="button" *ngIf="!parent_id" class="btn btn-info" (click)="saveParent()">Save</button>
     </div>
-    <div *ngIf="quantity && !qtt_readonly && parent_id && !child_id" class="button-group col-md-4">
+    <div *ngIf="quantity && !qtt_readonly && parent_id && !child_id" class="col-md-9 button-justify">
         <button type="button" class="btn btn-info" (click)="addChild(parent_id)">Add Child</button>
         <button type="button" *ngIf="parent_id" class="btn btn-info" (click)="saveChild()">Save</button>
     </div>
-    <div *ngIf="quantity && !qtt_readonly && parent_id && child_id" class="button-group col-md-4">
+    <div *ngIf="quantity && !qtt_readonly && parent_id && child_id" class="col-md-9 button-justify">
         <button type="button" class="btn btn-info" (click)="addLastChild(parent_id, child_id)">Add New</button>
         <button type="button" *ngIf="parent_id" class="btn btn-info" (click)="saveLastChild()">Save</button>
     </div>
