@@ -165,10 +165,14 @@ def dataset_to_excel(dataset):
 
         if dataset.included_rows:
             df = df.iloc[dataset.included_rows].values.tolist()
-
-        for i in range(len(dataset.included_rows)):
-            for j in range(len(df[i])):
-                sheet.write(i, j, df[i][j])
+            for i in range(len(dataset.included_rows)):
+                for j in range(len(df[i])):
+                    sheet.write(i, j, df[i][j])
+        else:
+            df = df.values.tolist()
+            for i in range(len(df)):
+                for j in range(len(df[i])):
+                    sheet.write(i, j, df[i][j])
 
         excel_writer.close()
         byte_writer.seek(0)
