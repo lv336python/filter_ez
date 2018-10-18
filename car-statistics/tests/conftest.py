@@ -1,3 +1,6 @@
+"""
+Configuration for pytests
+"""
 import os
 import tempfile
 
@@ -6,8 +9,6 @@ import pytest
 from app import app
 
 from app.models import User
-
-import mock
 
 @pytest.fixture
 def client():
@@ -26,5 +27,9 @@ def client():
 
 @pytest.fixture
 def new_user():
+    """
+    Test for model User
+    :return: user
+    """
     user = User('vova@gmail.com', 'qwerty1111')
     return user

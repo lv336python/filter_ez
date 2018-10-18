@@ -80,6 +80,7 @@ def test_reset_password_for_valid_user(client):
         mock_re_email.return_value = True
         with mock.patch('app.routers.reset_password.User') as mock_create_user:
             mock_create_user.query.filter().first.return_value = user
-            with mock.patch('app.routers.reset_password.url_for', new=user.mock_url_for):
+            with mock.patch('app.routers.reset_password.send_email') as mock_send_email:
+                mock_send_email.return_value = 'Successes'
                 response = reset_password(client, "blabla@gmail.com")
                 assert response.status_code == 201

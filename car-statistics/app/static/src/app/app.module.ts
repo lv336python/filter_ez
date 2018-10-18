@@ -32,6 +32,7 @@ import { UserDataService } from './_services/user-data.service';
 import { Ng2SearchPipeModule } from 'ng2-search-filter';
 import { EmailFileComponent } from './email-file/email-file.component';
 import {BrowserAnimationsModule} from "@angular/platform-browser/animations";
+import { FooterComponent } from './footer/footer.component';
 import { FilterTreeComponent } from './filter-tree/filter-tree.component';
 
 @NgModule({
@@ -60,6 +61,7 @@ import { FilterTreeComponent } from './filter-tree/filter-tree.component';
     UserFileComponent,
     UserFilterComponent,
     UserDataSetComponent,
+    FooterComponent,
     FilterTreeComponent,
   ],
   imports: [

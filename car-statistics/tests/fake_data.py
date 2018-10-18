@@ -1,3 +1,6 @@
+"""
+Fake data for tests
+"""
 from werkzeug.security import generate_password_hash
 
 from flask_login import UserMixin
@@ -13,10 +16,10 @@ class FakeUser(UserMixin):
     confirmed = True
 
     def __repr__(self):
-        return self.email
+        return self.email# pylint: disable=R0903
 
 
-class FakeSession:
+class FakeSession:# pylint: disable=R0903
     """
     Fakesession
     """
