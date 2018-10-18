@@ -15,11 +15,27 @@
 
 .row-padding {
     margin-bottom: 20px;
-    position:relative;
+    position: relative;
 }
 
 .ribbon {
-  position:absolute;
-  top:0;
-  right:0;
+    position: absolute;
+    top: 0;
+    right: 0;
+}
+
+.span-width {
+    width: 100%;
+}
+
+.quantity-group {
+    margin-left: 8.4%;
+    width: 100%;
+}
+
+.button-justify {
+    margin-top: 5px;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
 }
