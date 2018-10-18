@@ -6,7 +6,7 @@ from smtplib import SMTPException
 from flask import session
 from flask_mail import Message, Attachment
 
-from app import app, mail, celery, socketio
+from app import app, mail, celery, socketio, logger
 
 
 @celery.task
@@ -50,11 +50,12 @@ def send_email(to_whom, subject, template):
         html=template,
         sender=app.config['MAIL_DEFAULT_SENDER']
     )
-    user_id = session.get('user', 0)
+    user_id = int(session.get('user_id', 0))
     if user_id:
         send.apply_async([msg], serializer='pickle', link=notify_user.s(user_id))
     else:
         send.apply_async([msg], serializer='pickle')
+
 
 def send_result_to_mail(recipients, file_name, file_content):
     """
@@ -78,7 +79,7 @@ def send_result_to_mail(recipients, file_name, file_content):
             data=file_content
         )]
     )
-    user_id = session.get('user', 0)
+    user_id = int(session.get('user_id', 0))
     if user_id:
         send.apply_async([msg], serializer='pickle', link=notify_user.s(user_id))
     else:
