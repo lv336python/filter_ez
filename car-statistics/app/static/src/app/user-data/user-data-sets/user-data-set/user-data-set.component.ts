@@ -1,5 +1,6 @@
 import {Component, Input, OnInit} from '@angular/core';
-import {DataSet} from '../../../models/data';
+import {DataSet} from '../../../_models/data';
+
 import {UserFileService} from "../../../_services/user-file.service";
 import 'rxjs/Rx' ;
 @Component({
@@ -11,13 +12,13 @@ export class UserDataSetComponent implements OnInit {
   @Input() userdataset: DataSet;
   constructor(private file : UserFileService) { }
   showDatasetStat: boolean = true;
-  
+
   downloadDataset(datasetId) {
     let thefile = {};
     this.file.downloadDataset(datasetId).subscribe(
       data => thefile = new Blob([data], { type: "text/xlsx" } )
-      
-    ) 
+
+    )
 }
 
   getStatDataset() {

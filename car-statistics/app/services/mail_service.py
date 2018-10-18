@@ -43,9 +43,10 @@ def send_email(to_whom, subject, template):
     :param template:
     :return:
     """
+    rec = to_whom if isinstance(to_whom, list) else [to_whom]
     msg = Message(
         subject,
-        recipients=[to_whom],
+        recipients=rec,
         html=template,
         sender=app.config['MAIL_DEFAULT_SENDER']
     )

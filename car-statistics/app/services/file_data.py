@@ -2,9 +2,9 @@
     Module for fields definition and fields statistics
 """
 from collections import defaultdict
-
+import pickle
 from .utils import get_user_file
-from app.helper.DataSetPandas import DataSetPandas
+from app.helper import DataSetPandas, UserFilesManager
 
 
 def fields_definition(filename, filter=None):
@@ -40,9 +40,11 @@ def fields_statistics(dataset):
     :param dataset: dataset instance
     :return dict: {'Air bags': {4: 8, 0: 8}, 'Body': {'MPV': 11, 'Sedan': 7}, 'Climate control': {'Yes': 30, 'No': 19}}
     """
-    file_path = get_user_file(dataset.file_id, dataset.user_id)  # Exchange with UserFileManager
-    dataframe = DataSetPandas()
-    dataframe.read(file_path)
+    ufm = UserFilesManager(dataset.user_id)
+    file_path = ufm.get_serialized_file_path(dataset.file_id)  # Exchange with UserFileManager
+
+    with open(file_path, 'rb') as file:
+        dataframe = DataSetPandas(pickle.load(file))
 
     if dataset.included_rows:
         dataframe.dataframe = dataframe.dataframe.iloc[dataset.included_rows]
@@ -66,9 +68,11 @@ def get_data_preview(dataset, number_of_rows):
     :param number_of_rows: number of rows to show
     :return: dict with list with names of columns and list with lists of values of rows
     """
-    file_path = get_user_file(dataset.file_id, dataset.user_id)  # Exchange with UserFileManager
-    dataframe = DataSetPandas()
-    dataframe.read(file_path)
+    ufm = UserFilesManager(dataset.user_id)
+    file_path = ufm.get_serialized_file_path(dataset.file_id)  # Exchange with UserFileManager
+
+    with open(file_path, 'rb') as file:
+        dataframe = DataSetPandas(pickle.load(file))
 
     if dataset.included_rows:
         dataframe.dataframe = dataframe.dataframe.iloc[dataset.included_rows]

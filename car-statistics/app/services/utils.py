@@ -137,7 +137,7 @@ def temp_file(dataset):
     """
     file = dataset_to_excel(dataset)
     ask = app.config['SECRET_KEY']
-    hashed = md5(f'{ask}{dataset_id}'.encode()).hexdigest()
+    hashed = md5(f'{ask}{dataset.id}'.encode()).hexdigest()
     temp_folder = os.path.join(app.config['TEMP_FOLDER'], hashed)
     create_dir(app.config['TEMP_FOLDER'])
     path = f"{temp_folder}.xlsx"
@@ -165,10 +165,17 @@ def dataset_to_excel(dataset):
 
         with open(path_to_file, 'rb') as file:
             df = pickle.load(file)
-        df = df.iloc[dataset.included_rows].values.tolist()
-        for i in range(len(dataset.included_rows)):
-            for j in range(len(df[i])):
-                sheet.write(i, j, df[i][j])
+
+        if dataset.included_rows:
+            df = df.iloc[dataset.included_rows].values.tolist()
+            for i in range(len(dataset.included_rows)):
+                for j in range(len(df[i])):
+                    sheet.write(i, j, df[i][j])
+        else:
+            df = df.values.tolist()
+            for i in range(len(df)):
+                for j in range(len(df[i])):
+                    sheet.write(i, j, df[i][j])
 
         excel_writer.close()
         byte_writer.seek(0)

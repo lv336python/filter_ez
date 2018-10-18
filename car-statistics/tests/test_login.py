@@ -5,10 +5,7 @@ Module for login view testing
 import mock
 from werkzeug.security import check_password_hash
 
-from .fake_data import FakeUser
-
-
-from app.models import User
+from .fake_data import FakeUser# pylint: disable=E0402
 
 
 def login(client, email, password):
@@ -87,6 +84,11 @@ def test_login(client):
     assert response.status_code == 200
 
 def test_new_user(new_user):
+    """
+    Test for model user
+    :param new_user:
+    :return: response in case correct user
+    """
     password = check_password_hash(pwhash=new_user.password, password='qwerty1111')
     assert new_user.email == 'vova@gmail.com'
-    assert password == True
+    assert password is True

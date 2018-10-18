@@ -38,6 +38,8 @@ export class NotificationComponent implements OnInit, OnDestroy {
     connection;
     toState = [];
     count = 0;
+
+
     changeState(index: number): void{
         this.toState[index] = 'state2';
     }
@@ -58,14 +60,10 @@ export class NotificationComponent implements OnInit, OnDestroy {
                                     'msg': data['data']};
 
                         this.messages.push(elem);
-                        console.log(this.messages);
-                        console.log(this.count)
                         setTimeout(() => {
                             this.removeMessage(this.count);
                         }, 10000);
                         this.count++;
-                        console.log(this.count)
-
                     }
                 );
         }

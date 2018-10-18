@@ -1,6 +1,6 @@
 <div *ngIf="!fileDeleted">
     <h3>{{ file_index + 1 }}. {{ userfile.name }}</h3>
-    
+
     <div class="file-stat">
         <span> rows: {{ userfile.rows }} </span>
         <span> size: {{ bytestToMBytes(userfile.size) }} MB </span>
@@ -48,7 +48,7 @@
 
               <button  class="btn btn-danger delete-button" (click)="deleteFile(userfile.id)"
                                   data-dismiss="modal">Delete</button>
-              
+
               <button type="button" style="text-align: right"
               class="btn btn-success cancel-button" data-dismiss="modal">Close</button>
               </div>

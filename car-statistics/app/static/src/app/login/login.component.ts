@@ -2,9 +2,9 @@ import {Component, EventEmitter, OnInit, Output} from '@angular/core';
 import {ActivatedRoute, Router} from "@angular/router";
 import {FormControl, FormGroup, Validators} from "@angular/forms";
 import {AuthService} from "../_services/auth.service";
-import {User} from "../models/user";
+import {User} from "../_models/user";
 import {style} from "@angular/animations";
-import {TextFormatDirective} from "../directives/text-format.directive";
+import {TextFormatDirective} from "../_directives/text-format.directive";
 import {SocketService} from "../_services/socket.service";
 import {EventEmitterService} from "../_services/event-emitter.service";
 

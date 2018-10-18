@@ -1,6 +1,6 @@
 import { Component, OnInit, Input} from '@angular/core';
 import { UserDataService } from '../../_services/user-data.service';
-import {File} from '../../models/data';
+import {File} from '../../_models/data';
 
 @Component({
   selector: 'app-user-files',
