@@ -7,6 +7,8 @@ from app.models.files import File, Filter, Dataset
 from app.services.file_data import fields_definition
 import pandas as pd
 
+from app.services.utils import get_user_file, serialized_file
+
 
 @app.route('/api/save_filter', methods=['POST'])
 def save_filter():
@@ -50,9 +52,9 @@ def get_metadata():
     """
     data = json.loads(request.data)
     file_id = data['file_id']
-    file = File.query.get(file_id)
-    metadata = fields_definition('usersdata/'+'uploads/' + session['user_id'] + '/' + file.path)
-    count_rows = pd.read_excel('usersdata/'+'uploads/' + session['user_id'] + '/' + file.path).shape[0]
+    file_path = get_user_file(file_id, int(session['user_id']))
+    metadata = fields_definition(file_path)
+    count_rows = pd.read_pickle(serialized_file(file_path)).shape[0]
     result = {'rows': count_rows, 'metadata': metadata}
     return make_response(jsonify(result), 200)
 
@@ -67,10 +69,9 @@ def filter_num_rows():
     params = data['params']
     file_id = data['file_id']
 
-    file = File.query.get(file_id)
+    file_path = get_user_file(file_id, int(session['user_id']))
+    xl_file = pd.read_pickle(serialized_file(file_path))
 
-    xl_file = pd.read_excel('usersdata/'+'uploads/' + session['user_id'] + '/' + file.path)
-    print(params)
     if type(params) is list or type(params) is tuple:
         for elem in params:
             if 'quantity' in elem:
