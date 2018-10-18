@@ -2,7 +2,7 @@
 Module for filtering files
 """
 from app import app, db
-from flask import request, jsonify, make_response, json
+from flask import request, jsonify, make_response, json, session
 from app.models.files import File, Filter, Dataset
 from app.services.file_data import fields_definition
 import pandas as pd
@@ -19,24 +19,25 @@ def save_filter():
     name = data['name']
     file_id = data['file_id']
 
-    file = File.query.get(file_id)
-    xl_file = pd.read_excel(file.path)
-    for elem in parameters:
-        if 'quantity' in elem:
-            xl_file = xl_file[mask_f(xl_file, elem)].head(elem['quantity'])
-        else:
-            xl_file = xl_file[mask_f(xl_file, elem)]
+    # file = File.query.get(file_id)
+    # xl_file = pd.read_excel(file.path)
 
-    included_rows = xl_file.index.tolist()
-
-    new_filter = Filter(name, parameters)
-    db.session.add(new_filter)
-    db.session.commit()
-    db.session.flush()
-
-    new_dataset = Dataset(user_id=1, file_id=file_id, filter_id=new_filter.id, included_rows=included_rows)
-    db.session.add(new_dataset)
-    db.session.commit()
+    # for elem in parameters:
+    #     if 'quantity' in elem:
+    #         xl_file = xl_file[mask_f(xl_file, elem)].head(elem['quantity'])
+    #     else:
+    #         xl_file = xl_file[mask_f(xl_file, elem)]
+    #
+    # included_rows = xl_file.index.tolist()
+    #
+    # new_filter = Filter(name, parameters)
+    # db.session.add(new_filter)
+    # db.session.commit()
+    # db.session.flush()
+    #
+    # new_dataset = Dataset(user_id=1, file_id=file_id, filter_id=new_filter.id, included_rows=included_rows)
+    # db.session.add(new_dataset)
+    # db.session.commit()
 
     return make_response(jsonify({'success': 'filter was succesfully saved'}), 200)
 
@@ -50,8 +51,8 @@ def get_metadata():
     data = json.loads(request.data)
     file_id = data['file_id']
     file = File.query.get(file_id)
-    metadata = fields_definition(file.path)
-    count_rows = pd.read_excel(file.path).shape[0]
+    metadata = fields_definition('usersdata/'+'uploads/' + session['user_id'] + '/' + file.path)
+    count_rows = pd.read_excel('usersdata/'+'uploads/' + session['user_id'] + '/' + file.path).shape[0]
     result = {'rows': count_rows, 'metadata': metadata}
     return make_response(jsonify(result), 200)
 
@@ -65,15 +66,22 @@ def filter_num_rows():
     data = json.loads(request.data)
     params = data['params']
     file_id = data['file_id']
+
     file = File.query.get(file_id)
 
-    xl_file = pd.read_excel(file.path)
-
-    for elem in params:
-        if 'quantity'in elem:
-            xl_file = xl_file[mask_f(xl_file, elem)].head(elem['quantity'])
+    xl_file = pd.read_excel('usersdata/'+'uploads/' + session['user_id'] + '/' + file.path)
+    print(params)
+    if type(params) is list or type(params) is tuple:
+        for elem in params:
+            if 'quantity' in elem:
+                xl_file = xl_file[mask_f(xl_file, elem)].head(elem['quantity'])
+            else:
+                xl_file = xl_file[mask_f(xl_file, elem)]
+    else:
+        if 'quantity' in params:
+            xl_file = xl_file[mask_f(xl_file, params)].head(params['quantity'])
         else:
-            xl_file = xl_file[mask_f(xl_file, elem)]
+            xl_file = xl_file[mask_f(xl_file, params)]
 
     return make_response(jsonify(xl_file.shape[0]), 200)
 

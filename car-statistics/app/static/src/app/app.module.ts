@@ -32,6 +32,7 @@ import { UserDataService } from './_services/user-data.service';
 import { Ng2SearchPipeModule } from 'ng2-search-filter';
 import { EmailFileComponent } from './email-file/email-file.component';
 import {BrowserAnimationsModule} from "@angular/platform-browser/animations";
+import { FilterTreeComponent } from './filter-tree/filter-tree.component';
 import { FileUploadConfirmComponent } from './upload-components/file-upload-confirm/file-upload-confirm.component';
 import { FileUploadProcessComponent } from './upload-components/file-upload-process/file-upload-process.component';
 import { ModalsComponent } from './_directives/modals.component';
@@ -66,6 +67,7 @@ import { ProcessBarComponent } from './upload-components/process-bar/process-bar
     UserFileComponent,
     UserFilterComponent,
     UserDataSetComponent,
+    FilterTreeComponent,
     FileUploadConfirmComponent,
     FileUploadProcessComponent,
     ModalsComponent,

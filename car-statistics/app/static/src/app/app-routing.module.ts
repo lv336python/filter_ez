@@ -12,6 +12,7 @@ import {ResetPasswordComponent} from "./reset-password/reset-password.component"
 import {ConfirmResetComponent} from "./confirm-reset/confirm-reset.component"
 import {FilterComponent} from "./filter/filter.component";
 import {UserDataComponent} from "./user-data/user-data.component";
+import {FilterTreeComponent} from "./filter-tree/filter-tree.component";
 
 const routes: Routes = [
     {path: '', component: HomeComponent, canActivate: [AuthGuardService]},
@@ -21,8 +22,8 @@ const routes: Routes = [
     {path: 'logout', component: LogoutComponent},
     {path: 'reset', component: ResetPasswordComponent},
     {path: 'reset_password_confirm/:token', component: ConfirmResetComponent},
-	{path: 'filter', component: FilterComponent},
     {path: 'data', component: UserDataComponent},
+	{path: 'filter', component: FilterTreeComponent},
 	{path: '**', component: NotfoundComponent},
 ];
 
