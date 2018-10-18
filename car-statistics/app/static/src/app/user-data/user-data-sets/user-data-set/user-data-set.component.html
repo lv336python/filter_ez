@@ -3,7 +3,8 @@
     <button *ngIf="showDatasetStat" class="stat" (click)="getStatDataset()">Hide</button>
     <h3>{{ userdataset.name }}</h3>
     <div>
-    <span>date: {{ userdataset.date }}</span>
+        <span>sample: {{ userdataset.items }}</span>
+        <span>  date: {{ userdataset.date | date }}</span>
     </div>
     <app-statistics class="dataset-statistic" *ngIf="showDatasetStat" [dataset_id]="userdataset.id"></app-statistics>
 </div>
