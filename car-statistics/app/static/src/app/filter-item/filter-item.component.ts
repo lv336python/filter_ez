@@ -29,6 +29,7 @@ export class FilterItemComponent implements OnInit {
 
     valuesPushed = false;
     valueMaxMin = {};
+    disable_columns= [];
 
 
     values = [];
@@ -51,7 +52,9 @@ export class FilterItemComponent implements OnInit {
     }
 
     ngOnInit() {
-        if (this.child == 'first') {
+        if (this.parent_id && !this.child_id) {
+            this.disable_columns = this.f_param[this.parent_id]['child'][0]['disabledColumns'];
+
             if (this.f_param[this.parent_id]['child'][this.f_index]['params']['column']) {
                 this.selectedColumnName(this.f_param[this.parent_id]['child'][this.f_index]['params']['column']);
                 this.disColumn = true;
@@ -62,12 +65,14 @@ export class FilterItemComponent implements OnInit {
                 this.disValue = true;
             }
             this.parseSettings(this.f_param[this.parent_id]['child'][this.f_index]['settings']);
-        } else if (this.child == 'last') {
+        } else if (this.parent_id && this.child_id) {
+            this.disable_columns = this.f_param[this.parent_id]['child'][0]['child'][0]['disabledColumns'];
+
             if (this.f_param[this.parent_id]['child'][this.child_id]['child'][this.f_index]['params']['column']) {
                 this.selectedColumnName(this.f_param[this.parent_id]['child'][this.child_id]['child'][this.f_index]['params']['column']);
                 this.disColumn = true;
             }
-            this.operator = this.f_param[this.parent_id]['child'][this.child_id]['child'][this.f_index]['params']['operator'] ? this.f_param[this.parent_id]['child'][this.f_index]['params']['operator'] : '';
+            this.operator = this.f_param[this.parent_id]['child'][this.child_id]['child'][this.f_index]['params']['operator'] ? this.f_param[this.parent_id]['child'][this.child_id]['child'][this.f_index]['params']['operator'] : '';
             if (this.f_param[this.parent_id]['child'][this.child_id]['child'][this.f_index]['params']['value']) {
                 this.value = this.f_param[this.parent_id]['child'][this.child_id]['child'][this.f_index]['params']['value'];
                 this.disValue = true;
@@ -378,25 +383,25 @@ export class FilterItemComponent implements OnInit {
         if (this.rangeValue) {
             this.value = this.rangeValue.toString();
         }
-        this.f_param[this.parent_id]['child'][child_id]['child'][this.f_index]['params'] = {
+        this.f_param[parent_id]['child'][child_id]['child'][this.f_index]['params'] = {
             'column': this.column,
             'operator': this.operator,
             'value': this.value,
             'quantity': this.calculateQuantity(),
         };
-        this.f_param[this.parent_id]['child'][child_id]['child'][this.f_index]['parent_id'] = this.parent_id;
-        this.f_param[this.parent_id]['child'][child_id]['child'][this.f_index]['child'] = false;
-        this.f_param[this.parent_id]['child'][child_id]['child'][this.f_index]['child_id'] = child_id;
-        this.f_param[this.parent_id]['child'][child_id]['child'][this.f_index]['settings'] = {
+        this.f_param[parent_id]['child'][child_id]['child'][this.f_index]['parent_id'] = parent_id;
+        this.f_param[parent_id]['child'][child_id]['child'][this.f_index]['child'] = false;
+        this.f_param[parent_id]['child'][child_id]['child'][this.f_index]['child_id'] = child_id;
+        this.f_param[parent_id]['child'][child_id]['child'][this.f_index]['settings'] = {
             'count_rows': this.count_rows,
             'quantity': this.quantity,
             'qtt_readonly': true,
         };
 
-        let last_index = Object.keys(this.f_param[this.parent_id]['child'][child_id]['child']).length;
-        this.f_param[this.parent_id]['child'][child_id]['child'][last_index] = {
+        let last_index = Object.keys(this.f_param[parent_id]['child'][child_id]['child']).length;
+        this.f_param[parent_id]['child'][child_id]['child'][last_index] = {
             'params': {
-                'column': this.column
+                'column': this.column,
             },
             'child': false,
             'parent_id': parent_id,
@@ -417,7 +422,7 @@ export class FilterItemComponent implements OnInit {
         if (!this.checkRangeValue()) {
             return false
         }
-        if(this.rangeValue){
+        if (this.rangeValue) {
             this.value = this.rangeValue.toString();
         }
         this.f_param[this.parent_id]['child'][this.child_id]['child'][this.f_index] = {};
