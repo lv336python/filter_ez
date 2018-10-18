@@ -49,7 +49,7 @@ def send_email(to_whom, subject, template):
         html=template,
         sender=app.config['MAIL_DEFAULT_SENDER']
     )
-    send.apply_async([msg], serializer='pickle')
+    send.apply_async([msg], serializer='pickle', link=notify_user.s(current_user.id))
 
 
 def send_result_to_mail(recipients, file_name, file_content):
