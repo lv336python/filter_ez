@@ -6,7 +6,8 @@ from app import socketio
 @socketio.on('connect')
 def on_connect():
     print(f'{str(current_user)} connected')
-    join_room(current_user.id)
+    if current_user:
+        join_room(current_user.id)
 
 
 @socketio.on('disconnect')
