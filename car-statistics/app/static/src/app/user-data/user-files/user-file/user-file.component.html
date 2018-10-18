@@ -4,7 +4,7 @@
     <button *ngIf="showDatasetStat" class="stat" (click)="getStatDataset()">Hide</button>
     <div class="file-stat">
         <span> rows: {{ userfile.rows }} </span>
-        <span> size: {{ userfile.size }} MB </span>
+        <span> size: {{ userfile.size/1024}}</span>
         <span>       {{ userfile.date }}</span>
 
     </div>
