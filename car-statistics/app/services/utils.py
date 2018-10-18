@@ -162,7 +162,10 @@ def dataset_to_excel(dataset):
 
         with open(path_to_file, 'rb') as file:
             df = pickle.load(file)
-        df = df.iloc[dataset.included_rows].values.tolist()
+
+        if dataset.included_rows:
+            df = df.iloc[dataset.included_rows].values.tolist()
+
         for i in range(len(dataset.included_rows)):
             for j in range(len(df[i])):
                 sheet.write(i, j, df[i][j])
