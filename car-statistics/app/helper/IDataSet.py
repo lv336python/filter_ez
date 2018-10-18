@@ -21,3 +21,6 @@ class IDataSet:
 
     def filter_set(self, filter): # pylint: disable=missing-docstring
         raise NotImplementedError
+
+    def get_rows_by_indexes(self, included_rows):
+        raise NotImplementedError # pylint: disable=missing-docstring

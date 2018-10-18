@@ -44,15 +44,15 @@ class Config:
     # logging parameters
     LOG_FILE_PATH = os.path.join(BASEDIR, 'logs/log.txt')
 
-    #temp files
-    TEMP_FOLDER = os.path.join(BASEDIR, 'usersdata', 'Temp files')
-    UPLOAD_LIMIT = 40000  # in kB
-
     # user data
     USER_DATA_FOLDER = os.path.join(BASEDIR, 'usersdata')
     UPLOAD_FOLDER = os.path.join(USER_DATA_FOLDER, 'uploads')
 
     ALLOWED_EXTENSIONS = ('csv', 'xls', 'xlsx')
+
+    # temp files
+    TEMP_FOLDER = os.path.join(BASEDIR, USER_DATA_FOLDER, 'Temp files')
+    UPLOAD_LIMIT = 40000  # in kB
 
     #Celery configurations
     RESULT_BACKEND = 'rpc://'
