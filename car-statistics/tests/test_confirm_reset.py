@@ -3,7 +3,7 @@ Module for confirm_reset (reset password) view
 '''
 import mock
 
-from .fake_data import FakeUser
+from .fake_data import FakeUser# pylint: disable=E0402
 
 def confirm_reset(client):
     """
