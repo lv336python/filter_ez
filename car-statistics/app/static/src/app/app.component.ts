@@ -18,13 +18,9 @@ export class AppComponent{
     }
 
     ngOnInit() {
-        this.loggedIn =  this.auth.isLogined();
-        if(!this.loggedIn) {
-            this.loggedIn = 'loggedOut';
-        }
+        this.loggedIn =  this.auth.isLoggedIn();
         this.emitter.emitter.subscribe(
             res => {
-                console.log(res + " Emitted");
                 this.loggedIn = res;
             }
         );

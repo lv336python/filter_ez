@@ -3,7 +3,6 @@ import {HttpClient} from "@angular/common/http";
 
 import {Observable} from "rxjs";
 import {tap} from "rxjs/operators";
-import {assertNumber} from "@angular/core/src/render3/assert";
 import {User} from "../_models/user";
 
 @Injectable({
@@ -11,20 +10,19 @@ import {User} from "../_models/user";
 })
 export class AuthService {
 
-    login_api_url = "api/login";
-    register_api_url = "api/register";
-    confirm_url = "api/confirm/";
-    logout_api_url = "api/logout";
-    reset_password_url = "api/reset";
-    reset_password_confirm_api = "api/password_reset";
+    loginUrl = "api/login";
+    registerUrl = "api/register";
+    confirmUrl = "api/confirm/";
+    logoutUrl = "api/logout";
+    resetPasswordUrl = "api/reset";
+    resetPasswordConfirmUrl = "api/password_reset";
 
     constructor(
-        private _http: HttpClient,
-    ) {
-    }
+        private httpClient: HttpClient,
+    ) {}
 
     toRegister(user: User): Observable<any> {
-        return this._http.post<any>(this.register_api_url, user)
+        return this.httpClient.post<any>(this.registerUrl, user)
             .pipe(
                 tap(
                     data => console.log(data),
@@ -34,23 +32,24 @@ export class AuthService {
     }
 
     toLogin(user: User): Observable<any> {
-        return this._http.post<any>(this.login_api_url, user);
+        return this.httpClient.post<any>(this.loginUrl, user);
     }
 
     toLogout(user: User): Observable<any> {
-        return this._http.post<any>(this.logout_api_url, user);
+        return this.httpClient.post<any>(this.logoutUrl, user);
     }
 
     toResetPassword(email: string): Observable<any> {
-        return this._http.post<any>(this.reset_password_url, {'email': email})
+        return this.httpClient.post<any>(this.resetPasswordUrl, {'email': email})
     }
 
     toResetPasswordConfirm(token, password: string): Observable<any> {
-        return this._http.put<any>(this.reset_password_confirm_api + '/' + token, {'password': password})
+        return this.httpClient.put<any>(this.resetPasswordConfirmUrl + '/' + token,
+            {'password': password})
     }
 
     confirmEmail(token: string): Observable<any> {
 
-        return this._http.get<any>(this.confirm_url + token);
+        return this.httpClient.get<any>(this.confirmUrl + token);
     }
 }

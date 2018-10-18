@@ -1,9 +1,8 @@
-import {Component, EventEmitter, OnInit, Output} from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {ActivatedRoute, Router} from "@angular/router";
 import {FormControl, FormGroup, Validators} from "@angular/forms";
 import {AuthService} from "../_services/auth.service";
 import {User} from "../_models/user";
-import {style} from "@angular/animations";
 import {TextFormatDirective} from "../_directives/text-format.directive";
 import {SocketService} from "../_services/socket.service";
 import {EventEmitterService} from "../_services/event-emitter.service";
@@ -17,7 +16,6 @@ export class LoginComponent implements OnInit {
     returnUrl: string;
     message : string;
     redirectingMessage: boolean = this.route.snapshot.queryParams["authRedirecting"] || undefined;
-
 
     loginGroup = new FormGroup({
         email: new FormControl('', [
@@ -33,7 +31,6 @@ export class LoginComponent implements OnInit {
         ])
     });
 
-
     toLogin() {
         this.auth_.toLogin(new User(this.loginGroup.controls['email'].value,
             this.loginGroup.controls['password'].value))
@@ -43,9 +40,9 @@ export class LoginComponent implements OnInit {
                     this.router.navigate([this.returnUrl]);
                 },
                 err => {
-                    let data_txt = (JSON.stringify(err));
-                    let error_data = JSON.parse(data_txt);
-                    this.message = error_data.error.message.toString();
+                    let dataTxt = (JSON.stringify(err));
+                    let errorData = JSON.parse(dataTxt);
+                    this.message = errorData.error.message.toString();
                 },
             )
     }
@@ -66,7 +63,6 @@ export class LoginComponent implements OnInit {
     get email() {
         return this.loginGroup.get('email');
     }
-
 
     ngOnInit() {
         this.returnUrl = this.route.snapshot.queryParams['returnUrl'] || '/';

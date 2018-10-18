@@ -8,21 +8,21 @@ import {DataService} from "../_services/data.service";
 })
 export class TableComponent implements OnInit {
 
-    dataset_id_: number;
+    datasetId_: number;
     columns : Array<string>;
     rows : Array<Array<string>>;
 
-    @Input() set dataset_id(dataset_id : number) {
-        this.dataset_id_ = dataset_id;
+    @Input() set datasetId(dataset_id : number) {
+        this.datasetId_ = dataset_id;
         this.updateTable();
     }
 
-    get dataset_id () : number {
-        return this.dataset_id_;
+    get datasetId () : number {
+        return this.datasetId_;
     }
 
     updateTable() {
-        this.data.getRows(this.dataset_id, 10)
+        this.data.getRows(this.datasetId, 10)
             .subscribe(
               res => {this.columns = res['columns']; this.rows = res['rows']},
               error => {console.log(error)}

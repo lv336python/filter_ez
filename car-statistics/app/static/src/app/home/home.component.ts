@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import {DataService} from "../_services/data.service";
 
 @Component({
@@ -6,25 +6,19 @@ import {DataService} from "../_services/data.service";
   templateUrl: './home.component.html',
   styleUrls: ['./home.component.css']
 })
-export class HomeComponent implements OnInit {
-
-    dataset_id : number;
+export class HomeComponent {
+    datasetId : number;
     marked = false;
 
     constructor(private data: DataService) { }
-
-    ngOnInit() {
-    }
 
     changeMarked() {
         setTimeout(() => {this.marked = true}, 10000);
     }
 
-    fileUploadHandler(dataset_id : number) {
-        console.log(dataset_id);
-        this.dataset_id = dataset_id
+    fileUploadHandler(datasetId : number) {
+        this.datasetId = datasetId
     }
-
 
     sendFile() {
         this.data.get()

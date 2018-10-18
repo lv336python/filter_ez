@@ -18,7 +18,7 @@
 
                 <div class="modal-body">
                         <app-statistics class="dataset-statistic" *ngIf="showDatasetStat"
-                        [dataset_id]="userdataset.id"></app-statistics>
+                                        [datasetId]="userdataset.id"></app-statistics>
                 </div>
                 <div class="modal-footer">
                 <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
@@ -40,7 +40,7 @@
             <div class="modal-content">
 
                 <div class="modal-body">
-                    <app-email-file  [dataset_id]="userdataset.id"></app-email-file>
+                    <app-email-file [datasetId]="userdataset.id"></app-email-file>
                 </div>
                 <div class="modal-footer">
                 <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>

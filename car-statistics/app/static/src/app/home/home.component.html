@@ -3,5 +3,5 @@
 <br>
 <button *ngIf="marked" (click)="sendFile()" >TEST: Send file to email</button>
 <br>
-<app-statistics (mouseover)="changeMarked()" *ngIf="dataset_id" [dataset_id]="dataset_id"> Loading statistics... </app-statistics>
-<app-table *ngIf="dataset_id" [dataset_id]="dataset_id">Loading preview table...</app-table>
+<app-statistics (mouseover)="changeMarked()" *ngIf="datasetId" [datasetId]="datasetId"> Loading statistics... </app-statistics>
+<app-table *ngIf="datasetId" [datasetId]="datasetId">Loading preview table...</app-table>

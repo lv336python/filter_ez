@@ -29,10 +29,7 @@ import { trigger, state, style, animate, transition  } from '@angular/animations
 export class NotificationComponent implements OnInit, OnDestroy {
 
 
-  constructor(private socket: SocketService,
-              private auth: AuthService,
-              private auth_guard: AuthGuardService) {
-    }
+    constructor(private socket: SocketService) {}
 
     messages = [];
     connection;
@@ -83,8 +80,8 @@ export class NotificationComponent implements OnInit, OnDestroy {
 
 
     removeNotification(element : Node, index: number) {
-            element.parentElement.remove();
-            this.messages.splice(index, 1);
-            this.toState.splice(index, 1);
+        element.parentElement.remove();
+        this.messages.splice(index, 1);
+        this.toState.splice(index, 1);
     }
 }

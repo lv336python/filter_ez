@@ -15,14 +15,10 @@ export class ConfirmEmailComponent implements OnInit {
         private auth: AuthService,
         private route: ActivatedRoute,
         private router: Router
-    ) {
-
-    }
+    ) {}
 
     ngOnInit() {
-
         this.auth.confirmEmail(this.route.snapshot.params["token"])
-            .subscribe(res => this.router.navigate([this.returnUrl]));
+            .subscribe(() => this.router.navigate([this.returnUrl]));
     }
-
 }
