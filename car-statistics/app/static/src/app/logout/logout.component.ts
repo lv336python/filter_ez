@@ -1,9 +1,9 @@
 import {Component, OnInit} from '@angular/core';
-import {AuthService} from "../auth.service";
+import {AuthService} from "../_services/auth.service";
 import {ActivatedRoute, Router} from "@angular/router";
 import {User} from "../_models/user";
-import {SocketService} from "../socket.service";
-import {EventEmitterService} from "../event-emitter.service";
+import {SocketService} from "../_services/socket.service";
+import {EventEmitterService} from "../_services/event-emitter.service";
 
 @Component({
     selector: 'app-logout',

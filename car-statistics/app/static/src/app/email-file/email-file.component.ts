@@ -1,6 +1,6 @@
 import {Component, Input, OnInit} from '@angular/core';
 import {animate, style, transition, trigger} from "@angular/animations";
-import {DataService} from "../data.service";
+import {DataService} from "../_services/data.service";
 
 @Component({
   selector: 'app-email-file',

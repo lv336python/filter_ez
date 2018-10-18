@@ -27,3 +27,8 @@
 .tab button.active {
     background-color: #ccc;
 }
+.selectpicker{
+    max-width: 200px;
+    max-height: 100%;
+    
+}

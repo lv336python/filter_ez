@@ -1,7 +1,7 @@
 import {Component, OnDestroy, OnInit} from '@angular/core';
-import {SocketService} from "../socket.service";
+import {SocketService} from "../_services/socket.service";
 import {AuthGuardService} from "../auth.guard";
-import {AuthService} from "../auth.service";
+import {AuthService} from "../_services/auth.service";
 import { trigger, state, style, animate, transition  } from '@angular/animations';
 
 

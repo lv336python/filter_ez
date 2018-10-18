@@ -6,13 +6,14 @@ import os
 import pandas as pd
 import pickle
 import time
+import xlrd
 import xlsxwriter
 
 from io import BytesIO
-from app import app, logger,db
-from app.models import Dataset, File
-from app.services.mail_service import notify_admin
-from app.helper.user_file_manager import UserFilesManager
+from app import app, logger, db
+from app.helper import UserFilesManager
+from app.models import Dataset
+from app.models.files import File
 from hashlib import md5
 from werkzeug.utils import secure_filename
 import math
@@ -54,7 +55,9 @@ def user_dir(user_id):
     :param user_id: id of file owner(user that uploaded this file)
     :return: path to the file directory like /user/file/
     """
-    return os.path.join(app.config['UPLOAD_FOLDER'], str(user_id))
+    upload_dir = app.config['UPLOAD_FOLDER']
+    directory = os.path.join(upload_dir, str(user_id))
+    return directory
 
 
 def save_path(directory, filename, user_id):
@@ -142,7 +145,7 @@ def temp_file(dataset):
         out.write(file.read())
     return path
 
-  
+
 def dataset_to_excel(dataset):
     """
     Writes dataset to excel file in-memory without creating excel file in the local storage
@@ -184,7 +187,7 @@ def dataset_to_excel(dataset):
         notify_admin(f"Error occurred when tried to create a byteIO"
                      f" object for dataset {dataset.id}: {e}", 'ERROR')
 
-        
+
 def serialize(file):
     """
     Serializes DataFrame extracted from .xls file.
