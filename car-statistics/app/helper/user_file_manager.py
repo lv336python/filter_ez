@@ -25,8 +25,11 @@ class UserFilesManager:
         os.makedirs(self.files_dir, exist_ok=True)
 
         self.files = set()
+
         for dataset in Dataset.query.filter(Dataset.user_id == self.user_id):
-            self.files.add(File.query.filter(File.id == dataset.id).first().path)
+            file = File.query.filter(File.id == dataset.id).first()
+            if file:
+                self.files.add(file.path)
 
     def upload_file(self, file):
         """
@@ -98,7 +101,7 @@ class UserFilesManager:
         :return: path to file or None
         """
         file = File.query.get(file_id)
-        return file.path if file in self.files else None
+        return file.path if file.path in self.files else None
 
     def get_file_path(self, file_id):
         """
@@ -118,6 +121,7 @@ class UserFilesManager:
         :return: path to file or None
         """
         file_full_name = self.get_user_file_name(file_id)
+
         if file_full_name:
             file_name = self.get_file_name(file_full_name)
             return os.path.join(self.files_dir, f'{file_name}.pkl')

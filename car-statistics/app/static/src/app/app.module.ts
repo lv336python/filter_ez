@@ -33,6 +33,7 @@ import { Ng2SearchPipeModule } from 'ng2-search-filter';
 import { EmailFileComponent } from './email-file/email-file.component';
 import {BrowserAnimationsModule} from "@angular/platform-browser/animations";
 import { FooterComponent } from './footer/footer.component';
+import { FilterTreeComponent } from './filter-tree/filter-tree.component';
 
 @NgModule({
   declarations: [
@@ -61,6 +62,7 @@ import { FooterComponent } from './footer/footer.component';
     UserFilterComponent,
     UserDataSetComponent,
     FooterComponent,
+    FilterTreeComponent,
   ],
   imports: [
     BrowserModule,

@@ -54,6 +54,10 @@ class Config:
 
     ALLOWED_EXTENSIONS = ('csv', 'xls', 'xlsx')
 
+    # temp files
+    TEMP_FOLDER = os.path.join(BASEDIR, USER_DATA_FOLDER, 'Temp files')
+    UPLOAD_LIMIT = 40000  # in kB
+
     #Celery configurations
     RESULT_BACKEND = 'rpc://'
 

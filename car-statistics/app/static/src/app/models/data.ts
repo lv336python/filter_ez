@@ -29,7 +29,7 @@ export class DataSet {
                 public user_id: number,
                 public filter_id: number,
                 public name: string,
-                public date: number,
+                public date: Date,
                 public items: number
     ) {
     }
