@@ -26,9 +26,9 @@ class UserFilesManager:
 
         self.files = set()
         for dataset in Dataset.query.filter(Dataset.user_id == self.user_id):
-            _file = File.query.filter(File.id == dataset.id).first()
-            if _file:
-                self.files.add(_file.path)
+            file = File.query.filter(File.id == dataset.id).first()
+            if file:
+                self.files.add(file.path)
 
     def upload_file(self, file):
         """
