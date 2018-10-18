@@ -17,7 +17,7 @@ import { LogoutComponent } from './logout/logout.component';
 import { ConfirmResetComponent } from './confirm-reset/confirm-reset.component';
 import { NavbarComponent } from './navbar/navbar.component';
 import { TableComponent } from './table/table.component';
-import { FileUploadsComponent } from './file-uploads/file-uploads.component';
+import { FileUploadSelectorComponent } from './upload-components/file-upload-selector/file-upload-selector.component';
 import { AuthGuardService } from './auth.guard';
 import { StatisticsComponent } from './statistics/statistics.component';
 import { NotificationComponent } from './notification/notification.component';
@@ -34,6 +34,13 @@ import { EmailFileComponent } from './email-file/email-file.component';
 import {BrowserAnimationsModule} from "@angular/platform-browser/animations";
 import { FooterComponent } from './footer/footer.component';
 import { FilterTreeComponent } from './filter-tree/filter-tree.component';
+import { FileUploadConfirmComponent } from './upload-components/file-upload-confirm/file-upload-confirm.component';
+import { FileUploadProcessComponent } from './upload-components/file-upload-process/file-upload-process.component';
+import { ModalsComponent } from './_directives/modals.component';
+import { FileUploadItemComponent } from './upload-components/file-upload-item/file-upload-item.component';
+import {FileUploadService} from "./_services/file-upload.service";
+import {ModalService} from "./_services/modal.service";
+import { ProcessBarComponent } from './upload-components/process-bar/process-bar.component';
 
 @NgModule({
   declarations: [
@@ -47,7 +54,7 @@ import { FilterTreeComponent } from './filter-tree/filter-tree.component';
     ResetPasswordComponent,
     ConfirmResetComponent,
     NavbarComponent,
-    FileUploadsComponent,
+    FileUploadSelectorComponent,
     TableComponent,
     StatisticsComponent,
     NotificationComponent,
@@ -63,6 +70,11 @@ import { FilterTreeComponent } from './filter-tree/filter-tree.component';
     UserDataSetComponent,
     FooterComponent,
     FilterTreeComponent,
+    FileUploadConfirmComponent,
+    FileUploadProcessComponent,
+    ModalsComponent,
+    FileUploadItemComponent,
+    ProcessBarComponent,
   ],
   imports: [
     BrowserModule,
@@ -77,7 +89,7 @@ import { FilterTreeComponent } from './filter-tree/filter-tree.component';
       BrowserAnimationsModule
 
   ],
-  providers: [AuthGuardService, UserDataService],
+  providers: [AuthGuardService, UserDataService, FileUploadService, ModalService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

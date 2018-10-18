@@ -1,5 +1,5 @@
 import {Component, Input, OnInit} from '@angular/core';
-import {Filter} from '../../../models/data';
+import {Filter} from '../../../_models/data';
 
 @Component({
   selector: 'app-user-filter',

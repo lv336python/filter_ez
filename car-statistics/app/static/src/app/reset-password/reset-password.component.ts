@@ -3,7 +3,7 @@ import {AuthService} from "../auth.service";
 
 import {FormControl, FormGroup, Validators} from "@angular/forms";
 import {ActivatedRoute, Router} from "@angular/router";
-import {TextFormatDirective} from "../directives/text-format.directive";
+import {TextFormatDirective} from "../_directives/text-format.directive";
 
 
 @Component({

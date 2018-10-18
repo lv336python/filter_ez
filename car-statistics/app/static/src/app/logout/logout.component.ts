@@ -1,7 +1,7 @@
 import {Component, OnInit} from '@angular/core';
 import {AuthService} from "../auth.service";
 import {ActivatedRoute, Router} from "@angular/router";
-import {User} from "../models/user";
+import {User} from "../_models/user";
 import {SocketService} from "../socket.service";
 import {EventEmitterService} from "../event-emitter.service";
 

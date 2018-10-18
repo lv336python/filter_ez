@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import {UserDataService} from '../_services/user-data.service';
-import {UserData} from '../models/data';
+import {UserData} from '../_models/data';
 
 
 @Component({

@@ -1,9 +1,9 @@
 import {Component, OnInit} from '@angular/core';
 import {FormControl, FormGroup, Validators} from "@angular/forms";
-import {TextFormatDirective} from "../directives/text-format.directive";
+import {TextFormatDirective} from "../_directives/text-format.directive";
 import {AuthService} from "../auth.service";
 
-import {User} from "../models/user";
+import {User} from "../_models/user";
 import {ActivatedRoute, Router} from "@angular/router";
 
 @Component({
