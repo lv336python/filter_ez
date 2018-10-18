@@ -11,14 +11,14 @@ from flask import url_for
 import os
 
 
-def send_to_user(dataset_id, user_id):
+def send_to_user(dataset, user_id):
     """
     Function send templink or file to user which depends on size of file.
     :param dataset_id:
     :param user_id:
     :return: functions sending link or file
     """
-    file = temp_file(dataset_id)
+    file = temp_file(dataset)
     if file and os.path.getsize(file) > app.config['UPLOAD_LIMIT']:
         return send_templink(file, user_id)
     else:

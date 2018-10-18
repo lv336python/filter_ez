@@ -45,7 +45,7 @@ class Config:
     LOG_FILE_PATH = os.path.join(BASEDIR, 'logs/log.txt')
 
     #temp files
-    TEMP_FOLDER = os.path.join(BASEDIR, DATA_FOLDER, 'Temp files')
+    TEMP_FOLDER = os.path.join(BASEDIR, 'usersdata', 'Temp files')
     UPLOAD_LIMIT = 40000  # in kB
 
     # user data
