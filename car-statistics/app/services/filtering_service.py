@@ -4,7 +4,7 @@ import numpy as np
 from app import db
 from app.models import Dataset, Filter
 from math import ceil
-from app.services.utils import serialized_file, get_user_file
+from app.helper import UserFilesManager
 
 
 def mask(df, key, value):  # DataFrame custom mask
@@ -43,12 +43,11 @@ def dataframe_actualization(file_id, user_id):
     :param file_id: file from which creates new dataset
     :return: dataFrame with available data
     """
-    file = get_user_file(file_id, user_id)
+    ufm = UserFilesManager(user_id)
+    work_file = ufm.get_serialized_file_path(file_id)
     subsets = Dataset.query.filter_by(file_id=file_id).filter(Dataset.included_rows != None).all()
     reserved = [x.included_rows for x in subsets]
-    drop_list = list()
     drop_list = [ids for subset in reserved for ids in subset]
-    work_file = serialized_file(file)
 
     dataframe = pd.read_pickle(work_file)
     print(dataframe.shape)
@@ -110,8 +109,8 @@ def filter_apply(dataframe, filter):
 
 
 def filters(file_id, user_id, key = False, value = False, buff=False):
-    file = get_user_file(file_id, user_id)
-    file = serialized_file(file)
+    ufm = UserFilesManager(user_id)
+    file = ufm.get_serialized_file_path(file_id)
     df = pd.read_pickle(file)
     # df = pd.read_excel(file)
     if not buff:

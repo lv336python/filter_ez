@@ -101,7 +101,10 @@ class UserFilesManager:
         :return: path to file or None
         """
         file = File.query.get(file_id)
-        return file.path if file.path in self.files else None
+        print(file)
+        if file:
+            return file.path if file.path in self.files else None
+        return None
 
     def get_file_path(self, file_id):
         """
@@ -126,6 +129,19 @@ class UserFilesManager:
             file_name = self.get_file_name(file_full_name)
             return os.path.join(self.files_dir, f'{file_name}.pkl')
         return None
+
+    def delete_file(self, file_id):
+        """
+        Function that delete file from user directory
+        :param file_id: id of user file to be deleted
+        """
+        file = self.get_user_file_name(file_id)
+        if file:
+            os.remove(os.path.join(self.files_dir, file))
+            serialized_file = self.get_serialized_file_path(file_id)
+            os.remove(os.path.join(self.files_dir, serialized_file))
+            File.query.filter(File.id == file_id).delete()
+            db.session.commit()
 
     @classmethod
     def get_attributes(cls, file_path):
