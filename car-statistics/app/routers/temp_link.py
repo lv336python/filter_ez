@@ -22,8 +22,8 @@ def get_temp_file(token):
     return send_file(file_path, as_attachment=True)
 
 
-@app.route("/api/send_file/<dataset>", methods=['GET'])
-def temp_link(dataset):
+@app.route("/api/send_file/<dataset_id>", methods=['GET'])
+def temp_link(dataset_id):
     """
     GET method that sends file to the email address that is
     registered in system.
@@ -31,7 +31,7 @@ def temp_link(dataset):
     :return: file to the email
     """
     user_id = int(session['user_id'])
-    res = send_to_user(dataset, user_id)
+    res = send_to_user(dataset_id, user_id)
     return json.dumps({
         'message': res
     }), 201
