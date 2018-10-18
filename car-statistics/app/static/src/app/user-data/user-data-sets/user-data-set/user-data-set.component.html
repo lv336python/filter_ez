@@ -1,12 +1,34 @@
-<div>
-    <button *ngIf="!showDatasetStat" class="stat" (click)="getStatDataset()">Stat</button>
-    <button *ngIf="showDatasetStat" class="stat" (click)="getStatDataset()">Hide</button>
+    <!-- <button *ngIf="!showDatasetStat" class="stat" (click)="getStatDataset()">Stat</button> -->
     <h3>{{ userdataset.name }}</h3>
     <div>
         <span>date: {{ userdataset.date }}</span>
+        <p>{{ userdataset.id }}</p>
+        <a href="api/download/{{userdataset.id}}">download</a><!--This really must be changed-->
+        <button type="button" class="btn btn-success"(click)="downloadDataset(userdataset.id)">Download</button>
     </div>
-    <div class="dataset-stat">
-        <app-statistics class="dataset-statistic" *ngIf="showDatasetStat"
+
+        
+    <div class="container ">
+        <!-- Trigger the modal with a button -->
+        <button type="button" id='data-target'
+         class="btn btn-success"  data-toggle="modal" [attr.data-target]="'#myModal' + userdataset.id">Open Statistic</button>
+        <!-- Modal -->
+        <div class="modal fade" [attr.id]="'myModal' + userdataset.id" role="dialog">
+              
+            <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+
+                <div class="modal-body">
+                     <p>{{ userdataset.id }}</p>
+                        <app-statistics class="dataset-statistic" *ngIf="showDatasetStat"
                         [dataset_id]="userdataset.id"></app-statistics>
+                </div>
+                <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                </div>
+            </div>
+            </div>
+        </div>
+
+                          
     </div>
-</div>

@@ -29,5 +29,6 @@ def delete_file(file_id):
     File.query.filter(File.id == file_id).delete()
     user_directory = user_dir(user_id)
     user_file = file.path
-    delete_files_from_dir(user_directory, user_file), status.HTTP_200_OK
+    delete_files_from_dir(user_directory, user_file)
+    return json.dumps({"message" : "file deleted"}), status.HTTP_200_OK
 

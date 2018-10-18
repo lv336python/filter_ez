@@ -13,7 +13,7 @@ export class UserFileComponent implements OnInit {
     @Input() userfile: File;
     @Input() file_index; //for files numeration
     @Input() dataset_id;
-
+    @Input() file_id;
     showDatasetStat: boolean = false;
     fileDeleted: boolean = false;
     errorMessage: string;
@@ -26,13 +26,13 @@ export class UserFileComponent implements OnInit {
             this.showDatasetStat = true
         }
     }
+    bytestToMBytes(bytes): number{
+        return Math.round(bytes/(1024.0*1024)*100)/100
+    }
 
 
     deleteFile(fileId) {
-        this.confirmed = confirm("Are you realy want to delete this file?")
-        if (!this.confirmed) {
-            return false;
-        }
+        
         this.file.deleteUserFile(fileId).subscribe(
             res => {
                 this.fileDeleted = true;
