@@ -18,7 +18,6 @@ class DataSetPandas(IDataSet):
         """
         method for read file
         :param filename:
-        :return: pandas dataframe
         """
         self.dataframe = pd.read_excel(filename)
 
@@ -34,7 +33,6 @@ class DataSetPandas(IDataSet):
 
         pd.DataFrame.mask = mask
         self.dataframe = self.dataframe.mask(*filter)
-        return self.dataframe
 
     def get_column_names(self):
         """
@@ -60,4 +58,8 @@ class DataSetPandas(IDataSet):
         :return: rows
         """
         rows = self.dataframe[self.dataframe.index < number_of_rows].values.tolist()
+        return rows
+
+    def get_rows_by_indexes(self, included_rows):
+        rows = self.dataframe.iloc[included_rows].values.tolist()
         return rows

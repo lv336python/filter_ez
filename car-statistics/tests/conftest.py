@@ -5,6 +5,9 @@ import pytest
 
 from app import app
 
+from app.models import User
+
+import mock
 
 @pytest.fixture
 def client():
@@ -20,3 +23,8 @@ def client():
 
     os.close(db_fd)
     os.unlink(app.config['DATABASE'])
+
+@pytest.fixture
+def new_user():
+    user = User('vova@gmail.com', 'qwerty1111')
+    return user

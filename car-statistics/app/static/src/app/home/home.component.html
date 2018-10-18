@@ -1,7 +1,7 @@
 
 <app-file-upload-selector (fileUploaded)="fileUploadHandler($event)"></app-file-upload-selector>
-
-<button (click)="sendFile()" >TEST: Send file to email</button>
-
-<app-statistics *ngIf="dataset_id" [dataset_id]="dataset_id"> Loading statistics... </app-statistics>
+<br>
+<button *ngIf="marked" (click)="sendFile()" >TEST: Send file to email</button>
+<br>
+<app-statistics (mouseover)="changeMarked()" *ngIf="dataset_id" [dataset_id]="dataset_id"> Loading statistics... </app-statistics>
 <app-table *ngIf="dataset_id" [dataset_id]="dataset_id">Loading preview table...</app-table>

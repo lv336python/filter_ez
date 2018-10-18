@@ -35,5 +35,7 @@
 }
 
 .closebtn:hover {
+    transform: scale(1.20);
+    transition: .5s all;
     color: black;
 }
