@@ -1654,100 +1654,7 @@ var FilterTreeComponent = /** @class */ (function () {
     };
     FilterTreeComponent.prototype.saveFilter = function () {
         var _this = this;
-        var filter_params = {
-            "0": {
-                "params": { "column": "Color", "operator": "==", "value": "Red", "quantity": 4999 },
-                "child": {
-                    "0": {
-                        "params": { "column": "Country", "operator": "==", "value": "USA", "quantity": 749 },
-                        "child": {
-                            "0": {
-                                "params": {
-                                    "column": "Drive Type",
-                                    "operator": "==",
-                                    "value": "All-Wheel",
-                                    "quantity": 149
-                                },
-                                "child": false,
-                                "parent_id": "0",
-                                "child_id": "0",
-                                "settings": { "count_rows": 205, "quantity": 20, "qtt_readonly": true }
-                            },
-                            "1": {
-                                "params": {
-                                    "column": "Drive Type",
-                                    "operator": "==",
-                                    "value": "Front-Wheel",
-                                    "quantity": 74
-                                },
-                                "parent_id": "0",
-                                "child": false,
-                                "settings": { "count_rows": 183, "quantity": 10, "qtt_readonly": true }
-                            }
-                        },
-                        "parent_id": "0",
-                        "settings": { "count_rows": 874, "quantity": 15, "qtt_readonly": true }
-                    },
-                    "1": {
-                        "params": { "column": "Country", "operator": "==", "value": "England", "quantity": 599 },
-                        "parent_id": "0",
-                        "child": {
-                            "0": {
-                                "params": {
-                                    "column": "Engine type",
-                                    "operator": "==",
-                                    "value": "Boxer",
-                                    "quantity": 59
-                                },
-                                "parent_id": "0",
-                                "child": false,
-                                "settings": { "count_rows": 98, "quantity": 10, "qtt_readonly": true }
-                            }
-                        },
-                        "settings": { "count_rows": 825, "quantity": 12, "qtt_readonly": true }
-                    }
-                },
-                "parent_id": false,
-                "settings": { "count_rows": 9829, "quantity": 10, "qtt_readonly": true }
-            },
-            "1": {
-                "params": { "column": "Color", "operator": "==", "value": "Green", "quantity": 2499 },
-                "settings": { "count_rows": 9937, "quantity": 5, "qtt_readonly": true },
-                "child": {
-                    "0": {
-                        "params": { "column": "Fuel type", "operator": "==", "value": "Petrol", "quantity": 299 },
-                        "child": {
-                            "0": {
-                                "params": { "column": "Models", "operator": "==", "value": "X5", "quantity": 14 },
-                                "parent_id": "1",
-                                "child": false,
-                                "settings": { "count_rows": 31, "quantity": 5, "qtt_readonly": true }
-                            }
-                        },
-                        "parent_id": "1",
-                        "settings": { "count_rows": 487, "quantity": 12, "qtt_readonly": true }
-                    },
-                    "1": {
-                        "params": { "column": "Fuel type", "operator": "==", "value": "Gas", "quantity": 499 },
-                        "parent_id": "1",
-                        "child": {
-                            "0": {
-                                "params": {
-                                    "column": "Seat heater",
-                                    "operator": "==",
-                                    "value": "Yes",
-                                    "quantity": 99
-                                },
-                                "parent_id": "1",
-                                "child": false,
-                                "settings": { "count_rows": 239, "quantity": 20, "qtt_readonly": true }
-                            }
-                        },
-                        "settings": { "count_rows": 507, "quantity": 20, "qtt_readonly": true }
-                    }
-                }
-            }
-        };
+        var filter_params = this.filter_params;
         var filter = {};
         for (var key in filter_params) {
             filter[key] = this.deleteUnnecessaryElem(filter_params[key]);
@@ -1949,7 +1856,7 @@ module.exports = ""
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = "\n<app-file-uploads (fileUploaded)=\"fileUploadHandler($event)\"></app-file-uploads>\n\n<button (click)=\"sendFile()\" >TEST: Send file to email</button>\n\n<app-statistics *ngIf=\"dataset_id\" [dataset_id]=\"dataset_id\"> Loading statistics... </app-statistics>\n<app-table *ngIf=\"dataset_id\" [dataset_id]=\"dataset_id\">Loading preview table...</app-table>\n"
+module.exports = "\n<app-file-uploads (fileUploaded)=\"fileUploadHandler($event)\"></app-file-uploads>\n<br>\n<button *ngIf=\"marked\" (click)=\"sendFile()\" >TEST: Send file to email</button>\n<br>\n<app-statistics (mouseover)=\"changeMarked()\" *ngIf=\"dataset_id\" [dataset_id]=\"dataset_id\"> Loading statistics... </app-statistics>\n<app-table *ngIf=\"dataset_id\" [dataset_id]=\"dataset_id\">Loading preview table...</app-table>\n"
 
 /***/ }),
 
@@ -1979,8 +1886,13 @@ var __metadata = (undefined && undefined.__metadata) || function (k, v) {
 var HomeComponent = /** @class */ (function () {
     function HomeComponent(data) {
         this.data = data;
+        this.marked = false;
     }
     HomeComponent.prototype.ngOnInit = function () {
+    };
+    HomeComponent.prototype.changeMarked = function () {
+        var _this = this;
+        setTimeout(function () { _this.marked = true; }, 10000);
     };
     HomeComponent.prototype.fileUploadHandler = function (dataset_id) {
         console.log(dataset_id);
@@ -2431,7 +2343,7 @@ var NotfoundComponent = /** @class */ (function () {
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = "\n.notification {\n    position: absolute;\n      top: 12%;\n      left: 83%;\n    width: 15%;\n    min-width: 100px;\n    min-height: 30px;\n    z-index: 10;\n}\n\n.notification-box {\n    padding: 20px;\n    background-color: #4d9ef4;\n    color: white;\n    opacity: 1;\n    transition: opacity 0.6s;\n    margin-bottom: 15px;\n    width: 100%;\n    height: 10%;\n    border-radius: 5%;\n}\n\n.closebtn {\n    top: 100%;\n    right: 100%;\n    color: white;\n    font-weight: bold;\n    float: right;\n    font-size: 22px;\n    line-height: 20px;\n    cursor: pointer;\n    transition: 0.3s;\n}\n\n.closebtn:hover {\n    color: black;\n}"
+module.exports = "\n.notification {\n    position: absolute;\n      top: 12%;\n      left: 83%;\n    width: 15%;\n    min-width: 100px;\n    min-height: 30px;\n    z-index: 10;\n}\n\n.notification-box {\n    padding: 20px;\n    background-color: #4d9ef4;\n    color: white;\n    opacity: 1;\n    transition: opacity 0.6s;\n    margin-bottom: 15px;\n    width: 100%;\n    height: 10%;\n    border-radius: 5%;\n}\n\n.closebtn {\n    top: 100%;\n    right: 100%;\n    color: white;\n    font-weight: bold;\n    float: right;\n    font-size: 22px;\n    line-height: 20px;\n    cursor: pointer;\n    transition: 0.3s;\n}\n\n.closebtn:hover {\n    -webkit-transform: scale(1.20);\n            transform: scale(1.20);\n    transition: .5s all;\n    color: black;\n}\n"
 
 /***/ }),
 
@@ -2442,7 +2354,7 @@ module.exports = "\n.notification {\n    position: absolute;\n      top: 12%;\n 
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = "\n<div class=\"notification\">\n  <div class=\"notification-box\" *ngFor=\"let msg of messages; let i = index\">\n    <span class=\"closebtn\" (click)=\"removeNotification($event.target, i)\">&times;</span>\n      {{msg.data}}\n  </div>\n</div>"
+module.exports = "\n<div class=\"notification\">\n  <div class=\"notification-box\" *ngFor=\"let msg of messages; let i = index\" [@changeState]=\"toState[i]\" (mouseover)=\"changeState(i)\" (mouseleave)=\"changeState_back(i)\"  >\n    <span title=\"delete notification\" class=\"closebtn\" (click)=\"removeNotification($event.target, i)\">x</span>\n      <p *ngIf=\"!toState[i] || toState[i] == 'state1'\">{{ msg.msg }}</p>\n      <p *ngIf=\"toState[i] == 'state2'\">Delete me!</p>\n  </div>\n</div>\n"
 
 /***/ }),
 
@@ -2460,6 +2372,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _socket_service__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../socket.service */ "./src/app/socket.service.ts");
 /* harmony import */ var _auth_guard__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../auth.guard */ "./src/app/auth.guard.ts");
 /* harmony import */ var _auth_service__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../auth.service */ "./src/app/auth.service.ts");
+/* harmony import */ var _angular_animations__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! @angular/animations */ "./node_modules/@angular/animations/fesm5/animations.js");
 var __decorate = (undefined && undefined.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -2473,13 +2386,22 @@ var __metadata = (undefined && undefined.__metadata) || function (k, v) {
 
 
 
+
 var NotificationComponent = /** @class */ (function () {
     function NotificationComponent(socket, auth, auth_guard) {
         this.socket = socket;
         this.auth = auth;
         this.auth_guard = auth_guard;
         this.messages = [];
+        this.toState = [];
+        this.count = 0;
     }
+    NotificationComponent.prototype.changeState = function (index) {
+        this.toState[index] = 'state2';
+    };
+    NotificationComponent.prototype.changeState_back = function (index) {
+        this.toState[index] = 'state1';
+    };
     NotificationComponent.prototype.ngOnInit = function () {
         var _this = this;
         console.log("Notification Created");
@@ -2487,9 +2409,25 @@ var NotificationComponent = /** @class */ (function () {
             this.socket.connect();
             this.connection = this.socket.getMessages()
                 .subscribe(function (data) {
-                _this.messages.push(data);
+                var elem = { 'id': _this.count,
+                    'msg': data['data'] };
+                _this.messages.push(elem);
+                console.log(_this.messages);
+                console.log(_this.count);
+                setTimeout(function () {
+                    _this.removeMessage(_this.count);
+                }, 10000);
+                _this.count++;
+                console.log(_this.count);
             });
         }
+    };
+    NotificationComponent.prototype.removeMessage = function (id) {
+        this.messages.forEach(function (elem, i, arr) {
+            if (elem.id = id) {
+                arr.splice(i, 1);
+            }
+        });
     };
     NotificationComponent.prototype.ngOnDestroy = function () {
         this.socket.disconnect();
@@ -2498,12 +2436,27 @@ var NotificationComponent = /** @class */ (function () {
     NotificationComponent.prototype.removeNotification = function (element, index) {
         element.parentElement.remove();
         this.messages.splice(index, 1);
+        this.toState.splice(index, 1);
     };
     NotificationComponent = __decorate([
         Object(_angular_core__WEBPACK_IMPORTED_MODULE_0__["Component"])({
             selector: 'app-notification',
             template: __webpack_require__(/*! ./notification.component.html */ "./src/app/notification/notification.component.html"),
-            styles: [__webpack_require__(/*! ./notification.component.css */ "./src/app/notification/notification.component.css")]
+            styles: [__webpack_require__(/*! ./notification.component.css */ "./src/app/notification/notification.component.css")],
+            animations: [
+                Object(_angular_animations__WEBPACK_IMPORTED_MODULE_4__["trigger"])('changeState', [
+                    Object(_angular_animations__WEBPACK_IMPORTED_MODULE_4__["state"])('state1', Object(_angular_animations__WEBPACK_IMPORTED_MODULE_4__["style"])({
+                        backgroundColor: '#4d9ef4',
+                        transform: 'scale(1)'
+                    })),
+                    Object(_angular_animations__WEBPACK_IMPORTED_MODULE_4__["state"])('state2', Object(_angular_animations__WEBPACK_IMPORTED_MODULE_4__["style"])({
+                        backgroundColor: 'red',
+                        transform: 'scale(1.3)'
+                    })),
+                    Object(_angular_animations__WEBPACK_IMPORTED_MODULE_4__["transition"])('*=>state1', Object(_angular_animations__WEBPACK_IMPORTED_MODULE_4__["animate"])('300ms')),
+                    Object(_angular_animations__WEBPACK_IMPORTED_MODULE_4__["transition"])('*=>state2', Object(_angular_animations__WEBPACK_IMPORTED_MODULE_4__["animate"])('900ms'))
+                ])
+            ]
         }),
         __metadata("design:paramtypes", [_socket_service__WEBPACK_IMPORTED_MODULE_1__["SocketService"],
             _auth_service__WEBPACK_IMPORTED_MODULE_3__["AuthService"],
@@ -3037,7 +2990,7 @@ module.exports = ".dataset-statistic{\n    background-color: black\n}"
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = "<div>\n    <button *ngIf=\"!showDatasetStat\" class=\"stat\" (click)=\"getStatDataset()\">Stat</button>\n    <button *ngIf=\"showDatasetStat\" class=\"stat\" (click)=\"getStatDataset()\">Hide</button>\n    <h3>{{ userdataset.name }}</h3>\n    <div>\n    <span>date: {{ userdataset.date }}</span>\n    </div>\n    <app-statistics class=\"dataset-statistic\" *ngIf=\"showDatasetStat\" [dataset_id]=\"userdataset.id\"></app-statistics>\n</div>"
+module.exports = "<div>\n    <button *ngIf=\"!showDatasetStat\" class=\"stat\" (click)=\"getStatDataset()\">Stat</button>\n    <button *ngIf=\"showDatasetStat\" class=\"stat\" (click)=\"getStatDataset()\">Hide</button>\n    <h3>{{ userdataset.name }}</h3>\n    <div>\n        <span>sample: {{ userdataset.items }}</span>\n        <span>  date: {{ userdataset.date | date }}</span>\n    </div>\n    <app-statistics class=\"dataset-statistic\" *ngIf=\"showDatasetStat\" [dataset_id]=\"userdataset.id\"></app-statistics>\n</div>"
 
 /***/ }),
 
