@@ -23,7 +23,6 @@ def get_statistics(dataset_id):
     :return: json with data about how many records there are of each value for each column
     """
     dataset = Dataset.query.get(dataset_id)
-    print(dataset)
     if not dataset:
         return json.dumps({'message': 'file does not exist'}), 404
 
