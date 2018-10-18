@@ -47,7 +47,7 @@ def register():
     token = generate_confirmation_token(user.email)
 
     confirm_url = url_for('index', _external=True) + 'confirm/' + token.decode('utf-8')
-    html = f'Link: {confirm_url}'
+    html = f'Link: {confirmUrl}'
     subject = "Please confirm your email"
     send_email(user.email, subject, html)
 
