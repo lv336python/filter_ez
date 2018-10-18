@@ -1,7 +1,7 @@
 import {Component, Input, OnInit} from '@angular/core';
 import {File} from '../../../models/data';
 import {from} from 'rxjs';
-import {UserFileService} from "../../../user-file.service";
+import {UserFileService} from "../../../_services/user-file.service";
 
 
 @Component({

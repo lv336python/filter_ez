@@ -1,6 +1,6 @@
 import {Component} from '@angular/core';
 import {AuthGuardService} from "./auth.guard";
-import {EventEmitterService} from "./event-emitter.service";
+import {EventEmitterService} from "./_services/event-emitter.service";
 
 
 @Component({

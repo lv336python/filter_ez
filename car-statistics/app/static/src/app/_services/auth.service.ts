@@ -1,6 +1,6 @@
 import {Injectable} from '@angular/core';
 import {HttpClient} from "@angular/common/http";
-import {User} from "./models/user";
+import {User} from "../models/user";
 import {Observable} from "rxjs";
 import {tap} from "rxjs/operators";
 import {assertNumber} from "@angular/core/src/render3/assert";

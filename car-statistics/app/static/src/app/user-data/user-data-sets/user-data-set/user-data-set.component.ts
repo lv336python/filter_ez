@@ -1,6 +1,6 @@
 import {Component, Input, OnInit} from '@angular/core';
 import {DataSet} from '../../../models/data';
-import {UserFileService} from "../../../user-file.service";
+import {UserFileService} from "../../../_services/user-file.service";
 import 'rxjs/Rx' ;
 @Component({
   selector: 'app-user-data-set',

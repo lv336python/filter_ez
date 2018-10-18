@@ -1,5 +1,5 @@
 import {Component, ElementRef, Input, OnInit} from '@angular/core';
-import {DataService} from "../data.service";
+import {DataService} from "../_services/data.service";
 import {update} from "plotly.js";
 
 

@@ -11,6 +11,7 @@ import xlsxwriter
 
 from io import BytesIO
 from app import app, logger, db
+from app.helper import UserFilesManager
 from app.models import Dataset
 from app.models.files import File
 from hashlib import md5
@@ -110,8 +111,9 @@ def get_size_in_MB(file_path):
     :param file_path: path to
     :return:
     '''
-    file_size_in_MB = os.path.getsize(file_path) / (1024 * 1024.0)
-    return math.ceil(file_size_in_MB * 100) / 100  
+    file_size_in_MB = os.path.getsize(file_path) / (1024 * 1024.0)  # in MBytes
+    return math.ceil(file_size_in_MB * 100) / 100  # round 2 decimals after poin
+
 
 def get_user_file(file_id, user_id):
     """
@@ -126,8 +128,25 @@ def get_user_file(file_id, user_id):
     file_path = os.path.join(user_dir(user_id), filename)
     return file_path
 
+def temp_file(dataset):
+    """
+    Function returns path where temp file is located,
+    hash dataset_id with md5 algorithm and open temporary file as bytes
+    :param dataset_id: id of dataset_id
+    :return: path to file
+    """
+    file = dataset_to_excel(dataset)
+    ask = app.config['SECRET_KEY']
+    hashed = md5(f'{ask}{dataset_id}'.encode()).hexdigest()
+    temp_folder = os.path.join(app.config['TEMP_FOLDER'], hashed)
+    create_dir(app.config['TEMP_FOLDER'])
+    path = f"{temp_folder}.xlsx"
+    with open(path, 'wb') as out:
+        out.write(file.read())
+    return path
 
-def dataset_to_excel(dataset_id):
+
+def dataset_to_excel(dataset):
     """
     Writes dataset to excel file in-memory without creating excel file in the local storage
     :param dataset_id: id of dataset to create
@@ -135,29 +154,31 @@ def dataset_to_excel(dataset_id):
     """
     try:
         t1 = time.time()
-        logger.warning("Start creating file: %s", t1)
-        dataset = Dataset.query.get(dataset_id)
-        byte_writer = BytesIO()
+        logger.info("Start creating file: %s", t1)
 
+        file_manager = UserFilesManager(dataset.user_id)
+        path_to_file = file_manager.get_serialized_file_path(dataset.file_id)
+
+        byte_writer = BytesIO()
         excel_writer = xlsxwriter.Workbook(byte_writer)
         sheet = excel_writer.add_worksheet('Sheet1')
-        path_to_file = get_user_file(dataset.file_id, dataset.user_id)
 
-        with open(serialized_file(path_to_file), 'rb') as file:
+        with open(path_to_file, 'rb') as file:
             df = pickle.load(file)
-        logger.warning("Finished creating file in %s", time.time() - t1)
         df = df.iloc[dataset.included_rows].values.tolist()
-        logger.warning("Finished creating file in %s", time.time() - t1)
         for i in range(len(dataset.included_rows)):
             for j in range(len(df[i])):
                 sheet.write(i, j, df[i][j])
 
         excel_writer.close()
         byte_writer.seek(0)
-        # logger.warning("Finished creating file in %s", time.time() - t1)
+        logger.info("Finished creating file in %s", time.time() - t1)
         return byte_writer
     except Exception as e:
-        print(e)
+        logger.error("Error occurred when tried to create a byteIO"
+                     " object for dataset %d: %s", dataset.id, e)
+        notify_admin(f"Error occurred when tried to create a byteIO"
+                     f" object for dataset {dataset.id}: {e}", 'ERROR')
 
 
 def serialize(file):
