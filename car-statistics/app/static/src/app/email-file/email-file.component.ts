@@ -28,19 +28,19 @@ import {DataService} from "../_services/data.service";
   ]
 })
 export class EmailFileComponent implements OnInit {
-  dataset_id_ : number;
+  datasetId_ : number;
   addresses = [''];
   address_indexes = [0];
   cantCreateMessage = false;
   maxNumberOfFields = false;
   cantSendMessage = false;
 
-  @Input() set dataset_id(dataset_id : number) {
-      this.dataset_id_ = dataset_id;
+  @Input() set datasetId(dataset_id : number) {
+      this.datasetId_ = dataset_id;
   }
 
-  get dataset_id () : number {
-      return this.dataset_id_;
+  get datasetId () : number {
+      return this.datasetId_;
   }
 
   constructor(private data_service : DataService) { }
@@ -98,7 +98,7 @@ export class EmailFileComponent implements OnInit {
       setTimeout(() => {this.cantSendMessage = false}, 3000);
     }
     else {
-        this.data_service.sendFile(this.dataset_id_, this.addresses)
+        this.data_service.sendFile(this.datasetId_, this.addresses)
             .subscribe(
                 (res) => console.log("File sent successfully"),
                 (error) => console.error(error)

@@ -15,9 +15,9 @@ export class RegistrationComponent implements OnInit {
 
     returnUrl: string;
     isEmailBusy: boolean = false;
-    error_message: string;
+    errorMessage: string;
     message: boolean;
-    validation_passed: boolean = true;
+    isValidationPassed: boolean = true;
 
     registerGroup = new FormGroup({
         email: new FormControl('', [
@@ -39,22 +39,19 @@ export class RegistrationComponent implements OnInit {
             .subscribe(
                 res => {
                     localStorage.setItem('token', res.token);
-                    let data_txt = (JSON.stringify(res));
-                    let response_data = JSON.parse(data_txt);
-                    this.message = response_data.message;
+                    let dataText = (JSON.stringify(res));
+                    let responseText = JSON.parse(dataText);
+                    this.message = responseText.message;
                     this.registerGroup.setValue({email: '', password: ''});
-                    this.validation_passed = false;
-
-
+                    this.isValidationPassed = false;
                 },
                 err => {
                     this.isEmailBusy = true;
-                    let data_txt = (JSON.stringify(err));
-                    let error_data = JSON.parse(data_txt);
-                    this.error_message = error_data.error.message.toString();
+                    let dataText = (JSON.stringify(err));
+                    let errorData = JSON.parse(dataText);
+                    this.errorMessage = errorData.error.message.toString();
                 })
     }
-
 
     get password() {
         return this.registerGroup.get('password')
@@ -64,16 +61,13 @@ export class RegistrationComponent implements OnInit {
         return this.registerGroup.get('email')
     }
 
-
     constructor(
         private auth_: AuthService,
         private router: Router,
         private route: ActivatedRoute
-    ) {
-    }
+    ) {}
 
     ngOnInit() {
-
         this.returnUrl = this.route.snapshot.queryParams['returnUrl'] || '/';
     }
 }

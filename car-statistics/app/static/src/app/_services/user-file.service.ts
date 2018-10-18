@@ -5,17 +5,17 @@ import {Observable} from "rxjs";
   providedIn: 'root'
 })
 export class UserFileService {
-  deleteUserFileUrl = '/api/delete_file'
-  downloadDatasetUrl = '/api/download'
+    deleteUserFileUrl = '/api/delete_file';
+    downloadDataSetUrl = '/api/download';
 
-  constructor( private _http : HttpClient) { }
+    constructor( private _http : HttpClient) { }
 
+    deleteUserFile(fileId) : Observable<any>{
+        return this._http.get<any>(this.deleteUserFileUrl + '/' + fileId)
+    }
 
-  deleteUserFile(fileId) : Observable<any>{
-    return this._http.get<any>(this.deleteUserFileUrl + '/' + fileId)
-  }
-  downloadDataset(datasetId) : Observable<any>{
-    return this._http.get<any>(this.downloadDatasetUrl + '/' + datasetId)
-  }
+    downloadDataset(datasetId) : Observable<any>{
+        return this._http.get<any>(this.downloadDataSetUrl + '/' + datasetId)
+    }
 
 }

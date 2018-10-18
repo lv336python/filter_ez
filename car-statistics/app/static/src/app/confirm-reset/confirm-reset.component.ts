@@ -44,8 +44,7 @@ export class ConfirmResetComponent implements OnInit {
         private auth_: AuthService,
         private router: Router,
         private route: ActivatedRoute
-    ) {
-    }
+    ) {}
 
     get password() {
         return this.resetPasswordGroup.get('password')

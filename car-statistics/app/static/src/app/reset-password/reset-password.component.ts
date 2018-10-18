@@ -1,8 +1,6 @@
-import {Component, OnInit} from '@angular/core';
+import {Component} from '@angular/core';
 import {AuthService} from "../_services/auth.service";
-
 import {FormControl, FormGroup, Validators} from "@angular/forms";
-import {ActivatedRoute, Router} from "@angular/router";
 import {TextFormatDirective} from "../_directives/text-format.directive";
 
 
@@ -11,10 +9,10 @@ import {TextFormatDirective} from "../_directives/text-format.directive";
     templateUrl: './reset-password.component.html',
     styleUrls: ['./reset-password.component.css']
 })
-export class ResetPasswordComponent implements OnInit {
-    confirm_message: boolean;
-    error_message: string;
-    validation_passed : boolean = true;
+export class ResetPasswordComponent {
+    confirmMessage: boolean;
+    errorMessage: string;
+    isValidationPassed : boolean = true;
     resetPasswordGroup = new FormGroup({
         email: new FormControl('', [
             Validators.required,
@@ -27,17 +25,13 @@ export class ResetPasswordComponent implements OnInit {
         this.auth_.toResetPassword(this.resetPasswordGroup.controls['email'].value)
             .subscribe(
                 res => {
-                    this.confirm_message = true;
+                    this.confirmMessage = true;
                     this.resetPasswordGroup.setValue({email: ''});
-                    this.error_message =undefined;
-                    this.validation_passed = false;
+                    this.errorMessage =undefined;
+                    this.isValidationPassed = false;
 
                 }, err => {
-                    let data_txt = (JSON.stringify(err));
-                    let error_data = JSON.parse(data_txt);
-                    this.error_message = err.error.message.toString();
-
-
+                    this.errorMessage = err.error.message.toString();
                 },
             )
     }
@@ -48,13 +42,5 @@ export class ResetPasswordComponent implements OnInit {
 
     constructor(
         private auth_: AuthService,
-        private router: Router,
-        private route: ActivatedRoute
-    ) {
-    }
-
-    ngOnInit() {
-
-    }
-
+    ) {}
 }
