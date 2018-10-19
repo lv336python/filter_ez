@@ -48,7 +48,10 @@ def get_metadata():
         Getting metadata: list of column and values for file
          :return: Response with metadata
     """
-    ufm = UserFilesManager(int(session['user_id']))
+    user_id = int(session.get('user_id', 0))
+    if not user_id:
+        return {'message': 'Unauthorized'}, 401
+    ufm = UserFilesManager(user_id)
     data = json.loads(request.data)
     file_id = data['file_id']
     file_path = ufm.get_file_path(file_id)
