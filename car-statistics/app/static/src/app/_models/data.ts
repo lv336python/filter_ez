@@ -13,7 +13,8 @@ export class File {
     public name: string,
     public size: number,
     public date: number,
-    public rows: number
+    public rows: number,
+    public dataset_id: number
   ) {}
 }
 
