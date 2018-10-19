@@ -5,6 +5,7 @@ from flask_login import login_required
 
 from app.helper import UserFilesManager
 from app.models import File
+from app.services.user_data_collection import UserDataCollector
 
 
 @app.route('/api/upload', methods=['POST'])
@@ -19,7 +20,7 @@ def uploader():
         if file_manager.validate_file_extension(file):
             result = file_manager.upload_file(file)  # processing upload by upload function from services
         else:
-            return make_response(jsonify({'error': 'bad file type'}), 400)
+            return make_response(jsonify({'error': 'bad file type'}), status)
 
         return make_response(jsonify({'result': result}), 201)
 
@@ -29,7 +30,7 @@ def uploader():
 
 @app.route('/api/get_files', methods=['POST'])
 def getfiles():
-    files = [[i.id, i.path, i.attributes] for i in File.query.all()]
-    # files = [[i.id, i.path, i.attributes] for i in File.query.filter_by(user_id=session['user_id']).all()]
-    return make_response(jsonify(files), 200)
+    files = UserDataCollector(int(session['user_id']))
+    # files = [[i.id, i.path, i.attributes] for i in File.query.filter_by(user_id=int(session['user_id'])).all()]
+    return make_response(jsonify(files.get_user_files_info()), 200)
 

@@ -42,15 +42,13 @@ def save_filter():
     return make_response(jsonify({'success': 'filter was succesfully saved'}), 200)
 
 
-@app.route('/api/get_metadata', methods=['POST'])
-def get_metadata():
+@app.route('/api/get_metadata/<file_id>', methods=['POST'])
+def get_metadata(file_id):
     """
         Getting metadata: list of column and values for file
          :return: Response with metadata
     """
     ufm = UserFilesManager(int(session['user_id']))
-    data = json.loads(request.data)
-    file_id = data['file_id']
     file_path = ufm.get_file_path(file_id)
     metadata = fields_definition(file_path)
     count_rows = pd.read_pickle(ufm.get_serialized_file_path(file_id)).shape[0]
