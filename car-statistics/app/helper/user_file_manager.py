@@ -27,7 +27,7 @@ class UserFilesManager:
         self.files = set()
 
         for dataset in Dataset.query.filter(Dataset.user_id == self.user_id):
-            file = File.query.filter(File.id == dataset.id).first()
+            file = File.query.filter(File.id == dataset.file_id).first()
             if file:
                 self.files.add(file.path)
 
