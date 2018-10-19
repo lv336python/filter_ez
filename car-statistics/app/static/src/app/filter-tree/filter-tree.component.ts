@@ -1,6 +1,7 @@
 import {Component, OnInit} from '@angular/core';
 import {Router} from "@angular/router";
 import {HttpClient} from "@angular/common/http";
+import {File} from "../_models/data";
 
 @Component({
     selector: 'filter-tree',
@@ -9,7 +10,7 @@ import {HttpClient} from "@angular/common/http";
 })
 export class FilterTreeComponent implements OnInit {
 
-    files: string[];
+    files: Array<File>;
     file_id: number;
     totalRows: number;
     save_error: string;
@@ -43,7 +44,7 @@ export class FilterTreeComponent implements OnInit {
     getFiles() {
         this.http
             .post('/api/get_files', '')
-            .subscribe((res: string[]) => this.files = res,
+            .subscribe((res: Array<File>) => this.files = res,
                 error => {
                     console.log(error);
                 });
@@ -56,7 +57,7 @@ export class FilterTreeComponent implements OnInit {
 
     getMetadata(id) {
         this.http
-            .post('/api/get_metadata', {'file_id': this.file_id})
+            .post(`/api/get_metadata/${this.file_id}`, {'file_id': this.file_id})
             .subscribe(res => this.parseMetadata(res),
                 error => {
                     console.log(error);

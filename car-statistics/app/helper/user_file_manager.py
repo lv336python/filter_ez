@@ -111,7 +111,8 @@ class UserFilesManager:
         file = File.query.get(file_id)
         print(file)
         if file:
-            return file.path if file.path in self.files else None
+            # return file.path if file.path in self.files else None
+            return file.path
         return None
 
     def get_file_path(self, file_id):

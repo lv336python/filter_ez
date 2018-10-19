@@ -4,8 +4,8 @@
             <h2 class="display-4">Filtering data section</h2>
             <select class="form-control" (change)="selectFile($event.target.value)">
                 <option value="" disabled selected>Chose file</option>
-                <option *ngFor="let file of files" value="{{ file[0] }}">
-                    {{ file[1] }}
+                <option *ngFor="let file of files" value="{{ file.id }}">
+                    {{ file.name }}
                 </option>
             </select>
             <hr class="my-4">
