@@ -3,6 +3,7 @@
 """
 from collections import defaultdict
 import pickle
+from app import logger
 from app.helper import DataSetPandas, UserFilesManager
 
 
@@ -15,6 +16,7 @@ def fields_definition(filename, filter=None):
     'Climate control': ['Yes', 'No']}
     """
     dataframe = DataSetPandas()
+    logger.info(filename)
     dataframe.read(filename)
 
     if filter:

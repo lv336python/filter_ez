@@ -22,7 +22,7 @@ def uploader():
         else:
             return make_response(jsonify({'error': 'bad file type'}), status)
 
-        return make_response(jsonify({'result': result}), 201)
+        return make_response(jsonify(result), 201)
 
     else:
         return make_response(jsonify({'error': 'no file, empty form'}), 400)

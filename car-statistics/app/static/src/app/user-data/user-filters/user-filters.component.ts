@@ -1,5 +1,4 @@
-import { Component, OnInit } from '@angular/core';
-import {Filter} from '../../_models/data';
+import {Component, OnInit} from '@angular/core';
 import {UserDataService} from '../../_services/user-data.service';
 
 @Component({
@@ -8,11 +7,13 @@ import {UserDataService} from '../../_services/user-data.service';
   styleUrls: ['./user-filters.component.css']
 })
 export class UserFiltersComponent implements OnInit {
-  userfilters: Filter[] = [];
-  constructor(private userData: UserDataService) { }
+  userfilters: Array<object>;
+
+  constructor(private userData: UserDataService) {
+  }
 
   ngOnInit() {
-    this.userData.getUserData().subscribe(data => this.userfilters = data['user_filters'] );
+    this.userData.castUserData.subscribe(data => this.userfilters = data.user_filters);
   }
 
 }

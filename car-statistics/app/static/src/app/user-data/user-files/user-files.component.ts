@@ -1,21 +1,20 @@
-import { Component, OnInit, Input} from '@angular/core';
-import { UserDataService } from '../../_services/user-data.service';
-import {File} from '../../_models/data';
+import {Component, OnInit} from '@angular/core';
+import {UserDataService} from '../../_services/user-data.service';
 
 @Component({
-  selector: 'app-user-files',
-  templateUrl: './user-files.component.html',
-  styleUrls: ['./user-files.component.css']
+    selector: 'app-user-files',
+    templateUrl: './user-files.component.html',
+    styleUrls: ['./user-files.component.css']
 })
 export class UserFilesComponent implements OnInit {
-  userfiles: File[] = [];
-  file_id : any;
-  constructor(private userData: UserDataService  ) {
-  }
+    userfiles: Array<object>;
+    file_id: any;
+
+    constructor(private userData: UserDataService) {
+    }
 
 
-  ngOnInit() {
-    this.userData.getUserData().subscribe(data => this.userfiles = data['user_files'] );
-  }
-
+    ngOnInit() {
+        this.userData.castUserData.subscribe(data => this.userfiles = data.user_files);
+    }
 }

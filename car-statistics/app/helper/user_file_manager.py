@@ -27,7 +27,7 @@ class UserFilesManager:
         self.files = set()
 
         for dataset in Dataset.query.filter(Dataset.user_id == self.user_id):
-            file = File.query.filter(File.id == dataset.id).first()
+            file = File.query.filter(File.id == dataset.file_id).first()
             if file:
                 self.files.add(file.path)
 
@@ -75,7 +75,15 @@ class UserFilesManager:
         db.session.add(new_dataset)
         db.session.commit()
         logger.info('User {0} uploaded a new file {1}'.format(self.user_id, new_file.id))
-        return 'Uploaded', new_file.id, new_dataset.id
+        response = {'file': {
+                    'id': new_file.id,
+                    'name': new_file.attributes['name'],
+                    'size': new_file.attributes['size'],
+                    'rows': new_file.attributes['rows']
+                    },
+                    'dataset_id': new_dataset.id
+                    }
+        return response
 
     def serialize(self, file_full_name):
         """
