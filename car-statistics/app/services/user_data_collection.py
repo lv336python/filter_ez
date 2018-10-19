@@ -58,6 +58,7 @@ class UserDataCollector:
     def get_user_files(self):
         return [File.query.get(id) for id in self.get_user_files_ids()]
 
+
     def get_user_files_info(self):
         """
         Returns user files
@@ -68,8 +69,9 @@ class UserDataCollector:
             'id': file.id,
             'name': file.attributes['name'],
             'size': file.attributes['size'],
-            'rows': file.attributes['rows']
-            } for file in self.files]
+            'rows': file.attributes['rows'],
+            'dataset_id': dts.id
+            } for file in self.files for dts in self.datasets if dts.file_id == file.id]
         return files
 
     def get_user_filters(self):
