@@ -1,13 +1,11 @@
 """
 Module for filtering files
 """
-from app import app, db
+from app import app
 from flask import request, jsonify, make_response, json, session
-from app.models.files import File, Filter, Dataset
 from app.services.file_data import fields_definition
+from app.helper import UserFilesManager
 import pandas as pd
-
-from app.services.utils import get_user_file, serialized_file
 
 
 @app.route('/api/save_filter', methods=['POST'])
@@ -50,11 +48,12 @@ def get_metadata():
         Getting metadata: list of column and values for file
          :return: Response with metadata
     """
+    ufm = UserFilesManager(int(session['user_id']))
     data = json.loads(request.data)
     file_id = data['file_id']
-    file_path = get_user_file(file_id, int(session['user_id']))
+    file_path = ufm.get_file_path(file_id)
     metadata = fields_definition(file_path)
-    count_rows = pd.read_pickle(serialized_file(file_path)).shape[0]
+    count_rows = pd.read_pickle(ufm.get_serialized_file_path(file_id)).shape[0]
     result = {'rows': count_rows, 'metadata': metadata}
     return make_response(jsonify(result), 200)
 
@@ -68,9 +67,8 @@ def filter_num_rows():
     data = json.loads(request.data)
     params = data['params']
     file_id = data['file_id']
-
-    file_path = get_user_file(file_id, int(session['user_id']))
-    xl_file = pd.read_pickle(serialized_file(file_path))
+    ufm = UserFilesManager(int(session['user_id']))
+    xl_file = pd.read_pickle(ufm.get_serialized_file_path(file_id))
 
     if type(params) is list or type(params) is tuple:
         for elem in params:
