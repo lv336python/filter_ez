@@ -13,17 +13,23 @@ import {UserData} from '../_models/data';
   providedIn: 'root'
 })
 export class UserDataService {
-  private userData = new BehaviorSubject<UserData>(null);
-  castUserData = this.userData.asObservable();
+  public userData: UserData;
+  private newUserData = new BehaviorSubject<any>(null);
+  castUserData = this.newUserData.asObservable();
 
   constructor(private http: HttpClient) {
   }
 
   getUserData() {
-    return this.http
+    this.http
       .get('api/userdata')
       .catch(this.handleError)
-      .subscribe((data: any) => this.userData.next(data));
+      .subscribe((data: UserData) => this.newUserData.next(this.userData = data));
+  }
+
+  onUploadComplete(file) {
+    this.userData.user_files.push(file)
+    this.newUserData.next(this.userData);
   }
 
   private handleError(error: HttpErrorResponse) {
