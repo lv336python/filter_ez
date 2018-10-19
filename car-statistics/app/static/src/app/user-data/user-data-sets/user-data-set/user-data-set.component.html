@@ -4,7 +4,7 @@
         <span>  date: {{ userdataset.date | date }}</span>
         <!-- <button type="button" class="btn btn-success"(click)="downloadDataset(userdataset.id)">Download</button> -->
         <span>sample: {{ userdataset.items }}</span>
-
+        <a href="api/download/{{userdataset.id}}"><button class="btn btn-success button-download">Download</button></a>
     </div>
     <div class="container ">
         <!-- Trigger the modal with a button -->
