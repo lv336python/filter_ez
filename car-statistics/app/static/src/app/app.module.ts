@@ -41,6 +41,7 @@ import { FileUploadItemComponent } from './upload-components/file-upload-item/fi
 import {FileUploadService} from "./_services/file-upload.service";
 import {ModalService} from "./_services/modal.service";
 import { ProcessBarComponent } from './upload-components/process-bar/process-bar.component';
+import {EventSharingService} from "./_services/event-sharing.service";
 
 @NgModule({
   declarations: [
@@ -89,7 +90,11 @@ import { ProcessBarComponent } from './upload-components/process-bar/process-bar
       BrowserAnimationsModule
 
   ],
-  providers: [AuthGuardService, UserDataService, FileUploadService, ModalService],
+  providers: [AuthGuardService,
+              UserDataService,
+              FileUploadService,
+              ModalService,
+              EventSharingService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
