@@ -28,9 +28,9 @@ def fields_definition(filename, filter=None):
     for cl_name in cl_names:
         cl_name_val = dataframe.get_column_values(cl_name)
         if isinstance(cl_name_val[0], str):
-            field_def[cl_name] = list(set(dataframe.get_column_values(cl_name)))
+            field_def[str(cl_name)] = list(set(dataframe.get_column_values(cl_name)))
         else:
-            field_def[cl_name] = dict(min=min(cl_name_val), max=max(cl_name_val))
+            field_def[str(cl_name)] = dict(min=min(cl_name_val), max=max(cl_name_val))
 
     return field_def
 
