@@ -1,4 +1,11 @@
-# car-statistics
+# FilterEz
+
+FilterEz is a web-application for filtering spreadsheet files in excel and csv format created by python-lv336 group.
+
+Application gives to users an interactive way of filtering their data sets retrieving only needed information. Before getting to filtering user, will get statistical information about uploaded file in form of graphical charts and preview table.  
+
+With this application user can store all uploaded files and filtering results, download them, watch statistics, send resulting data sets to his or her colleagues, friends or customers.
+
 
 <h3>Start application in docker</h3>
 1. Install docker and docker-compose with support of compose files at least version 2.2
