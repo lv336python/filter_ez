@@ -3,7 +3,7 @@
   "version": 1,
   "newProjectRoot": "projects",
   "projects": {
-    "cstats": {
+    "filter-ez": {
       "root": "",
       "sourceRoot": "src",
       "projectType": "application",
@@ -50,18 +50,18 @@
         "serve": {
           "builder": "@angular-devkit/build-angular:dev-server",
           "options": {
-            "browserTarget": "cstats:build"
+            "browserTarget": "filter_ez:build"
           },
           "configurations": {
             "production": {
-              "browserTarget": "cstats:build:production"
+              "browserTarget": "filter_ez:build:production"
             }
           }
         },
         "extract-i18n": {
           "builder": "@angular-devkit/build-angular:extract-i18n",
           "options": {
-            "browserTarget": "cstats:build"
+            "browserTarget": "filter_ez:build"
           }
         },
         "test": {
@@ -96,5 +96,5 @@
       }
     }
   },
-  "defaultProject": "cstats"
+  "defaultProject": "filter_ez"
 }

@@ -23,7 +23,7 @@ class Config:
     SQLALCHEMY_TRACK_MODIFICATIONS = False
 
     if IS_IN_DOCKER:
-        SQLALCHEMY_DATABASE_URI = "postgresql://car_stats:carstatistics@postgres:5432/car_stats"
+        SQLALCHEMY_DATABASE_URI = "postgresql://filter_ez:filter_ez@postgres:5432/filter_ez"
     else:
         SQLALCHEMY_DATABASE_URI = f"postgresql://{DATABASE['POSTGRES_USER']}:" \
                                   f"{DATABASE['POSTGRES_PASSWORD']}@" \
@@ -53,10 +53,6 @@ class Config:
     UPLOAD_LIMIT = 40000  # in kB
 
     ALLOWED_EXTENSIONS = ('csv', 'xls', 'xlsx')
-
-    # temp files
-    TEMP_FOLDER = os.path.join(BASEDIR, USER_DATA_FOLDER, 'Temp files')
-    UPLOAD_LIMIT = 10000  # in kB
 
     #Celery configurations
     RESULT_BACKEND = 'rpc://'

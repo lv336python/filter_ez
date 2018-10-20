@@ -1,6 +1,6 @@
 USERNAME = oleksandr
-MANAGE_PATH = car-statistics/manage.py
-STATIC_PATH = car-statistics/app/static/
+MANAGE_PATH = filter_ez/manage.py
+STATIC_PATH = filter_ez/app/static/
 
 
 .PHONY: default usage
@@ -29,11 +29,11 @@ rabbitMQ:
 	sudo service rabbitmq-server restart || sudo rabbitmq-server
 
 celery:
-	(cd car-statistics ; celery -A app.celery worker -l info -n email@%h -Q email)
+	(cd filter_ez ; celery -A app.celery worker -l info -n email@%h -Q email)
 
 run:
 	gnome-terminal -e "bash -c \"make celery; exec bash\""
-	python car-statistics/run.py
+	python filter_ez/run.py
 
 back:
 	make db
@@ -45,6 +45,15 @@ install:
 
 build: $(STATIC_PATH)angular.json
 	(cd $(STATIC_PATH) ; ng build)
+
+
+docker-build:
+    docker-compose build
+
+docker:
+    docker-compose up
+
+
 
 all:
 	make setup	

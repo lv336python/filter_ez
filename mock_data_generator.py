@@ -1,5 +1,5 @@
 """
-    Module for creating fake data about cars
+    Module for creating mock data
 """
 import csv
 import json
