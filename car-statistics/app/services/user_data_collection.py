@@ -1,87 +1,100 @@
+"""
+Module containing UserDataCollector Class
+"""
+
 from app.models import File, Filter, Dataset
 
 
 class UserDataCollector:
+    """
+    This is a Class to provide all data of given User
+    """
 
     def __init__(self, user_id):
         self.user_id = user_id
         self.datasets = self.get_datasets()
-        self.files = self.get_user_files()
-        self.filters = self.get_user_filters()
+        self.files = self.get_files()
+        self.filters = self.get_filters()
 
     def get_datasets(self):
+        """
+        Returns all User records from DB table 'datasets'.
+        """
         return Dataset.query.filter_by(user_id=self.user_id).all()
+
+    def get_files(self):
+        """
+        Returns list of all Users Files.
+        """
+        return [File.query.get(id) for id in self.get_files_ids()]
+
+    def get_filters(self):
+        """"""
+        return [Filter.query.get(ids) for ids in self.get_filters_ids()]
 
     def get_datasets_ids(self):
         """
-        Method for getting ids of all user datasets
-        :return: list of ids
+        Returns ids of all User records from DB table 'datasets'.
         """
         return [dts.id for dts in self.datasets]
 
-    def get_user_files_ids(self):
+    def get_files_ids(self):
         """
-        Methot for getting ids of user files
-        :return: set of file ids
+        Returns ids of all Users Files.
         """
         return set([dts.file_id for dts in self.datasets])
 
-    def get_user_filters_ids(self):
+    def get_filters_ids(self):
         """
-        Method for getting filter ids
-        :return: list of filter ids
+        Returns ids of all filters applied by User
         """
         return set([dts.filter_id for dts in self.datasets if dts.filter_id])
 
-    def get_dataset_name(self, file_id, filter_id):
-        file = File.query.get(file_id)
-        flter = Filter.query.get(filter_id)
-        return f"{file.attributes['name']} {flter.name}"
-
-    def get_user_datasets_info(self):
+    @staticmethod
+    def get_dataset_name(file_id, filter_id):
         """
-        retruns user datasets
-        :param user_id:
-        :return:
+        This method forms a name for Users Dataset
+        by concatenation if source File name with applied Filter name.
+        """
+        source_file = File.query.get(file_id)
+        applied_filter = Filter.query.get(filter_id)
+        return f"{source_file.attributes['name']} {applied_filter.name}"
+
+    def get_datasets_info(self):
+        """
+        Returns list of dictionaries containing
+        attributes: {'id', 'fileId', 'filterId', 'createDate', 'nItems', 'name'}
+        for each DataSet.
         """
         user_datasets = [{
             'id': dts.id,
-            'file_id': dts.file_id,
-            'filter_id': dts.filter_id,
-            'date': dts.date,
-            'items': len(dts.included_rows),
+            'fileId': dts.file_id,
+            'filterId': dts.filter_id,
+            'createDate': dts.date,
+            'nItems': len(dts.included_rows),
             'name': self.get_dataset_name(dts.file_id, dts.filter_id)
             } for dts in self.datasets if dts.filter_id]
-
         return user_datasets
 
-    def get_user_files(self):
-        return [File.query.get(id) for id in self.get_user_files_ids()]
-
-
-    def get_user_files_info(self):
+    def get_files_info(self):
         """
-        Returns user files
-        :param user_id:
-        :return:
+        Returns list of dictionaries containing
+        attributes: {'id', 'name', 'size', 'nRows', 'dataSetId'}
+        for each File.
         """
         files = [{
             'id': file.id,
             'name': file.attributes['name'],
             'size': file.attributes['size'],
-            'rows': file.attributes['rows'],
-            'dataset_id': dts.id
+            'nRows': file.attributes['rows'],
+            'dataSetId': dts.id
             } for file in self.files for dts in self.datasets if dts.file_id == file.id]
         return files
 
-    def get_user_filters(self):
-        return [Filter.query.get(ids) for ids in self.get_user_filters_ids()]
-
-    def get_user_filters_info(self):
+    def get_filters_info(self):
         """
-        Returns user filters
-        :param user_id: user i
-        :return: filters
+        Returns list of dictionaries containing
+        attributes: {'id', 'name'} for each Filter.
         """
         filters = [{
             'id': item.id,
@@ -89,13 +102,11 @@ class UserDataCollector:
             } for item in self.filters]
         return filters
 
-    def get_all_user_data(self):
+    def get_all_data(self):
         """
-        Function that return all user data.
-        :param user_id:
-        :return: all user data
+        Returns all Users Data as dictionary {'userFiles': , 'userFilters': , 'userDataSets': }
         """
-        user_files = self.get_user_files_info()
-        user_filters = self.get_user_filters_info()
-        user_datasets = self.get_user_datasets_info()
-        return {'user_files':user_files, 'user_filters':user_filters, 'user_datasets':user_datasets}
+        user_files = self.get_files_info()
+        user_filters = self.get_filters_info()
+        user_datasets = self.get_datasets_info()
+        return {'userFiles': user_files, 'userFilters': user_filters, 'userDataSets': user_datasets}
