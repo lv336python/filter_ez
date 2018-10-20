@@ -14,34 +14,45 @@
                 </select>
             </ng-template>
         </div>
-        <div class="button-group col-md-2" *ngIf="column && !operator">
-            <button type="button" class="btn btn-primary btn-sm" (click)="addOperator('==')">=</button>
-            <button type="button" class="btn btn-primary btn-sm" (click)="addOperator('!=')">!=</button>
-            <button type="button" *ngIf="valueMaxMin.max" class="btn btn-primary btn-sm" (click)="addOperator('<')"><
-            </button>
-            <button type="button" *ngIf="valueMaxMin.max" class="btn btn-primary btn-sm" (click)="addOperator('>')">>
-            </button>
+        <div class="button-group col-md-4" *ngIf="column">
+            <button type="button" class="btn btn-primary btn-sm"
+                    [ngClass]="{'operator-active':operator=='=='}" (click)="addOperator('==')">=</button>
+            <button type="button" class="btn btn-primary btn-sm"
+                    [ngClass]="{'operator-active':operator=='!='}" (click)="addOperator('!=')">!=</button>
+            <button type="button" *ngIf="valueMaxMin.max" class="btn btn-primary btn-sm"
+                    [ngClass]="{'operator-active':operator=='<'}" (click)="addOperator('<')"><</button>
+            <button type="button" *ngIf="valueMaxMin.max" class="btn btn-primary btn-sm"
+                    [ngClass]="{'operator-active':operator=='>'}" (click)="addOperator('>')">></button>
+            <button type="button" *ngIf="valueMaxMin.max" class="btn btn-primary btn-sm"
+                    [ngClass]="{'operator-active':operator=='range'}" (click)="addOperator('range')"><></button>
         </div>
-        <div class="button-group col-md-1" *ngIf="column && operator">
-            <button type="button" class="btn btn-primary btn-sm">{{ operator }}</button>
-        </div>
-        <div class="col-md-5">
+        <div class="col-md-4 input-field">
             <select class="form-control" *ngIf="operator && !valueMaxMin.max && !disValue"
                     (change)="addValue($event.target.value)"
                     [disabled]="disValue">
-                <option value="" disabled selected>Chose value</option>
+                <option value="" disabled selected>Choose value</option>
                 <option *ngFor="let row of values">
                     {{ row }}
                 </option>
             </select>
-            <input *ngIf="operator && valueMaxMin.max && !disValue" type="number"
+            <input *ngIf="operator != '' && operator !='range' && valueMaxMin.max && !disValue" type="number"
                    name="range_value"
                    [ngModel]="rangeValue"
                    (ngModelChange)="setRangeValue($event)"
                    [className]="rangeValueError ? 'form-control input-item  is-invalid' : 'form-control input-item'"
                    placeholder="Min: {{ valueMaxMin.min }} Max: {{ valueMaxMin.max }}">
+
+            <input *ngIf="operator == 'range' && !disValue" type="number"
+                   name="min_value" [ngModel]="betweenMin" (ngModelChange)="setBetweenMin($event)"
+                   [className]="rangeValueError ? 'form-control input-item  is-invalid' : 'form-control input-item'"
+                   placeholder="Min: {{ valueMaxMin.min }}">
+            <input *ngIf="operator == 'range' && !disValue" type="number"
+                   name="max_value" [ngModel]="betweenMax" (ngModelChange)="setBetweenMax($event)"
+                   [className]="rangeValueError ? 'form-control input-item  is-invalid' : 'form-control input-item'"
+                   placeholder="Max: {{ valueMaxMin.max }}">
+
             <div class="invalid-feedback">
-                                {{ rangeValueError }}
+                {{ rangeValueError }}
             </div>
             <select class="form-control" *ngIf="operator && value && disValue" [disabled]="disValue">
                 <option value="" disabled selected>{{ value }}</option>
@@ -49,7 +60,7 @@
         </div>
     </div>
 </div>
-<div class="row" *ngIf="count_rows">
+<div class="row" *ngIf="count_rows != undefined">
     <div class="form-row col-md-12">
         <div class="col-md-4">
             <span class="btn btn-success span-width">{{ count_rows + ' / ' + totalRows }}</span>
