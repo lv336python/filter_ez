@@ -5,9 +5,9 @@ services:
     image: postgres:10
     restart: always
     environment:
-      POSTGRES_USER: car_stats
-      POSTGRES_PASSWORD: carstatistics
-      POSTGRES_DATABASE: car_stats
+      POSTGRES_USER: filter_ez
+      POSTGRES_PASSWORD: filter_ez
+      POSTGRES_DATABASE: filter_ez
     volumes:
       - ./postgres:/var/lib/postgresql/data
     ports:
@@ -37,7 +37,7 @@ services:
       DOCKER: 1
       PYTHONUNBUFFERED: 0
     volumes:
-      - ./car-statistics:/car-statistics
+      - ./filter_ez:/filter_ez
     ports:
       - 8000:8000
     depends_on: 
@@ -52,7 +52,7 @@ services:
       C_FORCE_ROOT: "True"
       DOCKER: 1
     volumes:
-      - './car-statistics:/car-statistics'
+      - './filter_ez:/filter_ez'
     depends_on:
       - rabbitmq
     scale: 3

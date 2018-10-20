@@ -12,11 +12,11 @@ With this application user can store all uploaded files and filtering results, d
 
 2. Build bundle js with ng build:
 ```sh
-    /car-statistics/app/static$ ng build
+    /filter_ez/app/static$ ng build
 ```
 3. Make migrations to data base
 ```sh
-    /car-statistics$ python manage.py db upgrade
+    /filter_ez$ python manage.py db upgrade
 ```
 4. Run docker-compose command in the directory with Dockerfile
 ```sh
