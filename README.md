@@ -1,4 +1,4 @@
-# FilterEz
+# ![Database migrations](https://s2.gifyu.com/images/ezgif.com-gif-maker-1c6f49329b9912280.gif)
 
 FilterEz is a web-application for filtering spreadsheet files in excel and csv format created by python-lv336 group.
 
