@@ -54,9 +54,14 @@
             <div class="invalid-feedback">
                 {{ rangeValueError }}
             </div>
-            <select class="form-control" *ngIf="operator && value && disValue" [disabled]="disValue">
+            <select class="form-control" *ngIf="operator != '' && operator != 'range'
+                && value && disValue" [disabled]="disValue">
                 <option value="" disabled selected>{{ value }}</option>
             </select>
+            <input class="form-control" *ngIf="operator == 'range' && value && disValue"
+                   value="From: {{value['from']}}" disabled>
+            <input class="form-control" *ngIf="operator == 'range' && value && disValue"
+                   value="To: {{value['to']}}" disabled>
         </div>
     </div>
 </div>
