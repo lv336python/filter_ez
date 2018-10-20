@@ -32,5 +32,5 @@ def uploader():
 def getfiles():
     files = UserDataCollector(int(session['user_id']))
     # files = [[i.id, i.path, i.attributes] for i in File.query.filter_by(user_id=int(session['user_id'])).all()]
-    return make_response(jsonify(files.get_user_files_info()), 200)
+    return make_response(jsonify(files.get_files_info()), 200)
 
