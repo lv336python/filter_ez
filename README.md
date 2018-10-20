@@ -1,4 +1,4 @@
-# FilterEz
+# ![Database migrations](https://s2.gifyu.com/images/ezgif.com-gif-maker-1c6f49329b9912280.gif)
 
 FilterEz is a web-application for filtering spreadsheet files in excel and csv format created by python-lv336 group.
 
@@ -6,21 +6,27 @@ Application gives to users an interactive way of filtering their data sets retri
 
 With this application user can store all uploaded files and filtering results, download them, watch statistics, send resulting data sets to his or her colleagues, friends or customers.
 
-
 <h3>Start application in docker</h3>
+
 1. Install docker and docker-compose with support of compose files at least version 2.2
 
-2. Build bundle js with ng build:
-```sh
-    /filter_ez/app/static$ ng build
+2. Install all necessary packages with npm and build bundle js with ng build
+![Frontend build](https://s2.gifyu.com/images/ezgif.com-optimizea93b78469155aa59.gif)
+```commandline
+    npm install
+    ng build
 ```
-3. Make migrations to data base
+3. Make migrations to Postgres Database
+![Database migrations](https://s2.gifyu.com/images/postgres_migration.gif)
 ```sh
+    docker exec -it <container id> /bin/bash 
     /filter_ez$ python manage.py db upgrade
 ```
 4. Run docker-compose command in the directory with Dockerfile
+![Dockerization](https://s2.gifyu.com/images/dockerize_part1.gif)
 ```sh
-   sudo docker-compose up 
+   sudo docker-compose up --build 
+   sudo docker-compose up
 ```
 
 <h3>To generate data with your own parameters:</h3>
@@ -67,27 +73,24 @@ With this application user can store all uploaded files and filtering results, d
 
  2. Run script with configuration file as an argument and type of output file (optional).
 ```commandline
-$ python car_statistics_generator.py generator_config.json csv
+    python mock_data_generator.py generator_config.json csv
 ```
 
-<h3>To run your pytests</h3>
-```
-1. Move to tests/ directory
-```
+<h3>Tests</h3>
+
+1. Open bash in app container and change directory to tests/
+![Test run](https://s2.gifyu.com/images/ezgif.com-gif-maker01ea6eb998025906.gif)
 
 ```comandline
-$ pytest # to run all tests
-$ pytest -s # to run and see all prints
-$ pytest test_register.py # to run the test-script
+    pytest # to run all tests
+    pytest -s # to run and see all prints
+    pytest test_register.py # to run the test-script
 ```
-<h3>Check test coverage</h3>
+
+2. Check test coverage
+
 ```comandline
-pip install pytest-cov
-
-pytest --cov=app tests/                     # shows statistic in teminal
-
-pytest --cov-report html  --cov=app tests/  # shows statistic in localhost:<port> (html page)
-
-pytest --cov-report html --cov-config .coveragerc  --cov=app tests/ # same that previous just
-                                                                    # omits on files that are listed in .coverage.rc
+    pytest --cov=app tests/                 
+    pytest --cov-report html  --cov=app tests/  
+    pytest --cov-report html --cov-config .coveragerc  --cov=app tests/ 
 ```
