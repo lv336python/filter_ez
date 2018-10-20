@@ -101,6 +101,8 @@ def mask_f(data_frame, params):
         criteria = (data_frame[column] > value)
     elif operator == '<':
         criteria = (data_frame[column] < value)
+    elif operator == 'range':
+        criteria = ((value['from'] <= data_frame[column]) & (data_frame[column] <= value['to']))
     else:
         criteria = 'error'
 
