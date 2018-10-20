@@ -10,8 +10,9 @@ export class FilterItemComponent implements OnInit {
     column: string;
     operator: string;
     value: string;
+    valueToSend : any;
     quantity: number;
-    count_rows: any;
+    count_rows: number = undefined;
     operatorBtwElem = '';
 
     valid_quantity = true;
@@ -26,6 +27,9 @@ export class FilterItemComponent implements OnInit {
     disValue = false;
     disQuantity = false;
     rangeValue: number;
+
+    betweenMin : number;
+    betweenMax : number;
 
     valuesPushed = false;
     valueMaxMin = {};
@@ -90,6 +94,8 @@ export class FilterItemComponent implements OnInit {
             }
             this.parseSettings(this.f_param[this.f_index]['settings']);
         }
+            console.log('count', this.count_rows);
+
     }
 
     // save() {
@@ -115,7 +121,7 @@ export class FilterItemComponent implements OnInit {
             this.valueMaxMin = {
                 'min': this.metadata[column]['min'],
                 'max': this.metadata[column]['max']
-            }
+        }
         } else {
             this.values = this.metadata[column];
             this.valueMaxMin = {};
@@ -224,6 +230,99 @@ export class FilterItemComponent implements OnInit {
         }
     }
 
+    setBetweenMin(data) {
+        this.betweenMin = data;
+        if (this.checkMinBetweenValue()) {
+            this.rangeValueError = '';
+            this.addRangeValue()
+        }
+    }
+
+    setBetweenMax(data) {
+        this.betweenMax = data;
+        if (this.checkMaxBetweenValue()) {
+            this.rangeValueError = '';
+            this.addRangeValue()
+        }
+    }
+
+    checkMinBetweenValue() {
+        if (this.betweenMin > this.valueMaxMin['max'] || this.betweenMin < this.valueMaxMin['min']) {
+            this.rangeValueError = "This value should be in range between " + this.valueMaxMin['min'] + ' and ' + this.valueMaxMin['max'];
+            return false;
+        }
+        else if (this.betweenMin > this.betweenMax ||
+            this.betweenMax == undefined|| this.betweenMin == undefined) {
+            this.rangeValueError = "min value should be lesser than max value";
+            return false;
+        }
+        return true;
+    }
+
+    checkMaxBetweenValue() {
+        if (this.betweenMax > this.valueMaxMin['max'] || this.betweenMax < this.valueMaxMin['min']) {
+            this.rangeValueError = "This value should be in range between " + this.valueMaxMin['min'] + ' and ' + this.valueMaxMin['max'];
+            return false;
+        }
+        else if (this.betweenMin > this.betweenMax ||
+            this.betweenMax == undefined || this.betweenMin == undefined) {
+            this.rangeValueError = "min value should be lesser than max value";
+            return false;
+        }
+        return true;
+    }
+
+    addRangeValue() {
+        this.disColumn = true;
+        if (this.parent_id && !this.child_id) {
+            this.f_param[this.parent_id]['child'][this.f_index].params = {
+                'column': this.column,
+                'operator': this.operator,
+                'value': {'from':this.betweenMin, 'to':this.betweenMax}
+            };
+            let child_params = [
+                this.f_param[this.parent_id].params,
+                this.f_param[this.parent_id]['child'][this.f_index].params
+            ];
+            this.http
+                .post('/api/count_rows', {'file_id': this.file_id, 'params': child_params})
+                .subscribe(res => this.setCountRows(res),
+                    error => {
+                        console.log(error);
+                    });
+        } else if (this.parent_id && this.child_id) {
+            this.f_param[this.parent_id]['child'][this.child_id]['child'][this.f_index].params = {
+                'column': this.column,
+                'operator': this.operator,
+                'value': {'from':this.betweenMin, 'to':this.betweenMax}
+            };
+            let last_child_params = [
+                this.f_param[this.parent_id].params,
+                this.f_param[this.parent_id]['child'][this.child_id].params,
+                this.f_param[this.parent_id]['child'][this.child_id]['child'][this.f_index].params,
+            ];
+
+            this.http
+                .post('/api/count_rows', {'file_id': this.file_id, 'params': last_child_params})
+                .subscribe(res => this.setCountRows(res),
+                    error => {
+                        console.log(error);
+                    });
+        } else {
+            this.f_param[this.f_index].params = {
+                'column': this.column,
+                'operator': this.operator,
+                'value': {'from':this.betweenMin, 'to':this.betweenMax}
+            };
+            this.http
+                .post('/api/count_rows', {'file_id': this.file_id, 'params': this.f_param[this.f_index].params})
+                .subscribe(res => this.setCountRows(res),
+                    error => {
+                        console.log(error);
+                    });
+        }
+    }
+
     checkRangeValue() {
         if ('max' in this.valueMaxMin) {
             if (this.value > this.valueMaxMin['max'] || this.value < this.valueMaxMin['min']) {
@@ -234,28 +333,47 @@ export class FilterItemComponent implements OnInit {
         return true;
     }
 
-    addNewColumn() {
+    parseSettings(data) {
+        if (data) {
+            this.count_rows = data['count_rows'];
+            this.quantity = data['quantity'];
+            this.qtt_readonly = data['qtt_readonly'];
+        }
+    }
+
+    validateBeforeSaving() {
+        this.valueToSend = this.value;
+
         if (!this.checkQuantity()) {
             return false;
         }
-        if (!this.checkRangeValue()) {
+        if (this.operator == 'range') {
+            if(!this.checkMaxBetweenValue() || !this.checkMinBetweenValue()) {
+                return false;
+            }
+
+            this.valueToSend = {'from':this.betweenMin, 'to': this.betweenMax};
+        }
+        else if (!this.checkRangeValue()) {
             return false
         }
-        if (this.rangeValue) {
-            this.value = this.rangeValue.toString();
-        }
+    }
 
-        this.f_param[this.f_index]['params'] = {
-            'column': this.column,
-            'operator': this.operator,
-            'value': this.value,
-            'quantity': this.calculateQuantity(),
+    addNewColumn() {
+        this.validateBeforeSaving();
+
+        this.f_param[this.f_index]= {
+            'params': {
+                'column': this.column,
+                'operator': this.operator,
+                'value': this.valueToSend,
+                'quantity': this.calculateQuantity() },
+            'settings' : {
+                'count_rows': this.count_rows,
+                'quantity': this.quantity,
+                'qtt_readonly': true },
         };
-        this.f_param[this.f_index]['settings'] = {
-            'count_rows': this.count_rows,
-            'quantity': this.quantity,
-            'qtt_readonly': true,
-        };
+
         let new_index = Object.keys(this.f_param).length;
         this.f_param[new_index] = {
             'params': {
@@ -266,148 +384,104 @@ export class FilterItemComponent implements OnInit {
         this.updateFilterItemParams.emit(this.f_param);
     }
 
-    parseSettings(data) {
-        if (data) {
-            this.count_rows = data['count_rows'];
-            this.quantity = data['quantity'];
-            this.qtt_readonly = data['qtt_readonly'];
-        }
-    }
+
 
     addChild(parentIndex) {
-        if (!this.checkQuantity()) {
-            return false;
-        }
-        if (!this.checkRangeValue()) {
-            return false
-        }
-        if (this.rangeValue) {
-            this.value = this.rangeValue.toString();
-        }
-        this.f_param[this.parent_id]['child'][this.f_index]['params'] = {
-            'column': this.column,
-            'operator': this.operator,
-            'value': this.value,
-            'quantity': this.calculateQuantity(),
-        };
-        this.f_param[this.parent_id]['child'][this.f_index]['parent_id'] = this.parent_id;
-        this.f_param[this.parent_id]['child'][this.f_index]['child'] = false;
-        this.f_param[this.parent_id]['child'][this.f_index]['settings'] = {
-            'count_rows': this.count_rows,
-            'quantity': this.quantity,
-            'qtt_readonly': true,
+        this.validateBeforeSaving();
+
+        this.f_param[this.parent_id]['child'][this.f_index] = {
+            'parent_id': this.parent_id,
+            'child': false,
+            'settings' : {
+                'count_rows': this.count_rows,
+                'quantity': this.quantity,
+                'qtt_readonly': true },
+            'params' : {
+                'column': this.column,
+                'operator': this.operator,
+                'value': this.valueToSend,
+                'quantity': this.calculateQuantity() },
         };
 
         let new_child_index = Object.keys(this.f_param[parentIndex]['child']).length;
         this.f_param[parentIndex]['child'][new_child_index] = {
             'params': {
-                'column': this.column
-            },
+                'column': this.column },
             'child': false,
             'parent_id': parentIndex,
             'settings': {
-                'count_rows': '',
+                'count_rows': undefined,
                 'quantity': '',
-                'qtt_readonly': ''
-            }
+                'qtt_readonly': '' },
         };
         this.updateFilterItemParams.emit(this.f_param);
     }
 
     saveParent() {
-        if (!this.checkQuantity()) {
-            return false;
-        }
-        if (!this.checkRangeValue()) {
-            return false
-        }
-        if (this.rangeValue) {
-            this.value = this.rangeValue.toString();
-        }
+        this.validateBeforeSaving();
 
-        this.f_param[this.f_index] = {};
-        this.updateFilterItemParams.emit(this.f_param);
-
-        this.f_param[this.f_index]['params'] = {
-            'column': this.column,
-            'operator': this.operator,
-            'value': this.value,
-            'quantity': this.calculateQuantity(),
-        };
-        this.f_param[this.f_index]['settings'] = {
-            'count_rows': this.count_rows,
-            'quantity': this.quantity,
-            'qtt_readonly': true,
+        this.f_param[this.f_index] = {
+            'params': {
+                'column': this.column,
+                'operator': this.operator,
+                'value': this.valueToSend,
+                'quantity': this.calculateQuantity() },
+            'settings': {
+                'count_rows': this.count_rows,
+                'quantity': this.quantity,
+                'qtt_readonly': true },
         };
         this.updateFilterItemParams.emit(this.f_param);
     }
 
     saveChild() {
-        if (!this.checkQuantity()) {
-            return false;
-        }
-        if (!this.checkRangeValue()) {
-            return false
-        }
-        if (this.rangeValue) {
-            this.value = this.rangeValue.toString();
-        }
+        this.validateBeforeSaving();
 
-        this.f_param[this.parent_id]['child'][this.f_index] = {};
-        this.updateFilterItemParams.emit(this.f_param);
-
-        this.f_param[this.parent_id]['child'][this.f_index]['params'] = {
-            'column': this.column,
-            'operator': this.operator,
-            'value': this.value,
-            'quantity': this.calculateQuantity(),
-        };
-        this.f_param[this.parent_id]['child'][this.f_index]['parent_id'] = this.parent_id;
-        this.f_param[this.parent_id]['child'][this.f_index]['child'] = false;
-        this.f_param[this.parent_id]['child'][this.f_index]['settings'] = {
-            'count_rows': this.count_rows,
-            'quantity': this.quantity,
-            'qtt_readonly': true,
+        this.f_param[this.parent_id]['child'][this.f_index]= {
+            'params' : {
+                'column': this.column,
+                'operator': this.operator,
+                'value': this.valueToSend,
+                'quantity': this.calculateQuantity() },
+            'parent_id' : this.parent_id,
+            'child' : false,
+            'settings' : {
+                'count_rows': this.count_rows,
+                'quantity': this.quantity,
+                'qtt_readonly': true }
         };
         this.updateFilterItemParams.emit(this.f_param);
 
     }
 
     addLastChild(parent_id, child_id) {
-        if (!this.checkQuantity()) {
-            return false;
-        }
-        if (!this.checkRangeValue()) {
-            return false
-        }
-        if (this.rangeValue) {
-            this.value = this.rangeValue.toString();
-        }
-        this.f_param[parent_id]['child'][child_id]['child'][this.f_index]['params'] = {
-            'column': this.column,
-            'operator': this.operator,
-            'value': this.value,
-            'quantity': this.calculateQuantity(),
-        };
-        this.f_param[parent_id]['child'][child_id]['child'][this.f_index]['parent_id'] = parent_id;
-        this.f_param[parent_id]['child'][child_id]['child'][this.f_index]['child'] = false;
-        this.f_param[parent_id]['child'][child_id]['child'][this.f_index]['child_id'] = child_id;
-        this.f_param[parent_id]['child'][child_id]['child'][this.f_index]['settings'] = {
-            'count_rows': this.count_rows,
-            'quantity': this.quantity,
-            'qtt_readonly': true,
+        this.validateBeforeSaving();
+
+        this.f_param[parent_id]['child'][child_id]['child'][this.f_index] = {
+            'params': {
+                'column': this.column,
+                'operator': this.operator,
+                'value': this.valueToSend,
+                'quantity': this.calculateQuantity() },
+            'parent_id' : parent_id,
+            'child' : false,
+            'child_id' : child_id,
+            'settings' : {
+                'count_rows': this.count_rows,
+                'quantity': this.quantity,
+                'qtt_readonly': true,
+            }
         };
 
         let last_index = Object.keys(this.f_param[parent_id]['child'][child_id]['child']).length;
         this.f_param[parent_id]['child'][child_id]['child'][last_index] = {
             'params': {
-                'column': this.column,
-            },
+                'column': this.column },
             'child': false,
             'parent_id': parent_id,
             'child_id': child_id,
             'settings': {
-                'count_rows': '',
+                'count_rows': undefined,
                 'quantity': '',
                 'qtt_readonly': ''
             }
@@ -416,31 +490,24 @@ export class FilterItemComponent implements OnInit {
     }
 
     saveLastChild() {
-        if (!this.checkQuantity()) {
-            return false;
-        }
-        if (!this.checkRangeValue()) {
-            return false
-        }
-        if (this.rangeValue) {
-            this.value = this.rangeValue.toString();
-        }
-        this.f_param[this.parent_id]['child'][this.child_id]['child'][this.f_index] = {};
-        this.updateFilterItemParams.emit(this.f_param);
 
-        this.f_param[this.parent_id]['child'][this.child_id]['child'][this.f_index]['params'] = {
-            'column': this.column,
-            'operator': this.operator,
-            'value': this.value,
-            'quantity': this.calculateQuantity(),
+        this.validateBeforeSaving();
+
+        this.f_param[this.parent_id]['child'][this.child_id]['child'][this.f_index] = {
+            'params' : {
+                'column': this.column,
+                'operator': this.operator,
+                'value': this.valueToSend,
+                'quantity': this.calculateQuantity() },
+            'parent_id' : this.parent_id,
+            'child' : false,
+            'settings' : {
+                'count_rows': this.count_rows,
+                'quantity': this.quantity,
+                'qtt_readonly': true,
+            }
         };
-        this.f_param[this.parent_id]['child'][this.child_id]['child'][this.f_index]['parent_id'] = this.parent_id;
-        this.f_param[this.parent_id]['child'][this.child_id]['child'][this.f_index]['child'] = false;
-        this.f_param[this.parent_id]['child'][this.child_id]['child'][this.f_index]['settings'] = {
-            'count_rows': this.count_rows,
-            'quantity': this.quantity,
-            'qtt_readonly': true,
-        };
+
         this.updateFilterItemParams.emit(this.f_param);
     }
 }
