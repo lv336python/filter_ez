@@ -1,8 +1,9 @@
 """
 Module for filtering files
 """
+import json
 from app import app
-from flask import request, jsonify, make_response, json, session
+from flask import request, make_response, session
 from app.services.file_data import fields_definition
 from app.helper import UserFilesManager
 import pandas as pd
@@ -39,7 +40,7 @@ def save_filter():
     # db.session.add(new_dataset)
     # db.session.commit()
 
-    return make_response(jsonify({'success': 'filter was succesfully saved'}), 200)
+    return make_response(json.dumps({'success': 'filter was succesfully saved'}), 200)
 
 
 @app.route('/api/get_metadata/<file_id>', methods=['POST'])
@@ -53,7 +54,7 @@ def get_metadata(file_id):
     metadata = fields_definition(file_path)
     count_rows = pd.read_pickle(ufm.get_serialized_file_path(file_id)).shape[0]
     result = {'rows': count_rows, 'metadata': metadata}
-    return make_response(jsonify(result), 200)
+    return make_response(json.dumps(result), 200)
 
 
 @app.route('/api/count_rows', methods=['POST'])
@@ -80,7 +81,7 @@ def filter_num_rows():
         else:
             xl_file = xl_file[mask_f(xl_file, params)]
 
-    return make_response(jsonify(xl_file.shape[0]), 200)
+    return make_response(json.dumps(xl_file.shape[0]), 200)
 
 
 def mask_f(data_frame, params):
