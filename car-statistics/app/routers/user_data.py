@@ -1,6 +1,5 @@
 from app import app
-import json
-from flask import make_response, session
+from flask import jsonify, make_response, session
 
 from flask_login import login_required
 from app.services.user_data_collection import UserDataCollector
@@ -16,4 +15,4 @@ def get_all_data():
     user_id = session.get('user_id')
     user_data = UserDataCollector(user_id)
     result = user_data.get_all_data()
-    return make_response(json.dumps(result), 201)
+    return make_response(jsonify(result), 201)

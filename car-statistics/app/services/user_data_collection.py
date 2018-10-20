@@ -88,7 +88,11 @@ class UserDataCollector:
             'size': file.attributes['size'],
             'nRows': file.attributes['rows'],
             'dataSetId': dts.id
-            } for file in self.files for dts in self.datasets if dts.file_id == file.id]
+            }
+            for file in self.files
+            for dts in self.datasets
+            if not dts.filter_id and dts.file_id == file.id
+        ]
         return files
 
     def get_filters_info(self):
