@@ -4,7 +4,7 @@
             <select class="form-control" *ngIf="!column && !disColumn; else disableColumn"
                     (change)="selectedColumnName($event.target.value)">
                 <option value="" disabled selected>Chose column</option>
-                <option *ngFor="let row of columns">
+                <option *ngFor="let row of columns" [disabled]="disable_columns.includes(row)">
                     {{ row }}
                 </option>
             </select>

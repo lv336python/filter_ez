@@ -1,37 +1,38 @@
-import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs/Observable';
+import {Injectable} from '@angular/core';
+import {Observable} from 'rxjs/Observable';
 import {HttpClient, HttpErrorResponse} from '@angular/common/http';
+import {BehaviorSubject} from 'rxjs/BehaviorSubject';
 
 import 'rxjs/add/operator/map';
 import 'rxjs/add/operator/catch';
 import 'rxjs/add/observable/throw';
+import {UserData} from '../_models/data';
 
 
 @Injectable({
   providedIn: 'root'
 })
 export class UserDataService {
-    constructor(private http: HttpClient) {}
+  public userData: UserData;
+  private newUserData = new BehaviorSubject<any>(null);
+  castUserData = this.newUserData.asObservable();
 
-    getUserData() {
-        return this.http
-            .get('api/userdata')
-            .catch(this.handleError);
-    }
+  constructor(private http: HttpClient) {
+  }
 
-    getUserFiles(data) {
-        return data.user_files;
-    }
+  getUserData() {
+    this.http
+      .get('api/userdata')
+      .catch(this.handleError)
+      .subscribe((data: UserData) => this.newUserData.next(this.userData = data));
+  }
 
-    getUserDataSets(data) {
-        return data.user_datasets;
-    }
+  onUploadComplete(file) {
+    this.userData.user_files.push(file)
+    this.newUserData.next(this.userData);
+  }
 
-    getUserFilters(data) {
-        return data.user_filters;
-    }
-
-    private handleError(error: HttpErrorResponse) {
-        return Observable.throwError(error.message || 'Server Error');
-    }
+  private handleError(error: HttpErrorResponse) {
+    return Observable.throwError(error.message || 'Server Error');
+  }
 }

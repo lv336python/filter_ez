@@ -27,6 +27,10 @@ export class FileUploadSelectorComponent implements OnInit {
     ngOnInit() {
     }
 
+    onUploaded($event) {
+        this.filesToUpload.splice(this.filesToUpload.indexOf($event), 1);
+    }
+
     openModal(id: string) {
         this.modalService.open(id);
     }

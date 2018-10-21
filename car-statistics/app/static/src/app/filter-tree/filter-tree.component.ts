@@ -1,6 +1,7 @@
 import {Component, OnInit} from '@angular/core';
 import {Router} from "@angular/router";
 import {HttpClient} from "@angular/common/http";
+import {File} from "../_models/data";
 
 @Component({
     selector: 'filter-tree',
@@ -9,15 +10,17 @@ import {HttpClient} from "@angular/common/http";
 })
 export class FilterTreeComponent implements OnInit {
 
-    files: string[];
+    files: Array<File>;
     file_id: number;
     totalRows: number;
-    save_error: boolean;
+    save_error: string;
+    filter_name: string;
     filter_params: object = {
         0: {
             'params': {},
             'child': false,
             'parent_id': false,
+            'disabledColumns': [],
             'settings': {
                 'count_rows': '',
                 'quantity': '',
@@ -30,7 +33,7 @@ export class FilterTreeComponent implements OnInit {
     columns: string[];
 
     constructor(private http: HttpClient,
-                private router:Router) {
+                private router: Router) {
 
     }
 
@@ -41,7 +44,7 @@ export class FilterTreeComponent implements OnInit {
     getFiles() {
         this.http
             .post('/api/get_files', '')
-            .subscribe((res: string[]) => this.files = res,
+            .subscribe((res: Array<File>) => this.files = res,
                 error => {
                     console.log(error);
                 });
@@ -54,7 +57,7 @@ export class FilterTreeComponent implements OnInit {
 
     getMetadata(id) {
         this.http
-            .post('/api/get_metadata', {'file_id': this.file_id})
+            .post(`/api/get_metadata/${this.file_id}`, {'file_id': this.file_id})
             .subscribe(res => this.parseMetadata(res),
                 error => {
                     console.log(error);
@@ -68,7 +71,6 @@ export class FilterTreeComponent implements OnInit {
     }
 
     updateFilterParams(data) {
-        console.log(data);
         this.filter_params = data;
     }
 
@@ -77,6 +79,7 @@ export class FilterTreeComponent implements OnInit {
         this.filter_params[parentIndex]['child'][0] = {
             'params': {},
             'child': false,
+            'disabledColumns': [this.filter_params[parentIndex]['params']['column']],
             'parent_id': parentIndex,
             'settings': {
                 'count_rows': '',
@@ -92,6 +95,7 @@ export class FilterTreeComponent implements OnInit {
         this.filter_params[parentIndex]['child'][child_id]['child'][0] = {
             'params': {},
             'child': false,
+            'disabledColumns': [this.filter_params[parentIndex]['params']['column'], this.filter_params[parentIndex]['child'][0]['params']['column'] ],
             'parent_id': parentIndex,
             'child_id': child_id,
             'settings': {
@@ -104,12 +108,17 @@ export class FilterTreeComponent implements OnInit {
     }
 
     saveFilter() {
+        if (!this.filter_name) {
+            this.save_error = 'Filter name is required';
+            return false;
+        }
+
         let filter_params = this.filter_params;
         let filter = {};
         for (let key in filter_params) {
             filter[key] = this.deleteUnnecessaryElem(filter_params[key]);
             if (this.checkParams(filter[key])) {
-                this.save_error = true;
+                this.save_error = 'You have blank fields';
                 return 'error';
             }
             if ('child' in filter_params[key]) {
@@ -117,7 +126,7 @@ export class FilterTreeComponent implements OnInit {
                 for (let child_key in filter_params[key]['child']) {
                     filter[key]['child'][child_key] = this.deleteUnnecessaryElem(filter_params[key]['child'][child_key]);
                     if (this.checkParams(filter[key]['child'][child_key])) {
-                        this.save_error = true;
+                        this.save_error = 'You have blank fields';
                         return 'error';
                     }
                     if ('child' in filter_params[key]['child'][child_key]) {
@@ -125,7 +134,7 @@ export class FilterTreeComponent implements OnInit {
                         for (let child_last_key in filter_params[key]['child'][child_key]['child']) {
                             filter[key]['child'][child_key]['child'][child_last_key] = this.deleteUnnecessaryElem(filter_params[key]['child'][child_key]['child'][child_last_key]);
                             if (this.checkParams(filter[key]['child'][child_key]['child'][child_last_key])) {
-                                this.save_error = true;
+                                this.save_error = 'You have blank fields';
                                 return 'error';
                             }
                         }
@@ -138,11 +147,11 @@ export class FilterTreeComponent implements OnInit {
             .post('/api/save_filter', {
                 'params': filter,
                 'name': 'ggsgsd',
-                'file_id': 1
+                'file_id': this.file_id
             })
             .subscribe(data => this.router.navigate(['/']),
-                    error => {
-                         console.log(error);
+                error => {
+                    console.log(error);
                 });
     }
 
@@ -155,5 +164,9 @@ export class FilterTreeComponent implements OnInit {
 
     checkParams(filter) {
         return Object.keys(filter.params).length < 4;
+    }
+
+    setFilterName(value) {
+        this.filter_name = value;
     }
 }
