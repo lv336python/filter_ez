@@ -5,11 +5,11 @@ import {EventEmitter, Injectable} from '@angular/core';
 })
 export class EventEmitterService {
 
-  emitter = new EventEmitter();
+    emitter = new EventEmitter();
 
-  sendMessage(message: string) {
-    this.emitter.emit(message);
-  }
+    sendMessage(message: string) {
+        this.emitter.emit(message);
+    }
 
-  constructor() { }
+    constructor() { }
 }

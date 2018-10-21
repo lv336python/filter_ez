@@ -51,7 +51,7 @@ def download(dataset_id):
     logger.error(f"error when user %s downloaded %s", user_id, dataset_id)
     notify_admin(error_level="ERROR",
                  message=f"Unexpected error occurred when user {user_id} tried to download"
-                         f" dataset {dataset_id}")
+                         f" dataset {datasetId_}")
     return json.dumps({'message': 'couldn\'t send file to user'}), 500
 
 

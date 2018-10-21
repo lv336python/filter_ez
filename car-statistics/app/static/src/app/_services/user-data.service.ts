@@ -11,29 +11,27 @@ import 'rxjs/add/observable/throw';
   providedIn: 'root'
 })
 export class UserDataService {
-  constructor(private http: HttpClient) {
-  }
+    constructor(private http: HttpClient) {}
 
-  getUserData() {
-    return this.http
-        .get('api/userdata')
-        .catch(this.handleError);
+    getUserData() {
+        return this.http
+            .get('api/userdata')
+            .catch(this.handleError);
+    }
 
-  }
+    getUserFiles(data) {
+        return data.user_files;
+    }
 
-  getUserFiles(data) {
-    return data.user_files;
-  }
+    getUserDataSets(data) {
+        return data.user_datasets;
+    }
 
-  getUserDataSets(data) {
-    return data.user_datasets;
-  }
+    getUserFilters(data) {
+        return data.user_filters;
+    }
 
-  getUserFilters(data) {
-    return data.user_filters;
-  }
-
-  private handleError(error: HttpErrorResponse) {
-    return Observable.throwError(error.message || 'Server Error');
-  }
+    private handleError(error: HttpErrorResponse) {
+        return Observable.throwError(error.message || 'Server Error');
+    }
 }

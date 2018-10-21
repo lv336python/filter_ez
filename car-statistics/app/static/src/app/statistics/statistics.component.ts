@@ -1,6 +1,5 @@
-import {Component, ElementRef, Input, OnInit} from '@angular/core';
+import {Component, Input, OnInit} from '@angular/core';
 import {DataService} from "../_services/data.service";
-import {update} from "plotly.js";
 
 
 @Component({
@@ -10,10 +9,9 @@ import {update} from "plotly.js";
 })
 export class StatisticsComponent implements OnInit {
 
-    dataset_id_ : number;
+    datasetId_ : number;
     columns : Array<string>;
     statistics : Object;
-
     plot : string = 'bar';
 
     public graph = {
@@ -36,19 +34,19 @@ export class StatisticsComponent implements OnInit {
         }
     };
 
-    get dataset_id() : number {
-        return this.dataset_id_;
+    get datasetId() : number {
+        return this.datasetId_;
     }
 
-    @Input() set dataset_id(name: number) {
-        this.dataset_id_ = name;
+    @Input() set datasetId(name: number) {
+        this.datasetId_ = name;
         this.updateGraph();
     }
 
     constructor(private data : DataService) { }
 
     updateGraph() {
-        this.data.getStatistics(this.dataset_id)
+        this.data.getStatistics(this.datasetId)
             .subscribe(
                 res => {
                     this.statistics = res;
@@ -67,8 +65,8 @@ export class StatisticsComponent implements OnInit {
         this.updateGraph();
     }
 
-    setPlot(plot_type : string, target, opp: Element) {
-        this.plot = plot_type;
+    setPlot(plotType : string, target, opp: Element) {
+        this.plot = plotType;
         target.className += ' active';
         opp.className = opp.className.replace(' active', '');
     }

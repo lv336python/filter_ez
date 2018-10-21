@@ -10,7 +10,6 @@ import {LoginComponent} from "./login/login.component";
 import {LogoutComponent} from "./logout/logout.component"
 import {ResetPasswordComponent} from "./reset-password/reset-password.component"
 import {ConfirmResetComponent} from "./confirm-reset/confirm-reset.component"
-import {FilterComponent} from "./filter/filter.component";
 import {UserDataComponent} from "./user-data/user-data.component";
 import {FilterTreeComponent} from "./filter-tree/filter-tree.component";
 
@@ -31,5 +30,4 @@ const routes: Routes = [
     exports: [RouterModule],
     imports: [RouterModule.forRoot(routes)],
 })
-export class AppRoutingModule {
-}
+export class AppRoutingModule {}

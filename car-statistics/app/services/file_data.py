@@ -3,14 +3,13 @@
 """
 from collections import defaultdict
 import pickle
-from .utils import get_user_file
 from app.helper import DataSetPandas, UserFilesManager
 
 
 def fields_definition(filename, filter=None):
     """ This function defines fields to defaultdict in dict
     to store column names, their values and count of this values in column for statistic
-    :param file_name: parameter for your filename
+    :param filename: parameter for your filename
     :param filter: tuple: name of column and value for filter
     :return dict: {'Air bags': {'max': 4, 'min': 0}, 'Body': ['MPV', 'SUV', [Sedan],
     'Climate control': ['Yes', 'No']}

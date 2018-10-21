@@ -1,28 +1,21 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 
 @Component({
   selector: 'app-navbar',
   templateUrl: './navbar.component.html',
   styleUrls: ['./navbar.component.css']
 })
-export class NavbarComponent implements OnInit {
+export class NavbarComponent {
 
   constructor() { }
 
-  ngOnInit() {
-
-  }
-  
-  isLogined(){
+  isLoggedIn(){
     function getCookie(name) {
-        var matches = document.cookie.match(new RegExp(
+        let matches = document.cookie.match(new RegExp(
             "(?:^|; )" + name.replace(/([\.$?*|{}\(\)\[\]\\\/\+^])/g, '\\$1') + "=([^;]*)"
         ));
         return matches ? decodeURIComponent(matches[1]) : undefined;
-
     }
-    let isLog = getCookie("session");
-    return isLog;
+    return getCookie("session");
   }
-
 }
