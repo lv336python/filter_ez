@@ -22,7 +22,7 @@ export class FilterTreeComponent implements OnInit {
             'parent_id': false,
             'disabledColumns': [],
             'settings': {
-                'count_rows': '',
+                'count_rows': undefined,
                 'quantity': '',
                 'qtt_readonly': '',
             },
@@ -82,7 +82,7 @@ export class FilterTreeComponent implements OnInit {
             'disabledColumns': [this.filter_params[parentIndex]['params']['column']],
             'parent_id': parentIndex,
             'settings': {
-                'count_rows': '',
+                'count_rows': undefined,
                 'quantity': '',
                 'qtt_readonly': ''
             }
@@ -99,7 +99,7 @@ export class FilterTreeComponent implements OnInit {
             'parent_id': parentIndex,
             'child_id': child_id,
             'settings': {
-                'count_rows': '',
+                'count_rows': undefined,
                 'quantity': '',
                 'qtt_readonly': ''
             }
