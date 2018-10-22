@@ -9,7 +9,7 @@ import pandas as pd
 
 from app import app, db, logger
 from app.models import Dataset, File  # Remove when DBM is ready
-
+from app.helper.date_time_manager import DateTimeManager
 
 class UserFilesManager:
     """
@@ -160,8 +160,8 @@ class UserFilesManager:
         attributes = dict()
         attributes['name'] = os.path.basename(file_path)
         attributes['size'] = round(os.path.getsize(file_path), 2)
-        # attributes['date'] = DateTimeManager.get_current_time(isoformat=True)
-        # attributes['modified'] = DateTimeManager.get_file_last_modify_time(os.path.getctime(file_path))
+        attributes['date'] = DateTimeManager.get_current_time(isoformat=True)
+        attributes['modified'] = DateTimeManager.get_file_last_modify_time(os.path.getctime(file_path))
         return attributes
 
     @classmethod

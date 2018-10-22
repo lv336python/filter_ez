@@ -78,6 +78,7 @@ def send_result_to_mail(recipients, file_name, file_content):
             data=file_content
         )]
     )
+
     user_id = int(session.get('user_id', 0))
     if user_id:
         send.apply_async([msg], serializer='pickle', link=notify_user.s(user_id))
