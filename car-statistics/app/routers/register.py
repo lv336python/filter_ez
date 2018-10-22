@@ -52,5 +52,5 @@ def register():
     send_email(user.email, subject, html)
 
     return json.dumps({
-        'message': f'Please confirm registration and link sent to {user.email}'
+        'message': f'Please confirm registration'
     }), 201
