@@ -6,7 +6,7 @@ import datetime
 
 import jwt
 from app import app
-
+from app.helper import DateTimeManager
 
 def generate_confirmation_token(email):
     '''
@@ -15,8 +15,7 @@ def generate_confirmation_token(email):
     :return: encoded token
     '''
     token = jwt.encode({'email': email,
-                        'exp': datetime.datetime.utcnow() \
-                               + datetime.timedelta(hours=1)},
+                        'exp': DateTimeManager.expiration_time(hours=1)},
                        app.config['SECRET_KEY'],
                        algorithm='HS256')
     return token

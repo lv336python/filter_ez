@@ -4,9 +4,7 @@ functionality needed to work with user files in local storage: saving, deleting,
 fetching, etc.
 """
 import os
-from datetime import datetime
 from hashlib import md5
-
 import pandas as pd
 
 from app import app, db, logger
@@ -162,8 +160,8 @@ class UserFilesManager:
         attributes = dict()
         attributes['name'] = os.path.basename(file_path)
         attributes['size'] = round(os.path.getsize(file_path), 2)
-        attributes['date'] = datetime.now().isoformat()
-        attributes['modified'] = datetime.fromtimestamp(os.path.getctime(file_path)).isoformat()
+        # attributes['date'] = DateTimeManager.get_current_time(isoformat=True)
+        # attributes['modified'] = DateTimeManager.get_file_last_modify_time(os.path.getctime(file_path))
         return attributes
 
     @classmethod

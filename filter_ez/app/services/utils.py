@@ -12,7 +12,7 @@ from hashlib import md5
 from app import app, logger, db
 from app.helper import UserFilesManager
 from app.services import notify_admin
-
+from app.helper import DateTimeManager
 
 def create_dir(dir_path):
     """
@@ -48,7 +48,7 @@ def dataset_to_excel(dataset):
     :return: BytesIO object or None
     """
     try:
-        start_time = time.time()
+        start_time = DateTimeManager.get_current_time()
         logger.info("Start creating file")
 
         file_manager = UserFilesManager(dataset.user_id)
@@ -74,7 +74,7 @@ def dataset_to_excel(dataset):
 
         excel_writer.close()
         byte_writer.seek(0)
-        logger.info("Finished creating file in %s", time.time() - start_time)
+        logger.info("Finished creating file in %s", DateTimeManager.get_current_time() - start_time)
         return byte_writer
     except Exception as exception:
         logger.error("Error occurred when tried to create a byteIO"
