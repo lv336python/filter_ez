@@ -18,6 +18,7 @@ class UserFilesManager:
     Class for working with local user files. It provides all necessary functionality
     to work with files of a given user
     """
+
     def __init__(self, user_id):
         self.user_id = user_id
         self.files_dir = os.path.join(app.config['UPLOAD_FOLDER'], str(user_id))
@@ -51,8 +52,8 @@ class UserFilesManager:
         if file_full_name in self.files:
             _file = File.query.filter(File.path == file_full_name).first()
             _dataset = Dataset.query.filter(Dataset.file_id == _file.id).first()
-            logger.info('User {0} uploaded which already existed under id {1}'
-                        .format(self.user_id, _file.id))
+            logger.info('User {0} uploaded file  which already existed under id {1}, with name'
+                        .format(self.user_id, _file.id,_file.json['name']))
             return 'Uploaded', _file.id, _dataset.id
 
         file.seek(0)
@@ -74,15 +75,17 @@ class UserFilesManager:
         new_dataset = Dataset(user_id=self.user_id, file_id=new_file.id)
         db.session.add(new_dataset)
         db.session.commit()
-        logger.info('User {0} uploaded a new file {1}'.format(self.user_id, new_file.id))
+        logger.info('User {0} uploaded a new file {1}, with name {2}'.format(self.user_id,
+                                                                             new_file.id,
+                                                                             new_file.attributes['name'], ))
         response = {'file': {
-                    'id': new_file.id,
-                    'name': new_file.attributes['name'],
-                    'size': new_file.attributes['size'],
-                    'rows': new_file.attributes['rows']
-                    },
-                    'dataset_id': new_dataset.id
-                    }
+            'id': new_file.id,
+            'name': new_file.attributes['name'],
+            'size': new_file.attributes['size'],
+            'rows': new_file.attributes['rows']
+        },
+            'dataset_id': new_dataset.id
+        }
         return response
 
     def serialize(self, file_full_name):

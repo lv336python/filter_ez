@@ -20,7 +20,7 @@ def uploader():
         if file_manager.validate_file_extension(file):
             result = file_manager.upload_file(file)  # processing upload by upload function from services
         else:
-            return make_response(jsonify({'error': 'bad file type'}), status)
+            return make_response(jsonify({'error': 'bad file type'}), 401)
 
         return make_response(jsonify(result), 201)
 
