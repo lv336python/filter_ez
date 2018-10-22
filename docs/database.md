@@ -1,4 +1,4 @@
-#Database structure
+# Database structure
 
 ![ER diagram](./res/database.jpg)
 
