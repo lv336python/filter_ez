@@ -1,7 +1,8 @@
 """Module including Dataset Class"""
 import pickle
 
-from app.helper import UserFilesManager
+from app.helper import UserFilesManager as Ufm
+from app.helper import DataSetPandas as Dataframe
 from app.models import Dataset
 
 
@@ -19,13 +20,14 @@ class DatasetManager:
     def is_owner(self, user_id):
         return self.dataset.user_id == user_id
 
-    def read(self):
-        file = UserFilesManager(self.dataset.user_id)
-        with open(file.get_serialized_file_path(self.dataset.file_id), 'rb') as source:
-            data = pickle.load(source)
+    def dataframe(self):
+        file = Ufm(self.dataset.user_id)
+        data = Dataframe()
+        data.read(file.get_serialized_file_path(self.dataset.file_id))
+
         if self.dataset.included_rows:
-            dataset = data.iloc[self.dataset.included_rows]
-            return dataset
+            return data.from_rows(self.dataset.included_rows)
+
         return data
 
     def apply_filter(self):

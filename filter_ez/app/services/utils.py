@@ -2,15 +2,13 @@
 Different utils like small functions that a used in different scripts
 """
 import os
-import pickle
+from pandas import ExcelWriter as writer
 import time
-import xlsxwriter
 
 from io import BytesIO
 from hashlib import md5
 
-from app import app, logger, db
-from app.helper import UserFilesManager
+from app import app, logger
 from app.services import notify_admin
 
 
@@ -41,36 +39,20 @@ def temp_file(dataset):
     return path
 
 
-def dataset_to_excel(dataset):
+def dataset_to_excel(dataframe, dataset_id):
     """
     Writes dataset to excel file in-memory without creating excel file in the local storage
-    :param dataset: instance of dataset
+    :param dataset_id: id of DataSet should be downloaded
+    :param dataframe: DataFrame from DataSet
     :return: BytesIO object or None
     """
     try:
         start_time = time.time()
         logger.info("Start creating file")
 
-        file_manager = UserFilesManager(dataset.user_id)
-        path_to_file = file_manager.get_serialized_file_path(dataset.file_id)
-
         byte_writer = BytesIO()
-        excel_writer = xlsxwriter.Workbook(byte_writer)
-        sheet = excel_writer.add_worksheet('Sheet1')
-
-        with open(path_to_file, 'rb') as file:
-            dataframe = pickle.load(file)
-
-        if dataset.included_rows:
-            dataframe = dataframe.iloc[dataset.included_rows].values.tolist()
-            for i in range(len(dataset.included_rows)):
-                for j in range(len(dataframe[i])):
-                    sheet.write(i, j, dataframe[i][j])
-        else:
-            dataframe = dataframe.values.tolist()
-            for i in range(len(dataframe)):
-                for j in range(len(dataframe[i])):
-                    sheet.write(i, j, dataframe[i][j])
+        excel_writer = writer(byte_writer)
+        dataframe.to_excel(excel_writer, 'Sheet1', index=False)
 
         excel_writer.close()
         byte_writer.seek(0)
@@ -78,8 +60,8 @@ def dataset_to_excel(dataset):
         return byte_writer
     except Exception as exception:
         logger.error("Error occurred when tried to create a byteIO"
-                     " object for dataset %d: %s", dataset.id, exception)
+                     " object for dataset %d: %s", dataset_id, exception)
         notify_admin(f"Error occurred when tried to create a byteIO"
-                     f" object for dataset {dataset.id}: {exception}", 'ERROR')
+                     f" object for dataset {dataset_id}: {exception}", 'ERROR')
 
 

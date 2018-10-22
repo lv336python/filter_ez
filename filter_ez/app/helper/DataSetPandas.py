@@ -2,6 +2,8 @@
 """
 ToDo
 """
+from os.path import splitext
+
 import pandas as pd
 
 from .IDataSet import IDataSet
@@ -14,12 +16,16 @@ class DataSetPandas(IDataSet):
     def __init__(self, dataframe=None):
         self.dataframe = dataframe
 
-    def read(self, filename):
+    def read(self, filepath):
         """
         method for read file
         :param filename:
         """
-        self.dataframe = pd.read_excel(filename)
+        ext = splitext(filepath)
+        if ext[1] in ['.xls', '.xlsx']:
+            self.dataframe = pd.read_excel(filepath)
+        if ext[1] == '.pkl':
+            self.dataframe = pd.read_pickle(filepath)
 
     def filter_set(self, filter):
         """
@@ -61,5 +67,10 @@ class DataSetPandas(IDataSet):
         return rows
 
     def get_rows_by_indexes(self, included_rows):
-        rows = self.dataframe.iloc[included_rows].values.tolist()
+        return self.dataframe.iloc[included_rows].values.tolist()
         return rows
+
+    def from_rows(self, rows_idxs):
+        return self.dataframe.iloc[rows_idxs]
+
+
