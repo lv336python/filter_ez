@@ -52,7 +52,7 @@ class UserFilesManager:
         if file_full_name in self.files:
             _file = File.query.filter(File.path == file_full_name).first()
             _dataset = Dataset.query.filter(Dataset.file_id == _file.id).first()
-            logger.info('User {0} uploaded file  which already existed under id {1}, with name'
+            logger.info('User {0} uploaded file  which already existed under id {1}, with name{2}'
                         .format(self.user_id, _file.id,_file.json['name']))
             return 'Uploaded', _file.id, _dataset.id
 
