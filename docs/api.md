@@ -24,8 +24,13 @@
 
 <h3><b>File Management</b></h3>
 
-* /api/upload/ POST
-* /api/download/&lt;int:dataset_id&gt; GET 
+* /api/upload/ POST <br>
+    Accepts file - 'upload_file' from request and gets user id from session. If there is no file uploaded or file extension is not allowed status code 400 returned, otherwise, result object with file attributes returned with status 201.
+    
+* /api/download/&lt;int:dataset_id&gt; GET <br>
+    Accepts dataset id in request url and user id from session. If there is no data set with such id or data set doesn't belong to user who makes request response with status codes 404 or 403 returned respectively. If dataset points on file without filter, original file returned from local storage
+    
+
 * /api/temp_link/&lt;token&gt; GET
 * /api/delete_file/&lt;int:file_id&gt; GET
 * /api/send_file/&lt;int:dataset_id&gt; POST
