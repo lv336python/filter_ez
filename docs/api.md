@@ -49,7 +49,8 @@
 
 <h3><b>Filtration</b></h3>
 
-* /api/get_metadata/&lt;file_id&gt; POST
-
-
-* /api/count_rows POST
+* /api/get_metadata/&lt;file_id&gt; POST <br>
+    Accepts file id from uri and counts how many rows file have and returns json with number of rows in file and data about names of columns, all values of each column and their number of occurrences with status code 200.  
+    
+* /api/count_rows POST <br>
+    Accepts json with id of file and filtration parameters. Counts number of rows of file which come under these parameters. Returns number of rows and status code 200
