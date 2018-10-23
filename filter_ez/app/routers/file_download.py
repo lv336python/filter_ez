@@ -25,14 +25,19 @@ def download(dataset_id):
     user_id = int(session.get('user_id', 0))
     dataset = DatasetManager(dataset_id)
 
-    if not dataset:
+    if not dataset.file_id:
         return json.dumps({'message': 'file does not exist'}), 404
 
     if not dataset.is_owner(user_id):
         return json.dumps({'message': 'access forbidden'}), 403
 
-    file_data = utils.dataset_to_excel(dataset.dataframe(), dataset_id)  # Creates BytesIO objects with dataset
-    
+    if dataset.included_rows:
+        file_data = utils.dataset_to_excel(dataset)  # Creates BytesIO objects with dataset
+
+    else:
+        file = UserFilesManager(dataset.user_id)
+        file_data = file.get_file_path(dataset.file_id)
+
     if file_data:
         logger.info(f"User %s successfully downloaded dataset %s", user_id, dataset_id)
         return send_file(file_data,

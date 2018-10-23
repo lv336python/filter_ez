@@ -8,27 +8,30 @@ from app.models import Dataset
 
 class DatasetManager:
     def __init__(self, dataset_id):
-        self.dataset = self.get_dataset(dataset_id)
+        self.id = dataset_id
+        self.file_id = self.get_dataset().file_id
+        self.user_id = self.get_dataset().user_id
+        self.filter_id = self.get_dataset().filter_id
+        self.included_rows = self.get_dataset().included_rows
 
-    @staticmethod
-    def get_dataset(dataset_id):
-        return Dataset.query.get(dataset_id)
+    def get_dataset(self):
+        return Dataset.query.get(self.id)
 
     def is_dataset(self):
-        return self.dataset.filter_id
+        return bool(self.filter_id)
 
     def is_owner(self, user_id):
-        return self.dataset.user_id == user_id
+        return self.user_id == user_id
 
-    def dataframe(self):
-        file = Ufm(self.dataset.user_id)
+    def to_dataframe(self):
+        file = Ufm(self.user_id)
         data = Dataframe()
-        data.read(file.get_serialized_file_path(self.dataset.file_id))
+        file_data = data.read(file.get_serialized_file_path(self.file_id))
 
-        if self.dataset.included_rows:
-            return data.from_rows(self.dataset.included_rows)
+        if self.included_rows:
+            return data.from_rows(self.included_rows)
 
-        return data
+        return file_data
 
     def apply_filter(self):
         pass
@@ -37,11 +40,11 @@ class DatasetManager:
         pass
 
     def append(self, indexes):
-        return self.dataset.included_rows.append(indexes)
+        return self.included_rows.append(indexes)
 
     def remove(self, indexes):
         return [
-            self.dataset.included_rows.remove(idx)
+            self.included_rows.remove(idx)
             for idx in indexes
-            if idx in self.dataset.included_rows
+            if idx in self.included_rows
         ]

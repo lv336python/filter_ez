@@ -24,8 +24,10 @@ class DataSetPandas(IDataSet):
         ext = splitext(filepath)
         if ext[1] in ['.xls', '.xlsx']:
             self.dataframe = pd.read_excel(filepath)
+            return self.dataframe
         if ext[1] == '.pkl':
             self.dataframe = pd.read_pickle(filepath)
+            return self.dataframe
 
     def filter_set(self, filter):
         """
@@ -72,5 +74,8 @@ class DataSetPandas(IDataSet):
 
     def from_rows(self, rows_idxs):
         return self.dataframe.iloc[rows_idxs]
+
+    def sample(self, number_of_rows):
+        return self.dataframe.sample(number_of_rows)
 
 

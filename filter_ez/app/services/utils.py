@@ -9,6 +9,7 @@ from io import BytesIO
 from hashlib import md5
 
 from app import app, logger
+from app.helper.writers import DataframeWriter
 from app.services import notify_admin
 
 
@@ -39,7 +40,7 @@ def temp_file(dataset):
     return path
 
 
-def dataset_to_excel(dataframe, dataset_id):
+def dataset_to_excel(dataset):
     """
     Writes dataset to excel file in-memory without creating excel file in the local storage
     :param dataset_id: id of DataSet should be downloaded
@@ -50,18 +51,15 @@ def dataset_to_excel(dataframe, dataset_id):
         start_time = time.time()
         logger.info("Start creating file")
 
-        byte_writer = BytesIO()
-        excel_writer = writer(byte_writer)
-        dataframe.to_excel(excel_writer, 'Sheet1', index=False)
+        dataframe = dataset.to_dataframe()
+        data = DataframeWriter.excel_bytes_io(dataframe)
 
-        excel_writer.close()
-        byte_writer.seek(0)
         logger.info("Finished creating file in %s", time.time() - start_time)
-        return byte_writer
+        return data
     except Exception as exception:
         logger.error("Error occurred when tried to create a byteIO"
-                     " object for dataset %d: %s", dataset_id, exception)
+                     " object for dataset %d: %s", dataset.id, exception)
         notify_admin(f"Error occurred when tried to create a byteIO"
-                     f" object for dataset {dataset_id}: {exception}", 'ERROR')
+                     f" object for dataset {dataset.id}: {exception}", 'ERROR')
 
 
