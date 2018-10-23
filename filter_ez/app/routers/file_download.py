@@ -9,7 +9,7 @@ from app import app, logger
 from app.models import Dataset
 from app.services import utils, notify_admin, send_result_to_mail
 from app.helper import UserFilesManager
-from app.helper import DatasetManager
+from app.helper import UsersDataset
 
 
 @app.route("/api/download/<int:dataset_id>", methods=['GET'])
@@ -23,7 +23,7 @@ def download(dataset_id):
     :return: File or JSON with error
     """
     user_id = int(session.get('user_id', 0))
-    dataset = DatasetManager(dataset_id)
+    dataset = UsersDataset(dataset_id)
 
     if not dataset.file_id:
         return json.dumps({'message': 'file does not exist'}), 404

@@ -9,7 +9,7 @@ from io import BytesIO
 from hashlib import md5
 
 from app import app, logger
-from app.helper.writers import DataframeWriter
+from app.helper.writer_manager import DataFrameWriter
 from app.services import notify_admin
 
 
@@ -43,8 +43,7 @@ def temp_file(dataset):
 def dataset_to_excel(dataset):
     """
     Writes dataset to excel file in-memory without creating excel file in the local storage
-    :param dataset_id: id of DataSet should be downloaded
-    :param dataframe: DataFrame from DataSet
+    :param dataset: Users DataSet which should be transformed to excel
     :return: BytesIO object or None
     """
     try:
@@ -52,7 +51,7 @@ def dataset_to_excel(dataset):
         logger.info("Start creating file")
 
         dataframe = dataset.to_dataframe()
-        data = DataframeWriter.excel_bytes_io(dataframe)
+        data = DataFrameWriter.excel_bytes_io(dataframe)
 
         logger.info("Finished creating file in %s", time.time() - start_time)
         return data
