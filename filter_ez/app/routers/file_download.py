@@ -6,7 +6,6 @@ import json
 from flask import send_file, session
 from flask_login import login_required
 from app import APP, LOGGER
-from app.models import Dataset
 from app.services import utils, notify_admin
 from app.helper import UserFilesManager
 from app.helper import UsersDataset
@@ -31,7 +30,7 @@ def download(dataset_id):
     if not dataset.is_owner(user_id):
         return json.dumps({'message': 'access forbidden'}), 403
 
-    if dataset.included_rows:
+    if dataset.is_dataset():
         file_data = utils.dataset_to_excel(dataset)  # Creates BytesIO objects with dataset
 
     else:

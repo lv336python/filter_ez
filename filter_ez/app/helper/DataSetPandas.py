@@ -16,18 +16,17 @@ class DataSetPandas(IDataSet):
     def __init__(self, dataframe=None):
         self.dataframe = dataframe
 
-    def read(self, filepath):
+    def read(self, file_path):
         """
         method for read file
-        :param filename:
+        :param file_path:
         """
-        ext = splitext(filepath)
+        ext = splitext(file_path)
         if ext[1] in ['.xls', '.xlsx']:
-            self.dataframe = pd.read_excel(filepath)
-            return self.dataframe
+            self.dataframe = pd.read_excel(file_path)
         if ext[1] == '.pkl':
-            self.dataframe = pd.read_pickle(filepath)
-            return self.dataframe
+            self.dataframe = pd.read_pickle(file_path)
+        return self.dataframe
 
     def filter_set(self, filters):
         """
@@ -40,7 +39,7 @@ class DataSetPandas(IDataSet):
             return mask
 
         pd.DataFrame.mask = mask
-        self.dataframe = self.dataframe.mask(*filters)
+        return self.dataframe.mask(*filters)
 
     def get_column_names(self):
         """
@@ -69,13 +68,25 @@ class DataSetPandas(IDataSet):
         return rows
 
     def get_rows_by_indexes(self, included_rows):
+        """
+
+        :param included_rows:
+        :return:
+        """
         return self.dataframe.iloc[included_rows].values.tolist()
-        return rows
 
     def from_rows(self, rows_idxs):
+        """
+        Forms DataFrame from given indexes
+        :param rows_idxs: list of indexes included in DataFrame
+        :return: DataFrame with given rows
+        """
         return self.dataframe.iloc[rows_idxs]
 
     def sample(self, number_of_rows):
+        """
+        Returns DataFrame sample with given number of rows
+        :param number_of_rows: number of rows to be sampled
+        :return: DataFrame with given number of rows
+        """
         return self.dataframe.sample(number_of_rows)
-
-

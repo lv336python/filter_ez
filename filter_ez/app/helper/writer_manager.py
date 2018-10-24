@@ -22,3 +22,12 @@ class DataFrameWriter:
         excel_writer.close()
         byte_writer.seek(0)
         return byte_writer
+
+    @staticmethod
+    def excel_file(datframe, save_path):
+        """
+
+        :param save_path:
+        :return:
+        """
+        pass
