@@ -36,8 +36,8 @@ def confirm_email(token):
         else:
             user.confirmed = True
             user.confirmed_date = datetime.utcnow()
-            DB.session.add(user)# pylint: disable=E1101
-            DB.session.commit()# pylint: disable=E1101
+            DB.session.add(user)
+            DB.session.commit()
             flash('You have confirmed your account. Thanks!', 'success')
         return json.dumps({
             'token': token
