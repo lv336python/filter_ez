@@ -1,6 +1,7 @@
-from app import manager
-'''
-Manager for database manipulation
-'''
+"""
+Module for database manipulation
+"""
+from app import MANAGER
+
 if __name__ == '__main__':
-    manager.run()
+    MANAGER.run()

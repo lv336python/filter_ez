@@ -2,23 +2,26 @@
 Module for filtering files
 """
 import json
-from app import app
+
 from flask import request, make_response, session
-from app.services.file_data import fields_definition
-from app.helper import UserFilesManager
+
 import pandas as pd
 
+from app import APP
+from app.services.file_data import fields_definition
+from app.helper import UserFilesManager
 
-@app.route('/api/save_filter', methods=['POST'])
+
+@APP.route('/api/save_filter', methods=['POST'])
 def save_filter():
     """
     Saving filter and dataset, based on filter parameters
     :return:
     """
     data = json.loads(request.data)
-    parameters = data['params']
-    name = data['name']
-    file_id = data['file_id']
+    parameters = data['params']# pylint: disable=unused-variable
+    name = data['name']# pylint: disable=unused-variable
+    file_id = data['file_id']# pylint: disable=unused-variable
 
     # file = File.query.get(file_id)
     # xl_file = pd.read_excel(file.path)
@@ -36,14 +39,15 @@ def save_filter():
     # db.session.commit()
     # db.session.flush()
     #
-    # new_dataset = Dataset(user_id=1, file_id=file_id, filter_id=new_filter.id, included_rows=included_rows)
+    # new_dataset = Dataset(user_id=1, file_id=file_id,
+    # filter_id=new_filter.id, included_rows=included_rows)
     # db.session.add(new_dataset)
     # db.session.commit()
 
     return make_response(json.dumps({'success': 'filter was succesfully saved'}), 200)
 
 
-@app.route('/api/get_metadata/<file_id>', methods=['POST'])
+@APP.route('/api/get_metadata/<file_id>', methods=['POST'])
 def get_metadata(file_id):
     """
         Getting metadata: list of column and values for file
@@ -57,7 +61,7 @@ def get_metadata(file_id):
     return make_response(json.dumps(result), 200)
 
 
-@app.route('/api/count_rows', methods=['POST'])
+@APP.route('/api/count_rows', methods=['POST'])
 def filter_num_rows():
     """
         Getting number of rows applying filter_params
@@ -69,7 +73,7 @@ def filter_num_rows():
     ufm = UserFilesManager(int(session['user_id']))
     xl_file = pd.read_pickle(ufm.get_serialized_file_path(file_id))
 
-    if type(params) is list or type(params) is tuple:
+    if isinstance(params, (list, tuple)):
         for elem in params:
             if 'quantity' in elem:
                 xl_file = xl_file[mask_f(xl_file, elem)].head(elem['quantity'])
@@ -108,5 +112,3 @@ def mask_f(data_frame, params):
         criteria = 'error'
 
     return criteria
-
-

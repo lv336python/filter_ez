@@ -1,14 +1,12 @@
 """
 Different utils like small functions that a used in different scripts
 """
-import os
-from pandas import ExcelWriter as writer
-import time
-
-from io import BytesIO
 from hashlib import md5
 
-from app import app, logger
+import os
+import time
+
+from app import APP, LOGGER
 from app.helper.writer_manager import DataFrameWriter
 from app.services import notify_admin
 
@@ -30,10 +28,10 @@ def temp_file(dataset):
     :return: path to file
     """
     file = dataset_to_excel(dataset)
-    ask = app.config['SECRET_KEY']
+    ask = APP.config['SECRET_KEY']
     hashed = md5(f'{ask}{dataset.id}'.encode()).hexdigest()
-    temp_folder = os.path.join(app.config['TEMP_FOLDER'], hashed)
-    create_dir(app.config['TEMP_FOLDER'])
+    temp_folder = os.path.join(APP.config['TEMP_FOLDER'], hashed)
+    create_dir(APP.config['TEMP_FOLDER'])
     path = f"{temp_folder}.xlsx"
     with open(path, 'wb') as out:
         out.write(file.read())
@@ -48,7 +46,7 @@ def dataset_to_excel(dataset):
     """
     try:
         start_time = time.time()
-        logger.info("Start creating file")
+        LOGGER.info("Start creating file")
 
         dataframe = dataset.to_dataframe()
         data = DataFrameWriter.excel_bytes_io(dataframe)
@@ -60,5 +58,3 @@ def dataset_to_excel(dataset):
                      " object for dataset %d: %s", dataset.id, exception)
         notify_admin(f"Error occurred when tried to create a byteIO"
                      f" object for dataset {dataset.id}: {exception}", 'ERROR')
-
-

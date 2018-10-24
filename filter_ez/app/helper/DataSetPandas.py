@@ -29,10 +29,10 @@ class DataSetPandas(IDataSet):
             self.dataframe = pd.read_pickle(filepath)
             return self.dataframe
 
-    def filter_set(self, filter):
+    def filter_set(self, filters):
         """
         Filter dataframe by your data
-        :param filter: parameter for your filter
+        :param filters: parameter for your filters
         :return: filtered dataframe
         """
         def mask(dataframe, key, value):
@@ -40,7 +40,7 @@ class DataSetPandas(IDataSet):
             return mask
 
         pd.DataFrame.mask = mask
-        self.dataframe = self.dataframe.mask(*filter)
+        self.dataframe = self.dataframe.mask(*filters)
 
     def get_column_names(self):
         """
