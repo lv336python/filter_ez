@@ -20,12 +20,12 @@ class User(DB.Model, UserMixin):
     '''
     __tablename__ = 'users'
 
-    id = DB.Column(DB.Integer, primary_key=True, autoincrement=True)# pylint: disable=E1101
-    email = DB.Column(DB.String, unique=True, nullable=False)# pylint: disable=E1101
-    password = DB.Column(DB.String, nullable=False)# pylint: disable=E1101
-    create_date = DB.Column(DB.DateTime, nullable=False, default=datetime.utcnow())# pylint: disable=E1101
-    confirmed_date = DB.Column(DB.DateTime, nullable=True)# pylint: disable=E1101
-    confirmed = DB.Column(DB.Boolean, nullable=False, default=False)# pylint: disable=E1101
+    id = DB.Column(DB.Integer, primary_key=True, autoincrement=True)
+    email = DB.Column(DB.String, unique=True, nullable=False)
+    password = DB.Column(DB.String, nullable=False)
+    create_date = DB.Column(DB.DateTime, nullable=False, default=datetime.utcnow())
+    confirmed_date = DB.Column(DB.DateTime, nullable=True)
+    confirmed = DB.Column(DB.Boolean, nullable=False, default=False)
 
 
     def __init__(self, email, password):
@@ -46,8 +46,8 @@ class User(DB.Model, UserMixin):
         schema = UserSchema()
         user = schema.load({'email': email, 'password': password}).data
 
-        DB.session.add(user)  # pylint: disable=E1101
-        DB.session.commit()  # pylint: disable=E1101
+        DB.session.add(user)
+        DB.session.commit()
         return user
 
 class UserSchema(Schema):
