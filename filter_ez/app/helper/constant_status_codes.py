@@ -1,5 +1,5 @@
 """
-Module for status codes class
+Module for constant status codes
 """
 
 class Status:# pylint: disable=R0903

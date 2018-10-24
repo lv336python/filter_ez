@@ -84,8 +84,8 @@ def make_dataset(user_id, file_id, filter_id):
 
     new_dataframe = Dataset(file_id=file_id, user_id=user_id,
                             included_rows=result, filter_id=filter_id)
-    DB.session.add(new_dataframe)# pylint: disable=E1101
-    DB.session.commit()# pylint: disable=E1101
+    DB.session.add(new_dataframe)
+    DB.session.commit()
     return new_dataframe.id
 
 
