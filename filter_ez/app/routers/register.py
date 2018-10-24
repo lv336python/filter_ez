@@ -11,7 +11,8 @@ from app import APP
 from app.services.token_service import generate_confirmation_token
 from app.services.mail_service import send_email
 
-from app.services.validate_service import data_validator
+from app.services.schema_validate import data_validator
+from app.helper.constant_status_codes import Status
 
 
 @APP.route('/api/register', methods=['POST'])
@@ -32,7 +33,7 @@ def register():
         if user.confirmed:
             return json.dumps({
                 'message': f'email: {email} already exist'
-            }), 401
+            }), Status.HTTP_401_UNAUTHORIZED
 
     if not user:
         user = User.create(email, password)
@@ -42,7 +43,7 @@ def register():
     if not password:
         return json.dumps({
             'message': 'You entered incorrect password please reset your password'
-        }), 400
+        }), Status.HTTP_400_BAD_REQUEST
 
     token = generate_confirmation_token(user.email)
 
@@ -52,5 +53,5 @@ def register():
     send_email(user.email, subject, html)
 
     return json.dumps({
-        'message': f'Please confirm registration and link sent to {user.email}'
-    }), 201
+        'message': f'Please confirm registration'
+    }), Status.HTTP_201_CREATED

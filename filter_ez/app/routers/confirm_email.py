@@ -10,6 +10,7 @@ from app import APP
 from app import DB
 from app.services.token_service import confirm_token
 from app.models import User
+from app.helper.constant_status_codes import Status
 
 
 @APP.route('/api/confirm/<token>')
@@ -26,7 +27,7 @@ def confirm_email(token):
     if not email:
         return json.dumps({
             'message': 'Link expired'
-        }), 400
+        }), Status.HTTP_400_BAD_REQUEST
     user = User.query.filter(User.email == email).first()
 
     if user:
@@ -40,6 +41,6 @@ def confirm_email(token):
             flash('You have confirmed your account. Thanks!', 'success')
         return json.dumps({
             'token': token
-            }), 200
+            }), Status.HTTP_200_OK
 
-    return json.dumps({'status': 404, 'message': 'user doesnt exist'}), 404
+    return json.dumps({'message': 'user doesnt exist'}), Status.HTTP_404_NOT_FOUND
