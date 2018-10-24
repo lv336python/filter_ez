@@ -29,7 +29,9 @@ class UserDataCollector:
         return [File.query.get(id) for id in self.get_files_ids()]
 
     def get_filters(self):
-        """"""
+        """
+        Returns list of users files
+        """
         return [Filter.query.get(ids) for ids in self.get_filters_ids()]
 
     def get_datasets_ids(self):
@@ -73,7 +75,7 @@ class UserDataCollector:
             'createDate': dts.date,
             'nItems': len(dts.included_rows),
             'name': self.get_dataset_name(dts.file_id, dts.filter_id)
-            } for dts in self.datasets if dts.filter_id]
+        } for dts in self.datasets if dts.filter_id]
         return user_datasets
 
     def get_files_info(self):
@@ -89,10 +91,10 @@ class UserDataCollector:
             'nRows': file.attributes['rows'],
             'dataSetId': dts.id
             }
-            for file in self.files
-            for dts in self.datasets
-            if not dts.filter_id and dts.file_id == file.id
-        ]
+                 for file in self.files
+                 for dts in self.datasets
+                 if not dts.filter_id and dts.file_id == file.id
+                ]
         return files
 
     def get_filters_info(self):
@@ -103,7 +105,7 @@ class UserDataCollector:
         filters = [{
             'id': item.id,
             'name': item.name
-            } for item in self.filters]
+        } for item in self.filters]
         return filters
 
     def get_all_data(self):
