@@ -9,7 +9,7 @@ from hashlib import md5
 
 import pandas as pd
 
-from app import app, db, logger
+from app import APP, DB, LOGGER
 from app.models import Dataset, File  # Remove when DBM is ready
 
 
@@ -18,10 +18,9 @@ class UserFilesManager:
     Class for working with local user files. It provides all necessary functionality
     to work with files of a given user
     """
-
     def __init__(self, user_id):
         self.user_id = user_id
-        self.files_dir = os.path.join(app.config['UPLOAD_FOLDER'], str(user_id))
+        self.files_dir = os.path.join(APP.config['UPLOAD_FOLDER'], str(user_id))
 
         os.makedirs(self.files_dir, exist_ok=True)
 
@@ -52,8 +51,8 @@ class UserFilesManager:
         if file_full_name in self.files:
             _file = File.query.filter(File.path == file_full_name).first()
             _dataset = Dataset.query.filter(Dataset.file_id == _file.id).first()
-            logger.info('User {0} uploaded file  which already existed under id {1}, with name{2}'
-                        .format(self.user_id, _file.id,_file.json['name']))
+            LOGGER.info('User %s uploaded which already existed under id %s',
+                        self.user_id, _file.id)
             return 'Uploaded', _file.id, _dataset.id
 
         file.seek(0)
@@ -68,24 +67,22 @@ class UserFilesManager:
         file_attributes['rows'] = shape[0]
         file_attributes['cols'] = shape[1]
 
-        # Save to db, update when dbm is ready
+        # Save to DB, update when dbm is ready
         new_file = File(path=file_full_name, attributes=file_attributes)
-        db.session.add(new_file)
-        db.session.flush()
+        DB.session.add(new_file)# pylint: disable=E1101
+        DB.session.flush()# pylint: disable=E1101
         new_dataset = Dataset(user_id=self.user_id, file_id=new_file.id)
-        db.session.add(new_dataset)
-        db.session.commit()
-        logger.info('User {0} uploaded a new file {1}, with name {2}'.format(self.user_id,
-                                                                             new_file.id,
-                                                                             new_file.attributes['name'], ))
+        DB.session.add(new_dataset)# pylint: disable=E1101
+        DB.session.commit()# pylint: disable=E1101
+        LOGGER.info('User %s uploaded a new file %s', self.user_id, new_file.id)
         response = {'file': {
             'id': new_file.id,
             'name': new_file.attributes['name'],
             'size': new_file.attributes['size'],
             'rows': new_file.attributes['rows']
-        },
-            'dataset_id': new_dataset.id
-        }
+            },
+                    'dataset_id': new_dataset.id
+                    }
         return response
 
     def serialize(self, file_full_name):
@@ -105,7 +102,7 @@ class UserFilesManager:
         shape = df_to_serialize.shape
         return shape
 
-    def get_user_file_name(self, file_id):
+    def get_user_file_name(self, file_id):# pylint: disable=R0201
         """
         Returns name of the stored file with the given file_id if this file belongs to the User
         :param file_id:
@@ -153,7 +150,7 @@ class UserFilesManager:
             serialized_file = self.get_serialized_file_path(file_id)
             os.remove(os.path.join(self.files_dir, serialized_file))
             File.query.filter(File.id == file_id).delete()
-            db.session.commit()
+            DB.session.commit()# pylint: disable=E1101
 
     @classmethod
     def get_attributes(cls, file_path):
@@ -201,12 +198,17 @@ class UserFilesManager:
         :return: True or False
         """
         extension = cls.get_file_extension(file.filename)
-        if extension in app.config['ALLOWED_EXTENSIONS']:
+        if extension in APP.config['ALLOWED_EXTENSIONS']:
             return True
         return False
 
     @classmethod
     def get_file_checksum(cls, file):
+        """
+        Gets file checksum
+        :param file:
+        :return:
+        """
         hash_md5 = md5()
         for chunk in iter(lambda: file.read(4096), b""):
             hash_md5.update(chunk)

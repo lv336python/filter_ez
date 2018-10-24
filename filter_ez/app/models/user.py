@@ -11,21 +11,21 @@ from marshmallow import fields, Schema, validate, post_load
 
 from werkzeug.security import generate_password_hash
 
-from app import db
+from app import DB
 
 
-class User(db.Model, UserMixin):
+class User(DB.Model, UserMixin):
     '''
     User model for SQL database
     '''
     __tablename__ = 'users'
 
-    id = db.Column(db.Integer, primary_key=True, autoincrement=True)# pylint: disable=E1101
-    email = db.Column(db.String, unique=True, nullable=False)# pylint: disable=E1101
-    password = db.Column(db.String, nullable=False)# pylint: disable=E1101
-    create_date = db.Column(db.DateTime, nullable=False, default=datetime.utcnow())# pylint: disable=E1101
-    confirmed_date = db.Column(db.DateTime, nullable=True)# pylint: disable=E1101
-    confirmed = db.Column(db.Boolean, nullable=False, default=False)# pylint: disable=E1101
+    id = DB.Column(DB.Integer, primary_key=True, autoincrement=True)# pylint: disable=E1101
+    email = DB.Column(DB.String, unique=True, nullable=False)# pylint: disable=E1101
+    password = DB.Column(DB.String, nullable=False)# pylint: disable=E1101
+    create_date = DB.Column(DB.DateTime, nullable=False, default=datetime.utcnow())# pylint: disable=E1101
+    confirmed_date = DB.Column(DB.DateTime, nullable=True)# pylint: disable=E1101
+    confirmed = DB.Column(DB.Boolean, nullable=False, default=False)# pylint: disable=E1101
 
 
     def __init__(self, email, password):
@@ -37,11 +37,17 @@ class User(db.Model, UserMixin):
 
     @staticmethod
     def create(email, password):
+        """
+        Method that creates user
+        :param email:
+        :param password:
+        :return: user
+        """
         schema = UserSchema()
         user = schema.load({'email': email, 'password': password}).data
 
-        db.session.add(user)  # pylint: disable=E1101
-        db.session.commit()  # pylint: disable=E1101
+        DB.session.add(user)  # pylint: disable=E1101
+        DB.session.commit()  # pylint: disable=E1101
         return user
 
 class UserSchema(Schema):
@@ -59,7 +65,7 @@ class UserSchema(Schema):
                                                             'only letters and numbers'))
 
     @post_load
-    def make_user(self, data):
+    def make_user(self, data):# pylint: disable=R0201
         """
         Method that creates user
         :param data:

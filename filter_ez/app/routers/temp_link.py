@@ -2,15 +2,17 @@
 Module for temp link view
 """
 import json
-from app.models import Dataset
-from flask import send_file, session
+
+from flask import send_file
 from flask import request
-from app import app
+
+from app.models import Dataset
+from app import APP
 from app.services.temp_link_service import send_to_user
 from app.services.token_service import confirm_token
 
 
-@app.route("/api/temp_link/<token>", methods=['GET'])
+@APP.route("/api/temp_link/<token>", methods=['GET'])
 def get_temp_file(token):
     """
     Generate token and decode it for email returning
@@ -22,7 +24,7 @@ def get_temp_file(token):
     return send_file(file_path, as_attachment=True)
 
 
-@app.route("/api/send_file/<int:dataset_id>", methods=['POST'])
+@APP.route("/api/send_file/<int:dataset_id>", methods=['POST'])
 def temp_link(dataset_id):
     """
     GET method that sends file to the email address that is

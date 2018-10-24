@@ -37,9 +37,9 @@ def test_login_required(client):
     :return: 200 response
     """
     user = FakeUser()
-    with mock.patch("app.routers.auth.request") as mock_get_json:
+    with mock.patch("APP.routers.auth.request") as mock_get_json:
         mock_get_json.get_json.return_value = {'email': user.email, 'password': 'admin1234'}
-        with mock.patch("app.routers.auth.User") as mock_get_user:
+        with mock.patch("APP.routers.auth.User") as mock_get_user:
             mock_get_user.query.filter().first.return_value = FakeUser()
             response = login(client, 'vovapetryna1995@gmail.com', 'qwerty111')
             response = logout(client)
