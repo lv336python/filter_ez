@@ -29,7 +29,7 @@ def mock_url_for_function():
     return "mock_url_for"
 
 
-@mock.patch(target='app.routers.reset_password.session', new=SESSION.fake_session)
+@mock.patch(target='APP.routers.reset_password.session', new=SESSION.fake_session)
 def test_reset_password_for_logged_user(client):
     '''
     check case when logged user try to reset password
@@ -40,35 +40,35 @@ def test_reset_password_for_logged_user(client):
     assert response.status_code == 401
 
 
-@mock.patch(target='app.routers.reset_password.session', new=SESSION.fake_session_none)
+@mock.patch(target='APP.routers.reset_password.session', new=SESSION.fake_session_none)
 def test_reset_password_for_invalid_email(client):
     '''
     check case when user enter invalid email
     :param client:
     :return: check if response status code is equal to 415
     '''
-    with mock.patch('app.routers.reset_password.re.match') as mock_re_email:
+    with mock.patch('APP.routers.reset_password.re.match') as mock_re_email:
         mock_re_email.return_value = False
         response = reset_password(client, "blabla@gmail.com")
         assert response.status_code == 415  # invalid media data
 
 
-@mock.patch(target='app.routers.reset_password.session', new=SESSION.fake_session_none)
+@mock.patch(target='APP.routers.reset_password.session', new=SESSION.fake_session_none)
 def test_reset_password_for_non_exists_user(client):
     '''
     Check case when user does not exist
     :param client:
     :return: check if response status code is equal to 404
     '''
-    with mock.patch('app.routers.reset_password.User') as mock_create_user:
-        with mock.patch('app.routers.reset_password.re.match') as mock_re_email:
+    with mock.patch('APP.routers.reset_password.User') as mock_create_user:
+        with mock.patch('APP.routers.reset_password.re.match') as mock_re_email:
             mock_re_email.return_value = True
             mock_create_user.query.filter().first.return_value = None
             response = reset_password(client, "blabla@gmail.com")
             assert response.status_code == 404  # user not found
 
 
-@mock.patch(target='app.routers.reset_password.session', new=SESSION.fake_session_none)
+@mock.patch(target='APP.routers.reset_password.session', new=SESSION.fake_session_none)
 def test_reset_password_for_valid_user(client):
     '''
     check case when user exist and email is valid
@@ -76,11 +76,11 @@ def test_reset_password_for_valid_user(client):
     :return: check if response status code is equal to 201
     '''
     user = FakeUser()
-    with mock.patch('app.routers.reset_password.re.match') as mock_re_email:
+    with mock.patch('APP.routers.reset_password.re.match') as mock_re_email:
         mock_re_email.return_value = True
-        with mock.patch('app.routers.reset_password.User') as mock_create_user:
+        with mock.patch('APP.routers.reset_password.User') as mock_create_user:
             mock_create_user.query.filter().first.return_value = user
-            with mock.patch('app.routers.reset_password.send_email') as mock_send_email:
+            with mock.patch('APP.routers.reset_password.send_email') as mock_send_email:
                 mock_send_email.return_value = 'Successes'
                 response = reset_password(client, "blabla@gmail.com")
                 assert response.status_code == 201
