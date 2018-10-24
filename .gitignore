@@ -117,6 +117,8 @@ filter_ez/app/static/public/
 filter_ez/usersdata/
 filter_ez/logs/
 result.xls
+result.xlsx
+result.csv
 
 postgres/
 rabbitmq/
