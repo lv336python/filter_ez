@@ -28,7 +28,7 @@ def test_login_not_user(client):
     :param client:
     :return: 400 response if no user
     """
-    with mock.patch("app.routers.auth.User") as mock_get_user:
+    with mock.patch("APP.routers.auth.User") as mock_get_user:
         mock_get_user.query.filter().first.return_value = None
         response = login(client, 'vovapetryna1995@gmail.com', 'qwerty111')
 
@@ -44,7 +44,7 @@ def test_login_not_user_confirmed(client):
     user = FakeUser()
     user.confirmed = False
 
-    with mock.patch("app.routers.auth.User") as mock_get_user:
+    with mock.patch("APP.routers.auth.User") as mock_get_user:
         mock_get_user.query.filter().first.return_value = user
         response = login(client, 'vovapetryna1995@gmail.com', 'qwerty111')
 
@@ -59,9 +59,9 @@ def test_login_not_password(client):
     """
     user = FakeUser()
 
-    with mock.patch("app.routers.auth.request") as mock_get_json:
+    with mock.patch("APP.routers.auth.request") as mock_get_json:
         mock_get_json.get_json.return_value = {'email': user.email, 'password': 'admin123456'}
-        with mock.patch("app.routers.auth.User") as mock_get_user:
+        with mock.patch("APP.routers.auth.User") as mock_get_user:
             mock_get_user.query.filter().first.return_value = FakeUser()
             response = login(client, 'vovapetryna1995@gmail.com', 'qwerty111')
 
@@ -75,9 +75,9 @@ def test_login(client):
     :return: 200 response if user is logged in
     """
     user = FakeUser
-    with mock.patch("app.routers.auth.request") as mock_get_json:
+    with mock.patch("APP.routers.auth.request") as mock_get_json:
         mock_get_json.get_json.return_value = {'email': user.email, 'password': 'admin1234'}
-        with mock.patch("app.routers.auth.User") as mock_get_user:
+        with mock.patch("APP.routers.auth.User") as mock_get_user:
             mock_get_user.query.filter().first.return_value = FakeUser()
             response = login(client, 'vovapetryna1995@gmail.com', 'qwerty111')
 

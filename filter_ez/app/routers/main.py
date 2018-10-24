@@ -1,12 +1,17 @@
 '''
 Main view for '/' address
 '''
-from app import app
-
 from flask import render_template
 
+from app import APP
 
-@app.route('/', defaults={'path': ''})
-@app.route('/<path:path>')
-def index(path):
+
+@APP.route('/', defaults={'path': ''})
+@APP.route('/<path:path>')
+def index(path):# pylint: disable=unused-argument
+    """
+    Main route
+    :param path:
+    :return: template
+    """
     return render_template('index.html')

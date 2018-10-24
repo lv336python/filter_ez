@@ -8,13 +8,14 @@ import json
 from flask_login import login_user, login_required, logout_user
 from flask import request, session
 from werkzeug.security import check_password_hash
-
-from app import app, login_manager
-from app.models.user import User
-from app.services.validate_service import data_validator
 from flask_api import status
 
-@login_manager.user_loader
+from app import APP, LOGIN_MANAGER
+from app.models.user import User
+from app.services.validate_service import data_validator
+
+
+@LOGIN_MANAGER.user_loader
 def load_user(user_id):
     """
     Method that tracks logged in user
@@ -26,7 +27,7 @@ def load_user(user_id):
     return user
 
 
-@app.route("/api/login", methods=['POST'])
+@APP.route("/api/login", methods=['POST'])
 @data_validator
 def login():
     """
@@ -67,7 +68,7 @@ def login():
     }), status.HTTP_200_OK
 
 
-@app.route('/api/logout', methods=['POST'])
+@APP.route('/api/logout', methods=['POST'])
 @login_required
 def logout():
     """
