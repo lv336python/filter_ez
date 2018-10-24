@@ -38,6 +38,7 @@ def confirm_email(token):
             user.confirmed_date = DateTimeManager.get_current_time()
             DB.session.add(user)
             DB.session.commit()
+
             flash('You have confirmed your account. Thanks!', 'success')
         return json.dumps({
             'token': token
