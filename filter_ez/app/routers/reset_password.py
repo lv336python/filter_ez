@@ -10,11 +10,12 @@ from flask import request, url_for, session
 
 from app.services.token_service import generate_confirmation_token
 from app.services.mail_service import send_email
-from app import app
+from app import APP
 from app.models.user import User, UserSchema
+from app.helper.constant_status_codes import Status
 
 
-@app.route("/api/reset", methods=['POST'])
+@APP.route("/api/reset", methods=['POST'])
 def reset_password():
     """
     POST method that sends password reset link
@@ -26,7 +27,7 @@ def reset_password():
     if 'user_id' in session:
         return json.dumps({
             'message': 'Logged user cannot reset password'
-        }), 401
+        }), Status.HTTP_401_UNAUTHORIZED
 
     data = request.get_json()
     email = data['email']
@@ -35,13 +36,13 @@ def reset_password():
     if not re.match(schema, email):
         return json.dumps({
             'message': 'Email is invalid'
-            }), 415
+            }), Status.HTTP_415_UNSUPPORTED_MEDIA_TYPE
 
     user = User.query.filter(User.email == email).first()
     if not user:
         return json.dumps({
             'message': f'Email {email} not found'
-        }), 404
+        }), Status.HTTP_404_NOT_FOUND
 
     token = generate_confirmation_token(user.email)
     subject = "Password reset requested"
@@ -53,4 +54,4 @@ def reset_password():
     send_email(user.email, subject, html)
     return json.dumps({
         'message': f'reset password link sent to email {email}'
-        }), 201
+        }), Status.HTTP_201_CREATED

@@ -1,8 +1,13 @@
+"""
+TODO
+"""
 from app.models import File, Filter, Dataset
 
 
 class UserDataCollector:
-
+    """
+    TODO
+    """
     def __init__(self, user_id):
         self.user_id = user_id
         self.datasets = self.get_datasets()
@@ -10,6 +15,10 @@ class UserDataCollector:
         self.filters = self.get_user_filters()
 
     def get_datasets(self):
+        """
+        TODO
+        :return:
+        """
         return Dataset.query.filter_by(user_id=self.user_id).all()
 
     def get_datasets_ids(self):
@@ -24,16 +33,22 @@ class UserDataCollector:
         Methot for getting ids of user files
         :return: set of file ids
         """
-        return set([dts.file_id for dts in self.datasets])
+        return {dts.file_id for dts in self.datasets}
 
     def get_user_filters_ids(self):
         """
         Method for getting filter ids
         :return: list of filter ids
         """
-        return set([dts.filter_id for dts in self.datasets if dts.filter_id])
+        return {dts.filter_id for dts in self.datasets if dts.filter_id}
 
-    def get_dataset_name(self, file_id, filter_id):
+    def get_dataset_name(self, file_id, filter_id):# pylint: disable=no-self-use
+        """
+        TODO
+        :param file_id:
+        :param filter_id:
+        :return:
+        """
         file = File.query.get(file_id)
         flter = Filter.query.get(filter_id)
         return f"{file.attributes['name']} {flter.name}"
@@ -56,6 +71,10 @@ class UserDataCollector:
         return user_datasets
 
     def get_user_files(self):
+        """
+        TODO
+        :return:
+        """
         return [File.query.get(id) for id in self.get_user_files_ids()]
 
 
@@ -75,6 +94,10 @@ class UserDataCollector:
         return files
 
     def get_user_filters(self):
+        """
+        TODO
+        :return:
+        """
         return [Filter.query.get(ids) for ids in self.get_user_filters_ids()]
 
     def get_user_filters_info(self):

@@ -3,10 +3,10 @@ Routes for websocket connections
 """
 from flask_socketio import join_room, close_room
 from flask_login import current_user
-from app import socketio, logger
+from app import SOCKETIO, LOGGER
 
 
-@socketio.on('connect')
+@SOCKETIO.on('connect')
 def on_connect():
     """
     Invoked when client tries to establish connection. If this client is authenticated
@@ -14,15 +14,15 @@ def on_connect():
     :return: None
     """
     if current_user.is_authenticated:
-        logger.info('%s connected', str(current_user))
+        LOGGER.info('%s connected', str(current_user))
         join_room(current_user.id)
 
 
-@socketio.on('disconnect')
+@SOCKETIO.on('disconnect')
 def on_disconnect():
     """
     Invoked when user disconnects and closes the room user was in.
     :return: None
     """
     close_room(current_user.id)
-    logger.info('%s disconnected', str(current_user))
+    LOGGER.info('%s disconnected', str(current_user))

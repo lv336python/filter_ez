@@ -1,4 +1,7 @@
-from app import app
+"""
+TODO
+"""
+from app import APP
 from app.models import Dataset
 
 
@@ -8,7 +11,7 @@ def validate_file_ext(ext):
     :param ext: file extension name
     :return:
     """
-    allowed = app.config['ALLOWED_EXTENSIONS']
+    allowed = APP.config['ALLOWED_EXTENSIONS']
     return ext in allowed
 
 

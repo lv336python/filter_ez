@@ -2,11 +2,11 @@
 Token generation and validation functions
 '''
 
-import datetime
 
 import jwt
-from app import app
-from app.helper import DateTimeManager
+from app.helper.date_time_manager import DateTimeManager
+from app import APP
+
 
 def generate_confirmation_token(email):
     '''
@@ -16,7 +16,7 @@ def generate_confirmation_token(email):
     '''
     token = jwt.encode({'email': email,
                         'exp': DateTimeManager.expiration_time(hours=1)},
-                       app.config['SECRET_KEY'],
+                       APP.config['SECRET_KEY'],
                        algorithm='HS256')
     return token
 
@@ -28,7 +28,8 @@ def confirm_token(token):
     :return: return decoded token
     '''
     try:
-        decoded_token = jwt.decode(token, app.config['SECRET_KEY'], algorithms='HS256')
-    except:
+        decoded_token = jwt.decode(token, APP.config['SECRET_KEY'], algorithms='HS256')
+
+    except jwt.InvalidTokenError:
         return None
     return decoded_token['email']

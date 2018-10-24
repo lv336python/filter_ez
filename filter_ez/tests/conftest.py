@@ -6,7 +6,7 @@ import tempfile
 
 import pytest
 
-from app import app
+from app import APP
 
 from app.models import User
 
@@ -16,14 +16,14 @@ def client():
     Our fake client
     :return:
     '''
-    db_fd, app.config['DATABASE'] = tempfile.mkstemp()
-    app.config['TESTING'] = True
-    client = app.test_client()
+    db_fd, APP.config['DATABASE'] = tempfile.mkstemp()
+    APP.config['TESTING'] = True
+    client = APP.test_client()
 
     yield client
 
     os.close(db_fd)
-    os.unlink(app.config['DATABASE'])
+    os.unlink(APP.config['DATABASE'])
 
 @pytest.fixture
 def new_user():

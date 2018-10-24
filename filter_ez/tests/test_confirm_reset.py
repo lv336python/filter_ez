@@ -70,7 +70,7 @@ def test_confirm_reset_email_user_found(client):
             mock_get_json.get_json.return_value = {'password': 'admin12345'}
             with mock.patch("app.routers.confirm_reset.User") as mock_get_user:
                 mock_get_user.query.filter().first.return_value = FakeUser()
-                with mock.patch("app.routers.confirm_reset.db.session.add") as mock_db:
+                with mock.patch("app.routers.confirm_reset.DB.session.add") as mock_db:
                     mock_db.return_value = 'admin12345'
                     response = confirm_reset(client)
 

@@ -1,9 +1,17 @@
+"""
+Module logger in order to collect info abt processes
+"""
 import os
 import logging
 from logging.handlers import RotatingFileHandler
 
 
 def make_logger(file_path):
+    """
+    Logger that collects info abt project processes
+    :param file_path:
+    :return: logger
+    """
     logger = logging.getLogger('main')
 
     formatter = logging.Formatter('%(asctime)s - %(levelname)s - %(message)s')
@@ -14,7 +22,7 @@ def make_logger(file_path):
 
     os.makedirs(os.path.dirname(file_path), exist_ok=True)
 
-    file_handler = RotatingFileHandler(file_path, mode='a', maxBytes=100000, backupCount=5)
+    file_handler = RotatingFileHandler(file_path, mode='a', maxBytes=10, backupCount=5)
     file_handler.setLevel(logging.INFO)
     file_handler.setFormatter(formatter)
 

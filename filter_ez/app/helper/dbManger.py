@@ -1,6 +1,6 @@
 from app.models.user import User
 from app.models.files import File, Dataset, Filter
-from app import db
+from app import DB
 
 
 class DataBaseManager:
@@ -50,12 +50,12 @@ class DataBaseManager:
         return subsets
 
     def add_to_db(self, param):
-        db.session.add(param)
-        db.session.commit()
+        DB.session.add(param)
+        DB.session.commit()
 
     def delete_from_db(self, param):
-        db.session.delete(param)
-        db.session.commit()
+        DB.session.delete(param)
+        DB.session.commit()
 
     def flush(self):
-        db.session.flush()
+        DB.session.flush()

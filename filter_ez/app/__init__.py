@@ -15,41 +15,39 @@ from flask_mail import Mail
 from app.config import Config
 from app.celery_manage import create_celery
 from app.logging_conf import make_logger
-
 eventlet.monkey_patch()
 
 
-app = Flask(__name__)
-app.config.from_object(Config)
+APP = Flask(__name__)
+APP.config.from_object(Config)
 
-db = SQLAlchemy(app)
-mail = Mail(app)
+DB = SQLAlchemy(APP)
+MAIL = Mail(APP)
 
-login_manager = LoginManager()
-login_manager.init_app(app)
+LOGIN_MANAGER = LoginManager()
+LOGIN_MANAGER.init_app(APP)
 
-migrate = Migrate(app, db, directory=app.config['MIGRATION_DIR'])
-manager = Manager(app)
-manager.add_command('db', MigrateCommand)
+MIGRATE = Migrate(APP, DB, directory=APP.config['MIGRATION_DIR'])
+MANAGER = Manager(APP)
+MANAGER.add_command('DB', MigrateCommand)
 
-celery = create_celery(app)
+CELERY = create_celery(APP)
 
-logger = make_logger(app.config['LOG_FILE_PATH'])
+LOGGER = make_logger(APP.config['LOG_FILE_PATH'])
 
-socketio = SocketIO(app, async_mode='eventlet', message_queue=app.config['BROKER_URL'])
+SOCKETIO = SocketIO(APP, async_mode='eventlet', message_queue=APP.config['BROKER_URL'])
 
-from .routers import (
+from .routers import (# pylint: disable=C0413
     auth,
     confirm_email,
     confirm_reset,
     datasets,
     delete_file,
-    file_data,
     temp_link,
     file_data,
     file_download,
     file_upload,
-    filter,
+    filters,
     main,
     notification,
     register,

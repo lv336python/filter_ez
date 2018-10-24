@@ -6,13 +6,17 @@ from datetime import datetime, timedelta
 
 
 class DateTimeManager:
-
+    '''
+    Class for managing current date and time in different formats.
+    You can get current time in two formats(default and ISO), get last file modify datetime,
+    get current timestamp, generate expiration time
+    '''
     @classmethod
     def get_current_time(cls, isoformat=False):
         '''
         Get current time in isoformat or default format
         :param isoformat: isoformat=True => return current datetime in ISO format
-        :return: isoformat = False => return default current datetime
+        :return: isoformat = False => return default current utc datetime
         '''
 
         if isoformat:
@@ -20,7 +24,7 @@ class DateTimeManager:
         return datetime.utcnow()
 
     @classmethod
-    def get_file_last_modify_time(cls, file_path):
+    def get_last_time_file_modify(cls, file_path):
         '''
         Return  last file modified datetime
         :param file_path: path to your file
@@ -44,6 +48,4 @@ class DateTimeManager:
         :param hours:amount of hours
         :return: new future datetime (now + days + hours)
         '''
-        return datetime.utcnow() + timedelta(hours,days)
-
-
+        return datetime.utcnow() + timedelta(hours, days)
