@@ -7,7 +7,7 @@ from flask import request, url_for
 from werkzeug.security import check_password_hash
 
 from app.models import User
-from app import app
+from app import APP
 from app.services.token_service import generate_confirmation_token
 from app.services.mail_service import send_email
 
@@ -15,7 +15,7 @@ from app.services.schema_validate import data_validator
 from app.helper.constant_status_codes import Status
 
 
-@app.route('/api/register', methods=['POST'])
+@APP.route('/api/register', methods=['POST'])
 @data_validator
 def register():
     """

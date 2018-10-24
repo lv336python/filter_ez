@@ -2,7 +2,7 @@
 Module for status codes class
 """
 
-class Status:
+class Status:# pylint: disable=R0903
     """
     class that includes status codes
     """

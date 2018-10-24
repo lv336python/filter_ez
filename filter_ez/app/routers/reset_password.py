@@ -10,12 +10,12 @@ from flask import request, url_for, session
 
 from app.services.token_service import generate_confirmation_token
 from app.services.mail_service import send_email
-from app import app
+from app import APP
 from app.models.user import User, UserSchema
 from app.helper.constant_status_codes import Status
 
 
-@app.route("/api/reset", methods=['POST'])
+@APP.route("/api/reset", methods=['POST'])
 def reset_password():
     """
     POST method that sends password reset link

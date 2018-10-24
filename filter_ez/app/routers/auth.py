@@ -9,12 +9,13 @@ from flask_login import login_user, login_required, logout_user
 from flask import request, session
 from werkzeug.security import check_password_hash
 
-from app import app, login_manager
+from app import APP, LOGIN_MANAGER
 from app.models.user import User
 from app.services.schema_validate import data_validator
 from app.helper.constant_status_codes import Status
 
-@login_manager.user_loader
+
+@LOGIN_MANAGER.user_loader
 def load_user(user_id):
     """
     Method that tracks logged in user
@@ -26,7 +27,7 @@ def load_user(user_id):
     return user
 
 
-@app.route("/api/login", methods=['POST'])
+@APP.route("/api/login", methods=['POST'])
 @data_validator
 def login():
     """
@@ -67,7 +68,7 @@ def login():
     }), Status.HTTP_200_OK
 
 
-@app.route('/api/logout', methods=['POST'])
+@APP.route('/api/logout', methods=['POST'])
 @login_required
 def logout():
     """

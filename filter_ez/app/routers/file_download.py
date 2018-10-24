@@ -5,13 +5,13 @@ import json
 
 from flask import send_file, session
 from flask_login import login_required
-from app import app, logger
+from app import APP, LOGGER
 from app.models import Dataset
-from app.services import utils, notify_admin, send_result_to_mail
+from app.services import utils, notify_admin
 from app.helper import UserFilesManager
 
 
-@app.route("/api/download/<int:dataset_id>", methods=['GET'])
+@APP.route("/api/download/<int:dataset_id>", methods=['GET'])
 @login_required
 def download(dataset_id):
     """
@@ -40,29 +40,15 @@ def download(dataset_id):
                          )
 
     file_data = utils.dataset_to_excel(dataset)  # Creates BytesIO objects with dataset
-    
     if file_data:
-        logger.info(f"User %s successfully downloaded dataset %s", user_id, dataset_id)
+        LOGGER.info(f"User %s successfully downloaded dataset %s", user_id, dataset_id)
         return send_file(file_data,
                          attachment_filename='result.xlsx',
                          as_attachment=True,
                          mimetype="application/vnd.ms-excel"
                          )
-    logger.error(f"error when user %s downloaded %s", user_id, dataset_id)
+    LOGGER.error(f"error when user %s downloaded %s", user_id, dataset_id)
     notify_admin(error_level="ERROR",
                  message=f"Unexpected error occurred when user {user_id} tried to download"
-                         f" dataset {datasetId_}")
+                         f" dataset {dataset_id}")
     return json.dumps({'message': 'couldn\'t send file to user'}), 500
-
-
-@app.route('/test')
-def test():
-    """
-    Sends latest dataset on the mail invoking celery worker to send a notification
-    :return:
-    """
-    dataset = Dataset.query.all()[-1]
-    send_result_to_mail(['sturss22@gmail.com'],
-                        'result.xls',
-                        open(utils.get_user_file(dataset.file_id, dataset.user_id), 'rb').read())
-    return json.dumps({'data': 'Email has been sent'})
