@@ -7,3 +7,15 @@
 #error{
     display: none;
 }
+
+.container.justify-content-center {
+    margin-top: 20px;
+}
+
+strong h2 {
+    padding: 20px;
+}
+
+.alert-success {
+    border-radius: 3%;
+}

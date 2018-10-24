@@ -1,11 +1,14 @@
-from app import app
+"""
+TODO
+"""
 from flask import jsonify, make_response, session
-
 from flask_login import login_required
+
+from app import APP
 from app.services.user_data_collection import UserDataCollector
 
 
-@app.route('/api/userdata', methods=['GET'])
+@APP.route('/api/userdata', methods=['GET'])
 @login_required
 def get_all_data():
     """

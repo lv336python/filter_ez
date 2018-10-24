@@ -42,13 +42,13 @@ class UserDataCollector:
         """
         Returns ids of all Users Files.
         """
-        return set([dts.file_id for dts in self.datasets])
+        return {dts.file_id for dts in self.datasets}
 
     def get_filters_ids(self):
         """
         Returns ids of all filters applied by User
         """
-        return set([dts.filter_id for dts in self.datasets if dts.filter_id])
+        return {dts.filter_id for dts in self.datasets if dts.filter_id}
 
     @staticmethod
     def get_dataset_name(file_id, filter_id):

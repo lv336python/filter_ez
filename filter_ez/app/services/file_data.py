@@ -3,24 +3,24 @@
 """
 from collections import defaultdict
 import pickle
-from app import logger
+from app import LOGGER
 from app.helper import DataSetPandas, UserFilesManager
 
 
-def fields_definition(filename, filter=None):
+def fields_definition(filename, filters=None):
     """ This function defines fields to defaultdict in dict
     to store column names, their values and count of this values in column for statistic
     :param filename: parameter for your filename
-    :param filter: tuple: name of column and value for filter
+    :param filters: tuple: name of column and value for filter
     :return dict: {'Air bags': {'max': 4, 'min': 0}, 'Body': ['MPV', 'SUV', [Sedan],
     'Climate control': ['Yes', 'No']}
     """
     dataframe = DataSetPandas()
-    logger.info(filename)
+    LOGGER.info(filename)
     dataframe.read(filename)
 
-    if filter:
-        dataframe.filter_set(filter)
+    if filters:
+        dataframe.filter_set(filters)
 
     cl_names = dataframe.get_column_names()
 
@@ -39,7 +39,8 @@ def fields_statistics(dataset):
     """ This function defines fields to defaultdict in dict
     to store column names, their values and count of this values in column for statistic
     :param dataset: dataset instance
-    :return dict: {'Air bags': {4: 8, 0: 8}, 'Body': {'MPV': 11, 'Sedan': 7}, 'Climate control': {'Yes': 30, 'No': 19}}
+    :return dict: {'Air bags': {4: 8, 0: 8},
+    'Body': {'MPV': 11, 'Sedan': 7}, 'Climate control': {'Yes': 30, 'No': 19}}
     """
     ufm = UserFilesManager(dataset.user_id)
     file_path = ufm.get_serialized_file_path(dataset.file_id)  # Exchange with UserFileManager
