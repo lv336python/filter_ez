@@ -19,8 +19,8 @@ class IDataSet:
     def amount_of_rows(self, number_of_rows): # pylint: disable=missing-docstring
         raise NotImplementedError
 
-    def filter_set(self, filter): # pylint: disable=missing-docstring
+    def filter_set(self, filters): # pylint: disable=missing-docstring
         raise NotImplementedError
 
-    def get_rows_by_indexes(self, included_rows):
-        raise NotImplementedError # pylint: disable=missing-docstring
+    def get_rows_by_indexes(self, included_rows):# pylint: disable=missing-docstring
+        raise NotImplementedError

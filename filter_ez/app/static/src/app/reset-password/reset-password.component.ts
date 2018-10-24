@@ -13,6 +13,7 @@ export class ResetPasswordComponent {
     confirmMessage: boolean;
     errorMessage: string;
     isValidationPassed : boolean = true;
+    isSubmitted: boolean = false;
     resetPasswordGroup = new FormGroup({
         email: new FormControl('', [
             Validators.required,
@@ -25,6 +26,7 @@ export class ResetPasswordComponent {
         this.auth_.toResetPassword(this.resetPasswordGroup.controls['email'].value)
             .subscribe(
                 res => {
+                    this.isSubmitted = true;
                     this.confirmMessage = true;
                     this.resetPasswordGroup.setValue({email: ''});
                     this.errorMessage =undefined;

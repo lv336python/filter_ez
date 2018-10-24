@@ -8,16 +8,17 @@ from flask import request
 
 from werkzeug.security import generate_password_hash
 
-from app import app
-from app import db
+from app import APP
+from app import DB
 from app.services.token_service import confirm_token
 from app.models import User, UserSchema
+from app.helper.constant_status_codes import Status
 
 
-@app.route('/api/password_reset/<token>', methods=['PUT'])
+@APP.route('/api/password_reset/<token>', methods=['PUT'])
 def reset_with_token(token):
     """
-    PUT view tht updates password in our db
+    PUT view tht updates password in our DB
     :param token:
     :return: updated password for user
     """
@@ -26,7 +27,7 @@ def reset_with_token(token):
     if not email:
         return json.dumps({
             'message': 'Link has been expired'
-        }), 400
+        }), Status.HTTP_400_BAD_REQUEST
 
     data = request.get_json()
     schema = UserSchema.reg_pass
@@ -35,7 +36,7 @@ def reset_with_token(token):
     if not re.match(schema, password):
         return json.dumps({
             'message': 'Password in invalid'
-            }), 400
+            }), Status.HTTP_400_BAD_REQUEST
 
     password = generate_password_hash(data['password'])
 
@@ -43,12 +44,12 @@ def reset_with_token(token):
         user = User.query.filter(User.email == email).first()
         if user:
             user.password = password
-            db.session.add(user)# pylint: disable=E1101
-            db.session.commit()# pylint: disable=E1101
+            DB.session.add(user)# pylint: disable=E1101
+            DB.session.commit()# pylint: disable=E1101
             return json.dumps({
                 'token': token
-            }), 200
+            }), Status.HTTP_200_OK
 
     return json.dumps({
         'message': 'user doesnt exist'
-        }), 404
+        }), Status.HTTP_404_NOT_FOUND
