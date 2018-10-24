@@ -78,6 +78,6 @@ class Config:# pylint: disable=R0903
 
     CELERY_ACCEPT_CONTENT = ['json', 'pickle']
     CELERY_ROUTES = {
-        'APP.services.mail_service.*': {'queue': 'email'}
+        'app.services.mail_service.*': {'queue': 'email'}
     }
     SESSION_COOKIE_HTTPONLY = False
