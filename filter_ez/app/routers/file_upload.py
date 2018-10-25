@@ -42,4 +42,4 @@ def getfiles():
     :return:
     """
     files = UserDataCollector(int(session['user_id']))
-    return make_response(jsonify(files.get_user_files_info()), 200)
+    return make_response(jsonify(files.get_files_info()), 200)
