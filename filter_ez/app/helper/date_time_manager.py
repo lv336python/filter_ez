@@ -3,7 +3,7 @@ Module for datetime managing
 '''
 
 from datetime import datetime, timedelta
-
+import os
 
 class DateTimeManager:
     '''
@@ -30,7 +30,7 @@ class DateTimeManager:
         :param file_path: path to your file
         :return: datetime
         '''
-        return datetime.fromtimestamp(file_path).isoformat()
+        return datetime.fromtimestamp(os.path.getctime(file_path)).isoformat()
 
     @classmethod
     def get_current_time_stamp(cls):
