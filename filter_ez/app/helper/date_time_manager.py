@@ -30,7 +30,8 @@ class DateTimeManager:
         :param file_path: path to your file
         :return: datetime
         '''
-        return datetime.fromtimestamp(os.path.getctime(file_path)).isoformat()
+        modify_date = os.path.getctime(file_path) # in seconds
+        return datetime.utcfromtimestamp(modify_date).isoformat()
 
     @classmethod
     def get_current_time_stamp(cls):

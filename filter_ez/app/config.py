@@ -55,7 +55,7 @@ class Config:# pylint: disable=R0903
 
     ADMIN_MAIL = MAIL['ADMIN_MAIL']
     # logging parameters
-    LOG_FILE_PATH = os.path.join(BASEDIR, f'logs/log.txt')
+    LOG_FILE_PATH = os.path.join(BASEDIR, 'logs/log.txt')
 
     # user data
     USER_DATA_FOLDER = os.path.join(BASEDIR, 'usersdata')
