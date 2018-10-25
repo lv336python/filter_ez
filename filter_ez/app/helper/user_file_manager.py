@@ -161,7 +161,7 @@ class UserFilesManager:
         attributes['size'] = round(os.path.getsize(file_path), 2)
         attributes['date'] = DateTimeManager.get_current_time(isoformat=True)
         attributes['modified'] = DateTimeManager.\
-            get_last_time_file_modify(os.path.getctime(file_path))
+            get_last_time_file_modify(file_path)
         return attributes
 
     @classmethod

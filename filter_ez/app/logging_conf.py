@@ -22,7 +22,7 @@ def make_logger(file_path):
 
     os.makedirs(os.path.dirname(file_path), exist_ok=True)
 
-    file_handler = RotatingFileHandler(file_path, mode='a', maxBytes=10, backupCount=5)
+    file_handler = RotatingFileHandler(file_path, mode='a', maxBytes=100000, backupCount=5)
     file_handler.setLevel(logging.INFO)
     file_handler.setFormatter(formatter)
 
