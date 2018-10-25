@@ -63,3 +63,20 @@ class DataSetPandas(IDataSet):
     def get_rows_by_indexes(self, included_rows):
         rows = self.dataframe.iloc[included_rows].values.tolist()
         return rows
+
+    def without_indecies(self):
+        """
+        Creates DataSetPandas instance with dataframe without first column
+        :return: DataSetPandas
+        """
+        without_indecies = DataSetPandas(self.dataframe.drop(self.dataframe.columns[0], axis=1))
+        return without_indecies
+
+    def filter_rows(self, included_rows):
+        """
+        Creates DataSetPandas instance with rows with identifier that is in included_rows
+        :param included_rows:
+        :return:
+        """
+        dataframe = self.dataframe[self.dataframe[self.dataframe.columns[0]].isin(included_rows)]
+        return DataSetPandas(dataframe)
