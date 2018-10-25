@@ -41,7 +41,7 @@ def temp_file(dataset):
     return path
 
 
-def dataset_to_excel(dataset):
+def dataset_to_excel(dataset, include_ids=True):
     """
     Writes dataset to excel file in-memory without creating excel file in the local storage
     :param dataset: instance of dataset
@@ -61,8 +61,11 @@ def dataset_to_excel(dataset):
         with open(path_to_file, 'rb') as file:
             dataframe = pickle.load(file)
 
+        if not include_ids:
+            dataframe.drop([dataframe.columns[0]], axis=1, inplace=True)
+
         if dataset.included_rows:
-            dataframe = dataframe.iloc[dataset.included_rows].values.tolist()
+            dataframe = dataframe[dataframe[dataframe.columns[0]].isin(dataset.included_rows)]
             for i in range(len(dataset.included_rows)):
                 for j in range(len(dataframe[i])):
                     sheet.write(i, j, dataframe[i][j])

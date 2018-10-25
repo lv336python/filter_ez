@@ -49,7 +49,9 @@ def fields_statistics(dataset):
         dataframe = DataSetPandas(pickle.load(file))
 
     if dataset.included_rows:
-        dataframe.dataframe = dataframe.dataframe.iloc[dataset.included_rows]
+        dataframe = dataframe.filter_rows(dataset.included_rows)
+
+    dataframe = dataframe.without_indecies()
 
     cl_names = list(dataframe.get_column_names())
 
