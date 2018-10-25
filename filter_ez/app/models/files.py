@@ -5,7 +5,6 @@ User Files model describing
 from datetime import datetime
 from app import DB
 
-
 class File(DB.Model):# pylint: disable=R0903
     """
     User files model for SQL databas

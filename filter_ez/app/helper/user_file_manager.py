@@ -4,20 +4,18 @@ functionality needed to work with user files in local storage: saving, deleting,
 fetching, etc.
 """
 import os
-from datetime import datetime
 from hashlib import md5
-
 import pandas as pd
 
 from app import APP, DB, LOGGER
 from app.models import Dataset, File  # Remove when DBM is ready
-
-
+from app.helper.date_time_manager import DateTimeManager
 class UserFilesManager:
     """
     Class for working with local user files. It provides all necessary functionality
     to work with files of a given user
     """
+
     def __init__(self, user_id):
         self.user_id = user_id
         self.files_dir = os.path.join(APP.config['UPLOAD_FOLDER'], str(user_id))
@@ -162,8 +160,9 @@ class UserFilesManager:
         attributes = dict()
         attributes['name'] = os.path.basename(file_path)
         attributes['size'] = round(os.path.getsize(file_path), 2)
-        attributes['date'] = datetime.now().isoformat()
-        attributes['modified'] = datetime.fromtimestamp(os.path.getctime(file_path)).isoformat()
+        attributes['date'] = DateTimeManager.get_current_time(isoformat=True)
+        attributes['modified'] = DateTimeManager.\
+            get_last_time_file_modify(file_path)
         return attributes
 
     @classmethod
