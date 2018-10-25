@@ -35,6 +35,7 @@ def uploader():
 
 
 @APP.route('/api/get_files', methods=['POST'])
+@login_required
 def getfiles():
     """
     TODO
