@@ -15,6 +15,7 @@ class UserFilesManager:
     Class for working with local user files. It provides all necessary functionality
     to work with files of a given user
     """
+
     def __init__(self, user_id):
         self.user_id = user_id
         self.files_dir = os.path.join(APP.config['UPLOAD_FOLDER'], str(user_id))

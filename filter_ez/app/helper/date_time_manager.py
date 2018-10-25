@@ -49,4 +49,3 @@ class DateTimeManager:
         :return: new future datetime (now + days + hours)
         '''
         return datetime.utcnow() + timedelta(hours, days)
-
