@@ -96,6 +96,17 @@ class UserFilesManager:
         """
         file_name = self.get_file_name(file_full_name)
         df_to_serialize = pd.read_excel(os.path.join(self.files_dir, file_full_name))
+
+        # check if the table has first column all unique values
+        num_of_values = df_to_serialize[df_to_serialize.columns[0]].shape[0]
+        num_of_unique_values = len(set(df_to_serialize[df_to_serialize.columns[0]]))
+
+        if num_of_unique_values != num_of_values:
+            df_to_serialize.insert(0, "Unique ID", range(1, df_to_serialize.shape[0]+1))
+
+        id_column = df_to_serialize.columns[0]
+        df_to_serialize[id_column] = df_to_serialize[id_column].astype(str)
+
         serialized_file_name = f'{file_name}.pkl'
         df_to_serialize.to_pickle(os.path.join(self.files_dir, serialized_file_name))
 
