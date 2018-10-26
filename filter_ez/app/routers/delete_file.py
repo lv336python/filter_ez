@@ -34,7 +34,6 @@ def delete_file(file_id):
     if not dataset.user_id:
         return json.dumps({'message': 'access forbidden'}), status.HTTP_403_FORBIDDEN
 
-    print(file_id)
     ufm.delete_file(file_id)
 
     return json.dumps({"message" : "file deleted"}), status.HTTP_200_OK

@@ -54,7 +54,6 @@ class Config:# pylint: disable=R0903
     MAIL_DEFAULT_SENDER = 'statisticcar@gmail.com'
 
     ADMIN_MAIL = MAIL['ADMIN_MAIL']
-
     # logging parameters
     LOG_FILE_PATH = os.path.join(BASEDIR, 'logs/log.txt')
 

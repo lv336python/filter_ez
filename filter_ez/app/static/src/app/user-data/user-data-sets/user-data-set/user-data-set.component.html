@@ -1,9 +1,9 @@
     <!-- <button *ngIf="!showDatasetStat" class="stat" (click)="getStatDataset()">Stat</button> -->
     <h3>{{ userdataset.name }}</h3>
     <div>
-        <span>  date: {{ userdataset.date | date }}</span>
+        <span>  date: {{ userdataset.createDate| date }}</span>
         <!-- <button type="button" class="btn btn-success"(click)="downloadDataset(userdataset.id)">Download</button> -->
-        <span>sample: {{ userdataset.items }}</span>
+        <span>sample: {{ userdataset.nItems }}</span>
         <a href="api/download/{{userdataset.id}}"><button class="btn btn-success button-download">Download</button></a>
     </div>
     <div class="container ">

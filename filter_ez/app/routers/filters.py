@@ -4,6 +4,7 @@ Module for filtering files
 import json
 
 from flask import request, make_response, session
+from flask_login import login_required
 
 import pandas as pd
 
@@ -13,6 +14,7 @@ from app.helper import UserFilesManager
 
 
 @APP.route('/api/save_filter', methods=['POST'])
+@login_required
 def save_filter():
     """
     Saving filter and dataset, based on filter parameters
@@ -48,6 +50,7 @@ def save_filter():
 
 
 @APP.route('/api/get_metadata/<file_id>', methods=['POST'])
+@login_required
 def get_metadata(file_id):
     """
         Getting metadata: list of column and values for file
@@ -62,6 +65,7 @@ def get_metadata(file_id):
 
 
 @APP.route('/api/count_rows', methods=['POST'])
+@login_required
 def filter_num_rows():
     """
         Getting number of rows applying filter_params

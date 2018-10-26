@@ -35,10 +35,11 @@ def uploader():
 
 
 @APP.route('/api/get_files', methods=['POST'])
+@login_required
 def getfiles():
     """
     TODO
     :return:
     """
     files = UserDataCollector(int(session['user_id']))
-    return make_response(jsonify(files.get_user_files_info()), 200)
+    return make_response(jsonify(files.get_files_info()), 200)

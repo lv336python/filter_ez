@@ -12,7 +12,7 @@ import xlsxwriter
 from app import APP, LOGGER
 from app.helper import UserFilesManager
 from app.services import notify_admin
-
+from app.helper.date_time_manager import DateTimeManager
 
 def create_dir(dir_path):
     """
@@ -48,7 +48,7 @@ def dataset_to_excel(dataset):
     :return: BytesIO object or None
     """
     try:
-        start_time = time.time()
+        start_time = DateTimeManager.get_current_time()
         LOGGER.info("Start creating file")
 
         file_manager = UserFilesManager(dataset.user_id)

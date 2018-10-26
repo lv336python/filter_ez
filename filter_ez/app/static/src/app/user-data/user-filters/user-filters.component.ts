@@ -13,7 +13,7 @@ export class UserFiltersComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.userData.castUserData.subscribe(data => this.userfilters = data.user_filters);
+    this.userData.castUserData.subscribe(data => this.userfilters = data.userFilters);
   }
 
 }

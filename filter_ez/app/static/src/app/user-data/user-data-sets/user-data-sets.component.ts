@@ -13,6 +13,6 @@ export class UserDataSetsComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.userData.castUserData.subscribe(data => this.userdatasets = data.user_datasets);
+    this.userData.castUserData.subscribe(data => this.userdatasets = data.userDataSets);
   }
 }
