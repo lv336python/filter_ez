@@ -10,12 +10,13 @@ import pandas as pd
 from app import APP, DB, LOGGER
 from app.models import Dataset, File  # Remove when DBM is ready
 from app.helper.date_time_manager import DateTimeManager
+
+
 class UserFilesManager:
     """
     Class for working with local user files. It provides all necessary functionality
     to work with files of a given user
     """
-
     def __init__(self, user_id):
         self.user_id = user_id
         self.files_dir = os.path.join(APP.config['UPLOAD_FOLDER'], str(user_id))
@@ -59,6 +60,9 @@ class UserFilesManager:
         # Serialize uploaded file as DataFrame (Update when DataFrame interface is ready)
         shape = self.serialize(file_full_name)
 
+        if not shape:
+            return None
+
         # Get attributes of file
         file_attributes = self.get_attributes(file_path)
         file_attributes['name'] = file.filename
@@ -100,7 +104,7 @@ class UserFilesManager:
         num_of_unique_values = len(set(df_to_serialize[df_to_serialize.columns[0]]))
 
         if num_of_unique_values != num_of_values:
-            df_to_serialize.insert(0, "Unique ID", range(1, df_to_serialize.shape[0]+1))
+            return None
 
         id_column = df_to_serialize.columns[0]
         df_to_serialize[id_column] = df_to_serialize[id_column].astype(str)

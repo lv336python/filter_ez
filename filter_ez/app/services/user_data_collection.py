@@ -89,7 +89,7 @@ class UserDataCollector:
             'name': file.attributes['name'],
             'size': file.attributes['size'],
             'nRows': file.attributes['rows'],
-            'dataSetId': dts.id
+            'datasetId': dts.id
             }
                  for file in self.files
                  for dts in self.datasets
