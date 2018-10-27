@@ -7,7 +7,7 @@ class IDataSet:
     """
     ToDo
     """
-    def read(self, filename):  # pylint: disable=missing-docstring
+    def read(self, file_path):  # pylint: disable=missing-docstring
         raise NotImplementedError
 
     def get_column_names(self):  # pylint: disable=missing-docstring
