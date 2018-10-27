@@ -1,5 +1,6 @@
 import {Component, Input, OnInit} from '@angular/core';
 import {DataService} from "../_services/data.service";
+import {SocketService} from "../_services/socket.service";
 
 
 @Component({
@@ -43,21 +44,25 @@ export class StatisticsComponent implements OnInit {
         this.updateGraph();
     }
 
-    constructor(private data : DataService) { }
+    constructor(private data : DataService,
+                private socket : SocketService) { }
 
     updateGraph() {
         this.data.getStatistics(this.datasetId)
             .subscribe(
-                res => {
-                    this.statistics = res;
-                    this.columns = Object.keys(res);
-                    this.graph.layout.title = this.columns[0];
-                    this.graph.pie[0].labels = Object.keys(res[this.columns[0]]);
-                    this.graph.pie[0].values = Object.values(res[this.columns[0]]);
-                    this.graph.bar[0].x = Object.keys(res[this.columns[0]]);
-                    this.graph.bar[0].y = Object.values(res[this.columns[0]]);
-                },
-                error => {console.log(error)}
+                res => this.socket.getStatistics(this.datasetId)
+                    .subscribe(
+                        res => {
+                            this.statistics = res;
+                            this.columns = Object.keys(res);
+                            this.graph.layout.title = this.columns[0];
+                            this.graph.pie[0].labels = Object.keys(res[this.columns[0]]);
+                            this.graph.pie[0].values = Object.values(res[this.columns[0]]);
+                            this.graph.bar[0].x = Object.keys(res[this.columns[0]]);
+                            this.graph.bar[0].y = Object.values(res[this.columns[0]]);
+                        }
+                    ),
+                err => console.error(err)
             );
     }
 
