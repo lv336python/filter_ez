@@ -74,7 +74,7 @@ def dataset_to_excel(dataset):
 
         excel_writer.close()
         byte_writer.seek(0)
-        LOGGER.info("Finished creating file in %s", time.time() - start_time)
+        LOGGER.info("Finished creating file: %s", DateTimeManager.get_current_time() - start_time)
         return byte_writer
     except Exception as exception:# pylint: disable=broad-except
         LOGGER.error("Error occurred when tried to create a byteIO"
