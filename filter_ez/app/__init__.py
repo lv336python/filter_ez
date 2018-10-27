@@ -15,7 +15,6 @@ from flask_mail import Mail
 from app.config import Config
 from app.celery_manage import create_celery
 from app.logging_conf import make_logger
-
 eventlet.monkey_patch()
 
 
