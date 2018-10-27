@@ -11,7 +11,7 @@ class UsersDataset:
     """
     def __init__(self, dataset_id):
         """Initialise instance of DataSet by getting all attributes of given DataSet from DB"""
-        self.dataset_id = dataset_id
+        self.id = dataset_id
         self.file_id = self.get_dataset().file_id
         self.user_id = self.get_dataset().user_id
         self.filter_id = self.get_dataset().filter_id
@@ -19,7 +19,7 @@ class UsersDataset:
 
     def get_dataset(self):
         """Retrieve DataSet from DB"""
-        return Dataset.query.get(self.dataset_id)
+        return Dataset.query.get(self.id)
 
     def is_dataset(self):
         """Checks if DataSet is origin File"""

@@ -49,7 +49,7 @@ def dataset_to_excel(dataset):
         LOGGER.info("Start creating file")
 
         dataframe = dataset.to_dataframe()
-        data = DataFrameWriter.excel_bytes_io(dataframe)
+        data = DataFrameWriter.xlsx_bytes_io(dataframe)
 
         LOGGER.info("Finished creating file in %s", time.time() - start_time)
         return data
