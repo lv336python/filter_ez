@@ -42,7 +42,7 @@ def upgrade():
     )
     op.create_table('dataset',
     sa.Column('id', sa.Integer(), autoincrement=True, nullable=False),
-    sa.Column('included_rows', sa.ARRAY(sa.Integer()), nullable=True),
+    sa.Column('included_rows', sa.ARRAY(sa.String()), nullable=True),
     sa.Column('date', sa.DateTime(), nullable=False),
     sa.Column('file_id', sa.Integer(), nullable=True),
     sa.Column('user_id', sa.Integer(), nullable=True),

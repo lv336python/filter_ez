@@ -77,7 +77,9 @@ def fields_statistics(dataset, non_blocking=False):
         dataframe = DataSetPandas(pickle.load(file))
 
     if dataset.included_rows:
-        dataframe.dataframe = dataframe.dataframe.iloc[dataset.included_rows]
+        dataframe = dataframe.filter_rows(dataset.included_rows)
+
+    dataframe = dataframe.without_indecies()
 
     if non_blocking:
         get_statistics.apply_async([dataframe, dataset.id, int(session['user_id'])],
