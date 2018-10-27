@@ -1,7 +1,5 @@
 """Module include DataFrame writer"""
-import time
 from io import BytesIO
-from pandas import ExcelWriter
 import xlsxwriter
 
 
@@ -34,6 +32,7 @@ class DataFrameWriter:
         head = dataframe.columns.tolist()
         data = dataframe.values.tolist()
         data.insert(0, head)
+
         for i in range(len(data)):  # pylint: disable=consider-using-enumerate
             for j in range(len(data[i])):
                 sheet.write(i, j, data[i][j])
