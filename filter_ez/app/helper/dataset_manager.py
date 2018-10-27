@@ -29,19 +29,22 @@ class UsersDataset:
         """Checks if user have rights to this DataSet"""
         return self.user_id == user_id
 
-    def to_dataframe(self):
+    def to_dataframe(self, include_ids=True):
         """
         Returns DataFrame from DataSet by retrieving included rows from source File.
         If DataSet is origin File forms DataFrame from whole File
         """
         file = Ufm(self.user_id)
         data = Dataframe()
-        file_data = data.read(file.get_serialized_file_path(self.file_id))
+        data.read(file.get_serialized_file_path(self.file_id))
+
+        if not include_ids:
+            data = data.without_indecies()
 
         if self.included_rows:
             return data.from_rows(self.included_rows)
 
-        return file_data
+        return data.dataframe
 
     def apply_filter(self):
         """Apply filter to DataSet, returns ID of new DataSet created from origin DataSet"""

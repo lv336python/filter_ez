@@ -38,7 +38,7 @@ def temp_file(dataset):
     return path
 
 
-def dataset_to_excel(dataset):
+def dataset_to_excel(dataset, include_ids=True):
     """
     Writes dataset to excel file in-memory without creating excel file in the local storage
     :param dataset: Users DataSet which should be transformed to excel
@@ -48,7 +48,7 @@ def dataset_to_excel(dataset):
         # start_time = DateTimeManager.get_current_time()
         LOGGER.info("Start creating file")
 
-        dataframe = dataset.to_dataframe()
+        dataframe = dataset.to_dataframe(include_ids)
         data = DataFrameWriter.xlsx_bytes_io(dataframe)
 
         # LOGGER.info("Finished creating file in %s", time.time() - start_time)

@@ -25,6 +25,10 @@ def uploader():
 
         if file_manager.validate_file_extension(file):
             result = file_manager.upload_file(file)
+            if not result:
+                return make_response(jsonify(
+                    {'error': 'incorrect table structure, first column must be with unique values'}
+                ), 422)
         else:
             return make_response(jsonify({'error': 'bad file type'}), 400)
 

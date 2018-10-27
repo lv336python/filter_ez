@@ -49,7 +49,7 @@ class Dataset(DB.Model):# pylint: disable=R0903
     __tablename__ = 'dataset'
 
     id = DB.Column(DB.Integer, primary_key=True, autoincrement=True)
-    included_rows = DB.Column(DB.ARRAY(DB.Integer), nullable=True)
+    included_rows = DB.Column(DB.ARRAY(DB.String), nullable=True)
     date = DB.Column(DB.DateTime, nullable=False, default=datetime.utcnow)
     file_id = DB.Column(DB.Integer, DB.ForeignKey('file.id', ondelete="CASCADE"))
     user_id = DB.Column(DB.Integer, DB.ForeignKey('users.id'))

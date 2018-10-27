@@ -10,12 +10,13 @@ import pandas as pd
 from app import APP, DB, LOGGER
 from app.models import Dataset, File  # Remove when DBM is ready
 from app.helper.date_time_manager import DateTimeManager
+
+
 class UserFilesManager:
     """
     Class for working with local user files. It provides all necessary functionality
     to work with files of a given user
     """
-
     def __init__(self, user_id):
         self.user_id = user_id
         self.files_dir = os.path.join(APP.config['UPLOAD_FOLDER'], str(user_id))
@@ -59,6 +60,9 @@ class UserFilesManager:
         # Serialize uploaded file as DataFrame (Update when DataFrame interface is ready)
         shape = self.serialize(file_full_name)
 
+        if not shape:
+            return None
+
         # Get attributes of file
         file_attributes = self.get_attributes(file_path)
         file_attributes['name'] = file.filename
@@ -94,6 +98,17 @@ class UserFilesManager:
         """
         file_name = self.get_file_name(file_full_name)
         df_to_serialize = pd.read_excel(os.path.join(self.files_dir, file_full_name))
+
+        # check if the table has first column all unique values
+        num_of_values = df_to_serialize[df_to_serialize.columns[0]].shape[0]
+        num_of_unique_values = len(set(df_to_serialize[df_to_serialize.columns[0]]))
+
+        if num_of_unique_values != num_of_values:
+            return None
+
+        id_column = df_to_serialize.columns[0]
+        df_to_serialize[id_column] = df_to_serialize[id_column].astype(str)
+
         serialized_file_name = f'{file_name}.pkl'
         df_to_serialize.to_pickle(os.path.join(self.files_dir, serialized_file_name))
 

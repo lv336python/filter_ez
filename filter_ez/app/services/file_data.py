@@ -49,9 +49,11 @@ def fields_statistics(dataset):
         dataframe = DataSetPandas(pickle.load(file))
 
     if dataset.included_rows:
-        dataframe.dataframe = dataframe.dataframe.iloc[dataset.included_rows]
+        dataframe = dataframe.filter_rows(dataset.included_rows)
 
-    cl_names = list(dataframe.get_column_names())
+    dataframe = dataframe.without_indecies()
+
+    cl_names = dataframe.get_column_names()
 
     field_def = {}
     for cl_name in cl_names:
@@ -60,6 +62,7 @@ def fields_statistics(dataset):
         for val in cl_name_val:
             default_dict[val] += 1
         field_def[cl_name] = default_dict
+
     return field_def
 
 
