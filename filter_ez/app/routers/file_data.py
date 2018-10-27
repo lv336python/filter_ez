@@ -30,6 +30,7 @@ def get_statistics(dataset_id):
         return json.dumps({'message': 'access forbidden'}), 403
 
     statistics = file_data.fields_statistics(dataset)
+    print(statistics)
     return json.dumps(statistics), 200
 
 

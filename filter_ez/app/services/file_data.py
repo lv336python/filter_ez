@@ -53,7 +53,7 @@ def fields_statistics(dataset):
 
     dataframe = dataframe.without_indecies()
 
-    cl_names = list(dataframe.get_column_names())
+    cl_names = dataframe.get_column_names()
 
     field_def = {}
     for cl_name in cl_names:
@@ -62,6 +62,7 @@ def fields_statistics(dataset):
         for val in cl_name_val:
             default_dict[val] += 1
         field_def[cl_name] = default_dict
+
     return field_def
 
 

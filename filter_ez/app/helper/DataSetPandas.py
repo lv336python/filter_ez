@@ -102,4 +102,3 @@ class DataSetPandas(IDataSet):
         :return: DataFrame with given number of rows
         """
         return self.dataframe.sample(number_of_rows)
-      
