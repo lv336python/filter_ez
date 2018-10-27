@@ -6,7 +6,6 @@ from hashlib import md5
 
 import os
 import pickle
-import time
 import xlsxwriter
 
 from app import APP, LOGGER
