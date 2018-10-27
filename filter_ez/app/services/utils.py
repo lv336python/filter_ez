@@ -4,12 +4,11 @@ Different utils like small functions that a used in different scripts
 from hashlib import md5
 
 import os
-# import time
 
 from app import APP, LOGGER
 from app.helper.writer_manager import DataFrameWriter
 from app.services import notify_admin
-# from app.helper.date_time_manager import DateTimeManager
+from app.helper.date_time_manager import DateTimeManager
 
 def create_dir(dir_path):
     """
@@ -45,13 +44,13 @@ def dataset_to_excel(dataset, include_ids=True):
     :return: BytesIO object or None
     """
     try:
-        # start_time = DateTimeManager.get_current_time()
+        start_time = DateTimeManager.get_current_time()
         LOGGER.info("Start creating file")
 
         dataframe = dataset.to_dataframe(include_ids)
         data = DataFrameWriter.xlsx_bytes_io(dataframe)
 
-        # LOGGER.info("Finished creating file in %s", time.time() - start_time)
+        LOGGER.info("Finished creating file: %s", DateTimeManager.get_current_time() - start_time)
         return data
     except Exception as exception: # pylint: disable=W0703
         LOGGER.error("Error occurred when tried to create a byteIO"

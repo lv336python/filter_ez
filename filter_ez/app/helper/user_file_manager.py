@@ -122,7 +122,6 @@ class UserFilesManager:
         :return: path to file or None
         """
         file = File.query.get(file_id)
-        print(file)
         if file:
             # return file.path if file.path in self.files else None
             return file.path
