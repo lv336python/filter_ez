@@ -2,6 +2,8 @@
 """
 ToDo
 """
+from os.path import splitext
+
 import pandas as pd
 
 from .idataset import IDataSet
@@ -14,17 +16,22 @@ class DataSetPandas(IDataSet):
     def __init__(self, dataframe=None):
         self.dataframe = dataframe
 
-    def read(self, filename):
+    def read(self, file_path):
         """
         method for read file
-        :param filename:
+        :param file_path:
         """
-        self.dataframe = pd.read_excel(filename)
+        ext = splitext(file_path)
+        if ext[1] in ['.xls', '.xlsx']:
+            self.dataframe = pd.read_excel(file_path)
+        if ext[1] == '.pkl':
+            self.dataframe = pd.read_pickle(file_path)
+        return self.dataframe
 
-    def filter_set(self, filter):
+    def filter_set(self, filters):
         """
         Filter dataframe by your data
-        :param filter: parameter for your filter
+        :param filters: parameter for your filters
         :return: filtered dataframe
         """
         def mask(dataframe, key, value):
@@ -32,7 +39,7 @@ class DataSetPandas(IDataSet):
             return mask
 
         pd.DataFrame.mask = mask
-        self.dataframe = self.dataframe.mask(*filter)
+        return self.dataframe.mask(*filters)
 
     def get_column_names(self):
         """
@@ -63,3 +70,35 @@ class DataSetPandas(IDataSet):
     def get_rows_by_indexes(self, included_rows):
         rows = self.dataframe.iloc[included_rows].values.tolist()
         return rows
+
+    def without_indecies(self):
+        """
+        Creates DataSetPandas instance with dataframe without first column
+        :return: DataSetPandas
+        """
+        without_indecies = DataSetPandas(self.dataframe.drop(self.dataframe.columns[0], axis=1))
+        return without_indecies
+
+    def filter_rows(self, included_rows):
+        """
+        Creates DataSetPandas instance with rows with identifier that is in included_rows
+        :param included_rows:
+        :return:
+        """
+        return self.dataframe.iloc[included_rows].values.tolist()
+
+    def from_rows(self, rows_idxs):
+        """
+        Forms DataFrame from given indexes
+        :param rows_idxs: list of indexes included in DataFrame
+        :return: DataFrame with given rows
+        """
+        return self.dataframe.iloc[rows_idxs]
+
+    def sample(self, number_of_rows):
+        """
+        Returns DataFrame sample with given number of rows
+        :param number_of_rows: number of rows to be sampled
+        :return: DataFrame with given number of rows
+        """
+        return self.dataframe.sample(number_of_rows)

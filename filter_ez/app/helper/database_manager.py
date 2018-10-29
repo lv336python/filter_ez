@@ -4,13 +4,13 @@ functionality needed to work with database.
 """
 from app.models.user import User
 from app.models.files import File, Dataset, Filter
-from app import db
+from app import DB
 
 
 class DataBaseManager:
     """
     Class for working with database. It provides all necessary functionality
-    to work with database
+    to work with databasedb
     """
     @classmethod
     def get_user_by_id(cls, user_id):
@@ -129,8 +129,8 @@ class DataBaseManager:
         Method for add record to database
         :param obj:
         """
-        db.session.add(obj)
-        db.session.commit()
+        DB.session.add(obj)
+        DB.session.commit()
 
     @classmethod
     def delete_record_from_db(cls, obj):
@@ -139,12 +139,12 @@ class DataBaseManager:
         :param obj:
         :return:
         """
-        db.session.delete(obj)
-        db.session.commit()
+        DB.session.delete(obj)
+        DB.session.commit()
 
     @classmethod
     def flush(cls):
         """
         Method for communicate a series of operations to the database
         """
-        db.session.flush()
+        DB.session.flush()

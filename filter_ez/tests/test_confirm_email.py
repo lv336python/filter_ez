@@ -50,7 +50,7 @@ def test_valid_user(client):
     with mock.patch('app.routers.confirm_email.confirm_token') as mock_token:
         mock_token.return_value = "valid_user@gmail.com"
         with mock.patch("app.routers.confirm_email.User") as mock_query_filter:
-            with mock.patch("app.routers.confirm_email.db.session") as mock_db:
+            with mock.patch("app.routers.confirm_email.DB.session") as mock_db:
                 mock_db.add.return_value = 'admin12345'
                 mock_query_filter.query.filter().first.return_value = user
                 response = confirm_email(client)

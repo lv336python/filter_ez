@@ -1,18 +1,5 @@
-<div class="auth">
+<div class="auth" *ngIf="!isSubmitted">
     <div class="form">
-        <div class="row">
-                <div class="col-md-3">
-
-                </div>
-                <div class="col-md-6">
-                    <div *ngIf="message" class="alert alert-success">
-                        <br><br>{{ message }}
-                    </div>
-                </div>
-                <div class="col-md-3">
-
-                </div>
-            </div>
         <form class="form-horizontal"  [formGroup]="registerGroup" (ngSubmit)="toRegister()">
             <div class="row">
                 <div class="col-md-3"></div>
@@ -118,3 +105,18 @@
 </div>
 
 
+<div class="container  justify-content-center" *ngIf="isSubmitted">
+    <div class="row">
+        <div class="col-sm-3">
+
+        </div>
+        <div class="col-sm-6">
+            <div *ngIf="message" class="alert alert-success">
+                <strong><h2>{{ message }}</h2></strong>
+            </div>
+        </div>
+        <div class="col-sm-3">
+
+        </div>
+    </div>
+</div>

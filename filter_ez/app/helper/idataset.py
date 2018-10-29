@@ -7,7 +7,7 @@ class IDataSet:
     """
     ToDo
     """
-    def read(self, filename):  # pylint: disable=missing-docstring
+    def read(self, file_path):  # pylint: disable=missing-docstring
         raise NotImplementedError
 
     def get_column_names(self):  # pylint: disable=missing-docstring
@@ -19,8 +19,8 @@ class IDataSet:
     def amount_of_rows(self, number_of_rows): # pylint: disable=missing-docstring
         raise NotImplementedError
 
-    def filter_set(self, filter): # pylint: disable=missing-docstring
+    def filter_set(self, filters): # pylint: disable=missing-docstring
         raise NotImplementedError
 
-    def get_rows_by_indexes(self, included_rows):
-        raise NotImplementedError # pylint: disable=missing-docstring
+    def get_rows_by_indexes(self, included_rows):# pylint: disable=missing-docstring
+        raise NotImplementedError

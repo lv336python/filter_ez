@@ -4,13 +4,12 @@ functionality needed to work with user files in local storage: saving, deleting,
 fetching, etc.
 """
 import os
-from datetime import datetime
 from hashlib import md5
-
 import pandas as pd
 
-from app import app, db, logger
+from app import APP, DB, LOGGER
 from app.models import Dataset, File  # Remove when DBM is ready
+from app.helper.date_time_manager import DateTimeManager
 
 
 class UserFilesManager:
@@ -20,7 +19,7 @@ class UserFilesManager:
     """
     def __init__(self, user_id):
         self.user_id = user_id
-        self.files_dir = os.path.join(app.config['UPLOAD_FOLDER'], str(user_id))
+        self.files_dir = os.path.join(APP.config['UPLOAD_FOLDER'], str(user_id))
 
         os.makedirs(self.files_dir, exist_ok=True)
 
@@ -51,8 +50,8 @@ class UserFilesManager:
         if file_full_name in self.files:
             _file = File.query.filter(File.path == file_full_name).first()
             _dataset = Dataset.query.filter(Dataset.file_id == _file.id).first()
-            logger.info('User {0} uploaded which already existed under id {1}'
-                        .format(self.user_id, _file.id))
+            LOGGER.info('User %s uploaded which already existed under id %s',
+                        self.user_id, _file.id)
             return 'Uploaded', _file.id, _dataset.id
 
         file.seek(0)
@@ -61,26 +60,29 @@ class UserFilesManager:
         # Serialize uploaded file as DataFrame (Update when DataFrame interface is ready)
         shape = self.serialize(file_full_name)
 
+        if not shape:
+            return None
+
         # Get attributes of file
         file_attributes = self.get_attributes(file_path)
         file_attributes['name'] = file.filename
         file_attributes['rows'] = shape[0]
         file_attributes['cols'] = shape[1]
 
-        # Save to db, update when dbm is ready
+        # Save to DB, update when dbm is ready
         new_file = File(path=file_full_name, attributes=file_attributes)
-        db.session.add(new_file)
-        db.session.flush()
+        DB.session.add(new_file)# pylint: disable=E1101
+        DB.session.flush()# pylint: disable=E1101
         new_dataset = Dataset(user_id=self.user_id, file_id=new_file.id)
-        db.session.add(new_dataset)
-        db.session.commit()
-        logger.info('User {0} uploaded a new file {1}'.format(self.user_id, new_file.id))
+        DB.session.add(new_dataset)# pylint: disable=E1101
+        DB.session.commit()# pylint: disable=E1101
+        LOGGER.info('User %s uploaded a new file %s', self.user_id, new_file.id)
         response = {'file': {
-                    'id': new_file.id,
-                    'name': new_file.attributes['name'],
-                    'size': new_file.attributes['size'],
-                    'rows': new_file.attributes['rows']
-                    },
+            'id': new_file.id,
+            'name': new_file.attributes['name'],
+            'size': new_file.attributes['size'],
+            'rows': new_file.attributes['rows']
+            },
                     'dataset_id': new_dataset.id
                     }
         return response
@@ -96,20 +98,30 @@ class UserFilesManager:
         """
         file_name = self.get_file_name(file_full_name)
         df_to_serialize = pd.read_excel(os.path.join(self.files_dir, file_full_name))
+
+        # check if the table has first column all unique values
+        num_of_values = df_to_serialize[df_to_serialize.columns[0]].shape[0]
+        num_of_unique_values = len(set(df_to_serialize[df_to_serialize.columns[0]]))
+
+        if num_of_unique_values != num_of_values:
+            return None
+
+        id_column = df_to_serialize.columns[0]
+        df_to_serialize[id_column] = df_to_serialize[id_column].astype(str)
+
         serialized_file_name = f'{file_name}.pkl'
         df_to_serialize.to_pickle(os.path.join(self.files_dir, serialized_file_name))
 
         shape = df_to_serialize.shape
         return shape
 
-    def get_user_file_name(self, file_id):
+    def get_user_file_name(self, file_id):# pylint: disable=R0201
         """
         Returns name of the stored file with the given file_id if this file belongs to the User
         :param file_id:
         :return: path to file or None
         """
         file = File.query.get(file_id)
-        print(file)
         if file:
             # return file.path if file.path in self.files else None
             return file.path
@@ -150,7 +162,7 @@ class UserFilesManager:
             serialized_file = self.get_serialized_file_path(file_id)
             os.remove(os.path.join(self.files_dir, serialized_file))
             File.query.filter(File.id == file_id).delete()
-            db.session.commit()
+            DB.session.commit()# pylint: disable=E1101
 
     @classmethod
     def get_attributes(cls, file_path):
@@ -162,8 +174,9 @@ class UserFilesManager:
         attributes = dict()
         attributes['name'] = os.path.basename(file_path)
         attributes['size'] = round(os.path.getsize(file_path), 2)
-        attributes['date'] = datetime.now().isoformat()
-        attributes['modified'] = datetime.fromtimestamp(os.path.getctime(file_path)).isoformat()
+        attributes['date'] = DateTimeManager.get_current_time(isoformat=True)
+        attributes['modified'] = DateTimeManager.\
+            get_last_time_file_modify(file_path)
         return attributes
 
     @classmethod
@@ -198,12 +211,17 @@ class UserFilesManager:
         :return: True or False
         """
         extension = cls.get_file_extension(file.filename)
-        if extension in app.config['ALLOWED_EXTENSIONS']:
+        if extension in APP.config['ALLOWED_EXTENSIONS']:
             return True
         return False
 
     @classmethod
     def get_file_checksum(cls, file):
+        """
+        Gets file checksum
+        :param file:
+        :return:
+        """
         hash_md5 = md5()
         for chunk in iter(lambda: file.read(4096), b""):
             hash_md5.update(chunk)

@@ -8,12 +8,12 @@ import json
 from flask import session
 from flask_login import login_required
 
-from app import app
+from app import APP
 from app.services import file_data
 from app.models import Dataset
 
 
-@app.route('/api/statistics/<int:dataset_id>', methods=["GET"])
+@APP.route('/api/statistics/<int:dataset_id>', methods=["GET"])
 @login_required
 def get_statistics(dataset_id):
     """
@@ -29,11 +29,12 @@ def get_statistics(dataset_id):
     if dataset.user_id != int(session['user_id']):
         return json.dumps({'message': 'access forbidden'}), 403
 
-    statistics = file_data.fields_statistics(dataset)
-    return json.dumps(statistics), 200
+    file_data.fields_statistics(dataset, non_blocking=True)
+
+    return json.dumps({'message': 'request successful, processing'}), 202
 
 
-@app.route('/api/get_rows/<int:dataset_id>/<int:number_of_rows>', methods=["GET"])
+@APP.route('/api/get_rows/<int:dataset_id>/<int:number_of_rows>', methods=["GET"])
 @login_required
 def get_rows(dataset_id, number_of_rows):
     """

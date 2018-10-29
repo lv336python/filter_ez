@@ -18,6 +18,7 @@ export class RegistrationComponent implements OnInit {
     errorMessage: string;
     message: boolean;
     isValidationPassed: boolean = true;
+    isSubmitted: boolean = false;
 
     registerGroup = new FormGroup({
         email: new FormControl('', [
@@ -38,6 +39,7 @@ export class RegistrationComponent implements OnInit {
             this.registerGroup.controls['password'].value))
             .subscribe(
                 res => {
+                    this.isSubmitted = true;
                     localStorage.setItem('token', res.token);
                     let dataText = (JSON.stringify(res));
                     let responseText = JSON.parse(dataText);
