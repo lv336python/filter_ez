@@ -12,8 +12,8 @@ usage:
 	@echo
 	@echo '    setup        setup requirements'
 	@echo '    db           init, migrate and upgrade db'
-	@echo '    RabbitMQ     install RabbitMQ and run it'
-	@echo '    Celery       start celery worker'
+	@echo '    rabbitMQ     install RabbitMQ and run it'
+	@echo '    celery       start celery worker'
 	@echo '    run          run local server'
 	@echo '	   back         make setup, db, RabbitMQ'
 	@echo
@@ -35,29 +35,22 @@ run:
 	gnome-terminal -e "bash -c \"make celery; exec bash\""
 	python filter_ez/run.py
 
-back:
-	make db
-	make rabbitMQ
-
 install:
-	(cd $(STATIC_PATH) ; sudo npm install)
-	(cd $(STATIC_PATH) ; sudo npm install -g @angular/cli)
+	(cd $(STATIC_PATH) ; npm install)
+	sudo npm install -g @angular/cli
 
 build: $(STATIC_PATH)angular.json
 	(cd $(STATIC_PATH) ; ng build)
 
+backend:
+	make setup
+	make db
+	make rabbitMQ
 
-docker-build:
-    docker-compose build
-
-docker:
-    docker-compose up
-
-
-
-all:
-	make setup	
+frontend:
 	make install
 	make build
-	make back
 	make run
+all:
+	make frontend
+	make backend
