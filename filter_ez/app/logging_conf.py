@@ -18,8 +18,9 @@ def rollover_with_date(self):
     if self.backupCount > 0:
         for _ in range(self.backupCount - 1, 0, -1):
             sfn = self.rotation_filename(self.baseFilename)
-            dfn = self.rotation_filename("%s.%s" % (self.baseFilename,
-                                                    str(datetime.utcnow().isoformat())))
+            dfn = self.rotation_filename("%s.%s"
+                                         % (self.baseFilename,
+                                            str(datetime.utcnow())))
             if os.path.exists(sfn):
                 if os.path.exists(dfn):
                     os.remove(dfn)
