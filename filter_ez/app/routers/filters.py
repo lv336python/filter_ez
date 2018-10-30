@@ -8,8 +8,9 @@ from flask_login import login_required
 
 import pandas as pd
 
-from app import APP
+from app import APP, DB
 from app.services.file_data import fields_definition
+from app.models import Filter
 from app.helper import UserFilesManager
 
 
@@ -23,28 +24,14 @@ def save_filter():
     data = json.loads(request.data)
     parameters = data['params']# pylint: disable=unused-variable
     name = data['name']# pylint: disable=unused-variable
-    file_id = data['file_id']# pylint: disable=unused-variable
+    #file_id = data['file_id']# pylint: disable=unused-variable
 
-    # file = File.query.get(file_id)
-    # xl_file = pd.read_excel(file.path)
+    new_filter = Filter(name, parameters)
+    DB.session.add(new_filter)
+    DB.session.commit()
+    DB.session.flush()
 
-    # for elem in parameters:
-    #     if 'quantity' in elem:
-    #         xl_file = xl_file[mask_f(xl_file, elem)].head(elem['quantity'])
-    #     else:
-    #         xl_file = xl_file[mask_f(xl_file, elem)]
-    #
-    # included_rows = xl_file.index.tolist()
-    #
-    # new_filter = Filter(name, parameters)
-    # db.session.add(new_filter)
-    # db.session.commit()
-    # db.session.flush()
-    #
-    # new_dataset = Dataset(user_id=1, file_id=file_id,
-    # filter_id=new_filter.id, included_rows=included_rows)
-    # db.session.add(new_dataset)
-    # db.session.commit()
+    # Call filtration filter(file_id, new_filter.id)
 
     return make_response(json.dumps({'success': 'filter was succesfully saved'}), 200)
 

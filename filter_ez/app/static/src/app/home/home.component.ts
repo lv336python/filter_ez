@@ -9,6 +9,7 @@ import {EventSharingService} from '../_services/event-sharing.service';
 })
 export class HomeComponent implements OnInit{
     datasetId: number;
+    fileId: number;
     marked = false;
 
     constructor(private data: DataService,
@@ -16,7 +17,12 @@ export class HomeComponent implements OnInit{
 
     ngOnInit() {
         this.eventSharing.cast_dataset_id
-            .subscribe(daset_id => this.datasetId = daset_id);
+            .subscribe(data => {
+                if(data) {
+                    this.datasetId = data['dataset_id'];
+                    this.fileId = data['file']['id'];
+                }
+            });
     }
 
     changeMarked() {

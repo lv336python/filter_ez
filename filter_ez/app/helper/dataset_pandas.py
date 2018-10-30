@@ -6,7 +6,9 @@ from os.path import splitext
 import pandas as pd
 
 from app.helper.new_file_manager import FileManager as Ufm
-from .IDataSet import IDataSet
+from .idataset import IDataSet
+
+
 
 
 class DataSetPandas(IDataSet):
@@ -116,7 +118,6 @@ class DataSetPandas(IDataSet):
         return self.dataframe.iloc[included_rows].values.tolist()
 
     def from_rows(self, rows_idxs):
-
         """
         Forms DataFrame from given indexes
         :param rows_idxs: list of indexes included in DataFrame
