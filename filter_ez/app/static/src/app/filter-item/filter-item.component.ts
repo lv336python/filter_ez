@@ -229,6 +229,7 @@ export class FilterItemComponent implements OnInit {
             this.valid_quantity = false;
             return false;
         }
+        return true;
     }
 
     setRangeValue(data) {
@@ -361,7 +362,6 @@ export class FilterItemComponent implements OnInit {
             if(!this.checkMaxBetweenValue() || !this.checkMinBetweenValue()) {
                 return false;
             }
-
             this.valueToSend = {'from':this.betweenMin, 'to': this.betweenMax};
         }
         else if (!this.checkRangeValue()) {
@@ -372,7 +372,9 @@ export class FilterItemComponent implements OnInit {
     }
 
     addNewColumn() {
-        this.validateBeforeSaving();
+        if(!this.validateBeforeSaving()) {
+           return;
+        }
 
         this.f_param[this.f_index]= {
             'params': {
@@ -397,7 +399,9 @@ export class FilterItemComponent implements OnInit {
     }
 
     addChild(parentIndex) {
-        this.validateBeforeSaving();
+        if(!this.validateBeforeSaving()) {
+           return;
+        }
 
         this.f_param[this.parent_id]['child'][this.f_index] = {
             'parent_id': this.parent_id,
@@ -428,7 +432,9 @@ export class FilterItemComponent implements OnInit {
     }
 
     saveParent() {
-        this.validateBeforeSaving();
+        if(!this.validateBeforeSaving()) {
+           return;
+        }
 
         this.f_param[this.f_index] = {
             'params': {
@@ -445,7 +451,9 @@ export class FilterItemComponent implements OnInit {
     }
 
     saveChild() {
-        this.validateBeforeSaving();
+        if(!this.validateBeforeSaving()) {
+           return;
+        }
 
         this.f_param[this.parent_id]['child'][this.f_index]= {
             'params' : {
@@ -465,7 +473,9 @@ export class FilterItemComponent implements OnInit {
     }
 
     addLastChild(parent_id, child_id) {
-        this.validateBeforeSaving();
+        if(!this.validateBeforeSaving()) {
+           return;
+        }
 
         this.f_param[parent_id]['child'][child_id]['child'][this.f_index] = {
             'params': {
@@ -501,7 +511,9 @@ export class FilterItemComponent implements OnInit {
 
     saveLastChild() {
 
-        this.validateBeforeSaving();
+        if(!this.validateBeforeSaving()) {
+           return;
+        }
 
         this.f_param[this.parent_id]['child'][this.child_id]['child'][this.f_index] = {
             'params' : {
