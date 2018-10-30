@@ -78,14 +78,15 @@ class UserFilesManager:
 
             LOGGER.info('User %s uploaded a new file %s', self.user_id, _file.id)
 
-        response = {'file': {
-            'id': _file.id,
-            'name': _file.attributes['name'],
-            'size': _file.attributes['size'],
-            'rows': _file.attributes['rows']
+        response = {
+            'file': {
+                'id': _file.id,
+                'name': _file.attributes['name'],
+                'size': _file.attributes['size'],
+                'rows': _file.attributes['rows']
             },
-                    'dataset_id': _dataset.id
-            }
+            'dataset_id': _dataset.id
+        }
         return response
 
     def serialize(self, file_full_name):

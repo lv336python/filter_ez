@@ -10,7 +10,7 @@ import pandas as pd
 
 from app import APP, DB
 from app.services.file_data import fields_definition
-from app.models import Filter, Dataset
+from app.models import Filter
 from app.helper import UserFilesManager
 
 
