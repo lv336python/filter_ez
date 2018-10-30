@@ -6,7 +6,7 @@ from os.path import splitext
 
 import pandas as pd
 
-from .IDataSet import IDataSet
+from .idataset import IDataSet
 
 
 class DataSetPandas(IDataSet):

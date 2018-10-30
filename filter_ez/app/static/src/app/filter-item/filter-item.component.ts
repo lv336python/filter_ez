@@ -12,8 +12,10 @@ export class FilterItemComponent implements OnInit {
     value: string;
     valueToSend : any;
     quantity: number;
+    stan: string;
     count_rows: number = undefined;
     operatorBtwElem = '';
+    clickMessage = 'Percentage';
 
     valid_quantity = true;
     maxPercentageForUser = 100;
@@ -206,7 +208,11 @@ export class FilterItemComponent implements OnInit {
     }
 
     calculateQuantity() {
-        return Math.floor(this.totalRows * this.quantity / 100);
+        if (this.clickMessage == 'Quantity'){
+            return this.quantity;
+        } else if(this.clickMessage == 'Percentage'){
+            return Math.floor(this.totalRows * this.quantity / 100);
+        }
     }
 
     checkQuantity() {
@@ -214,12 +220,15 @@ export class FilterItemComponent implements OnInit {
             this.valid_quantity = false;
             this.quantityError = 'This field is required';
             return false;
-        } else if (this.quantity > this.maxPercentageForUser) {
+        } else if (this.clickMessage == 'Percentage' && this.quantity > this.maxPercentageForUser) {
             this.quantityError = "This value can't be greater then " + this.maxPercentageForUser;
             this.valid_quantity = false;
             return false;
+        } else if (this.clickMessage == 'Quantity' && this.quantity > this.count_rows) {
+            this.quantityError = "This value can't be greater then " + this.count_rows;
+            this.valid_quantity = false;
+            return false;
         }
-        return true;
     }
 
     setRangeValue(data) {
@@ -347,6 +356,7 @@ export class FilterItemComponent implements OnInit {
         if (!this.checkQuantity()) {
             return false;
         }
+
         if (this.operator == 'range') {
             if(!this.checkMaxBetweenValue() || !this.checkMinBetweenValue()) {
                 return false;
@@ -357,6 +367,8 @@ export class FilterItemComponent implements OnInit {
         else if (!this.checkRangeValue()) {
             return false
         }
+
+        return true;
     }
 
     addNewColumn() {
@@ -383,8 +395,6 @@ export class FilterItemComponent implements OnInit {
         };
         this.updateFilterItemParams.emit(this.f_param);
     }
-
-
 
     addChild(parentIndex) {
         this.validateBeforeSaving();
@@ -509,5 +519,14 @@ export class FilterItemComponent implements OnInit {
         };
 
         this.updateFilterItemParams.emit(this.f_param);
+    }
+
+    stanOfButton(){
+        if(this.clickMessage == "Percentage"){
+            this.clickMessage = "Quantity";
+        }
+        else {
+            this.clickMessage = "Percentage";
+        }
     }
 }
