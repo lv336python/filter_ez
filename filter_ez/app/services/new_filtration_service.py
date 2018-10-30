@@ -28,7 +28,6 @@ class FilterApplier:
         """
         data = Dsp(self.dataset_id)
         data.actualize()
-        print(data.dataframe.shape)
         self.filter_iterator(data, self.filters)
         return self.result.content_indexes()
 
@@ -50,5 +49,5 @@ class FilterApplier:
             else:
                 next_df = copy.deepcopy(result_df)
                 next_df.filter_set(val['params'])
-                rrr = next_df.sample(val['params']['quantity'])
-                self.result.append_df(rrr)
+                sample = next_df.sample(val['params']['quantity'])
+                self.result.append_df(sample)
