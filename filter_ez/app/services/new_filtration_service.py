@@ -2,7 +2,7 @@
 Module include FilterApplier class.
 """
 import copy
-from app.helper.DataSetPandas import DataSetPandas as Dsp
+from app.helper.dataset_pandas import DataSetPandas as Dsp
 from app.models import Filter
 
 
