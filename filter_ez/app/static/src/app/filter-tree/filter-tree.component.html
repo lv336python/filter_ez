@@ -1,25 +1,16 @@
-<div class="jumbotron">
+<div class="jumbotron" style="margin-bottom: 0; padding-top: 30px; padding-bottom: 40px;">
     <div class="row justify-content-md-center">
         <div class="col col-md-auto">
-            <h2 class="display-4">Filtering data section</h2>
-            <select class="form-control" (change)="selectFile($event.target.value)">
-                <option value="" disabled selected>Chose file</option>
-                <option *ngFor="let file of files" value="{{ file.id }}">
-                    {{ file.name }}
-                </option>
-            </select>
-            <hr class="my-4">
-            <input type="text" placeholder="Filter name"
+            <input type="text" placeholder="Filter name" style="width: 200px; margin-bottom: 20px"
                    [className]="filter_name ? 'form-control' : 'form-control is-invalid'"
                    [ngModel]="filter_name"
-                   (ngModelChange)="setFilterName($event)"
-            >
+                   (ngModelChange)="setFilterName($event)">
             <div class="invalid-feedback">
                                 This field is required
             </div>
         </div>
     </div>
-</div>
+    </div>
 <table class="table table-hover" *ngIf="file_id">
     <tbody>
     <tr *ngFor="let index of  filter_params | keyvalue">
