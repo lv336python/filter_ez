@@ -7,26 +7,39 @@ from os.path import splitext
 import pandas as pd
 
 from .IDataSet import IDataSet
+from app.helper.new_file_manager import FileManager as Ufm
 
 
 class DataSetPandas(IDataSet):
     """
         Implementation methods for pandas
     """
-    def __init__(self, dataframe=None):
-        self.dataframe = dataframe
 
-    def read(self, file_path):
+    def __init__(self, dataset_id):
+        self.dataset_id = dataset_id
+        self.dataframe = self.read()
+        self.operators = {
+            '==': lambda df, k, v: df[k] == v,
+            '!=': lambda df, k, v: df[k] != v,
+            '<': lambda df, k, v: df[k] < float(v),
+            '>': lambda df, k, v: df[k] > float(v),
+            '><': lambda df, k, v: df[k] > float(v.get('min')) & df[k] < float(v.get('max'))
+        }
+
+    def read(self):
         """
         method for read file
         :param file_path:
         """
+        file = Ufm(self.dataset_id)
+        return pd.read_pickle(file.get_serialized_file_path())
+
+    def read_file(self, file_path):
         ext = splitext(file_path)
         if ext[1] in ['.xls', '.xlsx']:
             self.dataframe = pd.read_excel(file_path)
         if ext[1] == '.pkl':
             self.dataframe = pd.read_pickle(file_path)
-        return self.dataframe
 
     def filter_set(self, filters):
         """
@@ -34,12 +47,16 @@ class DataSetPandas(IDataSet):
         :param filters: parameter for your filters
         :return: filtered dataframe
         """
-        def mask(dataframe, key, value):
-            mask = dataframe[dataframe[key] == value]
-            return mask
-
-        pd.DataFrame.mask = mask
-        return self.dataframe.mask(*filters)
+        if len(filters) > 1:
+            new_dataframe = self.dataframe.copy()
+            for fltr in filters:
+                params = (new_dataframe, fltr.get('column'), fltr.get('value'))
+                filter_mask = self.operators.get(fltr.get('operator'))(*params)
+                new_dataframe[filter_mask]
+            return new_dataframe
+        params = (self.dataframe, filters.get('column'), filters.get('value'))
+        filter_mask = self.operators.get(filters.get('operator'))(*params)
+        return self.dataframe[filter_mask]
 
     def get_column_names(self):
         """
@@ -88,6 +105,7 @@ class DataSetPandas(IDataSet):
         return self.dataframe.iloc[included_rows].values.tolist()
 
     def from_rows(self, rows_idxs):
+
         """
         Forms DataFrame from given indexes
         :param rows_idxs: list of indexes included in DataFrame
