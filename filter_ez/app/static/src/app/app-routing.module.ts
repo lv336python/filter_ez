@@ -21,8 +21,8 @@ const routes: Routes = [
     {path: 'logout', component: LogoutComponent},
     {path: 'reset', component: ResetPasswordComponent},
     {path: 'reset_password_confirm/:token', component: ConfirmResetComponent},
-    {path: 'data', component: UserDataComponent},
-	{path: 'filter', component: FilterTreeComponent},
+    {path: 'data', component: UserDataComponent, canActivate: [AuthGuardService]},
+	{path: 'filter', component: FilterTreeComponent, canActivate: [AuthGuardService]},
 	{path: '**', component: NotfoundComponent},
 ];
 
