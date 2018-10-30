@@ -228,6 +228,8 @@ export class FilterItemComponent implements OnInit {
             this.quantityError = "This value can't be greater then " + this.count_rows;
             this.valid_quantity = false;
             return false;
+        } else {
+            return true;
         }
     }
 
@@ -365,14 +367,16 @@ export class FilterItemComponent implements OnInit {
             this.valueToSend = {'from':this.betweenMin, 'to': this.betweenMax};
         }
         else if (!this.checkRangeValue()) {
-            return false
+            return false;
         }
 
         return true;
     }
 
     addNewColumn() {
-        this.validateBeforeSaving();
+        if(!this.validateBeforeSaving()){
+            return false;
+        }
 
         this.f_param[this.f_index]= {
             'params': {
@@ -428,7 +432,9 @@ export class FilterItemComponent implements OnInit {
     }
 
     saveParent() {
-        this.validateBeforeSaving();
+        if (!this.validateBeforeSaving()){
+            return false;
+        }
 
         this.f_param[this.f_index] = {
             'params': {
@@ -445,7 +451,9 @@ export class FilterItemComponent implements OnInit {
     }
 
     saveChild() {
-        this.validateBeforeSaving();
+        if (!this.validateBeforeSaving()){
+            return false;
+        }
 
         this.f_param[this.parent_id]['child'][this.f_index]= {
             'params' : {
@@ -465,7 +473,9 @@ export class FilterItemComponent implements OnInit {
     }
 
     addLastChild(parent_id, child_id) {
-        this.validateBeforeSaving();
+        if (!this.validateBeforeSaving()){
+            return false;
+        }
 
         this.f_param[parent_id]['child'][child_id]['child'][this.f_index] = {
             'params': {
@@ -500,8 +510,9 @@ export class FilterItemComponent implements OnInit {
     }
 
     saveLastChild() {
-
-        this.validateBeforeSaving();
+        if (!this.validateBeforeSaving()){
+            return false;
+        }
 
         this.f_param[this.parent_id]['child'][this.child_id]['child'][this.f_index] = {
             'params' : {
