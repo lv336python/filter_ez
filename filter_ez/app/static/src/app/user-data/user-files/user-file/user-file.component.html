@@ -5,16 +5,23 @@
         <span> rows: {{ userfile.nRows }} </span>
         <span> size: {{ bytestToMBytes(userfile.size) }} MB </span>
         <span>       {{ userfile.uploadDate }}</span>
-
+      
     </div>
     <div *ngIf="errorMessage" class="alert alert-danger">
         {{ errorMessage }}
-    </div>
+    </div>    
+        <div class="dropdown">
+          <button class="btn btn-sm dropdown-toggle" type="button" data-toggle="dropdown">...
+          <span class="caret"></span></button>
+          <ul class="dropdown-menu">
+            <li (mousover)="onOver=true"><a href="#" id='data-target'data-toggle="modal" [attr.data-target]="'#myModalFile' + userfile.id">Open Statistic</a></li>
+            <li><a href="#" data-toggle="modal" [attr.data-target]="'#delete-model'+file_index">Delete file</a></li>
+          </ul>
+        </div>
     <div class="text-left">
     <div class="container ">
       <!-- Trigger the modal with a button -->
-      <button type="button" id='data-target'
-       class="btn btn-success"  data-toggle="modal" [attr.data-target]="'#myModalFile' + userfile.id">Open Statistic</button>
+      
       <!-- Modal -->
       <div class="modal fade" [attr.id]="'myModalFile' + userfile.id" role="dialog">
 
@@ -33,8 +40,6 @@
 
     <br>
   </div>
-      <button type="button" class="btn btn-danger btn-sm" data-toggle="modal" [attr.data-target]="'#delete-model'+file_index">Delete file</button>
-
       <div  [attr.id]="'delete-model'+file_index" class="modal fade" role="dialog">
         <div class="modal-dialog">
 

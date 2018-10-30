@@ -18,6 +18,7 @@ def generate_confirmation_token(email):
                         'exp': DateTimeManager.expiration_time(hours=1)},
                        APP.config['SECRET_KEY'],
                        algorithm='HS256')
+
     return token
 
 
