@@ -1,4 +1,4 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, Input, OnInit} from '@angular/core';
 import {Router} from "@angular/router";
 import {HttpClient} from "@angular/common/http";
 import {File} from "../_models/data";
@@ -11,7 +11,7 @@ import {File} from "../_models/data";
 export class FilterTreeComponent implements OnInit {
 
     files: Array<File>;
-    file_id: number;
+    @Input() file_id: number;
     totalRows: number;
     save_error: string;
     filter_name: string;
@@ -38,20 +38,6 @@ export class FilterTreeComponent implements OnInit {
     }
 
     ngOnInit() {
-        this.getFiles();
-    }
-
-    getFiles() {
-        this.http
-            .post('/api/get_files', '')
-            .subscribe((res: Array<File>) => this.files = res,
-                error => {
-                    console.log(error);
-                });
-    }
-
-    selectFile(id) {
-        this.file_id = id;
         this.getMetadata(this.file_id);
     }
 
@@ -146,7 +132,7 @@ export class FilterTreeComponent implements OnInit {
         this.http
             .post('/api/save_filter', {
                 'params': filter,
-                'name': 'ggsgsd',
+                'name': this.filter_name,
                 'file_id': this.file_id
             })
             .subscribe(data => this.router.navigate(['/']),

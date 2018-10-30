@@ -34,7 +34,7 @@ export class FileUploadProcessComponent implements OnInit {
     }
 
     onComplete(event) {
-        this.eventSharing.provideDatasetId(event.body['dataset_id']);
+        this.eventSharing.provideDatasetId(event.body);
         this.userData.onUploadComplete(event.body['file']);
         this.onDone.emit(this.fileUpload);
     }

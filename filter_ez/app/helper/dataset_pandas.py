@@ -22,9 +22,11 @@ class DataSetPandas(IDataSet):
         :param file_path:
         """
         ext = splitext(file_path)
-        if ext[1] in ['.xls', '.xlsx']:
+        if ext[-1] in ['.xls', '.xlsx']:
             self.dataframe = pd.read_excel(file_path)
-        if ext[1] == '.pkl':
+        if ext[-1] == '.csv':
+            self.dataframe = pd.read_excel(file_path)
+        if ext[-1] == '.pkl':
             self.dataframe = pd.read_pickle(file_path)
         return self.dataframe
 

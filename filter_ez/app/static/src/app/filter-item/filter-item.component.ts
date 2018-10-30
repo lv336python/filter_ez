@@ -228,9 +228,8 @@ export class FilterItemComponent implements OnInit {
             this.quantityError = "This value can't be greater then " + this.count_rows;
             this.valid_quantity = false;
             return false;
-        } else {
-            return true;
         }
+        return true;
     }
 
     setRangeValue(data) {
@@ -363,7 +362,6 @@ export class FilterItemComponent implements OnInit {
             if(!this.checkMaxBetweenValue() || !this.checkMinBetweenValue()) {
                 return false;
             }
-
             this.valueToSend = {'from':this.betweenMin, 'to': this.betweenMax};
         }
         else if (!this.checkRangeValue()) {
@@ -374,8 +372,8 @@ export class FilterItemComponent implements OnInit {
     }
 
     addNewColumn() {
-        if(!this.validateBeforeSaving()){
-            return false;
+        if(!this.validateBeforeSaving()) {
+           return;
         }
 
         this.f_param[this.f_index]= {
@@ -401,7 +399,9 @@ export class FilterItemComponent implements OnInit {
     }
 
     addChild(parentIndex) {
-        this.validateBeforeSaving();
+        if(!this.validateBeforeSaving()) {
+           return;
+        }
 
         this.f_param[this.parent_id]['child'][this.f_index] = {
             'parent_id': this.parent_id,
