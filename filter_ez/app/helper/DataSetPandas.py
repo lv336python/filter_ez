@@ -5,8 +5,8 @@ ToDo
 from os.path import splitext
 import pandas as pd
 
-from .IDataSet import IDataSet
 from app.helper.new_file_manager import FileManager as Ufm
+from .IDataSet import IDataSet
 
 
 class DataSetPandas(IDataSet):
@@ -22,32 +22,43 @@ class DataSetPandas(IDataSet):
             '!=': lambda df, k, v: df[k] != v,
             '<': lambda df, k, v: df[k] < float(v),
             '>': lambda df, k, v: df[k] > float(v),
-            '><': lambda df, k, v: df[k] > float(v.get('min')) & df[k] < float(v.get('max'))
+            'range': lambda df, k, v: df[k] > float(v.get('from')) & df[k] < float(v.get('to'))
         }
 
     def read(self):
         """
-        method for read file
-        :param file_path:
+        Loads dataset ot instance DataFrame.
+        If dataset is not provided loads empty DataFrame.
         """
         if self.dataset_id:
             file = Ufm(self.dataset_id)
             return pd.read_pickle(file.get_serialized_file_path())
-        else:
-            return pd.DataFrame()
+        return pd.DataFrame()
 
     def read_file(self, file_path):
+        """
+        Load DataFrame from given file.
+        This method will rewrite instance DataFrame with loaded.
+        :param file_path: path to file to be loaded
+        """
         ext = splitext(file_path)
         if ext[1] in ['.xls', '.xlsx']:
             self.dataframe = pd.read_excel(file_path)
         if ext[1] == '.pkl':
             self.dataframe = pd.read_pickle(file_path)
 
+    def actualize(self):
+        """Actualize DataFrame by dropping results of all DataSets formed from this File."""
+        file = Ufm(self.dataset_id)
+        reserved = [x.get('included_rows') for x in file.datasets]
+        drop_list = [ids for subset in reserved if subset for ids in subset]
+        self.dataframe = self.dataframe.drop(self.dataframe.index[drop_list])
+
     def filter_set(self, fltr):
         """
-        Filter dataframe by your data
-        :param filters: parameter for your filters
-        :return: filtered dataframe
+        Apply filter to instance DataFrame
+        :param fltr: parameter for your filters
+        :return: modifies instance DataFrame
         """
         params = (self.dataframe, fltr.get('column'), fltr.get('value'))
         filter_mask = self.operators.get(fltr.get('operator'))(*params)
@@ -80,6 +91,11 @@ class DataSetPandas(IDataSet):
         return rows
 
     def get_rows_by_indexes(self, included_rows):
+        """
+
+        :param included_rows:
+        :return:
+        """
         rows = self.dataframe.iloc[included_rows].values.tolist()
         return rows
 
@@ -116,13 +132,13 @@ class DataSetPandas(IDataSet):
         """
         return self.dataframe.sample(number_of_rows)
 
-    def indexes(self):
-        """Returns list of DataFrame indexes"""
+    def content_indexes(self):
+        """Returns list of DataFrame indexes."""
         return self.dataframe.index.tolist()
 
-    def append(self, new_dataframe):
+    def append_df(self, new_dataframe):
         """
-        :param new_dataframe:
-        :return:
+        Appends given DataFrame to DataFrame of instance.
+        :param new_dataframe: DataFrame to be added.
         """
-        return self.dataframe.append(new_dataframe)
+        self.dataframe = self.dataframe.append(new_dataframe)

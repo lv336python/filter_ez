@@ -1,7 +1,6 @@
 """Module including DataSet Class"""
 
-from app.helper import UserFilesManager as Ufm
-from app.helper import DataSetPandas as Dataframe
+from app.helper import DataSetPandas as DataFrame
 from app.models import Dataset
 
 
@@ -34,9 +33,7 @@ class UsersDataset:
         Returns DataFrame from DataSet by retrieving included rows from source File.
         If DataSet is origin File forms DataFrame from whole File
         """
-        file = Ufm(self.user_id)
-        data = Dataframe()
-        data.read(file.get_serialized_file_path(self.file_id))
+        data = DataFrame(self.dataset_id)
 
         if not include_ids:
             data = data.without_indecies()

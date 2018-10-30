@@ -17,6 +17,7 @@ class FileManager:
         self.file_id = self.get()['file_id']
         self.path = self.get()['path']
         self.attributes = self.get()['attributes']
+        self.datasets = self.get()['datasets']
 
     def get(self):
         """
@@ -24,10 +25,12 @@ class FileManager:
         """
         dataset = Dataset.query.get(self.dataset_id)
         file = File.query.get(dataset.file_id)
+        datasets = [x.__dict__ for x in file.datasets]
         return {'user_id': dataset.user_id,
                 'file_id': dataset.file_id,
                 'path': file.path,
-                'attributes': file.attributes}
+                'attributes': file.attributes,
+                'datasets': datasets}
 
     def get_file_path(self):
         """

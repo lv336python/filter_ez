@@ -20,7 +20,7 @@ def fields_definition(filename, filters=None):
     """
     dataframe = DataSetPandas()
     LOGGER.info(filename)
-    dataframe.read(filename)
+    dataframe.read_file(filename)
 
     if filters:
         dataframe.filter_set(filters)

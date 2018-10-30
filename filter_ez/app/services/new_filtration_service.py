@@ -1,41 +1,47 @@
-from app.helper.DataSetPandas import DataSetPandas as DSP
-from app.models import Filter
+"""
+Module include FilterApplier class.
+"""
 import copy
+from app.helper.DataSetPandas import DataSetPandas as Dsp
+from app.models import Filter
 
-class Filtrator:
+
+class FilterApplier:
     """
-    Filtrator
+    FilterApplier class is used to apply filter to selected DataSet(File)
     """
     def __init__(self, dataset_id, filter_id):
         self.dataset_id = dataset_id
         self.filter_id = filter_id
-        self.result = DSP()
+        self.result = Dsp()
         self.filters = self.get_filter()
 
     def get_filter(self):
-        """
-        Gert filter from database
-        :return:
-        """
+        """Returns params of given filter"""
         filters = Filter.query .get(self.filter_id)
         return filters.params['params']
 
     def filter_apply(self):
         """
-
-        :return:
+        Apply filter to DataFrame formed from given DataSet.
+        Returns list of DataFrame indexes of selected rows.
         """
-        data = DSP(self.dataset_id)
+        data = Dsp(self.dataset_id)
+        data.actualize()
+        print(data.dataframe.shape)
         self.filter_iterator(data, self.filters)
+        return self.result.content_indexes()
 
     def filter_iterator(self, data, filters):
         """
-        Filtration iterator
-        :param data:
-        :param filters:
-        :return:
+        Filtration Iterator is used recursively to iterate over all filter tree branches.
+        It applies all filters on each step before get the deepest filtration level, after
+        that it makes sample from last DataFrame on branch.
+        :param data: filtration level DataFrame
+        :param filters: filtration level filter
+        :return:Sample from last filtration level by applying needed amount of items
         """
-        for key, val in filters.items():
+        for val in filters.values():
             result_df = copy.deepcopy(data)
             if val.get('child'):
                 result_df.filter_set(val['params'])
@@ -45,10 +51,4 @@ class Filtrator:
                 next_df = copy.deepcopy(result_df)
                 next_df.filter_set(val['params'])
                 rrr = next_df.sample(val['params']['quantity'])
-                self.result.dataframe = self.result.dataframe.append(rrr)
-
-    def result_indexes(self):
-        return self.result.indexes()
-
-
-
+                self.result.append_df(rrr)
