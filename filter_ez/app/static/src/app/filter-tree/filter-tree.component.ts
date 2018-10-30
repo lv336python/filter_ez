@@ -132,7 +132,7 @@ export class FilterTreeComponent implements OnInit {
         this.http
             .post('/api/save_filter', {
                 'params': filter,
-                'name': 'ggsgsd',
+                'name': this.filter_name,
                 'file_id': this.file_id
             })
             .subscribe(data => this.router.navigate(['/']),
