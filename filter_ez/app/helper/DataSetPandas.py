@@ -3,7 +3,6 @@
 ToDo
 """
 from os.path import splitext
-
 import pandas as pd
 
 from .IDataSet import IDataSet
@@ -15,7 +14,7 @@ class DataSetPandas(IDataSet):
         Implementation methods for pandas
     """
 
-    def __init__(self, dataset_id):
+    def __init__(self, dataset_id=None):
         self.dataset_id = dataset_id
         self.dataframe = self.read()
         self.operators = {
@@ -31,8 +30,11 @@ class DataSetPandas(IDataSet):
         method for read file
         :param file_path:
         """
-        file = Ufm(self.dataset_id)
-        return pd.read_pickle(file.get_serialized_file_path())
+        if self.dataset_id:
+            file = Ufm(self.dataset_id)
+            return pd.read_pickle(file.get_serialized_file_path())
+        else:
+            return pd.DataFrame()
 
     def read_file(self, file_path):
         ext = splitext(file_path)
@@ -41,22 +43,15 @@ class DataSetPandas(IDataSet):
         if ext[1] == '.pkl':
             self.dataframe = pd.read_pickle(file_path)
 
-    def filter_set(self, filters):
+    def filter_set(self, fltr):
         """
         Filter dataframe by your data
         :param filters: parameter for your filters
         :return: filtered dataframe
         """
-        if len(filters) > 1:
-            new_dataframe = self.dataframe.copy()
-            for fltr in filters:
-                params = (new_dataframe, fltr.get('column'), fltr.get('value'))
-                filter_mask = self.operators.get(fltr.get('operator'))(*params)
-                new_dataframe[filter_mask]
-            return new_dataframe
-        params = (self.dataframe, filters.get('column'), filters.get('value'))
-        filter_mask = self.operators.get(filters.get('operator'))(*params)
-        return self.dataframe[filter_mask]
+        params = (self.dataframe, fltr.get('column'), fltr.get('value'))
+        filter_mask = self.operators.get(fltr.get('operator'))(*params)
+        self.dataframe = self.dataframe[filter_mask]
 
     def get_column_names(self):
         """
@@ -120,3 +115,14 @@ class DataSetPandas(IDataSet):
         :return: DataFrame with given number of rows
         """
         return self.dataframe.sample(number_of_rows)
+
+    def indexes(self):
+        """Returns list of DataFrame indexes"""
+        return self.dataframe.index.tolist()
+
+    def append(self, new_dataframe):
+        """
+        :param new_dataframe:
+        :return:
+        """
+        return self.dataframe.append(new_dataframe)
