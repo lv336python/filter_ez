@@ -52,39 +52,40 @@ class UserFilesManager:
             _dataset = Dataset.query.filter(Dataset.file_id == _file.id).first()
             LOGGER.info('User %s uploaded which already existed under id %s',
                         self.user_id, _file.id)
-            return 'Uploaded', _file.id, _dataset.id
+        else:
+            file.seek(0)
+            file.save(file_path)
 
-        file.seek(0)
-        file.save(file_path)
+            # Serialize uploaded file as DataFrame (Update when DataFrame interface is ready)
+            shape = self.serialize(file_full_name)
 
-        # Serialize uploaded file as DataFrame (Update when DataFrame interface is ready)
-        shape = self.serialize(file_full_name)
+            if not shape:
+                return None
 
-        if not shape:
-            return None
+            # Get attributes of file
+            file_attributes = self.get_attributes(file_path)
+            file_attributes['name'] = file.filename
+            file_attributes['rows'] = shape[0]
+            file_attributes['cols'] = shape[1]
 
-        # Get attributes of file
-        file_attributes = self.get_attributes(file_path)
-        file_attributes['name'] = file.filename
-        file_attributes['rows'] = shape[0]
-        file_attributes['cols'] = shape[1]
+            # Save to DB, update when dbm is ready
+            _file = File(path=file_full_name, attributes=file_attributes)
+            DB.session.add(_file)# pylint: disable=E1101
+            DB.session.flush()# pylint: disable=E1101
+            _dataset = Dataset(user_id=self.user_id, file_id=_file.id)
+            DB.session.add(_dataset)# pylint: disable=E1101
+            DB.session.commit()# pylint: disable=E1101
 
-        # Save to DB, update when dbm is ready
-        new_file = File(path=file_full_name, attributes=file_attributes)
-        DB.session.add(new_file)# pylint: disable=E1101
-        DB.session.flush()# pylint: disable=E1101
-        new_dataset = Dataset(user_id=self.user_id, file_id=new_file.id)
-        DB.session.add(new_dataset)# pylint: disable=E1101
-        DB.session.commit()# pylint: disable=E1101
-        LOGGER.info('User %s uploaded a new file %s', self.user_id, new_file.id)
+            LOGGER.info('User %s uploaded a new file %s', self.user_id, _file.id)
+
         response = {'file': {
-            'id': new_file.id,
-            'name': new_file.attributes['name'],
-            'size': new_file.attributes['size'],
-            'rows': new_file.attributes['rows']
+            'id': _file.id,
+            'name': _file.attributes['name'],
+            'size': _file.attributes['size'],
+            'rows': _file.attributes['rows']
             },
-                    'dataset_id': new_dataset.id
-                    }
+                    'dataset_id': _dataset.id
+            }
         return response
 
     def serialize(self, file_full_name):
