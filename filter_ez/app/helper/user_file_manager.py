@@ -57,7 +57,7 @@ class UserFilesManager:
             file.save(file_path)
 
             # Serialize uploaded file as DataFrame (Update when DataFrame interface is ready)
-            shape = self.serialize(file_full_name)
+            shape = self.serialize(file_full_name, file_extension)
 
             if not shape:
                 return None
@@ -89,17 +89,27 @@ class UserFilesManager:
         }
         return response
 
-    def serialize(self, file_full_name):
+    def serialize(self, file_full_name, extension='xlsx'):
         """
-        Serializes DataFrame extracted from .xls file.
+        Serializes DataFrame extracted from .xlsx file.
         Create serialized DataFrame in the same directory where given file exist
         Serialized file has the same name but another extension.
         To get this file instead excel file use function serialized_file()
         :param file_full_name: name of the file with extension
+        :param extension: extension of file to serialize, if its xlsx or xls pandas.read_excel
+            used, if it is csv, pandas.read_csv used, otherwise return None
         :return: shape of DataFrame
         """
         file_name = self.get_file_name(file_full_name)
-        df_to_serialize = pd.read_excel(os.path.join(self.files_dir, file_full_name))
+
+        file_path = os.path.join(self.files_dir, file_full_name)
+
+        if extension == 'xlsx':
+            df_to_serialize = pd.read_excel(file_path)
+        elif extension == 'csv':
+            df_to_serialize = pd.read_csv(file_path, sep=';')
+        else:
+            return None
 
         # check if the table has first column all unique values
         num_of_values = df_to_serialize[df_to_serialize.columns[0]].shape[0]

@@ -6,7 +6,7 @@ import pickle
 
 from flask import session
 
-from app import CELERY, LOGGER, SOCKETIO
+from app import CELERY, SOCKETIO
 from app.helper import DataSetPandas, UserFilesManager
 
 
@@ -19,7 +19,6 @@ def fields_definition(filename, filters=None):
     'Climate control': ['Yes', 'No']}
     """
     dataframe = DataSetPandas()
-    LOGGER.info(filename)
     dataframe.read_file(filename)
 
     if filters:
@@ -99,10 +98,10 @@ def get_data_preview(dataset, number_of_rows):
     file_path = ufm.get_serialized_file_path(dataset.file_id)  # Exchange with UserFileManager
 
     with open(file_path, 'rb') as file:
-        dataframe = DataSetPandas(pickle.load(file))
+        dataframe = DataSetPandas(pickle.load(file)).without_indecies()
 
     if dataset.included_rows:
-        dataframe.dataframe = dataframe.dataframe.iloc[dataset.included_rows]
+        dataframe = dataframe.filter_rows(dataset.included_rows)
 
     return {'columns': list(dataframe.get_column_names()),
             'rows': dataframe.amount_of_rows(number_of_rows)}

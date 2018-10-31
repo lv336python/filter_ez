@@ -44,7 +44,7 @@ def get_metadata(file_id):
          :return: Response with metadata
     """
     ufm = UserFilesManager(int(session['user_id']))
-    file_path = ufm.get_file_path(file_id)
+    file_path = ufm.get_serialized_file_path(file_id)
     metadata = fields_definition(file_path)
     count_rows = pd.read_pickle(ufm.get_serialized_file_path(file_id)).shape[0]
     result = {'rows': count_rows, 'metadata': metadata}
