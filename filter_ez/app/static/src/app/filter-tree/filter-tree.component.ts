@@ -131,27 +131,29 @@ export class FilterTreeComponent implements OnInit {
         if (apply == true) {
             console.log(filter);
             this.http
-                .post('/api/apply_filter', {
+                .post('/api/apply_filer', {
                     'params': filter,
-                    'name': 'ggsgsd',
+                    'name': this.filter_name,
                     'file_id': this.file_id
                 })
                 .subscribe(data => this.router.navigate(['/']),
                     error => {
                         console.log(error);
                     });
+
         } else {
-            console.log(filter);
-            this.http
-                .post('/api/save_filter', {
-                    'params': filter,
-                    'name': 'ggsgsd',
-                    'file_id': this.file_id
-                })
-                .subscribe(data => this.router.navigate(['/']),
-                    error => {
-                        console.log(error);
-                    });
+           console.log(filter);
+        this.http
+            .post('/api/save_filter', {
+                'params': filter,
+                'name': this.filter_name,
+                'file_id': this.file_id
+            })
+            .subscribe(data => this.router.navigate(['/']),
+                error => {
+                    console.log(error);
+                });
+
 
         }
     }

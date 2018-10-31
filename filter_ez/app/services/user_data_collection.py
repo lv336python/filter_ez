@@ -75,7 +75,7 @@ class UserDataCollector:
             'createDate': dts.date,
             'nItems': len(dts.included_rows),
             'name': self.get_dataset_name(dts.file_id, dts.filter_id)
-        } for dts in self.datasets if dts.filter_id]
+        } for dts in self.datasets if dts.filter_id and dts.included_rows]
         return user_datasets
 
     def get_files_info(self):
