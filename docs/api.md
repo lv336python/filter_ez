@@ -45,9 +45,15 @@
     Accepts id of dataset from uri and checks if dataset exists and if it belongs to the user from session, if not, responses with 404 and 403 status codes. If everything is all right json with statistics data returned with status code 200.
     
 * /api/get_rows/&lt;int:dataset_id&gt;/&lt;int:number_of_rows&gt; GET <br>
-    Accepts id of dataset and number of rows to show from uri and checks if dataset exists and if it belongs to the user from session, if not, responses with 404 and 403 status codes. If everything is all right json with header and first x number of rows returned with status code 200.
+    Accepts id of dataset and number of rows to show from uri and checks if dataset exists and if it belongs to the user from session, if not, responses with 404 and 403 status codes. If everything is all right json with header and first x number of rows returned with status code 200. 
 
 <h3><b>Filtration</b></h3>
+
+* /api/save_filter POST <br>
+    Accepts json must contain three fields: name, params and file name. Filter with given name and parameters is created and added to database. For created filter new dataset is created which will have reference to given file and to newly created filter. HTTP status code 201 returned
+
+* /api/apply_filter POST <br>
+    Accepts json must contain three fields: name, params and file name. Filter with given name and parameters is created and added to database. For this filter and given file FilterApplier makes filtration and returns list of rows that must be contained in resulting dataset. New dataset with reference to file, filter and with list of included rows is created and added to database. Status code 201 returned.
 
 * /api/get_metadata/&lt;file_id&gt; POST <br>
     Accepts file id from uri and counts how many rows file have and returns json with number of rows in file and data about names of columns, all values of each column and their number of occurrences with status code 200.  
