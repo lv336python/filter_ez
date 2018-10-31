@@ -1,18 +1,12 @@
-.center_div {
-    margin-top: 200px;
+
+.choose_file {
+    min-width: 200px;
+    max-width: 200px;
+    margin-bottom: 20px;
+
 }
 
-.card {
-    border-color: dodgerblue;
-}
-
-.button-group {
-    display: flex;
-    justify-content: space-evenly;
-}
-
-.operator-button {
-    margin-top: 20px;
-    display: flex;
-    justify-content: space-evenly;
+.choose_file option{
+  min-width: 200px;
+    max-width: 200px;
 }

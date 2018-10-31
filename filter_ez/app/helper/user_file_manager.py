@@ -52,52 +52,64 @@ class UserFilesManager:
             _dataset = Dataset.query.filter(Dataset.file_id == _file.id).first()
             LOGGER.info('User %s uploaded which already existed under id %s',
                         self.user_id, _file.id)
-            return 'Uploaded', _file.id, _dataset.id
+        else:
+            file.seek(0)
+            file.save(file_path)
 
-        file.seek(0)
-        file.save(file_path)
+            # Serialize uploaded file as DataFrame (Update when DataFrame interface is ready)
+            shape = self.serialize(file_full_name, file_extension)
 
-        # Serialize uploaded file as DataFrame (Update when DataFrame interface is ready)
-        shape = self.serialize(file_full_name)
+            if not shape:
+                return None
 
-        if not shape:
-            return None
+            # Get attributes of file
+            file_attributes = self.get_attributes(file_path)
+            file_attributes['name'] = file.filename
+            file_attributes['rows'] = shape[0]
+            file_attributes['cols'] = shape[1]
 
-        # Get attributes of file
-        file_attributes = self.get_attributes(file_path)
-        file_attributes['name'] = file.filename
-        file_attributes['rows'] = shape[0]
-        file_attributes['cols'] = shape[1]
+            # Save to DB, update when dbm is ready
+            _file = File(path=file_full_name, attributes=file_attributes)
+            DB.session.add(_file)# pylint: disable=E1101
+            DB.session.flush()# pylint: disable=E1101
+            _dataset = Dataset(user_id=self.user_id, file_id=_file.id)
+            DB.session.add(_dataset)# pylint: disable=E1101
+            DB.session.commit()# pylint: disable=E1101
 
-        # Save to DB, update when dbm is ready
-        new_file = File(path=file_full_name, attributes=file_attributes)
-        DB.session.add(new_file)# pylint: disable=E1101
-        DB.session.flush()# pylint: disable=E1101
-        new_dataset = Dataset(user_id=self.user_id, file_id=new_file.id)
-        DB.session.add(new_dataset)# pylint: disable=E1101
-        DB.session.commit()# pylint: disable=E1101
-        LOGGER.info('User %s uploaded a new file %s', self.user_id, new_file.id)
-        response = {'file': {
-            'id': new_file.id,
-            'name': new_file.attributes['name'],
-            'size': new_file.attributes['size'],
-            'rows': new_file.attributes['rows']
+            LOGGER.info('User %s uploaded a new file %s', self.user_id, _file.id)
+
+        response = {
+            'file': {
+                'id': _file.id,
+                'name': _file.attributes['name'],
+                'size': _file.attributes['size'],
+                'rows': _file.attributes['rows']
             },
-                    'dataset_id': new_dataset.id
-                    }
+            'dataset_id': _dataset.id
+        }
         return response
 
-    def serialize(self, file_full_name):
+    def serialize(self, file_full_name, extension='xlsx'):
         """
-        Serializes DataFrame extracted from .xls file.
+        Serializes DataFrame extracted from .xlsx file.
         Create serialized DataFrame in the same directory where given file exist
         Serialized file has the same name but another extension.
         To get this file instead excel file use function serialized_file()
         :param file_full_name: name of the file with extension
+        :param extension: extension of file to serialize, if its xlsx or xls pandas.read_excel
+            used, if it is csv, pandas.read_csv used, otherwise return None
         :return: shape of DataFrame
         """
         file_name = self.get_file_name(file_full_name)
-        df_to_serialize = pd.read_excel(os.path.join(self.files_dir, file_full_name))
+
+        file_path = os.path.join(self.files_dir, file_full_name)
+
+        if extension == 'xlsx':
+            df_to_serialize = pd.read_excel(file_path)
+        elif extension == 'csv':
+            df_to_serialize = pd.read_csv(file_path, sep=';')
+        else:
+            return None
 
         # check if the table has first column all unique values
         num_of_values = df_to_serialize[df_to_serialize.columns[0]].shape[0]
