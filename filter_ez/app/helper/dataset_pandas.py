@@ -8,14 +8,14 @@ import pandas as pd
 from app.helper.new_file_manager import FileManager as Ufm
 from .idataset import IDataSet
 
-
 OPERATORS = {
-            '==': lambda df, k, v: df[k] == v,
-            '!=': lambda df, k, v: df[k] != v,
-            '<': lambda df, k, v: df[k] < float(v),
-            '>': lambda df, k, v: df[k] > float(v),
-            'range': lambda df, k, v: (df[k] > float(v.get('from'))) & (df[k] < float(v.get('to')))
-        }
+    '==': lambda df, k, v: df[k] == v,
+    '!=': lambda df, k, v: df[k] != v,
+    '<': lambda df, k, v: df[k] < float(v),
+    '>': lambda df, k, v: df[k] > float(v),
+    'range': lambda df, k, v: (df[k] > float(v.get('from'))) & (df[k] < float(v.get('to')))
+}
+
 
 class DataSetPandas(IDataSet):
     """

@@ -15,7 +15,15 @@ class FilterApplier:
         self.filter_id = filter_id
         self.result = Dsp()
         self.filters = self.get_filter()
-        self.amount = 9998
+        self.amount = self.get_amount()
+
+    def get_amount(self):
+        """Returns amount of filtering result"""
+        filters = self.get_filter()
+        amount = 0
+        for val in filters.values():
+            amount += val['params']['quantity']
+        return amount
 
     def get_filter(self):
         """Returns params of given filter"""
@@ -39,6 +47,7 @@ class FilterApplier:
         that it makes sample from last DataFrame on branch.
         :param data: filtration level DataFrame
         :param filters: filtration level filter
+        :param amount: total amount of items in result
         :return:Sample from last filtration level by applying needed amount of items
         """
         lack = amount
