@@ -19,7 +19,7 @@ def fields_definition(filename, filters=None):
     'Climate control': ['Yes', 'No']}
     """
     dataframe = DataSetPandas()
-    dataframe.read(filename)
+    dataframe.read_file(filename)
 
     if filters:
         dataframe.filter_set(filters)
