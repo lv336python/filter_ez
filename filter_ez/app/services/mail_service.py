@@ -1,11 +1,11 @@
 '''
 Module for mail sending function
 '''
-from datetime import datetime
 from smtplib import SMTPException
 from flask import session
 from flask_mail import Message, Attachment
 
+from app.helper.date_time_manager import DateTimeManager
 from app import APP, MAIL, CELERY, SOCKETIO
 
 
@@ -69,7 +69,7 @@ def send_result_to_mail(recipients, file_name, file_content):
         subject="Your file has been processed!",
         sender=("CStats", APP.config['MAIL_DEFAULT_SENDER']),
         recipients=recipients,
-        date=datetime.now().timestamp(),
+        date=DateTimeManager.get_current_time_stamp(),
         body="Congratulations, your file has been processed successfully."
              "Please download it from attached files or from your profile on the site.\n\n"
              "Thank you for using our service",
@@ -79,6 +79,7 @@ def send_result_to_mail(recipients, file_name, file_content):
             data=file_content
         )]
     )
+
     user_id = int(session.get('user_id', 0))
     if user_id:
         send.apply_async([msg], serializer='pickle', link=notify_user.s(user_id))
@@ -98,7 +99,7 @@ def notify_admin(message, error_level):
         subject=f'Error occurred, level {error_level}',
         sender=("CStats", APP.config['MAIL_DEFAULT_SENDER']),
         recipients=[APP.config['ADMIN_MAIL']],
-        date=datetime.now().timestamp(),
+        date=DateTimeManager.get_current_time_stamp(),
         body=f"Error has occurred on the server.\n Details: {message}"
     )
     send.apply_async([msg], serializer='pickle')

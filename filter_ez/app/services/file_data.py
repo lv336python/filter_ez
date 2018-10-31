@@ -3,7 +3,10 @@
 """
 from collections import defaultdict
 import pickle
-from app import LOGGER
+
+from flask import session
+
+from app import CELERY, SOCKETIO
 from app.helper import DataSetPandas, UserFilesManager
 
 
@@ -16,7 +19,6 @@ def fields_definition(filename, filters=None):
     'Climate control': ['Yes', 'No']}
     """
     dataframe = DataSetPandas()
-    LOGGER.info(filename)
     dataframe.read(filename)
 
     if filters:
@@ -34,23 +36,16 @@ def fields_definition(filename, filters=None):
 
     return field_def
 
-
-def fields_statistics(dataset):
+@CELERY.task
+def get_statistics(dataframe, dataset_id=None, room_id=None):
     """ This function defines fields to defaultdict in dict
-    to store column names, their values and count of this values in column for statistic
-    :param dataset: dataset instance
-    :return dict: {'Air bags': {4: 8, 0: 8},
-    'Body': {'MPV': 11, 'Sedan': 7}, 'Climate control': {'Yes': 30, 'No': 19}}
+    to store column names, their values and count of this values in column for statistics.
+    If room_id is given result will be sent via sockets with message name - statistics + dataset_id
+    :param dataframe: dataframe to get statistics of
+    :param dataset_id: id of dataset needed if room_id is given
+    :param room_id: identifier of recipient to send result via sockets
+    :return: statistics data
     """
-    ufm = UserFilesManager(dataset.user_id)
-    file_path = ufm.get_serialized_file_path(dataset.file_id)  # Exchange with UserFileManager
-
-    with open(file_path, 'rb') as file:
-        dataframe = DataSetPandas(pickle.load(file))
-
-    if dataset.included_rows:
-        dataframe.dataframe = dataframe.dataframe.iloc[dataset.included_rows]
-
     cl_names = list(dataframe.get_column_names())
 
     field_def = {}
@@ -60,7 +55,36 @@ def fields_statistics(dataset):
         for val in cl_name_val:
             default_dict[val] += 1
         field_def[cl_name] = default_dict
+
+    if room_id:
+        SOCKETIO.emit('statistics'+str(dataset_id), field_def, room=room_id)
     return field_def
+
+
+def fields_statistics(dataset, non_blocking=False):
+    """
+    Prepares data and invokes get_statistics function
+    :param dataset: dataset object to get statistics of
+    :param non_blocking: boolean value to point if data shall be processed sequentially or using
+    celery worker
+    :return: json with statistics information of None if non_blocking set to True
+    """
+    ufm = UserFilesManager(dataset.user_id)
+    file_path = ufm.get_serialized_file_path(dataset.file_id)  # Exchange with UserFileManager
+
+    with open(file_path, 'rb') as file:
+        dataframe = DataSetPandas(pickle.load(file))
+
+    if dataset.included_rows:
+        dataframe = dataframe.filter_rows(dataset.included_rows)
+
+    dataframe = dataframe.without_indecies()
+
+    if non_blocking:
+        get_statistics.apply_async([dataframe, dataset.id, int(session['user_id'])],
+                                   serializer='pickle')
+        return None
+    return get_statistics(dataframe)
 
 
 def get_data_preview(dataset, number_of_rows):
@@ -74,10 +98,10 @@ def get_data_preview(dataset, number_of_rows):
     file_path = ufm.get_serialized_file_path(dataset.file_id)  # Exchange with UserFileManager
 
     with open(file_path, 'rb') as file:
-        dataframe = DataSetPandas(pickle.load(file))
+        dataframe = DataSetPandas(pickle.load(file)).without_indecies()
 
     if dataset.included_rows:
-        dataframe.dataframe = dataframe.dataframe.iloc[dataset.included_rows]
+        dataframe = dataframe.filter_rows(dataset.included_rows)
 
     return {'columns': list(dataframe.get_column_names()),
             'rows': dataframe.amount_of_rows(number_of_rows)}

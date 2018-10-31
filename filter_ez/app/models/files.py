@@ -5,7 +5,6 @@ User Files model describing
 from datetime import datetime
 from app import DB
 
-
 class File(DB.Model):# pylint: disable=R0903
     """
     User files model for SQL databas
@@ -13,10 +12,10 @@ class File(DB.Model):# pylint: disable=R0903
 
     __tablename__ = 'file'
 
-    id = DB.Column(DB.Integer, primary_key=True, autoincrement=True)# pylint: disable=E1101
-    path = DB.Column(DB.String, nullable=False)# pylint: disable=E1101
-    attributes = DB.Column(DB.JSON, nullable=True)# pylint: disable=E1101
-    datasets = DB.relationship('Dataset', cascade="all, delete-orphan")# pylint: disable=E1101
+    id = DB.Column(DB.Integer, primary_key=True, autoincrement=True)
+    path = DB.Column(DB.String, nullable=False)
+    attributes = DB.Column(DB.JSON, nullable=True)
+    datasets = DB.relationship('Dataset', cascade="all, delete-orphan")
 
     def __init__(self, path, attributes):
         self.path = path
@@ -34,9 +33,9 @@ class Filter(DB.Model):# pylint: disable=R0903
 
     __tablename__ = 'filter'
 
-    id = DB.Column(DB.Integer, primary_key=True, autoincrement=True)# pylint: disable=E1101
-    name = DB.Column(DB.String, nullable=False)# pylint: disable=E1101
-    params = DB.Column(DB.JSON, nullable=False)# pylint: disable=E1101
+    id = DB.Column(DB.Integer, primary_key=True, autoincrement=True)
+    name = DB.Column(DB.String, nullable=False)
+    params = DB.Column(DB.JSON, nullable=False)
 
     def __init__(self, name, params):
         self.name = name
@@ -49,12 +48,12 @@ class Dataset(DB.Model):# pylint: disable=R0903
     """
     __tablename__ = 'dataset'
 
-    id = DB.Column(DB.Integer, primary_key=True, autoincrement=True)# pylint: disable=E1101
-    included_rows = DB.Column(DB.ARRAY(DB.Integer), nullable=True)# pylint: disable=E1101
-    date = DB.Column(DB.DateTime, nullable=False, default=datetime.utcnow)# pylint: disable=E1101
-    file_id = DB.Column(DB.Integer, DB.ForeignKey('file.id', ondelete="CASCADE"))# pylint: disable=E1101
-    user_id = DB.Column(DB.Integer, DB.ForeignKey('users.id'))# pylint: disable=E1101
-    filter_id = DB.Column(DB.Integer, DB.ForeignKey('filter.id'), nullable=True)# pylint: disable=E1101
+    id = DB.Column(DB.Integer, primary_key=True, autoincrement=True)
+    included_rows = DB.Column(DB.ARRAY(DB.String), nullable=True)
+    date = DB.Column(DB.DateTime, nullable=False, default=datetime.utcnow)
+    file_id = DB.Column(DB.Integer, DB.ForeignKey('file.id', ondelete="CASCADE"))
+    user_id = DB.Column(DB.Integer, DB.ForeignKey('users.id'))
+    filter_id = DB.Column(DB.Integer, DB.ForeignKey('filter.id'), nullable=True)
 
     def __init__(self, file_id, user_id, included_rows=None, filter_id=None):
         self.date = datetime.utcnow()

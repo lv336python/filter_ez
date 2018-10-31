@@ -44,8 +44,8 @@ def reset_with_token(token):
         user = User.query.filter(User.email == email).first()
         if user:
             user.password = password
-            DB.session.add(user)# pylint: disable=E1101
-            DB.session.commit()# pylint: disable=E1101
+            DB.session.add(user)
+            DB.session.commit()
             return json.dumps({
                 'token': token
             }), Status.HTTP_200_OK

@@ -116,8 +116,8 @@ filter_ez/app/static/package-lock.json
 filter_ez/app/static/public/
 filter_ez/usersdata/
 filter_ez/logs/
-result.xls
 result.xlsx
+result.xls
 result.csv
 
 postgres/

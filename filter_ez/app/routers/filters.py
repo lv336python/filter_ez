@@ -4,15 +4,18 @@ Module for filtering files
 import json
 
 from flask import request, make_response, session
+from flask_login import login_required
 
 import pandas as pd
 
-from app import APP
+from app import APP, DB
 from app.services.file_data import fields_definition
+from app.models import Filter
 from app.helper import UserFilesManager
 
 
 @APP.route('/api/save_filter', methods=['POST'])
+@login_required
 def save_filter():
     """
     Saving filter and dataset, based on filter parameters
@@ -21,40 +24,27 @@ def save_filter():
     data = json.loads(request.data)
     parameters = data['params']# pylint: disable=unused-variable
     name = data['name']# pylint: disable=unused-variable
-    file_id = data['file_id']# pylint: disable=unused-variable
+    #file_id = data['file_id']# pylint: disable=unused-variable
 
-    # file = File.query.get(file_id)
-    # xl_file = pd.read_excel(file.path)
+    new_filter = Filter(name, parameters)
+    DB.session.add(new_filter)
+    DB.session.commit()
+    DB.session.flush()
 
-    # for elem in parameters:
-    #     if 'quantity' in elem:
-    #         xl_file = xl_file[mask_f(xl_file, elem)].head(elem['quantity'])
-    #     else:
-    #         xl_file = xl_file[mask_f(xl_file, elem)]
-    #
-    # included_rows = xl_file.index.tolist()
-    #
-    # new_filter = Filter(name, parameters)
-    # db.session.add(new_filter)
-    # db.session.commit()
-    # db.session.flush()
-    #
-    # new_dataset = Dataset(user_id=1, file_id=file_id,
-    # filter_id=new_filter.id, included_rows=included_rows)
-    # db.session.add(new_dataset)
-    # db.session.commit()
+    # Call filtration filter(file_id, new_filter.id)
 
     return make_response(json.dumps({'success': 'filter was succesfully saved'}), 200)
 
 
 @APP.route('/api/get_metadata/<file_id>', methods=['POST'])
+@login_required
 def get_metadata(file_id):
     """
         Getting metadata: list of column and values for file
          :return: Response with metadata
     """
     ufm = UserFilesManager(int(session['user_id']))
-    file_path = ufm.get_file_path(file_id)
+    file_path = ufm.get_serialized_file_path(file_id)
     metadata = fields_definition(file_path)
     count_rows = pd.read_pickle(ufm.get_serialized_file_path(file_id)).shape[0]
     result = {'rows': count_rows, 'metadata': metadata}
@@ -62,6 +52,7 @@ def get_metadata(file_id):
 
 
 @APP.route('/api/count_rows', methods=['POST'])
+@login_required
 def filter_num_rows():
     """
         Getting number of rows applying filter_params

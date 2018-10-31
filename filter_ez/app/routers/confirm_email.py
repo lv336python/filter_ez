@@ -2,7 +2,6 @@
 Module for confirmation view
 '''
 import json
-from datetime import datetime
 
 from flask import flash
 
@@ -11,6 +10,7 @@ from app import DB
 from app.services.token_service import confirm_token
 from app.models import User
 from app.helper.constant_status_codes import Status
+from app.helper.date_time_manager import DateTimeManager
 
 
 @APP.route('/api/confirm/<token>')
@@ -35,9 +35,10 @@ def confirm_email(token):
             flash('Account already confirmed. Please login.', 'success')
         else:
             user.confirmed = True
-            user.confirmed_date = datetime.utcnow()
-            DB.session.add(user)# pylint: disable=E1101
-            DB.session.commit()# pylint: disable=E1101
+            user.confirmed_date = DateTimeManager.get_current_time()
+            DB.session.add(user)
+            DB.session.commit()
+
             flash('You have confirmed your account. Thanks!', 'success')
         return json.dumps({
             'token': token

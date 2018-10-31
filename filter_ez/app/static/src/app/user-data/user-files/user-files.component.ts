@@ -15,6 +15,6 @@ export class UserFilesComponent implements OnInit {
 
 
     ngOnInit() {
-        this.userData.castUserData.subscribe(data => this.userfiles = data.user_files);
+        this.userData.castUserData.subscribe(data => this.userfiles = data.userFiles);
     }
 }

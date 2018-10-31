@@ -25,6 +25,10 @@ def uploader():
 
         if file_manager.validate_file_extension(file):
             result = file_manager.upload_file(file)
+            if not result:
+                return make_response(jsonify(
+                    {'error': 'incorrect table structure, first column must be with unique values'}
+                ), 422)
         else:
             return make_response(jsonify({'error': 'bad file type'}), 400)
 
@@ -35,10 +39,11 @@ def uploader():
 
 
 @APP.route('/api/get_files', methods=['POST'])
+@login_required
 def getfiles():
     """
     TODO
     :return:
     """
     files = UserDataCollector(int(session['user_id']))
-    return make_response(jsonify(files.get_user_files_info()), 200)
+    return make_response(jsonify(files.get_files_info()), 200)

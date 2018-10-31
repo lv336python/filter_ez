@@ -54,7 +54,6 @@ class Config:# pylint: disable=R0903
     MAIL_DEFAULT_SENDER = 'statisticcar@gmail.com'
 
     ADMIN_MAIL = MAIL['ADMIN_MAIL']
-
     # logging parameters
     LOG_FILE_PATH = os.path.join(BASEDIR, 'logs/log.txt')
 
@@ -78,6 +77,7 @@ class Config:# pylint: disable=R0903
 
     CELERY_ACCEPT_CONTENT = ['json', 'pickle']
     CELERY_ROUTES = {
-        'APP.services.mail_service.*': {'queue': 'email'}
+        'app.services.mail_service.*': {'queue': 'general'},
+        'app.services.file_data.*': {'queue': 'general'}
     }
     SESSION_COOKIE_HTTPONLY = False

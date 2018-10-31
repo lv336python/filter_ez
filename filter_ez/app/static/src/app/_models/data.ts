@@ -1,8 +1,8 @@
 export class UserData {
   constructor(
-    public user_files: Array<object>,
-    public user_datasets: Array<object>,
-    public user_filters: Array<object>
+    public userFiles: Array<object>,
+    public userDataSets: Array<object>,
+    public userFilters: Array<object>
   ) {}
 }
 
@@ -12,9 +12,9 @@ export class File {
     public id: number,
     public name: string,
     public size: number,
-    public date: number,
-    public rows: number,
-    public dataset_id: number
+    public uploadDate: number,
+    public nRows: number,
+    public datasetId: number
   ) {}
 }
 
@@ -28,10 +28,10 @@ export class Filter {
 export class DataSet {
   constructor(
     public id: number,
-    public user_id: number,
-    public filter_id: number,
+    public userId: number,
+    public filterId: number,
     public name: string,
-    public date: Date,
-    public items: number
+    public createDate: Date,
+    public nItems: number
   ) {}
 }

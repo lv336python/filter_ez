@@ -1,6 +1,9 @@
 {
   "row_number" : 50000,
   "columns" : {
+    "ID" : {
+      "type" : "id"
+    },
     "Model" : {
       "type" : "string",
       "choice" :  ["Mazaro", "X5", "Kwid", "Scorpio", "Vitara", "A6", "X4", "Spyder"]

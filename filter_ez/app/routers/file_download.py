@@ -6,9 +6,9 @@ import json
 from flask import send_file, session
 from flask_login import login_required
 from app import APP, LOGGER
-from app.models import Dataset
 from app.services import utils, notify_admin
 from app.helper import UserFilesManager
+from app.helper import UsersDataset
 
 
 @APP.route("/api/download/<int:dataset_id>", methods=['GET'])
@@ -22,24 +22,21 @@ def download(dataset_id):
     :return: File or JSON with error
     """
     user_id = int(session.get('user_id', 0))
-    dataset = Dataset.query.get(dataset_id)
+    dataset = UsersDataset(dataset_id)
 
-    if not dataset:
+    if not dataset.file_id:
         return json.dumps({'message': 'file does not exist'}), 404
 
-    if dataset.user_id != user_id:
+    if not dataset.is_owner(user_id):
         return json.dumps({'message': 'access forbidden'}), 403
 
-    file_manager = UserFilesManager(user_id)
+    if dataset.is_dataset():
+        file_data = utils.dataset_to_excel(dataset)  # Creates BytesIO objects with dataset
 
-    if not dataset.filter_id:
-        return send_file(file_manager.get_file_path(dataset.file_id),
-                         attachment_filename='result.xlsx',
-                         as_attachment=True,
-                         mimetype="application/vnd.ms-excel"
-                         )
+    else:
+        file = UserFilesManager(dataset.user_id)
+        file_data = file.get_file_path(dataset.file_id)
 
-    file_data = utils.dataset_to_excel(dataset)  # Creates BytesIO objects with dataset
     if file_data:
         LOGGER.info(f"User %s successfully downloaded dataset %s", user_id, dataset_id)
         return send_file(file_data,

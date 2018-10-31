@@ -28,7 +28,7 @@ export class UserDataService {
   }
 
   onUploadComplete(file) {
-    this.userData.user_files.push(file)
+    this.userData.userFiles.push(file);
     this.newUserData.next(this.userData);
   }
 
