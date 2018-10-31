@@ -40,10 +40,20 @@ services:
       - ./filter_ez:/filter_ez
     ports:
       - 8000:8000
+      - 6379:6379
     depends_on: 
       - rabbitmq
       - postgres
+      - redis
     entrypoint: ["python3.6", "run.py"]
+
+  redis:
+    image: "redis"
+    container_name: carstatistics_redis
+    volumes:
+    - ./redis:/var/lib/redis/data
+    ports:
+    - 6379:6379
 
   celery:
     build: .

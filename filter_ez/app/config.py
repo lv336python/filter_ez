@@ -72,6 +72,7 @@ class Config:# pylint: disable=R0903
 
     if IS_IN_DOCKER:
         BROKER_URL = 'amqp://rabbitmq:rabbitmq@rabbitmq:5672/'
+        REDIS_URL = 'amqp://redis:password@localhost:6379/0'
     else:
         BROKER_URL = 'amqp://guest@localhost//'
 

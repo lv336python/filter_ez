@@ -120,6 +120,7 @@ result.xls
 
 postgres/
 rabbitmq/
+redis/
 
 #testing files
 filter_ez/testing/

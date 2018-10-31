@@ -3,7 +3,7 @@ Module for confirmation view
 '''
 import json
 import re
-
+import redis
 from flask import request
 
 from werkzeug.security import generate_password_hash
@@ -22,6 +22,13 @@ def reset_with_token(token):
     :param token:
     :return: updated password for user
     """
+    rd = redis.Redis(host='localhost', port=6379, db=0)
+
+    if not rd.get(token):
+        return json.dumps({
+            'message': 'Password is invalid'
+            }), Status.HTTP_400_BAD_REQUEST
+
     email = confirm_token(token)
 
     if not email:
@@ -35,7 +42,7 @@ def reset_with_token(token):
 
     if not re.match(schema, password):
         return json.dumps({
-            'message': 'Password in invalid'
+            'message': 'Password is invalid'
             }), Status.HTTP_400_BAD_REQUEST
 
     password = generate_password_hash(data['password'])
@@ -46,6 +53,7 @@ def reset_with_token(token):
             user.password = password
             DB.session.add(user)
             DB.session.commit()
+            rd.delete(token)
             return json.dumps({
                 'token': token
             }), Status.HTTP_200_OK
