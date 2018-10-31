@@ -1,5 +1,4 @@
 <div>
-    <button class="stat">stat</button>
-    <h3>{{ userfilter.name }}</h3>
-    <select>opt</select>
+    <h3>{{ userfilter.id }}.  {{ userfilter.name }}</h3>
+    <button href="/filter_preview" class="btn btn-info" (click)="toData()" >Show structure {{ userfilter.id }}</button>
 </div>

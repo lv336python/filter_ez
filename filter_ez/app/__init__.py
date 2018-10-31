@@ -52,5 +52,6 @@ from .routers import (# pylint: disable=C0413
     notification,
     register,
     reset_password,
-    user_data
+    user_data,
+    filters_preview,
 )
