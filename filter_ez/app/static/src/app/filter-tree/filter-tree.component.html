@@ -82,7 +82,9 @@
 <div class="row justify-content-md-center" *ngIf="file_id">
     <div class="col col-md-4">
         <hr class="my-4">
-        <button type="button" class="btn btn-primary btn-lg btn-block" (click)="saveFilter()">Save filter</button>
+        <button type="button" class="btn btn-primary btn-lg btn-block" (click)="saveFilter(apply=true)">Save filter</button>
+        <button type="button" class="btn btn-primary btn-lg btn-block" (click)="saveFilter(apply=false)">Save filter</button>
+
         <div class="filter-incomplite" *ngIf="save_error">
                               {{ save_error }}
         </div>

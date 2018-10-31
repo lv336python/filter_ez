@@ -81,7 +81,7 @@ export class FilterTreeComponent implements OnInit {
         this.filter_params[parentIndex]['child'][child_id]['child'][0] = {
             'params': {},
             'child': false,
-            'disabledColumns': [this.filter_params[parentIndex]['params']['column'], this.filter_params[parentIndex]['child'][0]['params']['column'] ],
+            'disabledColumns': [this.filter_params[parentIndex]['params']['column'], this.filter_params[parentIndex]['child'][0]['params']['column']],
             'parent_id': parentIndex,
             'child_id': child_id,
             'settings': {
@@ -93,7 +93,7 @@ export class FilterTreeComponent implements OnInit {
         this.updateFilterParams(this.filter_params);
     }
 
-    saveFilter() {
+    saveFilter(apply: boolean) {
         if (!this.filter_name) {
             this.save_error = 'Filter name is required';
             return false;
@@ -128,17 +128,32 @@ export class FilterTreeComponent implements OnInit {
                 }
             }
         }
-        console.log(filter);
-        this.http
-            .post('/api/save_filter', {
-                'params': filter,
-                'name': 'ggsgsd',
-                'file_id': this.file_id
-            })
-            .subscribe(data => this.router.navigate(['/']),
-                error => {
-                    console.log(error);
-                });
+        if (apply == true) {
+            console.log(filter);
+            this.http
+                .post('/api/apply_filter', {
+                    'params': filter,
+                    'name': 'ggsgsd',
+                    'file_id': this.file_id
+                })
+                .subscribe(data => this.router.navigate(['/']),
+                    error => {
+                        console.log(error);
+                    });
+        } else {
+            console.log(filter);
+            this.http
+                .post('/api/save_filter', {
+                    'params': filter,
+                    'name': 'ggsgsd',
+                    'file_id': this.file_id
+                })
+                .subscribe(data => this.router.navigate(['/']),
+                    error => {
+                        console.log(error);
+                    });
+
+        }
     }
 
     deleteUnnecessaryElem(object_data) {
