@@ -19,7 +19,7 @@ class FilterApplier:
     def get_filter(self):
         """Returns params of given filter"""
         filters = Filter.query .get(self.filter_id)
-        return filters.params['params']
+        return filters.params
 
     def filter_apply(self):
         """

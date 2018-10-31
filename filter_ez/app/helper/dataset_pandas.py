@@ -24,7 +24,7 @@ class DataSetPandas(IDataSet):
             '!=': lambda df, k, v: df[k] != v,
             '<': lambda df, k, v: df[k] < float(v),
             '>': lambda df, k, v: df[k] > float(v),
-            'range': lambda df, k, v: df[k] > float(v.get('from')) & df[k] < float(v.get('to'))
+            'range': lambda df, k, v: (df[k] > float(v.get('from'))) & (df[k] < float(v.get('to')))
         }
 
     def read(self):
