@@ -60,7 +60,6 @@ class FilterApplier:
                 next_df = copy.deepcopy(result_df)
                 self.filter_iterator(next_df, val['child'], val['params']['quantity'])
             else:
-                result_df = copy.deepcopy(data)
                 result_df.filter_set(val['params'])
                 data.exclude(result_df.dataframe)
                 lack -= val['params']['quantity']
