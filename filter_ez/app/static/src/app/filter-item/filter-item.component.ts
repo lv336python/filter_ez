@@ -365,7 +365,7 @@ export class FilterItemComponent implements OnInit {
             this.valueToSend = {'from':this.betweenMin, 'to': this.betweenMax};
         }
         else if (!this.checkRangeValue()) {
-            return false
+            return false;
         }
 
         return true;
@@ -432,8 +432,8 @@ export class FilterItemComponent implements OnInit {
     }
 
     saveParent() {
-        if(!this.validateBeforeSaving()) {
-           return;
+        if (!this.validateBeforeSaving()){
+            return false;
         }
 
         this.f_param[this.f_index] = {
@@ -451,8 +451,8 @@ export class FilterItemComponent implements OnInit {
     }
 
     saveChild() {
-        if(!this.validateBeforeSaving()) {
-           return;
+        if (!this.validateBeforeSaving()){
+            return false;
         }
 
         this.f_param[this.parent_id]['child'][this.f_index]= {
@@ -473,8 +473,8 @@ export class FilterItemComponent implements OnInit {
     }
 
     addLastChild(parent_id, child_id) {
-        if(!this.validateBeforeSaving()) {
-           return;
+        if (!this.validateBeforeSaving()){
+            return false;
         }
 
         this.f_param[parent_id]['child'][child_id]['child'][this.f_index] = {
@@ -510,9 +510,8 @@ export class FilterItemComponent implements OnInit {
     }
 
     saveLastChild() {
-
-        if(!this.validateBeforeSaving()) {
-           return;
+        if (!this.validateBeforeSaving()){
+            return false;
         }
 
         this.f_param[this.parent_id]['child'][this.child_id]['child'][this.f_index] = {
