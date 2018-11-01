@@ -13,7 +13,6 @@ from app.services.file_data import fields_definition
 from app.helper import UserFilesManager
 from app.services.filtering_service import save_filter
 from app.services.datasets_services import save_dataset
-from app.models import Dataset
 
 @APP.route('/api/apply_filer', methods=['POST'])
 def filter_save():

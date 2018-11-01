@@ -6,8 +6,8 @@
             class="custom-file"
             accept=".csv, .xls, .xlsx"
             #fileInput>
-    <div class="file-add-button">
-        <button type="button" (click)="fileInput.click()">Add</button>
+    <div class="file-add-button align-content-md-center">
+        <button class="btn btn-success" (click)="fileInput.click()">Add file</button>
     </div>
 </div>
 <div *ngIf="filesToUpload">
