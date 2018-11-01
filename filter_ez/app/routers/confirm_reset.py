@@ -14,17 +14,24 @@ from app.models import User, UserSchema
 from app.helper.constant_status_codes import Status
 
 
-@APP.route('/api/password_reset/<token>', methods=['PUT'])
-def reset_with_token(token):
+@APP.route('/api/password_reset/<token>', methods=['PUT', 'GET'])
+def reset_with_token(token): #pylint disable=too-many-return-statements
     """
     PUT view tht updates password in our DB
     :param token:
     :return: updated password for user
     """
+    if request.method == "GET":
+        if not REDIS.get(token):
+            return json.dumps({
+                'message': 'Token is invalid'
+            }), Status.HTTP_400_BAD_REQUEST
+        else:
+            return Status.HTTP_200_OK
 
     if not REDIS.get(token):
         return json.dumps({
-            'message': 'Password is invalid'
+            'message': 'Token is invalid'
             }), Status.HTTP_400_BAD_REQUEST
 
     email = confirm_token(token)
