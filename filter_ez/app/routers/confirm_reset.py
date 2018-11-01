@@ -3,25 +3,36 @@ Module for confirmation view
 '''
 import json
 import re
-
 from flask import request
 
 from werkzeug.security import generate_password_hash
 
-from app import APP
+from app import APP, REDIS
 from app import DB
 from app.services.token_service import confirm_token
 from app.models import User, UserSchema
 from app.helper.constant_status_codes import Status
 
 
-@APP.route('/api/password_reset/<token>', methods=['PUT'])
-def reset_with_token(token):
+@APP.route('/api/password_reset/<token>', methods=['PUT', 'GET'])
+def reset_with_token(token): # pylint: disable=too-many-return-statements
     """
     PUT view tht updates password in our DB
     :param token:
     :return: updated password for user
     """
+    if request.method == "GET":
+        if not REDIS.get(token):
+            return json.dumps({
+                'message': 'Token is invalid'
+            }), Status.HTTP_400_BAD_REQUEST
+        return Status.HTTP_200_OK
+
+    if not REDIS.get(token):
+        return json.dumps({
+            'message': 'Token is invalid'
+            }), Status.HTTP_400_BAD_REQUEST
+
     email = confirm_token(token)
 
     if not email:
@@ -35,7 +46,7 @@ def reset_with_token(token):
 
     if not re.match(schema, password):
         return json.dumps({
-            'message': 'Password in invalid'
+            'message': 'Password is invalid'
             }), Status.HTTP_400_BAD_REQUEST
 
     password = generate_password_hash(data['password'])
@@ -46,6 +57,7 @@ def reset_with_token(token):
             user.password = password
             DB.session.add(user)
             DB.session.commit()
+            REDIS.delete(token)
             return json.dumps({
                 'token': token
             }), Status.HTTP_200_OK

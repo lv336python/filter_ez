@@ -107,8 +107,8 @@ class UserDataCollector:
             'name': item.name,
             'fileId': dts.file_id
         } for item in self.filters
-          for dts in self.datasets
-          if dts.filter_id == item.id]
+                   for dts in self.datasets
+                   if dts.filter_id == item.id]
         return filters
 
     def get_all_data(self):

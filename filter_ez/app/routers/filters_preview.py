@@ -3,12 +3,9 @@ TODO
 """
 import json
 from flask_login import login_required
-from flask import jsonify, make_response, session
-
 
 from app import APP
 from app.models.files import Filter
-from app.services.user_data_collection import UserDataCollector
 
 
 @APP.route('/api/preview/<int:filter_id>')
