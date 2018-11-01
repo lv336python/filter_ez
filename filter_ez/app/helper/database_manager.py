@@ -148,3 +148,45 @@ class DataBaseManager:
         Method for communicate a series of operations to the database
         """
         DB.session.flush()
+
+    @classmethod
+    def get_file_by_name(cls, name):
+        return File.query.filter(File.path == name).first()
+
+    @classmethod
+    def get_dataset_by_user_and_file(cls, user_id, file_id):
+        return Dataset.query.filter(DB.and_(Dataset.file_id == file_id,
+                                    Dataset.user_id == user_id)).first()
+
+    @classmethod
+    def get_datasets_by_file(cls, file_id):
+        return Dataset.query.filter(Dataset.file_id == file_id)
+
+    @classmethod
+    def add_file(cls, file_name, attributes):
+        """
+        Adds file with given fields to database
+        :param file_name: string
+        :param attributes: json
+        :return: file object
+        """
+        file = File(file_name, attributes)
+        DB.session.add(file)
+        DB.session.commit()
+        return file
+
+    @classmethod
+    def add_dataset(cls, user_id, file_id, filter_id=None, included_rows=None):
+        """
+        Adds dataset with given fields to database
+        :param user_id: int
+        :param file_id: int
+        :param filter_id: int
+        :param included_rows: list of ids of rows that must be included
+        :return: dataset object
+        """
+        included_rows = included_rows if included_rows else []
+        dataset = Dataset(file_id, user_id, filter_id=filter_id, included_rows=included_rows)
+        DB.session.add(dataset)
+        DB.session.commit()
+        return dataset
