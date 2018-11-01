@@ -14,7 +14,7 @@ export class FilterTreeComponent implements OnInit {
     @Input() file_id: number;
     totalRows: number;
     save_error: string;
-    filter_name = 'new_filter';
+    filter_name: string;
     @Input() filter_params: object = {
         0: {
             'params': {},

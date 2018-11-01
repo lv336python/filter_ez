@@ -1,5 +1,5 @@
 <div>
-    <h3>{{ userfilter.id }}.  {{ userfilter.name }}</h3>
-    <button href="/filter_preview" class="btn btn-info" (click)="toData()" >Show structure {{ userfilter.id }}</button>
+    <h3>{{ userfilter.name }}  <button class="btn btn-success" (click)="onShow('filterPreview')" >Structure <i class="fa fa-search"></i></button>
+</h3>
     <app-filter-preview [item]="message" [fileid]="userfilter.fileId"></app-filter-preview>
 </div>
