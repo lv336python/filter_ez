@@ -31,6 +31,8 @@ export class FilterTreeComponent implements OnInit {
 
     metadata: object;
     columns: string[];
+    addQuantity: boolean;
+    resultedQuantity: any;
 
     constructor(private http: HttpClient,
                 private router: Router) {
@@ -134,6 +136,8 @@ export class FilterTreeComponent implements OnInit {
                 .post('/api/apply_filer', {
                     'params': filter,
                     'name': this.filter_name,
+                    'user_quantity': this.resultedQuantity,
+                    'total_rows': this.totalRows,
                     'file_id': this.file_id
                 })
                 .subscribe(data => this.router.navigate(['/']),
@@ -147,6 +151,8 @@ export class FilterTreeComponent implements OnInit {
             .post('/api/save_filter', {
                 'params': filter,
                 'name': this.filter_name,
+                'user_quantity': this.resultedQuantity,
+                'total_rows': this.totalRows,
                 'file_id': this.file_id
             })
             .subscribe(data => this.router.navigate(['/']),
@@ -171,5 +177,15 @@ export class FilterTreeComponent implements OnInit {
 
     setFilterName(value) {
         this.filter_name = value;
+    }
+
+    addResultedQuantity(event){
+        if(false == event.target.checked)
+            this.resultedQuantity = false;
+        this.addQuantity = event.target.checked;
+    }
+
+    setResultedQuantity(quantity){
+        this.resultedQuantity = quantity;
     }
 }
