@@ -40,7 +40,6 @@ services:
       - ./filter_ez:/filter_ez
     ports:
       - 8000:8000
-      - 6379:6379
     depends_on: 
       - rabbitmq
       - postgres
@@ -53,7 +52,7 @@ services:
     volumes:
     - ./redis:/var/lib/redis/data
     ports:
-    - 6379:6379
+    - 6379
 
   celery:
     build: .
@@ -65,4 +64,5 @@ services:
       - './filter_ez:/filter_ez'
     depends_on:
       - rabbitmq
+      - redis
     scale: 3
