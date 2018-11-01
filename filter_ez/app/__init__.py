@@ -3,6 +3,7 @@ Initialization of app, mail, manager, database objects
 
 '''
 import eventlet
+import redis
 
 from flask import Flask
 from flask_login import LoginManager
@@ -32,6 +33,8 @@ MANAGER = Manager(APP)
 MANAGER.add_command('DB', MigrateCommand)
 
 CELERY = create_celery(APP)
+
+REDIS = redis.Redis(host=APP.config['REDIS_URL'], port=APP.config['REDIS_PORT'], db=0)
 
 LOGGER = make_logger(APP.config['LOG_FILE_PATH'])
 
