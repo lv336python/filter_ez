@@ -29,8 +29,9 @@ def get_statistics(dataset_id):
     if dataset.user_id != int(session['user_id']):
         return json.dumps({'message': 'access forbidden'}), 403
 
-    statistics = file_data.fields_statistics(dataset)
-    return json.dumps(statistics), 200
+    file_data.fields_statistics(dataset, non_blocking=True)
+
+    return json.dumps({'message': 'request successful, processing'}), 202
 
 
 @APP.route('/api/get_rows/<int:dataset_id>/<int:number_of_rows>', methods=["GET"])

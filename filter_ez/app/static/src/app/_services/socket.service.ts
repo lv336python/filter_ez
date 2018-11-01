@@ -19,14 +19,19 @@ export class SocketService {
         this.socketio.disconnect();
     }
 
-    getMessages() {
+    getNotification() {
         return new Observable(observer => {
             this.socketio.on('notification', (data) => {
                 observer.next(data);
             });
-            return () => {
-                this.socketio.disconnect();
-            };
+        });
+    }
+
+    getStatistics(dataset_id: number) {
+        return new Observable(observer => {
+            this.socketio.on('statistics'+dataset_id, (data) => {
+                observer.next(data);
+            });
         });
     }
 }

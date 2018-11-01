@@ -1,16 +1,12 @@
 """
 Different utils like small functions that a used in different scripts
 """
-from io import BytesIO
 from hashlib import md5
 
 import os
-import pickle
-import time
-import xlsxwriter
 
 from app import APP, LOGGER
-from app.helper import UserFilesManager
+from app.helper.writer_manager import DataFrameWriter
 from app.services import notify_admin
 from app.helper.date_time_manager import DateTimeManager
 
@@ -41,43 +37,23 @@ def temp_file(dataset):
     return path
 
 
-def dataset_to_excel(dataset):
+def dataset_to_excel(dataset, include_ids=True):
     """
     Writes dataset to excel file in-memory without creating excel file in the local storage
-    :param dataset: instance of dataset
+    :param dataset: Users DataSet which should be transformed to excel
     :return: BytesIO object or None
     """
     try:
         start_time = DateTimeManager.get_current_time()
         LOGGER.info("Start creating file")
 
-        file_manager = UserFilesManager(dataset.user_id)
-        path_to_file = file_manager.get_serialized_file_path(dataset.file_id)
+        dataframe = dataset.to_dataframe(include_ids)
+        data = DataFrameWriter.xlsx_bytes_io(dataframe)
 
-        byte_writer = BytesIO()
-        excel_writer = xlsxwriter.Workbook(byte_writer)
-        sheet = excel_writer.add_worksheet('Sheet1')
-
-        with open(path_to_file, 'rb') as file:
-            dataframe = pickle.load(file)
-
-        if dataset.included_rows:
-            dataframe = dataframe.iloc[dataset.included_rows].values.tolist()
-            for i in range(len(dataset.included_rows)):
-                for j in range(len(dataframe[i])):
-                    sheet.write(i, j, dataframe[i][j])
-        else:
-            dataframe = dataframe.values.tolist()
-            for i in range(len(dataframe)):# pylint: disable=consider-using-enumerate
-                for j in range(len(dataframe[i])):
-                    sheet.write(i, j, dataframe[i][j])
-
-        excel_writer.close()
-        byte_writer.seek(0)
-        LOGGER.info("Finished creating file in %s", time.time() - start_time)
-        return byte_writer
-    except Exception as exception:# pylint: disable=broad-except
+        LOGGER.info("Finished creating file: %s", DateTimeManager.get_current_time() - start_time)
+        return data
+    except Exception as exception: # pylint: disable=W0703
         LOGGER.error("Error occurred when tried to create a byteIO"
-                     " object for dataset %d: %s", dataset.id, exception)
+                     " object for dataset %d: %s", dataset.dataset_id, exception)
         notify_admin(f"Error occurred when tried to create a byteIO"
-                     f" object for dataset {dataset.id}: {exception}", 'ERROR')
+                     f" object for dataset {dataset.dataset_id}: {exception}", 'ERROR')

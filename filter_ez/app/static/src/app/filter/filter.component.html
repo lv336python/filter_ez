@@ -1,0 +1,15 @@
+<div class="jumbotron" style="margin-bottom: 0; padding-bottom: 0; padding-top: 10px">
+    <div class="row justify-content-md-center">
+        <div class="col col-md-auto">
+        <select class="form-control choose_file" (change)="selectFile($event.target.value)">
+            <option value="" disabled selected>Chose file</option>
+            <option *ngFor="let file of files" value="{{ file.id }}">
+                {{ file.name }}
+            </option>
+        </select>
+        </div>
+    </div>
+</div>
+
+
+<filter-tree *ngIf="fileId" [file_id]="fileId"></filter-tree>

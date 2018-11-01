@@ -56,7 +56,7 @@ services:
 
   celery:
     build: .
-    entrypoint: ["celery", "worker", "-l", "info", "-A", "app.CELERY", "-Q", "email"]
+    entrypoint: ["celery", "worker", "-l", "info", "-A", "app.CELERY", "-Q", "general"]
     environment:
       C_FORCE_ROOT: "True"
       DOCKER: 1

@@ -12,8 +12,10 @@ export class FilterItemComponent implements OnInit {
     value: string;
     valueToSend : any;
     quantity: number;
+    stan: string;
     count_rows: number = undefined;
     operatorBtwElem = '';
+    clickMessage = 'Percentage';
 
     valid_quantity = true;
     maxPercentageForUser = 100;
@@ -206,7 +208,11 @@ export class FilterItemComponent implements OnInit {
     }
 
     calculateQuantity() {
-        return Math.floor(this.totalRows * this.quantity / 100);
+        if (this.clickMessage == 'Quantity'){
+            return this.quantity;
+        } else if(this.clickMessage == 'Percentage'){
+            return Math.floor(this.totalRows * this.quantity / 100);
+        }
     }
 
     checkQuantity() {
@@ -214,8 +220,12 @@ export class FilterItemComponent implements OnInit {
             this.valid_quantity = false;
             this.quantityError = 'This field is required';
             return false;
-        } else if (this.quantity > this.maxPercentageForUser) {
+        } else if (this.clickMessage == 'Percentage' && this.quantity > this.maxPercentageForUser) {
             this.quantityError = "This value can't be greater then " + this.maxPercentageForUser;
+            this.valid_quantity = false;
+            return false;
+        } else if (this.clickMessage == 'Quantity' && this.quantity > this.count_rows) {
+            this.quantityError = "This value can't be greater then " + this.count_rows;
             this.valid_quantity = false;
             return false;
         }
@@ -347,20 +357,24 @@ export class FilterItemComponent implements OnInit {
         if (!this.checkQuantity()) {
             return false;
         }
+
         if (this.operator == 'range') {
             if(!this.checkMaxBetweenValue() || !this.checkMinBetweenValue()) {
                 return false;
             }
-
             this.valueToSend = {'from':this.betweenMin, 'to': this.betweenMax};
         }
         else if (!this.checkRangeValue()) {
-            return false
+            return false;
         }
+
+        return true;
     }
 
     addNewColumn() {
-        this.validateBeforeSaving();
+        if(!this.validateBeforeSaving()) {
+           return;
+        }
 
         this.f_param[this.f_index]= {
             'params': {
@@ -384,10 +398,10 @@ export class FilterItemComponent implements OnInit {
         this.updateFilterItemParams.emit(this.f_param);
     }
 
-
-
     addChild(parentIndex) {
-        this.validateBeforeSaving();
+        if(!this.validateBeforeSaving()) {
+           return;
+        }
 
         this.f_param[this.parent_id]['child'][this.f_index] = {
             'parent_id': this.parent_id,
@@ -418,7 +432,9 @@ export class FilterItemComponent implements OnInit {
     }
 
     saveParent() {
-        this.validateBeforeSaving();
+        if (!this.validateBeforeSaving()){
+            return false;
+        }
 
         this.f_param[this.f_index] = {
             'params': {
@@ -435,7 +451,9 @@ export class FilterItemComponent implements OnInit {
     }
 
     saveChild() {
-        this.validateBeforeSaving();
+        if (!this.validateBeforeSaving()){
+            return false;
+        }
 
         this.f_param[this.parent_id]['child'][this.f_index]= {
             'params' : {
@@ -455,7 +473,9 @@ export class FilterItemComponent implements OnInit {
     }
 
     addLastChild(parent_id, child_id) {
-        this.validateBeforeSaving();
+        if (!this.validateBeforeSaving()){
+            return false;
+        }
 
         this.f_param[parent_id]['child'][child_id]['child'][this.f_index] = {
             'params': {
@@ -490,8 +510,9 @@ export class FilterItemComponent implements OnInit {
     }
 
     saveLastChild() {
-
-        this.validateBeforeSaving();
+        if (!this.validateBeforeSaving()){
+            return false;
+        }
 
         this.f_param[this.parent_id]['child'][this.child_id]['child'][this.f_index] = {
             'params' : {
@@ -509,5 +530,14 @@ export class FilterItemComponent implements OnInit {
         };
 
         this.updateFilterItemParams.emit(this.f_param);
+    }
+
+    stanOfButton(){
+        if(this.clickMessage == "Percentage"){
+            this.clickMessage = "Quantity";
+        }
+        else {
+            this.clickMessage = "Percentage";
+        }
     }
 }

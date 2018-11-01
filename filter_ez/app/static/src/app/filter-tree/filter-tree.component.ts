@@ -1,4 +1,4 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, Input, OnInit} from '@angular/core';
 import {Router} from "@angular/router";
 import {HttpClient} from "@angular/common/http";
 import {File} from "../_models/data";
@@ -11,7 +11,7 @@ import {File} from "../_models/data";
 export class FilterTreeComponent implements OnInit {
 
     files: Array<File>;
-    file_id: number;
+    @Input() file_id: number;
     totalRows: number;
     save_error: string;
     filter_name: string;
@@ -38,20 +38,6 @@ export class FilterTreeComponent implements OnInit {
     }
 
     ngOnInit() {
-        this.getFiles();
-    }
-
-    getFiles() {
-        this.http
-            .post('/api/get_files', '')
-            .subscribe((res: Array<File>) => this.files = res,
-                error => {
-                    console.log(error);
-                });
-    }
-
-    selectFile(id) {
-        this.file_id = id;
         this.getMetadata(this.file_id);
     }
 
@@ -95,7 +81,7 @@ export class FilterTreeComponent implements OnInit {
         this.filter_params[parentIndex]['child'][child_id]['child'][0] = {
             'params': {},
             'child': false,
-            'disabledColumns': [this.filter_params[parentIndex]['params']['column'], this.filter_params[parentIndex]['child'][0]['params']['column'] ],
+            'disabledColumns': [this.filter_params[parentIndex]['params']['column'], this.filter_params[parentIndex]['child'][0]['params']['column']],
             'parent_id': parentIndex,
             'child_id': child_id,
             'settings': {
@@ -107,7 +93,7 @@ export class FilterTreeComponent implements OnInit {
         this.updateFilterParams(this.filter_params);
     }
 
-    saveFilter() {
+    saveFilter(apply: boolean) {
         if (!this.filter_name) {
             this.save_error = 'Filter name is required';
             return false;
@@ -142,17 +128,34 @@ export class FilterTreeComponent implements OnInit {
                 }
             }
         }
-        console.log(filter);
+        if (apply == true) {
+            console.log(filter);
+            this.http
+                .post('/api/apply_filer', {
+                    'params': filter,
+                    'name': this.filter_name,
+                    'file_id': this.file_id
+                })
+                .subscribe(data => this.router.navigate(['/']),
+                    error => {
+                        console.log(error);
+                    });
+
+        } else {
+           console.log(filter);
         this.http
             .post('/api/save_filter', {
                 'params': filter,
-                'name': 'ggsgsd',
+                'name': this.filter_name,
                 'file_id': this.file_id
             })
             .subscribe(data => this.router.navigate(['/']),
                 error => {
                     console.log(error);
                 });
+
+
+        }
     }
 
     deleteUnnecessaryElem(object_data) {

@@ -41,7 +41,6 @@
                    (ngModelChange)="setRangeValue($event)"
                    [className]="rangeValueError ? 'form-control input-item  is-invalid' : 'form-control input-item'"
                    placeholder="Min: {{ valueMaxMin.min }} Max: {{ valueMaxMin.max }}">
-
             <input *ngIf="operator == 'range' && !disValue" type="number"
                    name="min_value" [ngModel]="betweenMin" (ngModelChange)="setBetweenMin($event)"
                    [className]="rangeValueError ? 'form-control input-item  is-invalid' : 'form-control input-item'"
@@ -70,16 +69,25 @@
         <div class="col-md-4">
             <span class="btn btn-success span-width">{{ count_rows + ' / ' + totalRows }}</span>
         </div>
-        <div class="col-md-5 quantity-group input-group">
-            <input type="number" name="user_quantity" [ngModel]="quantity"
+        <button type="button" class="btn btn-primary btn-sm" (click)="stanOfButton()">{{ clickMessage }}</button>
+        <div class="col-md-5 quantity-group input-group" *ngIf="clickMessage == 'Percentage'">
+            <input type="number" name="user_quantity"  [ngModel]="quantity"
                    (ngModelChange)="setQuantity($event)"
                    [className]="valid_quantity ? 'form-control' : 'form-control is-invalid'"
                    placeholder="Max {{ maxPercentageForUser }}"
                    [readonly]="qtt_readonly"
             >
-            <div class="input-group-prepend">
-                <span class="input-group-text">%</span>
+            <div class="invalid-feedback">
+                {{ quantityError }}
             </div>
+        </div>
+        <div class="col-md-5 quantity-group input-group" *ngIf="clickMessage == 'Quantity'">
+            <input type="number" name="user_quantity"  [ngModel]="quantity"
+                   (ngModelChange)="setQuantity($event)"
+                   [className]="valid_quantity ? 'form-control' : 'form-control is-invalid'"
+                   placeholder="Rows: {{ count_rows }}"
+                   [readonly]="qtt_readonly"
+            >
             <div class="invalid-feedback">
                 {{ quantityError }}
             </div>

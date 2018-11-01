@@ -11,11 +11,12 @@ import pandas as pd
 from app import APP
 from app.services.file_data import fields_definition
 from app.helper import UserFilesManager
+from app.services.filtering_service import save_filter
+from app.services.datasets_services import save_dataset
 
 
-@APP.route('/api/save_filter', methods=['POST'])
-@login_required
-def save_filter():
+@APP.route('/api/apply_filer', methods=['POST'])
+def filter_save():
     """
     Saving filter and dataset, based on filter parameters
     :return:
@@ -23,30 +24,30 @@ def save_filter():
     data = json.loads(request.data)
     parameters = data['params']# pylint: disable=unused-variable
     name = data['name']# pylint: disable=unused-variable
+    save_filter(filters=parameters, name=name)
+    # Call filtration filter(file_id, new_filter.id)
+
+    return make_response(json.dumps({'success': 'filter was successfully saved'}), 200)
+
+
+@APP.route('/api/save_filter', methods=['POST'])
+def filter_saving():
+    """
+    Save filter to database(for further editing) without applying it to file
+    :return: response, status code
+    """
+    if 'user_id' in session:
+        user_id = int(session['user_id'])
+    else:
+        return json.dumps({'message': 'please login at first'}), 401
+    data = json.loads(request.data)
+    parameters = data['params']# pylint: disable=unused-variable
+    name = data['name']# pylint: disable=unused-variable
     file_id = data['file_id']# pylint: disable=unused-variable
+    filter_id = save_filter(filters=parameters, name=name)
+    save_dataset(file_id=file_id, user_id=user_id, filter_id=filter_id)
 
-    # file = File.query.get(file_id)
-    # xl_file = pd.read_excel(file.path)
-
-    # for elem in parameters:
-    #     if 'quantity' in elem:
-    #         xl_file = xl_file[mask_f(xl_file, elem)].head(elem['quantity'])
-    #     else:
-    #         xl_file = xl_file[mask_f(xl_file, elem)]
-    #
-    # included_rows = xl_file.index.tolist()
-    #
-    # new_filter = Filter(name, parameters)
-    # db.session.add(new_filter)
-    # db.session.commit()
-    # db.session.flush()
-    #
-    # new_dataset = Dataset(user_id=1, file_id=file_id,
-    # filter_id=new_filter.id, included_rows=included_rows)
-    # db.session.add(new_dataset)
-    # db.session.commit()
-
-    return make_response(json.dumps({'success': 'filter was succesfully saved'}), 200)
+    return make_response(json.dumps({'success': 'filter was successfully saved'}), 200)
 
 
 @APP.route('/api/get_metadata/<file_id>', methods=['POST'])
@@ -57,7 +58,7 @@ def get_metadata(file_id):
          :return: Response with metadata
     """
     ufm = UserFilesManager(int(session['user_id']))
-    file_path = ufm.get_file_path(file_id)
+    file_path = ufm.get_serialized_file_path(file_id)
     metadata = fields_definition(file_path)
     count_rows = pd.read_pickle(ufm.get_serialized_file_path(file_id)).shape[0]
     result = {'rows': count_rows, 'metadata': metadata}

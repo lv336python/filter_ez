@@ -4,6 +4,7 @@
 import csv
 import json
 import sys
+import uuid
 import xlsxwriter
 import xlwt
 
@@ -95,7 +96,10 @@ class ExcelGenerator:
             self.configs['COLUMNS'] = {}
             cols = list(configs_json['columns'].keys())
             for column in cols:
-                self.configs['COLUMNS'][column] = self.generate_cell_data(configs_json['columns'][column])
+                self.configs['COLUMNS'][column] = {}
+                self.configs['COLUMNS'][column]['type'] = configs_json['columns'][column]['type']
+                self.configs['COLUMNS'][column]['choice'] \
+                    = self.generate_cell_data(configs_json['columns'][column])
 
     def generate_cell_data(self, row_config):
         """
@@ -206,7 +210,10 @@ class ExcelGenerator:
         """
         row_data = []
         for column in self.configs['COLUMNS'].keys():
-            row_data.append(choice(self.configs['COLUMNS'][column]))
+            if self.configs['COLUMNS'][column]['type'] == 'id':
+                row_data.append(str(uuid.uuid4()))
+            else:
+                row_data.append(choice(self.configs['COLUMNS'][column]['choice']))
         return row_data
 
     def save_xlsx(self, name, sheet_name='Sheet 1'):

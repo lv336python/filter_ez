@@ -15,7 +15,7 @@ from app.helper.constant_status_codes import Status
 
 
 @APP.route('/api/password_reset/<token>', methods=['PUT', 'GET'])
-def reset_with_token(token): #pylint disable=too-many-return-statements
+def reset_with_token(token): # pylint: disable=too-many-return-statements
     """
     PUT view tht updates password in our DB
     :param token:
@@ -26,8 +26,7 @@ def reset_with_token(token): #pylint disable=too-many-return-statements
             return json.dumps({
                 'message': 'Token is invalid'
             }), Status.HTTP_400_BAD_REQUEST
-        else:
-            return Status.HTTP_200_OK
+        return Status.HTTP_200_OK
 
     if not REDIS.get(token):
         return json.dumps({

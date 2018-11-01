@@ -49,7 +49,7 @@ export class NotificationComponent implements OnInit, OnDestroy {
     ngOnInit() {
         console.log("Notification Created");
         this.socket.connect();
-        this.connection = this.socket.getMessages()
+        this.connection = this.socket.getNotification()
             .subscribe(
                 data => {
                     let elem = {'id': this.count,
