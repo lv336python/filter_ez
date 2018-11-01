@@ -151,15 +151,31 @@ class DataBaseManager:
 
     @classmethod
     def get_file_by_name(cls, name):
+        """
+        Returns file object by path to file (name of file)
+        :param name: str
+        :return: File or None
+        """
         return File.query.filter(File.path == name).first()
 
     @classmethod
     def get_dataset_by_user_and_file(cls, user_id, file_id):
+        """
+        Returns dataset object by name of file and user it binds
+        :param user_id: id of a user
+        :param file_id: id of a file
+        :return: Dataset object or None
+        """
         return Dataset.query.filter(DB.and_(Dataset.file_id == file_id,
-                                    Dataset.user_id == user_id)).first()
+                                            Dataset.user_id == user_id)).first()
 
     @classmethod
     def get_datasets_by_file(cls, file_id):
+        """
+        Returns dataset object by id of a file
+        :param file_id: id of a file
+        :return: Dataset or None
+        """
         return Dataset.query.filter(Dataset.file_id == file_id)
 
     @classmethod
