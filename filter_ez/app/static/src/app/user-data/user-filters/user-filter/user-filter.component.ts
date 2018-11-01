@@ -15,6 +15,7 @@ export class UserFilterComponent implements OnInit {
   }
 
   ngOnInit() {
+    console.log(this.userfilter)
   }
 
     toData() {

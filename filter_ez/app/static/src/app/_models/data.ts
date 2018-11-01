@@ -21,7 +21,8 @@ export class File {
 export class Filter {
   constructor(
     public id: number,
-    public name: string
+    public name: string,
+    public fileId: number
   ) {}
 }
 

@@ -14,8 +14,8 @@ export class FilterTreeComponent implements OnInit {
     @Input() file_id: number;
     totalRows: number;
     save_error: string;
-    filter_name: string;
-    filter_params: object = {
+    filter_name = 'new_filter';
+    @Input() filter_params: object = {
         0: {
             'params': {},
             'child': false,
@@ -81,7 +81,7 @@ export class FilterTreeComponent implements OnInit {
         this.filter_params[parentIndex]['child'][child_id]['child'][0] = {
             'params': {},
             'child': false,
-            'disabledColumns': [this.filter_params[parentIndex]['params']['column'], this.filter_params[parentIndex]['child'][0]['params']['column'] ],
+            'disabledColumns': [this.filter_params[parentIndex]['params']['column'], this.filter_params[parentIndex]['child'][0]['params']['column']],
             'parent_id': parentIndex,
             'child_id': child_id,
             'settings': {
@@ -93,7 +93,7 @@ export class FilterTreeComponent implements OnInit {
         this.updateFilterParams(this.filter_params);
     }
 
-    saveFilter() {
+    saveFilter(apply: boolean) {
         if (!this.filter_name) {
             this.save_error = 'Filter name is required';
             return false;
@@ -139,7 +139,10 @@ export class FilterTreeComponent implements OnInit {
                 error => {
                     console.log(error);
                 });
-    }
+
+
+        }
+
 
     // deleteUnnecessaryElem(object_data) {
     //     delete object_data.parent_id;

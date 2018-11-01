@@ -29,7 +29,7 @@ rabbitMQ:
 	sudo service rabbitmq-server restart || sudo rabbitmq-server
 
 celery:
-	(cd filter_ez ; celery -A app.celery worker -l info -n email@%h -Q email)
+	(cd filter_ez ; celery -A app.CELERY worker -l info -n email@%h -Q email)
 
 run:
 	gnome-terminal -e "bash -c \"make celery; exec bash\""
@@ -37,7 +37,7 @@ run:
 
 install:
 	(cd $(STATIC_PATH) ; npm install)
-	sudo npm install -g @angular/cli
+	npm install -g @angular/cli
 
 build: $(STATIC_PATH)angular.json
 	(cd $(STATIC_PATH) ; ng build)
@@ -46,11 +46,12 @@ backend:
 	make setup
 	make db
 	make rabbitMQ
+	make run
 
 frontend:
 	make install
 	make build
-	make run
+
 all:
 	make frontend
 	make backend

@@ -41,6 +41,7 @@ import {FileUploadService} from "./_services/file-upload.service";
 import {ModalService} from "./_services/modal.service";
 import { ProcessBarComponent } from './upload-components/process-bar/process-bar.component';
 import {EventSharingService} from "./_services/event-sharing.service";
+import { FilterPreviewComponent } from './filter-preview/filter-preview.component';
 
 @NgModule({
   declarations: [
@@ -74,6 +75,7 @@ import {EventSharingService} from "./_services/event-sharing.service";
     ModalsComponent,
     FileUploadItemComponent,
     ProcessBarComponent,
+    FilterPreviewComponent,
   ],
   imports: [
     BrowserModule,
