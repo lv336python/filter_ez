@@ -8,7 +8,13 @@ import pandas as pd
 from app.helper.new_file_manager import FileManager as Ufm
 from .idataset import IDataSet
 
-
+OPERATORS = {
+    '==': lambda df, k, v: df[k] == v,
+    '!=': lambda df, k, v: df[k] != v,
+    '<': lambda df, k, v: df[k] < float(v),
+    '>': lambda df, k, v: df[k] > float(v),
+    'range': lambda df, k, v: (df[k] > float(v.get('from'))) & (df[k] < float(v.get('to')))
+}
 
 
 class DataSetPandas(IDataSet):
@@ -19,13 +25,6 @@ class DataSetPandas(IDataSet):
     def __init__(self, dataset_id=None):
         self.dataset_id = dataset_id
         self.dataframe = self.read()
-        self.operators = {
-            '==': lambda df, k, v: df[k] == v,
-            '!=': lambda df, k, v: df[k] != v,
-            '<': lambda df, k, v: df[k] < float(v),
-            '>': lambda df, k, v: df[k] > float(v),
-            'range': lambda df, k, v: (df[k] > float(v.get('from'))) & (df[k] < float(v.get('to')))
-        }
 
     def read(self):
         """
@@ -65,7 +64,7 @@ class DataSetPandas(IDataSet):
         :return: modifies instance DataFrame
         """
         params = (self.dataframe, fltr.get('column'), fltr.get('value'))
-        filter_mask = self.operators.get(fltr.get('operator'))(*params)
+        filter_mask = OPERATORS.get(fltr.get('operator'))(*params)
         self.dataframe = self.dataframe[filter_mask]
 
     def get_column_names(self):
@@ -108,7 +107,8 @@ class DataSetPandas(IDataSet):
         Creates DataSetPandas instance with dataframe without first column
         :return: DataSetPandas
         """
-        without_indecies = DataSetPandas(self.dataframe.drop(self.dataframe.columns[0], axis=1))
+        without_indecies = DataSetPandas(self.dataset_id)
+        without_indecies.dataframe.drop(self.dataframe.columns[0], axis=1, inplace=True)
         return without_indecies
 
     def filter_rows(self, included_rows):
@@ -117,7 +117,9 @@ class DataSetPandas(IDataSet):
         :param included_rows:
         :return:
         """
-        return self.dataframe.iloc[included_rows].values.tolist()
+        filtered = DataSetPandas(self.dataset_id)
+        filtered.dataframe = filtered.dataframe.iloc[included_rows]
+        return filtered
 
     def from_rows(self, rows_idxs):
         """
@@ -145,3 +147,11 @@ class DataSetPandas(IDataSet):
         :param new_dataframe: DataFrame to be added.
         """
         self.dataframe = self.dataframe.append(new_dataframe)
+
+    def exclude(self, exclude_df):
+        """
+        Delete items of given DataFrame from instance DataFrame.
+        :param exclude_df: DataFrame to be excluded.
+        :return: modifies instance DataFrame.
+        """
+        self.dataframe = pd.concat([self.dataframe, exclude_df]).drop_duplicates(keep=False)
