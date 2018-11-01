@@ -25,7 +25,6 @@ class DataSetPandas(IDataSet):
     def __init__(self, dataset_id=None):
         self.dataset_id = dataset_id
         self.dataframe = self.read()
-        self.operators = OPERATORS
 
     def read(self):
         """
@@ -65,7 +64,7 @@ class DataSetPandas(IDataSet):
         :return: modifies instance DataFrame
         """
         params = (self.dataframe, fltr.get('column'), fltr.get('value'))
-        filter_mask = self.operators.get(fltr.get('operator'))(*params)
+        filter_mask = OPERATORS.get(fltr.get('operator'))(*params)
         self.dataframe = self.dataframe[filter_mask]
 
     def get_column_names(self):
