@@ -12,13 +12,13 @@
     Accepts json with email and password. If user with such email and password is registered and confirmed return 200 status code and add user_id to session. Otherwise, error with message and status code 400
 
 * /api/logout POST <br>
-    Doesn't accept anything, clears session and returns message with status 200
+    Doesn't accept anything. Clears session and returns message with status 200
 
 * /api/reset POST <br>
-    Accepts json with email field and if user with such email is registered token for reset is generated and sent on aforesaid email with 200 status returned, otherwise, response with 400 code is returned.
+    Accepts json with email field and if user with such email is registered token for reset is generated and sent on aforesaid email with 200 status returned, otherwise, response with 400 code is returned. Token also saved in Redis for further validation of used tokens with expiration time of 60 minutes.
     
 * /api/password_reset/&lt;str:token&gt; PUT <br>
-    Accepts previously generated token in url and new password in json. If password is in correct format it's changed and status 200 is sent.  
+    Accepts previously generated token in url and new password in json. Token is checked for existence in Redis and if it is not there 400 error returned. If password is in correct format token from Redis is removed, password is changed and status 200 is sent.
     
 
 
