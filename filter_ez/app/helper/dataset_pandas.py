@@ -108,7 +108,8 @@ class DataSetPandas(IDataSet):
         Creates DataSetPandas instance with dataframe without first column
         :return: DataSetPandas
         """
-        without_indecies = DataSetPandas(self.dataframe.drop(self.dataframe.columns[0], axis=1))
+        without_indecies = DataSetPandas(self.dataset_id)
+        without_indecies.dataframe.drop(self.dataframe.columns[0], axis=1, inplace=True)
         return without_indecies
 
     def filter_rows(self, included_rows):
@@ -117,7 +118,9 @@ class DataSetPandas(IDataSet):
         :param included_rows:
         :return:
         """
-        return self.dataframe.iloc[included_rows].values.tolist()
+        filtered = DataSetPandas(self.dataset_id)
+        filtered.dataframe = filtered.dataframe.iloc[included_rows]
+        return filtered
 
     def from_rows(self, rows_idxs):
         """
