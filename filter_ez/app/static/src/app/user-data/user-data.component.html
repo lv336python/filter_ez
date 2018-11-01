@@ -13,4 +13,13 @@
     </div>
     </section>
 </div>
+<app-modal id="statModal">
+    <div class="custom-modal align-content-center">
+        <div class="custom-modal-body">
+            <button (click)="closeModal('statModal')">Close</button>
+            <app-statistics *ngFor="let item of statToDisplay" [datasetId]="item"></app-statistics>
+        </div>
+    </div>
+    <div class="custom-modal-background"></div>
+</app-modal>
 

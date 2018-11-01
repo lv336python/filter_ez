@@ -13,7 +13,7 @@ from app.services.file_data import fields_definition
 from app.helper import UserFilesManager
 from app.services.filtering_service import save_filter
 from app.services.datasets_services import save_dataset
-
+from app.models import Dataset
 
 @APP.route('/api/apply_filer', methods=['POST'])
 def filter_save():
@@ -21,12 +21,18 @@ def filter_save():
     Saving filter and dataset, based on filter parameters
     :return:
     """
+    if 'user_id' in session:
+        user_id = int(session['user_id'])
+    else:
+        return json.dumps({'message': 'please login at first'}), 401
     data = json.loads(request.data)
     parameters = data['params']# pylint: disable=unused-variable
     name = data['name']# pylint: disable=unused-variable
-    save_filter(filters=parameters, name=name)
-    # Call filtration filter(file_id, new_filter.id)
+    file_id = data['file_id']# pylint: disable=unused-variable
 
+    filter_id = save_filter(filters=parameters, name=name)
+
+    save_dataset(filter_id=filter_id, user_id=user_id, file_id=file_id, apply=True)
     return make_response(json.dumps({'success': 'filter was successfully saved'}), 200)
 
 

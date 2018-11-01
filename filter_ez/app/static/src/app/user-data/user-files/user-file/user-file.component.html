@@ -1,67 +1,50 @@
 <div *ngIf="!fileDeleted">
-    <h3>{{ file_index + 1 }}. {{ userfile.name }}</h3>
+    <div class="list-group-item">
+        <h3>{{ file_index + 1 }}. {{ userfile.name }}</h3>
+        <div class="row">
+            <button type="button"
+                    class="btn btn-success col-2"
+                    (click)="openModal('statModal')">
+                <i class="fa fa-bar-chart-o"></i>
+            </button>
+            <div class="file-stat col-8">
+                <span> rows: {{ userfile.nRows }} </span>
+                <span> size: {{ bytestToMBytes(userfile.size) }} MB </span>
+                <span>       {{ userfile.uploadDate }}</span>
 
-    <div class="file-stat">
-        <span> rows: {{ userfile.nRows }} </span>
-        <span> size: {{ bytestToMBytes(userfile.size) }} MB </span>
-        <span>       {{ userfile.uploadDate }}</span>
-      
+            </div>
+
+            <div *ngIf="errorMessage" class="alert alert-danger">
+                {{ errorMessage }}
+            </div>
+            <div class="text-left">
+                <button type="button" class="btn btn-danger btn-sm" data-toggle="modal"
+                        [attr.data-target]="'#delete-model'+file_index"><i class="fa fa-trash-o"></i></button>
+
+                <div [attr.id]="'delete-model'+file_index" class="modal fade" role="dialog">
+                    <div class="modal-dialog">
+
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h3>Are u really wanna delete this file? {{ userfile.name }}</h3><br>
+                            </div>
+                            <div class="modal-body">
+                                <p>It will also delete all dataset linked with this file!</p>
+                                <div class="modal-buttons">
+
+                                    <button class="btn btn-danger delete-button" (click)="deleteFile(userfile.id)"
+                                            data-dismiss="modal">Delete
+                                    </button>
+
+                                    <button type="button" style="text-align: right"
+                                            class="btn btn-success cancel-button" data-dismiss="modal">Close
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
-    <div *ngIf="errorMessage" class="alert alert-danger">
-        {{ errorMessage }}
-    </div>    
-        <div class="dropdown">
-          <button class="btn btn-sm dropdown-toggle" type="button" data-toggle="dropdown">...
-          <span class="caret"></span></button>
-          <ul class="dropdown-menu">
-            <li (mousover)="onOver=true"><a href="#" id='data-target'data-toggle="modal" [attr.data-target]="'#myModalFile' + userfile.id">Open Statistic</a></li>
-            <li><a href="#" data-toggle="modal" [attr.data-target]="'#delete-model'+file_index">Delete file</a></li>
-          </ul>
-        </div>
-    <div class="text-left">
-    <div class="container ">
-      <!-- Trigger the modal with a button -->
-      
-      <!-- Modal -->
-      <div class="modal fade" [attr.id]="'myModalFile' + userfile.id" role="dialog">
-
-          <div class="modal-dialog modal-lg">
-          <div class="modal-content">
-
-              <div class="modal-body">
-                <app-statistics [datasetId]="userfile.datasetId"></app-statistics>
-              </div>
-              <div class="modal-footer">
-              <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-              </div>
-          </div>
-          </div>
-      </div>
-
-    <br>
-  </div>
-      <div  [attr.id]="'delete-model'+file_index" class="modal fade" role="dialog">
-        <div class="modal-dialog">
-
-          <div class="modal-content">
-            <div class="modal-header">
-              <h3>Are u really wanna  delete this file? {{ userfile.name }}</h3><br>
-            </div>
-            <div class="modal-body">
-                  <p>It will also delete all dataset linked with this file!</p>
-              <div class="modal-buttons">
-
-              <button  class="btn btn-danger delete-button" (click)="deleteFile(userfile.id)"
-                                  data-dismiss="modal">Delete</button>
-
-              <button type="button" style="text-align: right"
-              class="btn btn-success cancel-button" data-dismiss="modal">Close</button>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-  </div>
-
-
 </div>
