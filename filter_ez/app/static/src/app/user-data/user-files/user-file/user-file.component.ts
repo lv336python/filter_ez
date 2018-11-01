@@ -2,6 +2,8 @@ import {Component, Input, OnInit} from '@angular/core';
 import {File} from '../../../_models/data';
 import {from} from 'rxjs';
 import {UserFileService} from "../../../_services/user-file.service";
+import {ModalService} from "../../../_services/modal.service";
+import {UserDataService} from "../../../_services/user-data.service";
 
 
 @Component({
@@ -14,8 +16,8 @@ export class UserFileComponent implements OnInit {
   @Input() file_index; //for files numeration
   @Input() dataset_id;
   @Input() file_id;
-  showDatasetStat: boolean = false;
-  fileDeleted: boolean = false;
+  showDatasetStat = false;
+  fileDeleted = false;
   errorMessage: string;
   confirmed: boolean;
 
@@ -47,10 +49,16 @@ export class UserFileComponent implements OnInit {
     )
   }
 
-  constructor(private file: UserFileService) {
+  constructor(private file: UserFileService,
+              private modalService: ModalService,
+              private dataService: UserDataService) {
   }
 
   ngOnInit() {
   }
 
+  openModal(id: string) {
+        this.modalService.open(id);
+        this.dataService.onAddToStat(this.userfile.datasetId);
+    }
 }
