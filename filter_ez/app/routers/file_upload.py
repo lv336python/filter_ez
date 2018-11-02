@@ -1,5 +1,5 @@
 """
-TODO
+    Module with routes for managing files and datasets
 """
 
 from flask import request, jsonify, make_response, session
@@ -14,8 +14,13 @@ from app.services.user_data_collection import UserDataCollector
 @login_required
 def uploader():
     """
-    TODO
-    :return:
+    Adds file and appropriate dataset to database and saves file in local storage.
+    Uses FileManager for saving file and DatabaseManager for writing changes to database
+    :return: response with codes:
+            400 - no file in request
+            415 - file has incorrect extension (must be .xls, .xlsx, .csv)
+            422 - file is correct but first column is not unique values
+            201 - OK file is uploaded - json with file and dataset data
     """
     if request.files and request.files.get('upload_file'):
         file = request.files['upload_file']
@@ -65,8 +70,15 @@ def uploader():
 @login_required
 def getfiles():
     """
-    TODO
-    :return:
+    Retrieves list of user files
+    :return: list of dicts:
+        [{
+            'id': int
+            'name': int
+            'size': int
+            'nRows': int
+            'datasetId': int
+        }, ...]
     """
     files = UserDataCollector(int(session['user_id']))
     return make_response(jsonify(files.get_files_info()), 200)
