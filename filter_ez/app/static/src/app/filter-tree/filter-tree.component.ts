@@ -131,12 +131,12 @@ export class FilterTreeComponent implements OnInit {
         // }
         console.log(this.filter_params);
 
-       
+
         if (apply == true) {
-            console.log(filter);
+            console.log(this.filter_params);
             this.http
                 .post('/api/apply_filer', {
-                    'params': filter,
+                    'params': this.filter_params,
                     'name': this.filter_name,
                     'file_id': this.file_id
                 })
@@ -146,30 +146,30 @@ export class FilterTreeComponent implements OnInit {
                     });
 
         } else {
-           console.log(filter);
+            console.log(this.filter_params);
 
-          this.http
-            .post('/api/save_filter', {
-                'params': this.filter_params,
-                'name': this.filter_name,
-                'file_id': this.file_id
-            })
-            .subscribe(data => this.router.navigate(['/']),
-                error => {
-                    console.log(error);
-                });
+            this.http
+                .post('/api/save_filter', {
+                    'params': this.filter_params,
+                    'name': this.filter_name,
+                    'file_id': this.file_id
+                })
+                .subscribe(data => this.router.navigate(['/']),
+                    error => {
+                        console.log(error);
+                    });
 
 
         }
 
 
-    // deleteUnnecessaryElem(object_data) {
-    //     delete object_data.parent_id;
-    //     delete object_data.child_id;
-    //     delete object_data.settings;
-    //     return object_data;
-    // }
-
+        // deleteUnnecessaryElem(object_data) {
+        //     delete object_data.parent_id;
+        //     delete object_data.child_id;
+        //     delete object_data.settings;
+        //     return object_data;
+        // }
+    }
     checkParams(filter) {
         return Object.keys(filter.params).length < 4;
     }
