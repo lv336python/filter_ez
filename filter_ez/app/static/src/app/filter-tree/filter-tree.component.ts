@@ -28,6 +28,7 @@ export class FilterTreeComponent implements OnInit {
             },
         }
     };
+    filter_params_ready : object;
 
     metadata: object;
     columns: string[];
@@ -100,6 +101,7 @@ export class FilterTreeComponent implements OnInit {
         }
 
         let filter_params = this.filter_params;
+
         let filter = {};
         for (let key in filter_params) {
             filter[key] = this.deleteUnnecessaryElem(filter_params[key]);
@@ -145,7 +147,7 @@ export class FilterTreeComponent implements OnInit {
            console.log(filter);
         this.http
             .post('/api/save_filter', {
-                'params': filter,
+                'params': this.filter_params,
                 'name': this.filter_name,
                 'file_id': this.file_id
             })
