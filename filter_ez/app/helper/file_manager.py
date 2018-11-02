@@ -95,6 +95,8 @@ class FileManager:
         id_column = df_to_serialize.columns[0]
         df_to_serialize[id_column] = df_to_serialize[id_column].astype(str)
 
+        df_to_serialize.set_index(id_column, inplace=True, drop=False)
+
         serialized_file_name = self.get_serialized_file_name(file_full_name)
         df_to_serialize.to_pickle(os.path.join(self.directory, serialized_file_name))
 
