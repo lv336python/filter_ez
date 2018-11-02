@@ -115,3 +115,12 @@
     top: -7px;
   }
 }
+.right-auth{
+  text-align: right;
+}
+#current-user{
+  /* background-color: rgb(133, 204, 204); */
+  border-radius: 45px;
+  height: 40px;
+  margin-top: 5px;
+}

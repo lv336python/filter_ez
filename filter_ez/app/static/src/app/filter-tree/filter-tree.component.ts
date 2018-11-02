@@ -28,6 +28,7 @@ export class FilterTreeComponent implements OnInit {
             },
         }
     };
+    filter_params_ready : object;
 
     metadata: object;
     columns: string[];
@@ -129,7 +130,25 @@ export class FilterTreeComponent implements OnInit {
         //     }
         // }
         console.log(this.filter_params);
-        this.http
+
+       
+        if (apply == true) {
+            console.log(filter);
+            this.http
+                .post('/api/apply_filer', {
+                    'params': filter,
+                    'name': this.filter_name,
+                    'file_id': this.file_id
+                })
+                .subscribe(data => this.router.navigate(['/']),
+                    error => {
+                        console.log(error);
+                    });
+
+        } else {
+           console.log(filter);
+
+          this.http
             .post('/api/save_filter', {
                 'params': this.filter_params,
                 'name': this.filter_name,

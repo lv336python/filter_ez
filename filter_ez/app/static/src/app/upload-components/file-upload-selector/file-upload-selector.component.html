@@ -1,4 +1,4 @@
-<div>
+<div class="modal-win">
     <input style="display: none"
             type="file" #files (change)="onFileSelected(files, $event);
                                          openModal('custom-modal-1')"
@@ -6,8 +6,8 @@
             class="custom-file"
             accept=".csv, .xls, .xlsx"
             #fileInput>
-    <div class="file-add-button">
-        <button type="button" (click)="fileInput.click()">+</button>
+    <div class="file-add-button align-content-md-center">
+        <button class="btn btn-success" (click)="fileInput.click()">Add file</button>
     </div>
 </div>
 <div *ngIf="filesToUpload">

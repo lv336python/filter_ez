@@ -1,23 +1,32 @@
-
 <div>
     <section class="user-data" *ngIf="userdata">
-        <h2 class="heading-user-data">All history of your activity</h2><hr>
-    <div class="row">
-        <div class="col-md-1"></div>
-        <div class="col-md-3"><app-user-files></app-user-files></div>
-        <div class="verticalLine"></div>
-        <div class="col-md-3"><app-user-filters></app-user-filters></div>
-        <div class="verticalLine"></div>
-        <div class="col-md-3"><app-user-data-sets></app-user-data-sets></div>
-        <div class="col-md-2"></div>
-    </div>
+        <div class="jumbotron" style="margin-bottom: 0; padding-top: 30px; padding-bottom: 40px;">
+            <h2 class="heading-user-data">All history of your activity</h2>
+
+        </div>
+        <hr>
+        <div class="row">
+            <div class="col-md-1"></div>
+            <div class="col-md-3">
+                <app-user-files></app-user-files>
+            </div>
+            <div class="verticalLine"></div>
+            <div class="col-md-3">
+                <app-user-filters></app-user-filters>
+            </div>
+            <div class="verticalLine"></div>
+            <div class="col-md-4">
+                <app-user-data-sets></app-user-data-sets>
+            </div>
+        </div>
     </section>
 </div>
+
 <app-modal id="statModal">
     <div class="custom-modal align-content-center">
         <div class="custom-modal-body">
-            <button (click)="closeModal('statModal')">x</button>
-            <app-statistics *ngFor="let item of statToDisplay" [datasetId]="item"></app-statistics>
+                <app-statistics *ngFor="let item of statToDisplay" [datasetId]="item"></app-statistics>
+                <button class="btn btn-success" (click)="closeModal('statModal')">Close</button>
         </div>
     </div>
     <div class="custom-modal-background"></div>

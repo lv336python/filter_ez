@@ -55,3 +55,8 @@ app-modal {
   position: center;
   padding: 20px;
 }
+.statModal{
+  width: 90%;
+  height: 80%;
+  align-self: auto;
+}
