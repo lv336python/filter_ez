@@ -38,7 +38,7 @@ class FileManager:
         :param file_id:
         :return: path to file or None
         """
-        return os.path.join(APP.config['UPLOAD_FOLDER'], str(self.user_id), self.path)
+        return os.path.join(APP.config['UPLOAD_FOLDER'], self.path)
 
     def get_serialized_file_path(self):
         """
@@ -48,4 +48,4 @@ class FileManager:
         """
         file_name = os.path.splitext(self.path)[0]
         serialized = f'{file_name}.pkl'
-        return os.path.join(APP.config['UPLOAD_FOLDER'], str(self.user_id), serialized)
+        return os.path.join(APP.config['UPLOAD_FOLDER'], serialized)
