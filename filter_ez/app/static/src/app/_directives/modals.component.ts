@@ -27,7 +27,7 @@ export class ModalsComponent implements OnInit, OnDestroy {
         document.body.appendChild(this.element);
 
         this.element.addEventListener('click', function (e: any) {
-            if (e.target.className === 'modal') {
+            if (e.target.className === 'custom-modal') {
                 console.debug('closing modal');
                 modal.close();
             }

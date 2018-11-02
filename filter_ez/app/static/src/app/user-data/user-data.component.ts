@@ -1,7 +1,8 @@
 import {Component, OnInit} from '@angular/core';
 import {UserDataService} from '../_services/user-data.service';
-import {UserData} from '../_models/data';
+import {StatInfo, UserData} from '../_models/data';
 import {ModalService} from "../_services/modal.service";
+import {objectify} from "tslint/lib/utils";
 
 
 @Component({
@@ -11,7 +12,7 @@ import {ModalService} from "../_services/modal.service";
 })
 export class UserDataComponent implements OnInit {
   userdata: UserData;
-  statToDisplay = [];
+  statToDisplay: Array<StatInfo> = [];
 
   constructor(private userData: UserDataService,
               private modalService: ModalService) {
@@ -20,11 +21,27 @@ export class UserDataComponent implements OnInit {
   ngOnInit() {
     this.userData.getUserData();
     this.userData.castUserData.subscribe(data => this.userdata = data);
-    this.userData.castStatToShow.subscribe(data => this.statToDisplay = data);
   }
 
-  closeModal(id: string) {
-    this.modalService.close(id);
-    this.userData.onCloseStat();
+  dismiss() {
+    this.modalService.close('statModal');
+    this.statToDisplay = [];
+  }
+
+  hideStat() {
+    this.modalService.close('statModal');
+  }
+
+  addItem(datasetId, datasetName) {
+    let item = new StatInfo(datasetId, datasetName)
+    this.statToDisplay.push(item);
+  }
+
+  removeItem(item) {
+    if (this.statToDisplay.length > 1) {
+      this.statToDisplay.splice(this.statToDisplay.indexOf(item), 1);
+    } else {
+      this.dismiss();
+    }
   }
 }
