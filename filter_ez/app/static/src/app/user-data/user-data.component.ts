@@ -2,6 +2,7 @@ import {Component, OnInit} from '@angular/core';
 import {UserDataService} from '../_services/user-data.service';
 import {UserData} from '../_models/data';
 import {ModalService} from "../_services/modal.service";
+import {DataService} from "../_services/data.service";
 
 
 @Component({
@@ -12,8 +13,12 @@ import {ModalService} from "../_services/modal.service";
 export class UserDataComponent implements OnInit {
   userdata: UserData;
   statToDisplay = [];
+  message;
+  filterFile = null;
+
 
   constructor(private userData: UserDataService,
+              private data: DataService,
               private modalService: ModalService) {
   }
 
@@ -26,5 +31,15 @@ export class UserDataComponent implements OnInit {
   closeModal(id: string) {
     this.modalService.close(id);
     this.userData.onCloseStat();
+  }
+
+  toData(filterId, fileId) {
+      this.data.getFilter(filterId)
+                  .subscribe(
+                res => {this.message = res.message;
+                console.log(this.message);},
+                error => console.error(error)
+            );
+      this.filterFile = fileId;
   }
 }
