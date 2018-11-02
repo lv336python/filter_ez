@@ -2,38 +2,58 @@
 Module for filtering files
 """
 import json
+import os
 
 from flask import request, make_response, session
 from flask_login import login_required
 
 import pandas as pd
 
-from app import APP, DB
+from app import APP
 from app.services.file_data import fields_definition
-from app.models import Filter
-from app.helper import UserFilesManager
+from app.helper import FileManager, DataBaseManager
+from app.services.filtering_service import save_filter
+from app.services.datasets_services import save_dataset
 
-
-@APP.route('/api/save_filter', methods=['POST'])
-@login_required
-def save_filter():
+@APP.route('/api/apply_filer', methods=['POST'])
+def filter_save():
     """
     Saving filter and dataset, based on filter parameters
     :return:
     """
+    if 'user_id' in session:
+        user_id = int(session['user_id'])
+    else:
+        return json.dumps({'message': 'please login at first'}), 401
     data = json.loads(request.data)
     parameters = data['params']# pylint: disable=unused-variable
     name = data['name']# pylint: disable=unused-variable
-    #file_id = data['file_id']# pylint: disable=unused-variable
+    file_id = data['file_id']# pylint: disable=unused-variable
 
-    new_filter = Filter(name, parameters)
-    DB.session.add(new_filter)
-    DB.session.commit()
-    DB.session.flush()
+    filter_id = save_filter(filters=parameters, name=name)
 
-    # Call filtration filter(file_id, new_filter.id)
+    save_dataset(filter_id=filter_id, user_id=user_id, file_id=file_id, apply=True)
+    return make_response(json.dumps({'success': 'filter was successfully saved'}), 200)
 
-    return make_response(json.dumps({'success': 'filter was succesfully saved'}), 200)
+
+@APP.route('/api/save_filter', methods=['POST'])
+def filter_saving():
+    """
+    Save filter to database(for further editing) without applying it to file
+    :return: response, status code
+    """
+    if 'user_id' in session:
+        user_id = int(session['user_id'])
+    else:
+        return json.dumps({'message': 'please login at first'}), 401
+    data = json.loads(request.data)
+    parameters = data['params']# pylint: disable=unused-variable
+    name = data['name']# pylint: disable=unused-variable
+    file_id = data['file_id']# pylint: disable=unused-variable
+    filter_id = save_filter(filters=parameters, name=name)
+    save_dataset(file_id=file_id, user_id=user_id, filter_id=filter_id)
+
+    return make_response(json.dumps({'success': 'filter was successfully saved'}), 200)
 
 
 @APP.route('/api/get_metadata/<file_id>', methods=['POST'])
@@ -43,10 +63,12 @@ def get_metadata(file_id):
         Getting metadata: list of column and values for file
          :return: Response with metadata
     """
-    ufm = UserFilesManager(int(session['user_id']))
-    file_path = ufm.get_serialized_file_path(file_id)
+    file = DataBaseManager.get_file_by_id(file_id)
+    file_path = os.path.join(APP.config['UPLOAD_FOLDER'],
+                             FileManager.get_serialized_file_name(file.path))
+
     metadata = fields_definition(file_path)
-    count_rows = pd.read_pickle(ufm.get_serialized_file_path(file_id)).shape[0]
+    count_rows = pd.read_pickle(file_path).shape[0]
     result = {'rows': count_rows, 'metadata': metadata}
     return make_response(json.dumps(result), 200)
 
@@ -61,8 +83,12 @@ def filter_num_rows():
     data = json.loads(request.data)
     params = data['params']
     file_id = data['file_id']
-    ufm = UserFilesManager(int(session['user_id']))
-    xl_file = pd.read_pickle(ufm.get_serialized_file_path(file_id))
+
+    file = DataBaseManager.get_file_by_id(file_id)
+    file_path = os.path.join(APP.config['UPLOAD_FOLDER'],
+                             FileManager.get_serialized_file_name(file.path))
+
+    xl_file = pd.read_pickle(file_path)
 
     if isinstance(params, (list, tuple)):
         for elem in params:

@@ -10,7 +10,7 @@ from flask import request, url_for, session
 
 from app.services.token_service import generate_confirmation_token
 from app.services.mail_service import send_email
-from app import APP
+from app import APP, REDIS
 from app.models.user import User, UserSchema
 from app.helper.constant_status_codes import Status
 
@@ -24,6 +24,8 @@ def reset_password():
     :return: eather link sent to email or no correct
     response
     """
+    ttl = 60 * 60
+
     if 'user_id' in session:
         return json.dumps({
             'message': 'Logged user cannot reset password'
@@ -52,6 +54,7 @@ def reset_password():
         token.decode('utf-8')
     html = f'Reset Password link {recover_url}'
     send_email(user.email, subject, html)
+    REDIS.set(token, True, ex=ttl)
     return json.dumps({
         'message': f'reset password link sent to email {email}'
         }), Status.HTTP_201_CREATED

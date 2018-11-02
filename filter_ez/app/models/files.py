@@ -13,7 +13,7 @@ class File(DB.Model):# pylint: disable=R0903
     __tablename__ = 'file'
 
     id = DB.Column(DB.Integer, primary_key=True, autoincrement=True)
-    path = DB.Column(DB.String, nullable=False)
+    path = DB.Column(DB.String, nullable=False, unique=True)
     attributes = DB.Column(DB.JSON, nullable=True)
     datasets = DB.relationship('Dataset', cascade="all, delete-orphan")
 

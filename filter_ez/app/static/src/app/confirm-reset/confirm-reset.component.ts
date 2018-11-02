@@ -11,6 +11,8 @@ import {ActivatedRoute, Router} from "@angular/router";
 })
 export class ConfirmResetComponent implements OnInit {
     returnUrl: string;
+    errorMessage : string;
+    errToken : boolean;
     resetPasswordGroup = new FormGroup({
         password: new FormControl('', [
             Validators.required,
@@ -36,7 +38,13 @@ export class ConfirmResetComponent implements OnInit {
                 this.router.navigate([this.returnUrl])
                 this.resetPasswordGroup.setValue({email: '', password: ''})
 
-            })
+            },
+                err=>{
+                let dataTxt = (JSON.stringify(err));
+                    let errorData = JSON.parse(dataTxt);
+                    this.errorMessage = errorData.error.message.toString();
+
+                })
         }
     }
 
@@ -56,6 +64,17 @@ export class ConfirmResetComponent implements OnInit {
 
     ngOnInit() {
         this.returnUrl = '/login';
+        this.auth_.toCheckUsedToken(this.route.snapshot.params["token"]).subscribe(
+            res =>{
+                this.errToken = false;
+            },
+            err=>{
+                let dataTxt = (JSON.stringify(err));
+                let errorData = JSON.parse(dataTxt);
+                this.errorMessage = errorData.error.message.toString();
+                this.errToken = true;
+            }
+        )
     }
 
 }

@@ -28,6 +28,7 @@ export class FilterTreeComponent implements OnInit {
             },
         }
     };
+    filter_params_ready : object;
 
     metadata: object;
     columns: string[];
@@ -81,7 +82,7 @@ export class FilterTreeComponent implements OnInit {
         this.filter_params[parentIndex]['child'][child_id]['child'][0] = {
             'params': {},
             'child': false,
-            'disabledColumns': [this.filter_params[parentIndex]['params']['column'], this.filter_params[parentIndex]['child'][0]['params']['column'] ],
+            'disabledColumns': [this.filter_params[parentIndex]['params']['column'], this.filter_params[parentIndex]['child'][0]['params']['column']],
             'parent_id': parentIndex,
             'child_id': child_id,
             'settings': {
@@ -93,13 +94,14 @@ export class FilterTreeComponent implements OnInit {
         this.updateFilterParams(this.filter_params);
     }
 
-    saveFilter() {
+    saveFilter(apply: boolean) {
         if (!this.filter_name) {
             this.save_error = 'Filter name is required';
             return false;
         }
 
         let filter_params = this.filter_params;
+
         let filter = {};
         for (let key in filter_params) {
             filter[key] = this.deleteUnnecessaryElem(filter_params[key]);
@@ -128,10 +130,24 @@ export class FilterTreeComponent implements OnInit {
                 }
             }
         }
-        console.log(filter);
+        if (apply == true) {
+            console.log(filter);
+            this.http
+                .post('/api/apply_filer', {
+                    'params': filter,
+                    'name': this.filter_name,
+                    'file_id': this.file_id
+                })
+                .subscribe(data => this.router.navigate(['/']),
+                    error => {
+                        console.log(error);
+                    });
+
+        } else {
+           console.log(filter);
         this.http
             .post('/api/save_filter', {
-                'params': filter,
+                'params': this.filter_params,
                 'name': this.filter_name,
                 'file_id': this.file_id
             })
@@ -139,6 +155,9 @@ export class FilterTreeComponent implements OnInit {
                 error => {
                     console.log(error);
                 });
+
+
+        }
     }
 
     deleteUnnecessaryElem(object_data) {

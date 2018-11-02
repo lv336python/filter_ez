@@ -8,7 +8,7 @@ import { Component } from '@angular/core';
 export class NavbarComponent {
 
   constructor() { }
-
+  currentUserEmail : string;
   isLoggedIn(){
     function getCookie(name) {
         let matches = document.cookie.match(new RegExp(
@@ -16,6 +16,9 @@ export class NavbarComponent {
         ));
         return matches ? decodeURIComponent(matches[1]) : undefined;
     }
-    return getCookie("session");
+    this.currentUserEmail = getCookie('email');
+    
+    return getCookie("session");  
   }
+
 }

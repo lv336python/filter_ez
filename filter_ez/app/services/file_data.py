@@ -2,12 +2,11 @@
     Module for fields definition and fields statistics
 """
 from collections import defaultdict
-import pickle
 
 from flask import session
 
 from app import CELERY, SOCKETIO
-from app.helper import DataSetPandas, UserFilesManager
+from app.helper import DataSetPandas
 
 
 def fields_definition(filename, filters=None):
@@ -19,7 +18,7 @@ def fields_definition(filename, filters=None):
     'Climate control': ['Yes', 'No']}
     """
     dataframe = DataSetPandas()
-    dataframe.read(filename)
+    dataframe.read_file(filename)
 
     if filters:
         dataframe.filter_set(filters)
@@ -69,16 +68,11 @@ def fields_statistics(dataset, non_blocking=False):
     celery worker
     :return: json with statistics information of None if non_blocking set to True
     """
-    ufm = UserFilesManager(dataset.user_id)
-    file_path = ufm.get_serialized_file_path(dataset.file_id)  # Exchange with UserFileManager
-
-    with open(file_path, 'rb') as file:
-        dataframe = DataSetPandas(pickle.load(file))
+    dataframe = DataSetPandas(dataset.id)
+    dataframe = dataframe.without_indecies()
 
     if dataset.included_rows:
         dataframe = dataframe.filter_rows(dataset.included_rows)
-
-    dataframe = dataframe.without_indecies()
 
     if non_blocking:
         get_statistics.apply_async([dataframe, dataset.id, int(session['user_id'])],
@@ -94,11 +88,8 @@ def get_data_preview(dataset, number_of_rows):
     :param number_of_rows: number of rows to show
     :return: dict with list with names of columns and list with lists of values of rows
     """
-    ufm = UserFilesManager(dataset.user_id)
-    file_path = ufm.get_serialized_file_path(dataset.file_id)  # Exchange with UserFileManager
 
-    with open(file_path, 'rb') as file:
-        dataframe = DataSetPandas(pickle.load(file)).without_indecies()
+    dataframe = DataSetPandas(dataset.id).without_indecies()
 
     if dataset.included_rows:
         dataframe = dataframe.filter_rows(dataset.included_rows)
