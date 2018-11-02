@@ -41,14 +41,14 @@ def uploader():
             if not db_file:
                 db_file = DataBaseManager.add_file(attributes['saved_name'], attributes)
 
-            db_dataset = DataBaseManager.get_dataset_by_user_and_file(user_id, db_file.id)
+            db_dataset = DataBaseManager.get_datasets_by_user_and_file(user_id, db_file.id).first()
             if not db_dataset:
                 db_dataset = DataBaseManager.add_dataset(int(session.get('user_id')), db_file.id)
 
             response = {
                 'file': {
                     'id': db_file.id,
-                    'name': db_file.path,
+                    'name': attributes['name'],
                     'size': attributes['size'],
                     'rows': attributes['rows']
                 },

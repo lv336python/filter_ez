@@ -54,6 +54,6 @@ def dataset_to_excel(dataset, include_ids=True):
         return data
     except Exception as exception: # pylint: disable=W0703
         LOGGER.error("Error occurred when tried to create a byteIO"
-                     " object for dataset %d: %s", dataset.dataset_id, exception)
+                     " object for dataset %d: %s", dataset.id, exception)
         notify_admin(f"Error occurred when tried to create a byteIO"
-                     f" object for dataset {dataset.dataset_id}: {exception}", 'ERROR')
+                     f" object for dataset {dataset.id}: {exception}", 'ERROR')

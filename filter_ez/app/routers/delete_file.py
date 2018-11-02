@@ -24,20 +24,21 @@ def delete_file(file_id):
     user_id = int(session['user_id'])
     file_manager = FileManager(APP.config['UPLOAD_FOLDER'])
 
-    dataset = DataBaseManager.get_dataset_by_user_and_file(user_id, file_id)
+    datasets = DataBaseManager.get_datasets_by_user_and_file(user_id, file_id)
 
-    if not dataset:
+    if not datasets:
         return json.dumps({"message": 'such file does not exist'}), \
                Status.HTTP_404_NOT_FOUND
 
     file = DataBaseManager.get_file_by_id(file_id)
-    datasets = DataBaseManager.get_datasets_by_file(file_id)
 
-    if datasets.count() == 1:
+    for dataset in datasets:
+        DataBaseManager.delete_record_from_db(dataset)
+
+    datasets = DataBaseManager.get_datasets_by_file(file_id).first()
+    if datasets:
         file_manager.delete_file(file.path)
         DataBaseManager.delete_record_from_db(file)
-
-    DataBaseManager.delete_record_from_db(dataset)
 
     return json.dumps({"message": "file deleted"}), \
            Status.HTTP_200_OK
