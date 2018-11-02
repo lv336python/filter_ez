@@ -18,7 +18,7 @@ def save_dataset(file_id, user_id, filter_id, apply=False):
     if apply:
         dataset = Dataset.query.filter(Dataset.file_id == file_id).first()
         filter_applier = FilterApplier(filter_id=filter_id, dataset_id=dataset.id)
-        included_rows = [int(item) for item in filter_applier.filter_apply()]
+        included_rows = [item for item in filter_applier.filter_apply()]
         new_dataset = Dataset(user_id=user_id, filter_id=filter_id,
                               included_rows=included_rows, file_id=file_id)
 
