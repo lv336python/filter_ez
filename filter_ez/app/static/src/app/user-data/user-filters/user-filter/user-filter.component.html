@@ -1,5 +1,5 @@
 <div>
-    <button class="stat">stat</button>
-    <h3>{{ userfilter.name }}</h3>
-    <select>opt</select>
+    <h3>{{ userfilter.name }}  <button class="btn btn-success" (click)="onShow('filterPreview')" >Structure <i class="fa fa-search"></i></button>
+</h3>
+    <app-filter-preview [item]="message" [fileid]="userfilter.fileId"></app-filter-preview>
 </div>

@@ -2,7 +2,7 @@ import {Component, OnInit} from '@angular/core';
 import {UserDataService} from '../_services/user-data.service';
 import {StatInfo, UserData} from '../_models/data';
 import {ModalService} from "../_services/modal.service";
-import {objectify} from "tslint/lib/utils";
+import {DataService} from "../_services/data.service";
 
 
 @Component({
@@ -13,8 +13,11 @@ import {objectify} from "tslint/lib/utils";
 export class UserDataComponent implements OnInit {
   userdata: UserData;
   statToDisplay: Array<StatInfo> = [];
+  message;
+  filterFile = null;
 
   constructor(private userData: UserDataService,
+              private data: DataService,
               private modalService: ModalService) {
   }
 
@@ -43,5 +46,15 @@ export class UserDataComponent implements OnInit {
     } else {
       this.dismiss();
     }
+  }
+
+  toData(filterId, fileId) {
+      this.data.getFilter(filterId)
+                  .subscribe(
+                res => {this.message = res.message;
+                console.log(this.message);},
+                error => console.error(error)
+            );
+      this.filterFile = fileId;
   }
 }

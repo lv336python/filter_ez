@@ -2,6 +2,7 @@
 Module for filtering files
 """
 import json
+import os
 
 from flask import request, make_response, session
 from flask_login import login_required
@@ -10,7 +11,7 @@ import pandas as pd
 
 from app import APP
 from app.services.file_data import fields_definition
-from app.helper import UserFilesManager
+from app.helper import FileManager, DataBaseManager
 from app.services.filtering_service import save_filter
 from app.services.datasets_services import save_dataset
 
@@ -62,10 +63,12 @@ def get_metadata(file_id):
         Getting metadata: list of column and values for file
          :return: Response with metadata
     """
-    ufm = UserFilesManager(int(session['user_id']))
-    file_path = ufm.get_serialized_file_path(file_id)
+    file = DataBaseManager.get_file_by_id(file_id)
+    file_path = os.path.join(APP.config['UPLOAD_FOLDER'],
+                             FileManager.get_serialized_file_name(file.path))
+
     metadata = fields_definition(file_path)
-    count_rows = pd.read_pickle(ufm.get_serialized_file_path(file_id)).shape[0]
+    count_rows = pd.read_pickle(file_path).shape[0]
     result = {'rows': count_rows, 'metadata': metadata}
     return make_response(json.dumps(result), 200)
 
@@ -80,8 +83,12 @@ def filter_num_rows():
     data = json.loads(request.data)
     params = data['params']
     file_id = data['file_id']
-    ufm = UserFilesManager(int(session['user_id']))
-    xl_file = pd.read_pickle(ufm.get_serialized_file_path(file_id))
+
+    file = DataBaseManager.get_file_by_id(file_id)
+    file_path = os.path.join(APP.config['UPLOAD_FOLDER'],
+                             FileManager.get_serialized_file_name(file.path))
+
+    xl_file = pd.read_pickle(file_path)
 
     if isinstance(params, (list, tuple)):
         for elem in params:

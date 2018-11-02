@@ -1,14 +1,15 @@
 """
 TODO
 """
+import os
 from math import ceil
 
 import pandas as pd
 import numpy as np
 
-from app import DB
+from app import DB, APP
 from app.models import Dataset, Filter
-from app.helper import UserFilesManager
+from app.helper import FileManager, DataBaseManager
 
 
 def mask(dfr, key, value):
@@ -49,14 +50,15 @@ def save_filter(filters, name):
     return new_filter.id
 
 
-def dataframe_actualization(file_id, user_id):
+def dataframe_actualization(file_id):
     """
     Actualization of DataFrame by dropping results of earlier datasets
     :param file_id: file from which creates new dataset
     :return: dataFrame with available data
     """
-    ufm = UserFilesManager(user_id)
-    work_file = ufm.get_serialized_file_path(file_id)
+    file = DataBaseManager.get_file_by_id(file_id)
+    work_file = os.path.join(APP.config['UPLOAD_FOLDER'],
+                             FileManager.get_serialized_file_name(file.path))
     subsets = Dataset.query.filter_by(file_id=file_id).filter(Dataset.included_rows != None).all()# pylint: disable=singleton-comparison
     reserved = [x.included_rows for x in subsets]
     drop_list = [ids for subset in reserved for ids in subset]
@@ -78,7 +80,7 @@ def make_dataset(user_id, file_id, filter_id):
     :return: id of created DataSet
     """
     filters = Filter.query.get(filter_id).params
-    dataframe = dataframe_actualization(file_id, user_id)
+    dataframe = dataframe_actualization(file_id)
     result = filter_apply(dataframe, filters)
     result = [int(x) for x in result]
 

@@ -11,6 +11,7 @@ export class DataService {
     statisticsUrl = 'api/statistics/';
     previewUrl = 'api/get_rows/';
     sendDataSetOnEmail = 'api/send_file/';
+    getFilters = 'api/preview/';
 
 
     constructor(private _http: HttpClient) { }
@@ -29,5 +30,9 @@ export class DataService {
 
     sendFile(datasetId: number, emails:  Array<string>) {
         return this._http.post<any>(this.sendDataSetOnEmail+datasetId, {'emails': emails});
+    }
+
+    getFilter(filterId): Observable<any>{
+        return this._http.get<any>(this.getFilters+filterId)
     }
 }
