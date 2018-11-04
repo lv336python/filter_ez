@@ -118,15 +118,20 @@ export class FilterItemComponent implements OnInit {
 
     selectedColumnName(column) {
         this.column = column;
-        this.value = '';
-        if ('min' in this.metadata[column] && 'max' in this.metadata[column]) {
-            this.valueMaxMin = {
-                'min': this.metadata[column]['min'],
-                'max': this.metadata[column]['max']
-        }
+        if (this.metadata) {
+            this.column = column;
+            this.value = '';
+            if ('min' in this.metadata[column] && 'max' in this.metadata[column]) {
+                this.valueMaxMin = {
+                    'min': this.metadata[column]['min'],
+                    'max': this.metadata[column]['max']
+                }
+            } else {
+                this.values = this.metadata[column];
+                this.valueMaxMin = {};
+            }
         } else {
-            this.values = this.metadata[column];
-            this.valueMaxMin = {};
+            true;
         }
     }
 
