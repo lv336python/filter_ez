@@ -90,7 +90,7 @@ class DataSetPandas(IDataSet):
         :param number_of_rows: integer numer of rows
         :return: rows
         """
-        rows = self.dataframe[self.dataframe.index < number_of_rows].values.tolist()
+        rows = self.dataframe.head(number_of_rows).values.tolist()
         return rows
 
     def get_rows_by_indexes(self, included_rows):
