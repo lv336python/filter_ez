@@ -28,15 +28,15 @@ class UsersDataset:
         """Checks if user have rights to this DataSet"""
         return self.user_id == int(user_id)
 
-    def to_dataframe(self, include_ids=True):
+    def to_dataframe(self, include_ids=False):
         """
         Returns DataFrame from DataSet by retrieving included rows from source File.
         If DataSet is origin File forms DataFrame from whole File
         """
         data = DataFrame(self.id)
 
-        if not include_ids:
-            data = data.without_indecies()
+        if include_ids:
+            data = data.with_ids()
 
         if self.included_rows:
             return data.from_rows(self.included_rows)
