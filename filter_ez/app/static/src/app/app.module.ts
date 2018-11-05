@@ -42,6 +42,8 @@ import {ModalService} from "./_services/modal.service";
 import { ProcessBarComponent } from './upload-components/process-bar/process-bar.component';
 import {EventSharingService} from "./_services/event-sharing.service";
 import { FilterPreviewComponent } from './filter-preview/filter-preview.component';
+import { NgxSpinnerModule } from 'ngx-spinner';
+
 
 @NgModule({
   declarations: [
@@ -85,9 +87,9 @@ import { FilterPreviewComponent } from './filter-preview/filter-preview.componen
       ReactiveFormsModule,
       PlotlyModule,
       Ng2SearchPipeModule,
-
       PlotlyModule,
-      BrowserAnimationsModule
+      BrowserAnimationsModule,
+      NgxSpinnerModule
 
   ],
   providers: [AuthGuardService,
