@@ -2,6 +2,8 @@ import {Component, Input, OnInit} from '@angular/core';
 import {Router} from "@angular/router";
 import {HttpClient} from "@angular/common/http";
 import {File} from "../_models/data";
+import { NgxSpinnerService } from 'ngx-spinner';
+
 
 @Component({
     selector: 'filter-tree',
@@ -30,16 +32,18 @@ export class FilterTreeComponent implements OnInit {
     };
     filter_params_ready : object;
 
-    metadata: object;
+    metadata: object = null;
     columns: string[];
 
     constructor(private http: HttpClient,
-                private router: Router) {
+                private router: Router,
+                private spinner: NgxSpinnerService) {
 
     }
 
     ngOnInit() {
         this.getMetadata(this.file_id);
+        this.spinner.show();
     }
 
     getMetadata(id) {
@@ -51,10 +55,12 @@ export class FilterTreeComponent implements OnInit {
                 });
     }
 
+
     parseMetadata(data) {
         this.totalRows = data['rows'];
         this.columns = Object.keys(data['metadata']);
         this.metadata = data['metadata'];
+        this.spinner.hide();
     }
 
     updateFilterParams(data) {
