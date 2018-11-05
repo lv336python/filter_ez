@@ -26,8 +26,8 @@ export class UserDataComponent implements OnInit {
     this.userData.castUserData.subscribe(data => this.userdata = data);
   }
 
-  dismiss() {
-    this.modalService.close('statModal');
+  dismiss(id: string) {
+    this.modalService.close(id);
     this.statToDisplay = [];
   }
 
@@ -36,7 +36,7 @@ export class UserDataComponent implements OnInit {
   }
 
   addItem(datasetId, datasetName) {
-    let item = new StatInfo(datasetId, datasetName)
+    let item = new StatInfo(datasetId, datasetName);
     this.statToDisplay.push(item);
   }
 
@@ -44,7 +44,7 @@ export class UserDataComponent implements OnInit {
     if (this.statToDisplay.length > 1) {
       this.statToDisplay.splice(this.statToDisplay.indexOf(item), 1);
     } else {
-      this.dismiss();
+      this.dismiss('statModal');
     }
   }
 
