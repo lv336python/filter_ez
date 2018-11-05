@@ -28,7 +28,7 @@ class IDataSet:
     def get_rows_by_indexes(self, included_rows):# pylint: disable=missing-docstring
         raise NotImplementedError
 
-    def without_indecies(self): # pylint: disable=missing-docstring
+    def with_ids(self): # pylint: disable=missing-docstring
         raise NotImplementedError
 
     def from_rows(self, rows_idxs): # pylint: disable=missing-docstring

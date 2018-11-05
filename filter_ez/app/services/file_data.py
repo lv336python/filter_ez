@@ -69,7 +69,6 @@ def fields_statistics(dataset, non_blocking=False):
     :return: json with statistics information of None if non_blocking set to True
     """
     dataframe = DataSetPandas(dataset.id)
-    dataframe = dataframe.without_indecies()
 
     if dataset.included_rows:
         dataframe = dataframe.filter_rows(dataset.included_rows)
@@ -89,7 +88,7 @@ def get_data_preview(dataset, number_of_rows):
     :return: dict with list with names of columns and list with lists of values of rows
     """
 
-    dataframe = DataSetPandas(dataset.id).without_indecies()
+    dataframe = DataSetPandas(dataset.id)
 
     if dataset.included_rows:
         dataframe = dataframe.filter_rows(dataset.included_rows)
