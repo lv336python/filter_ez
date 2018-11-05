@@ -67,7 +67,6 @@ export class StatisticsComponent implements OnInit {
     }
 
     ngOnInit() {
-        this.updateGraph();
     }
 
     setPlot(plotType : string, target, opp: Element) {
