@@ -1,9 +1,6 @@
 <div>
     <section class="user-data" *ngIf="userdata">
-        <div class="jumbotron" style="margin-bottom: 0; padding-top: 30px; padding-bottom: 40px;">
-            <h2 class="heading-user-data">All history of your activity</h2>
-
-        </div>
+        <h2 class="heading-user-data">All history of your activity</h2>
         <hr>
         <div class="row">
             <div class="col-md-1"></div>
@@ -15,18 +12,27 @@
                 <app-user-filters></app-user-filters>
             </div>
             <div class="verticalLine"></div>
-            <div class="col-md-4">
+            <div class="col-md-3">
                 <app-user-data-sets></app-user-data-sets>
             </div>
+            <div class="col-md-2"></div>
         </div>
     </section>
 </div>
-
 <app-modal id="statModal">
-    <div class="custom-modal align-content-center">
+    <div class="custom-modal">
         <div class="custom-modal-body">
-                <app-statistics *ngFor="let item of statToDisplay" [datasetId]="item"></app-statistics>
-                <button class="btn btn-success" (click)="closeModal('statModal')">Close</button>
+            <button (click)="dismiss('statModal')">close</button>
+            <button (click)="hideStat()" class="align-content-end">add</button>
+            <div class="d-flex d-flex flex-wrap">
+                <div class="card" *ngFor="let item of statToDisplay">
+                    <div class="card-header row">
+                        <h3 class="col-9"> {{ item.name }} </h3>
+                        <button class="col-3" (click)="removeItem(item)">remove</button>
+                    </div>
+                    <app-statistics class="card-body" [datasetId]="item.datasetId"></app-statistics>
+                </div>
+            </div>
         </div>
     </div>
     <div class="custom-modal-background"></div>
@@ -34,7 +40,7 @@
 <app-modal id="filterPreview">
     <div class="custom-modal align-content-center">
         <div class="custom-modal-body" *ngIf="filterFile">
-            <button (click)="closeModal('filterPreview')">x</button>
+            <button (click)="dismiss('filterPreview')">x</button>
             <app-filter-preview [item]="message" [fileid]="filterFile"></app-filter-preview>
         </div>
     </div>
