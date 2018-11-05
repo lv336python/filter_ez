@@ -102,15 +102,6 @@ class DataSetPandas(IDataSet):
         rows = self.dataframe.iloc[included_rows].values.tolist()
         return rows
 
-    def without_indecies(self):
-        """
-        Creates DataSetPandas instance with dataframe without first column
-        :return: DataSetPandas
-        """
-        without_indecies = DataSetPandas(self.dataset_id)
-        without_indecies.dataframe.drop(self.dataframe.columns[0], axis=1, inplace=True)
-        return without_indecies
-
     def filter_rows(self, included_rows):
         """
         Creates DataSetPandas instance with rows with identifier that is in included_rows
@@ -118,7 +109,7 @@ class DataSetPandas(IDataSet):
         :return:
         """
         filtered = DataSetPandas(self.dataset_id)
-        filtered.dataframe = filtered.dataframe.iloc[included_rows]
+        filtered.dataframe = filtered.dataframe.loc[included_rows]
         return filtered
 
     def from_rows(self, rows_idxs):
@@ -127,7 +118,7 @@ class DataSetPandas(IDataSet):
         :param rows_idxs: list of indexes included in DataFrame
         :return: DataFrame with given rows
         """
-        return self.dataframe.iloc[rows_idxs]
+        return self.dataframe.loc[rows_idxs]
 
     def sample(self, number_of_rows):
         """
@@ -155,3 +146,13 @@ class DataSetPandas(IDataSet):
         :return: modifies instance DataFrame.
         """
         self.dataframe = pd.concat([self.dataframe, exclude_df]).drop_duplicates(keep=False)
+
+    def with_ids(self):
+        """
+        Adds index of dataframe as a first column so when converting
+        to list it will be there
+        :return: DataSetPandas
+        """
+        with_ids = DataSetPandas(self.dataset_id)
+        with_ids.dataframe.insert(0, "ID", with_ids.dataframe.index)
+        return with_ids
