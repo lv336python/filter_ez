@@ -7,7 +7,7 @@ from flask import send_file
 from flask import request, session
 from flask_login import login_required
 
-from app.models import Dataset
+from app.helper import UsersDataset
 from app import APP
 from app.services.temp_link_service import send_to_user
 from app.services.token_service import confirm_token
@@ -36,9 +36,9 @@ def temp_link(dataset_id):
     :return: file to the email
     """
     emails = request.get_json()['emails']
-    dataset = Dataset.query.get(dataset_id)
+    dataset = UsersDataset(dataset_id)
 
-    if not dataset.user_id == int(session['user_id']):
+    if not dataset.is_owner(session['user_id']):
         return json.dumps({
             'message': 'Access forbidden'
         }), Status.HTTP_403_FORBIDDEN
