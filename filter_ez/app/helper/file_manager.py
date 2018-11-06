@@ -71,8 +71,6 @@ class FileManager:
         Serialized file has the same name but another extension.
         To get this file instead excel file use function serialized_file()
         :param file_full_name: name of the file with extension
-        :param extension: extension of file to serialize, if its xlsx or xls pandas.read_excel
-            used, if it is csv, pandas.read_csv used, otherwise return None
         :return: shape of DataFrame
         """
         file_path = os.path.join(self.directory, file_full_name)

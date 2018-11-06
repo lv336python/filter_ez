@@ -1,6 +1,6 @@
 """Module including DataSet Class"""
 
-from app.helper import DataSetPandas as DataFrame
+from app.helper import DataSetPandas
 from app.models import Dataset
 
 
@@ -10,7 +10,7 @@ class UsersDataset:
     """
     def __init__(self, dataset_id):
         """Initialise instance of DataSet by getting all attributes of given DataSet from DB"""
-        self.id = dataset_id # pylint: disable=C0103
+        self.id = dataset_id  # pylint: disable=C0103
         self.file_id = self.get_dataset().file_id
         self.user_id = self.get_dataset().user_id
         self.filter_id = self.get_dataset().filter_id
@@ -33,7 +33,7 @@ class UsersDataset:
         Returns DataFrame from DataSet by retrieving included rows from source File.
         If DataSet is origin File forms DataFrame from whole File
         """
-        data = DataFrame(self.id)
+        data = DataSetPandas(self.id)
 
         if include_ids:
             data = data.with_ids()

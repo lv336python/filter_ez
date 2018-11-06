@@ -2,10 +2,7 @@
     Module for routes for requiring data for uploaded excel file like statistics
     or first n rows of file for a preview
 """
-
-import json
-
-from flask import session
+from flask import session, jsonify
 from flask_login import login_required
 
 from app import APP
@@ -28,16 +25,16 @@ def get_statistics(dataset_id):
     """
     dataset = Dataset.query.get(dataset_id)
     if not dataset:
-        return json.dumps({'message': 'file does not exist'}), \
+        return jsonify({'message': 'file does not exist'}), \
                Status.HTTP_404_NOT_FOUND
 
     if dataset.user_id != int(session['user_id']):
-        return json.dumps({'message': 'access forbidden'}), \
+        return jsonify({'message': 'access forbidden'}), \
                Status.HTTP_403_FORBIDDEN
 
     file_data.fields_statistics(dataset, non_blocking=True)
 
-    return json.dumps({'message': 'request successful, processing'}), \
+    return jsonify({'message': 'request successful, processing'}), \
            Status.HTTP_202_ACCEPTED
 
 
@@ -64,10 +61,10 @@ def get_rows(dataset_id, number_of_rows):
     dataset = Dataset.query.get(dataset_id)
 
     if not dataset:
-        return json.dumps({'message': 'file does not exist'}), 404
+        return jsonify({'message': 'file does not exist'}), 404
 
     if dataset.user_id != int(session['user_id']):
-        return json.dumps({'message': 'access forbidden'}), 403
+        return jsonify({'message': 'access forbidden'}), 403
 
     preview = file_data.get_data_preview(dataset, number_of_rows)
-    return json.dumps(preview), 200
+    return jsonify(preview), 200

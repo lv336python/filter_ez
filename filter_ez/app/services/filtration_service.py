@@ -2,7 +2,7 @@
 Module include FilterApplier class.
 """
 import copy
-from app.helper.dataset_pandas import DataSetPandas as Dsp
+from app.helper import DataSetPandas
 from app.models import Filter
 
 
@@ -13,7 +13,7 @@ class FilterApplier:
     def __init__(self, dataset_id, filter_id):
         self.dataset_id = dataset_id
         self.filter_id = filter_id
-        self.result = Dsp()
+        self.result = DataSetPandas()
         self.filters = self.get_filter()
         self.amount = self.get_amount()
 
@@ -27,7 +27,7 @@ class FilterApplier:
 
     def get_filter(self):
         """Returns params of given filter"""
-        filters = Filter.query .get(self.filter_id)
+        filters = Filter.query.get(self.filter_id)
         return filters.params
 
     def filter_apply(self):
@@ -35,7 +35,7 @@ class FilterApplier:
         Apply filter to DataFrame formed from given DataSet.
         Returns list of DataFrame indexes of selected rows.
         """
-        data = Dsp(self.dataset_id)
+        data = DataSetPandas(self.dataset_id)
         data.actualize()
         self.filter_iterator(data, self.filters, self.amount)
         return self.result.content_indexes()

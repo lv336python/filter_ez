@@ -2,7 +2,8 @@
 Module for constant status codes
 """
 
-class Status:# pylint: disable=R0903
+
+class Status:  # pylint: disable=R0903
     """
     class that includes status codes
     """

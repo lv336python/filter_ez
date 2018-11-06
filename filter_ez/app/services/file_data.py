@@ -35,6 +35,7 @@ def fields_definition(filename, filters=None):
 
     return field_def
 
+
 @CELERY.task
 def get_statistics(dataframe, dataset_id=None, room_id=None):
     """ This function defines fields to defaultdict in dict

@@ -118,4 +118,6 @@ class UserDataCollector:
         user_files = self.get_files_info()
         user_filters = self.get_filters_info()
         user_datasets = self.get_datasets_info()
-        return {'userFiles': user_files, 'userFilters': user_filters, 'userDataSets': user_datasets}
+        return {'userFiles': user_files,
+                'userFilters': user_filters,
+                'userDataSets': user_datasets}
