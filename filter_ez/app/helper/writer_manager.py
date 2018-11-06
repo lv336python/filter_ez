@@ -3,7 +3,7 @@ from io import BytesIO
 import xlsxwriter
 
 
-class DataFrameWriter:  # pylint: disable=R0903:
+class DataFrameWriter:  # pylint: disable=R0903
     """
     Class to hold all needed write methods.
     It is working with DataFrames and write it to different outputs.
