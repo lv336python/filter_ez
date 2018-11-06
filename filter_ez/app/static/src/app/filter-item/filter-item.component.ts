@@ -72,7 +72,7 @@ export class FilterItemComponent implements OnInit {
             }
             this.parseSettings(this.f_param[this.parent_id]['child'][this.f_index]['settings']);
         } else if (this.parent_id && this.child_id) {
-            this.disable_columns = this.f_param[this.parent_id]['child'][0]['child'][0]['disabledColumns'];
+            this.disable_columns = this.f_param[this.parent_id]['child'][this.child_id]['child'][this.f_index]['disabledColumns'];
 
             if (this.f_param[this.parent_id]['child'][this.child_id]['child'][this.f_index]['params']['column']) {
                 this.selectedColumnName(this.f_param[this.parent_id]['child'][this.child_id]['child'][this.f_index]['params']['column']);
@@ -196,6 +196,9 @@ export class FilterItemComponent implements OnInit {
 
     setPercentage() {
         if (this.totalRows != 0) {
+            if(this.count_rows > this.totalRows) {
+                this.count_rows = this.totalRows;
+            }
             this.maxPercentageForUser = +(this.count_rows * 100 / this.totalRows).toFixed(2);
         } else {
             this.maxPercentageForUser = 100
@@ -424,7 +427,7 @@ export class FilterItemComponent implements OnInit {
             'child': false,
             'parent_id': parentIndex,
             'settings': {
-                'count_rows': undefined,
+                'count_rows': this.count_rows,
                 'quantity': '',
                 'qtt_readonly': '' },
         };
@@ -469,7 +472,6 @@ export class FilterItemComponent implements OnInit {
                 'qtt_readonly': true }
         };
         this.updateFilterItemParams.emit(this.f_param);
-
     }
 
     addLastChild(parent_id, child_id) {
@@ -501,7 +503,7 @@ export class FilterItemComponent implements OnInit {
             'parent_id': parent_id,
             'child_id': child_id,
             'settings': {
-                'count_rows': undefined,
+                'count_rows': this.count_rows,
                 'quantity': '',
                 'qtt_readonly': ''
             }

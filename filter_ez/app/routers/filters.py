@@ -67,12 +67,12 @@ def filter_num_rows():
     if isinstance(params, (list, tuple)):
         for elem in params:
             if 'quantity' in elem:
-                xl_file = xl_file[mask_f(xl_file, elem)].head(elem['quantity'])
+                xl_file = xl_file[mask_f(xl_file, elem)]
             else:
                 xl_file = xl_file[mask_f(xl_file, elem)]
     else:
         if 'quantity' in params:
-            xl_file = xl_file[mask_f(xl_file, params)].head(params['quantity'])
+            xl_file = xl_file[mask_f(xl_file, params)]
         else:
             xl_file = xl_file[mask_f(xl_file, params)]
 

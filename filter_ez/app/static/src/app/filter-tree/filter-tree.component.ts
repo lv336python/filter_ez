@@ -15,6 +15,8 @@ export class FilterTreeComponent implements OnInit {
     totalRows: number;
     save_error: string;
     filter_name: string;
+    totalAmount = [];
+    totalAmountLastChild = [];
     filter_params: object = {
         0: {
             'params': {},
@@ -155,4 +157,21 @@ export class FilterTreeComponent implements OnInit {
     setFilterName(value) {
         this.filter_name = value;
     }
+
+    onSetAmount(id, quantity){
+        this.totalAmount[id] = quantity;
+    }
+
+    onReduceAmount(id, quantity){
+        this.totalAmount[id] -= quantity;
+    }
+
+    onSetAmountLastChild(id, quantity){
+        this.totalAmountLastChild[id] = quantity;
+    }
+
+    onReduceAmountLastChild(id, quantity){
+        this.totalAmountLastChild[id] -= quantity;
+    }
+
 }
