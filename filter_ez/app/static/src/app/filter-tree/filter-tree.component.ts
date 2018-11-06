@@ -186,4 +186,13 @@ export class FilterTreeComponent implements OnInit {
     setFilterName(value) {
         this.filter_name = value;
     }
+
+    addResultedQuantity(event){
+        if(false == event.target.checked)
+            this.resultedQuantity = false;
+        this.addQuantity = event.target.checked;
+    }
+     setResultedQuantity(quantity){
+        this.resultedQuantity = quantity;
+    }
 }
