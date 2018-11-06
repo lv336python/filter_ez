@@ -39,21 +39,4 @@ LOGGER = make_logger(APP.config['LOG_FILE_PATH'])
 
 SOCKETIO = SocketIO(APP, async_mode='eventlet', message_queue=APP.config['BROKER_URL'])
 
-from .routers import (# pylint: disable=C0413
-    auth,
-    confirm_email,
-    confirm_reset,
-    datasets,
-    delete_file,
-    temp_link,
-    file_data,
-    file_download,
-    file_upload,
-    filters,
-    main,
-    notification,
-    register,
-    reset_password,
-    user_data,
-    filters_preview,
-)
+from app.routers import *  # pylint: disable=C0413, W0401

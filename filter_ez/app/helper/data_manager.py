@@ -1,5 +1,5 @@
 """
-Files Manager
+Data Manager
 """
 import os
 
@@ -7,9 +7,9 @@ from app import APP
 from app.models import Dataset, File
 
 
-class FileManager:
+class DataManager:
     """
-    Files Manager
+    Data Manager
     """
     def __init__(self, dataset_id):
         self.dataset_id = dataset_id

@@ -1,6 +1,6 @@
-'''
-Main view for '/' address
-'''
+"""
+    Main view for '/' address
+"""
 from flask import render_template
 
 from app import APP
@@ -8,7 +8,7 @@ from app import APP
 
 @APP.route('/', defaults={'path': ''})
 @APP.route('/<path:path>')
-def index(path):# pylint: disable=unused-argument
+def index(path):  # pylint: disable=unused-argument
     """
     Main route
     :param path:

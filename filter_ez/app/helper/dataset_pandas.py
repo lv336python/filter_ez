@@ -5,7 +5,7 @@ ToDo
 from os.path import splitext
 import pandas as pd
 
-from app.helper.new_file_manager import FileManager as Ufm
+from app.helper import DataManager
 from .idataset import IDataSet
 
 OPERATORS = {
@@ -32,7 +32,7 @@ class DataSetPandas(IDataSet):
         If dataset is not provided loads empty DataFrame.
         """
         if self.dataset_id:
-            file = Ufm(self.dataset_id)
+            file = DataManager(self.dataset_id)
             return pd.read_pickle(file.get_serialized_file_path())
         return pd.DataFrame()
 
@@ -52,7 +52,7 @@ class DataSetPandas(IDataSet):
 
     def actualize(self):
         """Actualize DataFrame by dropping results of all DataSets formed from this File."""
-        file = Ufm(self.dataset_id)
+        file = DataManager(self.dataset_id)
         reserved = [x.get('included_rows') for x in file.datasets]
         drop_list = [ids for subset in reserved if subset for ids in subset]
         self.dataframe = self.dataframe.drop(drop_list)
