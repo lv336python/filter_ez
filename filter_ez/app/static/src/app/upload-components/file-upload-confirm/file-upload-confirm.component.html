@@ -1,6 +1,6 @@
 <div class="modal-header">
     <h3>Files to upload.</h3>
-    <button (click)="closeModal('custom-modal-1')">cancel</button>
+    <button class="btn btn-sm btn-outline-danger" (click)="closeModal('custom-modal-1')">cancel</button>
 </div>
 <div>
     <app-file-upload-item *ngFor="let item of uploadFiles"
@@ -8,7 +8,7 @@
                      (removeItem)="removeItemFromUpload($event)"></app-file-upload-item>
 </div>
 <div>
-    <button
+    <button class="btn btn-sm btn-outline-success"
             (click)="closeModal('custom-modal-1'); onUpload()">
             upload
     </button>

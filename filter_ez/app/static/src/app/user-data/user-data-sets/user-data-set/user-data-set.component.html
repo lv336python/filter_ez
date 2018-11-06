@@ -1,24 +1,42 @@
 <!-- <button *ngIf="!showDatasetStat" class="stat" (click)="getStatDataset()">Stat</button> -->
+
+
 <h3>{{ userdataset.name }}</h3>
-<div>
-    <button type="button"
-            class="btn btn-success"
-            (click)="openModal('statModal')">
-        <i class="fa fa-bar-chart-o"></i>
-    </button>
-    <span>  date: {{ userdataset.createDate| date }}</span>
-    <!-- <button type="button" class="btn btn-success"(click)="downloadDataset(userdataset.id)">Download</button> -->
-    <span>sample: {{ userdataset.nItems }}</span>
-    <a href="api/download/{{ userdataset.id }}">
-        <button class="btn btn-success button-download">Download</button>
-    </a>
-</div>
+<div class="row">
+    <div class="col-md-3">
+        <button type="button"
+                class="btn btn-sm btn-outline-info"
+                
+                (click)="openStat()">
+            <i class="fa fa-bar-chart-o"></i>
+        </button></div>
+    <div class="col-md-6"><span>  date: {{ userdataset.createDate | date }}   </span>
+        <span>sample: {{ userdataset.nItems }}</span></div>
+    <div class="col-md-3">
+    <div class="dropdown">
+            <button class="btn btn-sm btn-outline-default dropdown-toggle"
+            style="margin-right: 4px" type="button" data-toggle="dropdown">...
+            <span class="caret"></span></button>
+            <ul class="dropdown-menu">
+                <li><a href="api/download/{{ userdataset.id }}">
+                <button class="btn btn-sm btn-outline-success button-download">Download</button>
+            </a>
+            
+            <li><button type="button" id='data-target'
+            class="btn btn-outline-success btn-sm" data-toggle="modal" [attr.data-target]="'#myModalSend' + userdataset.id">Send  file
+            </button></li>
+            </ul>
+    </div>
+
+
+        
+        
+        
+    </div>
+
 <div class="container ">
     <!-- Trigger the modal with a button -->
-    <button type="button" id='data-target'
-            class="btn btn-success btn-sm" data-toggle="modal" [attr.data-target]="'#myModalSend' + userdataset.id">Send
-        file
-    </button>
+    
     <!-- Modal -->
     <div class="modal fade" [attr.id]="'myModalSend' + userdataset.id" role="dialog">
 
@@ -35,5 +53,5 @@
         </div>
     </div>
 
-
+</div>
 </div>

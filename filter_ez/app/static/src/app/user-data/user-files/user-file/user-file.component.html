@@ -1,10 +1,11 @@
 <div *ngIf="!fileDeleted">
-    <div class="list-group-item">
+    <div class="card container">
         <h3>{{ file_index + 1 }}. {{ userfile.name }}</h3>
         <div class="row">
             <button type="button"
-                    class="btn btn-success col-2"
-                    (click)="openModal('statModal')">
+            style="margin : 2px"
+                    class="btn btn-sm btn-outline-info col-2"
+                    (click)="openStat()">
                 <i class="fa fa-bar-chart-o"></i>
             </button>
             <div class="file-stat col-8">
@@ -19,6 +20,7 @@
             </div>
             <div class="text-left">
                 <button type="button" class="btn btn-danger btn-sm" data-toggle="modal"
+                style="margin: 2px"
                         [attr.data-target]="'#delete-model'+file_index"><i class="fa fa-trash-o"></i></button>
 
                 <div [attr.id]="'delete-model'+file_index" class="modal fade" role="dialog">
@@ -32,12 +34,12 @@
                                 <p>It will also delete all dataset linked with this file!</p>
                                 <div class="modal-buttons">
 
-                                    <button class="btn btn-danger delete-button" (click)="deleteFile(userfile.id)"
+                                    <button class="btn btn-sm btn-outline-danger delete-button" (click)="deleteFile(userfile.id)"
                                             data-dismiss="modal">Delete
                                     </button>
 
                                     <button type="button" style="text-align: right"
-                                            class="btn btn-success cancel-button" data-dismiss="modal">Close
+                                            class="btn btn-sm btn-outline-success cancel-button" data-dismiss="modal">Close
                                     </button>
                                 </div>
                             </div>
@@ -47,5 +49,5 @@
             </div>
         </div>
     </div>
-
 </div>
+<br>

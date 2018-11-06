@@ -32,7 +32,6 @@ import { UserDataService } from './_services/user-data.service';
 import { Ng2SearchPipeModule } from 'ng2-search-filter';
 import { EmailFileComponent } from './email-file/email-file.component';
 import {BrowserAnimationsModule} from "@angular/platform-browser/animations";
-import { FooterComponent } from './footer/footer.component';
 import { FilterTreeComponent } from './filter-tree/filter-tree.component';
 import { FileUploadConfirmComponent } from './upload-components/file-upload-confirm/file-upload-confirm.component';
 import { FileUploadProcessComponent } from './upload-components/file-upload-process/file-upload-process.component';
@@ -42,6 +41,9 @@ import {FileUploadService} from "./_services/file-upload.service";
 import {ModalService} from "./_services/modal.service";
 import { ProcessBarComponent } from './upload-components/process-bar/process-bar.component';
 import {EventSharingService} from "./_services/event-sharing.service";
+import { FilterPreviewComponent } from './filter-preview/filter-preview.component';
+import { NgxSpinnerModule } from 'ngx-spinner';
+
 
 @NgModule({
   declarations: [
@@ -69,13 +71,13 @@ import {EventSharingService} from "./_services/event-sharing.service";
     UserFileComponent,
     UserFilterComponent,
     UserDataSetComponent,
-    FooterComponent,
     FilterTreeComponent,
     FileUploadConfirmComponent,
     FileUploadProcessComponent,
     ModalsComponent,
     FileUploadItemComponent,
     ProcessBarComponent,
+    FilterPreviewComponent,
   ],
   imports: [
     BrowserModule,
@@ -85,9 +87,9 @@ import {EventSharingService} from "./_services/event-sharing.service";
       ReactiveFormsModule,
       PlotlyModule,
       Ng2SearchPipeModule,
-
       PlotlyModule,
-      BrowserAnimationsModule
+      BrowserAnimationsModule,
+      NgxSpinnerModule
 
   ],
   providers: [AuthGuardService,

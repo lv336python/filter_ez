@@ -1,5 +1,13 @@
 <div>
-    <button class="stat">stat</button>
-    <h3>{{ userfilter.name }}</h3>
-    <select>opt</select>
+    <div class="row">
+
+        <div class="col-md-6"><h3>"{{ userfilter.name }}"</h3> </div>
+        <div class="col-md-1"></div>
+        <div class="col-md-3"><button class="btn btn-sm btn-outline-success" (click)="onShow('filterPreview')"
+                                        style="margin-top: 3px" >Edit <i class="fa fa-search"></i></button></div>
+        <div class="col-md-2"></div>
+
+    </div>
 </div>
+<br>
+<app-filter-preview [item]="message" [fileid]="userfilter.fileId"></app-filter-preview>

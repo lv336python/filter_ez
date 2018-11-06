@@ -1,6 +1,6 @@
 """Module including DataSet Class"""
 
-from app.helper import DataSetPandas as DataFrame
+from app.helper import DataSetPandas
 from app.models import Dataset
 
 
@@ -10,7 +10,7 @@ class UsersDataset:
     """
     def __init__(self, dataset_id):
         """Initialise instance of DataSet by getting all attributes of given DataSet from DB"""
-        self.dataset_id = dataset_id
+        self.id = dataset_id  # pylint: disable=C0103
         self.file_id = self.get_dataset().file_id
         self.user_id = self.get_dataset().user_id
         self.filter_id = self.get_dataset().filter_id
@@ -18,7 +18,7 @@ class UsersDataset:
 
     def get_dataset(self):
         """Retrieve DataSet from DB"""
-        return Dataset.query.get(self.dataset_id)
+        return Dataset.query.get(self.id)
 
     def is_dataset(self):
         """Checks if DataSet is origin File"""
@@ -26,17 +26,17 @@ class UsersDataset:
 
     def is_owner(self, user_id):
         """Checks if user have rights to this DataSet"""
-        return self.user_id == user_id
+        return self.user_id == int(user_id)
 
-    def to_dataframe(self, include_ids=True):
+    def to_dataframe(self, include_ids=False):
         """
         Returns DataFrame from DataSet by retrieving included rows from source File.
         If DataSet is origin File forms DataFrame from whole File
         """
-        data = DataFrame(self.dataset_id)
+        data = DataSetPandas(self.id)
 
-        if not include_ids:
-            data = data.without_indecies()
+        if include_ids:
+            data = data.with_ids()
 
         if self.included_rows:
             return data.from_rows(self.included_rows)

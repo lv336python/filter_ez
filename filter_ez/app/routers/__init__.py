@@ -1,0 +1,3 @@
+"""
+    Module with flask routes
+"""

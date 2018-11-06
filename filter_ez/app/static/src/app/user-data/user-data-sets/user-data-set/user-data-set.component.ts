@@ -5,6 +5,7 @@ import {UserFileService} from "../../../_services/user-file.service";
 import 'rxjs/Rx' ;
 import {ModalService} from "../../../_services/modal.service";
 import {UserDataService} from "../../../_services/user-data.service";
+import {UserDataComponent} from "../../user-data.component";
 
 @Component({
   selector: 'app-user-data-set',
@@ -16,7 +17,7 @@ export class UserDataSetComponent implements OnInit {
 
   constructor(private file: UserFileService,
               private modalService: ModalService,
-              private dataService: UserDataService) {
+              private userData: UserDataComponent) {
   }
 
 
@@ -31,9 +32,9 @@ export class UserDataSetComponent implements OnInit {
   ngOnInit() {
   }
 
-  openModal(id: string) {
-    this.modalService.open(id);
-    this.dataService.onAddToStat(this.userdataset.id);
-  }
+  openStat() {
+        this.modalService.open('statModal');
+        this.userData.addItem(this.userdataset.id, this.userdataset.name);
+    }
 
 }

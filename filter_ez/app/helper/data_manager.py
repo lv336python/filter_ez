@@ -1,5 +1,5 @@
 """
-Files Manager
+Data Manager
 """
 import os
 
@@ -7,9 +7,9 @@ from app import APP
 from app.models import Dataset, File
 
 
-class FileManager:
+class DataManager:
     """
-    Files Manager
+    Data Manager
     """
     def __init__(self, dataset_id):
         self.dataset_id = dataset_id
@@ -34,18 +34,14 @@ class FileManager:
 
     def get_file_path(self):
         """
-        Returns path to original file with the given file_id if this file belongs to the User
-        :param file_id:
-        :return: path to file or None
+        Returns absolute file path to original file
         """
-        return os.path.join(APP.config['UPLOAD_FOLDER'], str(self.user_id), self.path)
+        return os.path.join(APP.config['UPLOAD_FOLDER'], self.path)
 
     def get_serialized_file_path(self):
         """
-        Returns path to original file with the given file_id if this file belongs to the User
-        :param file_id:
-        :return: path to file or None
+        Returns absolute file path with exchanged extension for .pkl
         """
         file_name = os.path.splitext(self.path)[0]
         serialized = f'{file_name}.pkl'
-        return os.path.join(APP.config['UPLOAD_FOLDER'], str(self.user_id), serialized)
+        return os.path.join(APP.config['UPLOAD_FOLDER'], serialized)

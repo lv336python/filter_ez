@@ -6,17 +6,7 @@ from hashlib import md5
 import os
 
 from app import APP, LOGGER
-from app.helper.writer_manager import DataFrameWriter
-from app.services import notify_admin
-from app.helper.date_time_manager import DateTimeManager
-
-def create_dir(dir_path):
-    """
-    Function verify that given folder exists if not it creates it
-    :param dir_path: directory to check
-    :return: if path doesnt exist it will make dirs recursively
-    """
-    return os.path.isdir(dir_path) or os.makedirs(dir_path)
+from app.helper import DataFrameWriter, DateTimeManager
 
 
 def temp_file(dataset):
@@ -27,11 +17,14 @@ def temp_file(dataset):
     :return: path to file
     """
     file = dataset_to_excel(dataset)
+
     ask = APP.config['SECRET_KEY']
     hashed = md5(f'{ask}{dataset.id}'.encode()).hexdigest()
     temp_folder = os.path.join(APP.config['TEMP_FOLDER'], hashed)
-    create_dir(APP.config['TEMP_FOLDER'])
+
+    os.makedirs(APP.config['TEMP_FOLDER'], exist_ok=True)
     path = f"{temp_folder}.xlsx"
+
     with open(path, 'wb') as out:
         out.write(file.read())
     return path
@@ -41,19 +34,14 @@ def dataset_to_excel(dataset, include_ids=True):
     """
     Writes dataset to excel file in-memory without creating excel file in the local storage
     :param dataset: Users DataSet which should be transformed to excel
+    :param include_ids: flag whether to include index for each row
     :return: BytesIO object or None
     """
-    try:
-        start_time = DateTimeManager.get_current_time()
-        LOGGER.info("Start creating file")
+    start_time = DateTimeManager.get_current_time()
+    LOGGER.info("Start creating file")
 
-        dataframe = dataset.to_dataframe(include_ids)
-        data = DataFrameWriter.xlsx_bytes_io(dataframe)
+    dataframe = dataset.to_dataframe(include_ids)
+    data = DataFrameWriter.xlsx_bytes_io(dataframe)
 
-        LOGGER.info("Finished creating file: %s", DateTimeManager.get_current_time() - start_time)
-        return data
-    except Exception as exception: # pylint: disable=W0703
-        LOGGER.error("Error occurred when tried to create a byteIO"
-                     " object for dataset %d: %s", dataset.dataset_id, exception)
-        notify_admin(f"Error occurred when tried to create a byteIO"
-                     f" object for dataset {dataset.dataset_id}: {exception}", 'ERROR')
+    LOGGER.info("Finished creating file: %s", DateTimeManager.get_current_time() - start_time)
+    return data

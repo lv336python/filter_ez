@@ -3,7 +3,8 @@ export class UserData {
     public userFiles: Array<object>,
     public userDataSets: Array<object>,
     public userFilters: Array<object>
-  ) {}
+  ) {
+  }
 }
 
 
@@ -15,13 +16,15 @@ export class File {
     public uploadDate: number,
     public nRows: number,
     public datasetId: number
-  ) {}
+  ) {
+  }
 }
 
 export class Filter {
   constructor(
     public id: number,
-    public name: string
+    public name: string,
+    public fileId: number
   ) {}
 }
 
@@ -33,5 +36,15 @@ export class DataSet {
     public name: string,
     public createDate: Date,
     public nItems: number
-  ) {}
+  ) {
+  }
 }
+
+export class StatInfo {
+  constructor(
+    public datasetId: number,
+    public name: string
+  ) {
+  }
+}
+

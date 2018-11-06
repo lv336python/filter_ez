@@ -1,6 +1,7 @@
 import {Component, OnInit, EventEmitter, Input, Output} from '@angular/core';
 import {HttpClient} from "@angular/common/http";
 
+
 @Component({
     selector: 'filter-item',
     templateUrl: './filter-item.component.html',
@@ -72,6 +73,7 @@ export class FilterItemComponent implements OnInit {
             this.parseSettings(this.f_param[this.parent_id]['child'][this.f_index]['settings']);
         } else if (this.parent_id && this.child_id) {
             this.disable_columns = this.f_param[this.parent_id]['child'][0]['child'][0]['disabledColumns'];
+
             if (this.f_param[this.parent_id]['child'][this.child_id]['child'][this.f_index]['params']['column']) {
                 this.selectedColumnName(this.f_param[this.parent_id]['child'][this.child_id]['child'][this.f_index]['params']['column']);
                 this.disColumn = true;
@@ -94,19 +96,24 @@ export class FilterItemComponent implements OnInit {
             }
             this.parseSettings(this.f_param[this.f_index]['settings']);
         }
+            console.log('count', this.count_rows);
+
     }
 
     selectedColumnName(column) {
         this.column = column;
-        this.value = '';
-        if ('min' in this.metadata[column] && 'max' in this.metadata[column]) {
-            this.valueMaxMin = {
-                'min': this.metadata[column]['min'],
-                'max': this.metadata[column]['max']
+        if (this.metadata) {
+            this.column = column;
+            this.value = '';
+            if ('min' in this.metadata[column] && 'max' in this.metadata[column]) {
+                this.valueMaxMin = {
+                    'min': this.metadata[column]['min'],
+                    'max': this.metadata[column]['max']
+                }
+            } else {
+                this.values = this.metadata[column];
+                this.valueMaxMin = {};
             }
-        } else {
-            this.values = this.metadata[column];
-            this.valueMaxMin = {};
         }
     }
 
@@ -267,7 +274,7 @@ export class FilterItemComponent implements OnInit {
             this.f_param[this.parent_id]['child'][this.f_index].params = {
                 'column': this.column,
                 'operator': this.operator,
-                'value': {'from': this.betweenMin, 'to': this.betweenMax}
+                'value': {'from':this.betweenMin, 'to':this.betweenMax}
             };
             let child_params = [
                 this.f_param[this.parent_id].params,
@@ -283,7 +290,7 @@ export class FilterItemComponent implements OnInit {
             this.f_param[this.parent_id]['child'][this.child_id]['child'][this.f_index].params = {
                 'column': this.column,
                 'operator': this.operator,
-                'value': {'from': this.betweenMin, 'to': this.betweenMax}
+                'value': {'from':this.betweenMin, 'to':this.betweenMax}
             };
             let last_child_params = [
                 this.f_param[this.parent_id].params,
@@ -301,7 +308,7 @@ export class FilterItemComponent implements OnInit {
             this.f_param[this.f_index].params = {
                 'column': this.column,
                 'operator': this.operator,
-                'value': {'from': this.betweenMin, 'to': this.betweenMax}
+                'value': {'from':this.betweenMin, 'to':this.betweenMax}
             };
             this.http
                 .post('/api/count_rows', {'file_id': this.file_id, 'params': this.f_param[this.f_index].params})
@@ -338,10 +345,10 @@ export class FilterItemComponent implements OnInit {
         }
 
         if (this.operator == 'range') {
-            if (!this.checkMaxBetweenValue() || !this.checkMinBetweenValue()) {
+            if(!this.checkMaxBetweenValue() || !this.checkMinBetweenValue()) {
                 return false;
             }
-            this.valueToSend = {'from': this.betweenMin, 'to': this.betweenMax};
+            this.valueToSend = {'from':this.betweenMin, 'to': this.betweenMax};
         }
         else if (!this.checkRangeValue()) {
             return false;
@@ -361,9 +368,8 @@ export class FilterItemComponent implements OnInit {
                 'column': this.column,
                 'operator': this.operator,
                 'value': this.valueToSend,
-                'quantity': this.calculateQuantity()
-            },
-            'settings': {
+                'quantity': this.calculateQuantity() },
+            'settings' : {
                 'count_rows': this.count_rows,
                 'quantity': this.quantity,
                 'qtt_readonly': true
@@ -388,7 +394,7 @@ export class FilterItemComponent implements OnInit {
         this.f_param[this.parent_id]['child'][this.f_index] = {
             'parent_id': this.parent_id,
             'child': false,
-            'settings': {
+            'settings' : {
                 'count_rows': this.count_rows,
                 'quantity': this.quantity,
                 'qtt_readonly': true
@@ -404,15 +410,13 @@ export class FilterItemComponent implements OnInit {
         let new_child_index = Object.keys(this.f_param[parentIndex]['child']).length;
         this.f_param[parentIndex]['child'][new_child_index] = {
             'params': {
-                'column': this.column
-            },
+                'column': this.column },
             'child': false,
             'parent_id': parentIndex,
             'settings': {
                 'count_rows': undefined,
                 'quantity': '',
-                'qtt_readonly': ''
-            },
+                'qtt_readonly': '' },
         };
         this.updateFilterItemParams.emit(this.f_param);
     }
@@ -423,9 +427,6 @@ export class FilterItemComponent implements OnInit {
         }
 
         this.f_param[this.f_index] = {
-            'child': false,
-            'parent_id': false,
-            'disabledColumns': [],
             'params': {
                 'column': this.column,
                 'operator': this.operator,
@@ -446,27 +447,25 @@ export class FilterItemComponent implements OnInit {
             return false;
         }
 
-        this.f_param[this.parent_id]['child'][this.f_index] = {
-            'params': {
+        this.f_param[this.parent_id]['child'][this.f_index]= {
+            'params' : {
                 'column': this.column,
                 'operator': this.operator,
                 'value': this.valueToSend,
-                'quantity': this.calculateQuantity()
-            },
-            'parent_id': this.parent_id,
-            'child': false,
-            'settings': {
+                'quantity': this.calculateQuantity() },
+            'parent_id' : this.parent_id,
+            'child' : false,
+            'settings' : {
                 'count_rows': this.count_rows,
                 'quantity': this.quantity,
-                'qtt_readonly': true
-            }
+                'qtt_readonly': true }
         };
         this.updateFilterItemParams.emit(this.f_param);
 
     }
 
     addLastChild(parent_id, child_id) {
-        if (!this.validateBeforeSaving()) {
+        if (!this.validateBeforeSaving()){
             return false;
         }
 

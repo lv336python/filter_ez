@@ -47,3 +47,7 @@ app-modal {
   position: center;
   padding: 20px;
 }
+.modal-win{
+  width: 70%;
+  height: 70%;
+}

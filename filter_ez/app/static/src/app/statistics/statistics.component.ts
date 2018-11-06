@@ -1,6 +1,7 @@
 import {Component, Input, OnInit} from '@angular/core';
 import {DataService} from "../_services/data.service";
 import {SocketService} from "../_services/socket.service";
+import { NgxSpinnerService } from 'ngx-spinner';
 
 
 @Component({
@@ -45,7 +46,8 @@ export class StatisticsComponent implements OnInit {
     }
 
     constructor(private data : DataService,
-                private socket : SocketService) { }
+                private socket : SocketService,
+                private spinner: NgxSpinnerService) { }
 
     updateGraph() {
         this.data.getStatistics(this.datasetId)
@@ -60,14 +62,18 @@ export class StatisticsComponent implements OnInit {
                             this.graph.pie[0].values = Object.values(res[this.columns[0]]);
                             this.graph.bar[0].x = Object.keys(res[this.columns[0]]);
                             this.graph.bar[0].y = Object.values(res[this.columns[0]]);
+
+                            this.spinner.hide();
                         }
                     ),
-                err => console.error(err)
+                err => {console.error(err)
+                this.spinner.hide();
+            }
             );
     }
 
     ngOnInit() {
-        this.updateGraph();
+        this.spinner.show();
     }
 
     setPlot(plotType : string, target, opp: Element) {

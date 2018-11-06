@@ -28,6 +28,7 @@
     "core-js": "^2.5.4",
     "font-awesome": "^4.7.0",
     "ng2-search-filter": "^0.4.7",
+    "ngx-spinner": "^6.1.2",
     "plotly.js": "^1.41.2",
     "rxjs": "^6.0.0",
     "rxjs-compat": "^6.3.3",
