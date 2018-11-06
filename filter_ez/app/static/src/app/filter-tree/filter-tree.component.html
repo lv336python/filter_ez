@@ -32,10 +32,11 @@
                     [columns]="columns"
                     [f_index]="index.key"
                     [file_id]="file_id"
-                    [child]="false"
+                    [child]="'false'"
                     [parent_id]="false"
                     [child_id]="false"
                     [totalRows]="totalRows"
+                    [user_define_quantity]="resultedQuantity"
                     [metadata]="metadata"
                     [f_param]="filter_params"
                     (updateFilterItemParams)="updateFilterParams($event)"
@@ -53,6 +54,7 @@
                                 [parent_id]="index.key"
                                 [child_id]="false"
                                 [totalRows]="index.value.params.quantity"
+                                [user_define_quantity]="resultedQuantity"
                                 [metadata]="metadata"
                                 [f_param]="filter_params"
                                 (updateFilterItemParams)="updateFilterParams($event)"
@@ -70,6 +72,7 @@
                                             [parent_id]="index.key"
                                             [child_id]="ch_index.key"
                                             [totalRows]="ch_index.value.params.quantity"
+                                            [user_define_quantity]="resultedQuantity"
                                             [metadata]="metadata"
                                             [f_param]="filter_params"
                                             (updateFilterItemParams)="updateFilterParams($event)"
@@ -93,7 +96,7 @@
     </tbody>
 </table>
 <div class="row justify-content-md-center" *ngIf="file_id">
-    <div class="col col-md-4">
+    <div class="col col-md-3">
         <hr class="my-4">
 
         <button type="button" class="btn btn-primary btn-lg btn-block" (click)="saveFilter(apply=true)">Apply</button>

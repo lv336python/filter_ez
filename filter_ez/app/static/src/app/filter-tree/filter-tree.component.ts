@@ -16,18 +16,14 @@ export class FilterTreeComponent implements OnInit {
     save_error: string;
     filter_name: string;
     filter_params: object = {
-        0: {
-            'params': {},
-            'child': false,
-            'parent_id': false,
-            'disabledColumns': [],
-            'settings': {
-                'count_rows': undefined,
-                'quantity': '',
-                'qtt_readonly': '',
-            },
-        }
+            0:{"child":false,
+                "parent_id":false,
+                "disabledColumns":[],
+                "params":{},
+                "settings":{}
+            }
     };
+
 
     metadata: object;
     columns: string[];
@@ -93,6 +89,7 @@ export class FilterTreeComponent implements OnInit {
             }
         };
         this.updateFilterParams(this.filter_params);
+        console.log( this.filter_params[parentIndex]['child'][child_id]['child'][0]['disabledColumns']);
     }
 
     saveFilter(apply: boolean) {
@@ -102,6 +99,12 @@ export class FilterTreeComponent implements OnInit {
         }
 
         let filter_params = this.filter_params;
+        if(1){
+            console.log(this.filter_params);
+            return false;
+        }
+
+
         let filter = {};
         for (let key in filter_params) {
             filter[key] = this.deleteUnnecessaryElem(filter_params[key]);
@@ -136,8 +139,6 @@ export class FilterTreeComponent implements OnInit {
                 .post('/api/apply_filer', {
                     'params': filter,
                     'name': this.filter_name,
-                    'user_quantity': this.resultedQuantity,
-                    'total_rows': this.totalRows,
                     'file_id': this.file_id
                 })
                 .subscribe(data => this.router.navigate(['/']),
@@ -151,8 +152,6 @@ export class FilterTreeComponent implements OnInit {
             .post('/api/save_filter', {
                 'params': filter,
                 'name': this.filter_name,
-                'user_quantity': this.resultedQuantity,
-                'total_rows': this.totalRows,
                 'file_id': this.file_id
             })
             .subscribe(data => this.router.navigate(['/']),

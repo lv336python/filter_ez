@@ -10,16 +10,14 @@ export class FilterItemComponent implements OnInit {
     column: string;
     operator: string;
     value: string;
-    valueToSend : any;
+    valueToSend: any;
     quantity: number;
     stan: string;
     count_rows: number = undefined;
-    operatorBtwElem = '';
     clickMessage = 'Percentage';
 
     valid_quantity = true;
     maxPercentageForUser = 100;
-    new_column = true;
     param_index = 0;
     quantityError: string;
     rangeValueError: string;
@@ -30,12 +28,12 @@ export class FilterItemComponent implements OnInit {
     disQuantity = false;
     rangeValue: number;
 
-    betweenMin : number;
-    betweenMax : number;
+    betweenMin: number;
+    betweenMax: number;
 
     valuesPushed = false;
     valueMaxMin = {};
-    disable_columns= [];
+    disable_columns = [];
 
 
     values = [];
@@ -53,6 +51,7 @@ export class FilterItemComponent implements OnInit {
     @Input() child: string;
     @Input() parent_id: number;
     @Input() child_id: number;
+    @Input() user_define_quantity: any;
 
     constructor(private http: HttpClient) {
     }
@@ -73,7 +72,6 @@ export class FilterItemComponent implements OnInit {
             this.parseSettings(this.f_param[this.parent_id]['child'][this.f_index]['settings']);
         } else if (this.parent_id && this.child_id) {
             this.disable_columns = this.f_param[this.parent_id]['child'][0]['child'][0]['disabledColumns'];
-
             if (this.f_param[this.parent_id]['child'][this.child_id]['child'][this.f_index]['params']['column']) {
                 this.selectedColumnName(this.f_param[this.parent_id]['child'][this.child_id]['child'][this.f_index]['params']['column']);
                 this.disColumn = true;
@@ -96,25 +94,7 @@ export class FilterItemComponent implements OnInit {
             }
             this.parseSettings(this.f_param[this.f_index]['settings']);
         }
-            console.log('count', this.count_rows);
-
     }
-
-    // save() {
-    //     if (!this.checkQuantity()) {
-    //         return false;
-    //     }
-    //     if (!this.valuesPushed) {
-    //         this.pushFilterParams.emit({
-    //             'column': this.column,
-    //             'operator': this.operator,
-    //             'value': this.value,
-    //             'quantity': this.calculateQuantity(),
-    //         });
-    //     }
-    //     this.valuesPushed = true;
-    //     this.saveFilter.emit();
-    // }
 
     selectedColumnName(column) {
         this.column = column;
@@ -123,7 +103,7 @@ export class FilterItemComponent implements OnInit {
             this.valueMaxMin = {
                 'min': this.metadata[column]['min'],
                 'max': this.metadata[column]['max']
-        }
+            }
         } else {
             this.values = this.metadata[column];
             this.valueMaxMin = {};
@@ -135,7 +115,6 @@ export class FilterItemComponent implements OnInit {
     }
 
     addValue(value) {
-        this.disColumn = true;
         this.value = value;
         if (this.parent_id && !this.child_id) {
             this.f_param[this.parent_id]['child'][this.f_index].params = {
@@ -189,13 +168,10 @@ export class FilterItemComponent implements OnInit {
         this.operator = oper;
     }
 
-    // operatorElems(data) {
-    //     this.disValue = true;
-    //     this.operatorBtwElem = data;
-    // }
-
     setPercentage() {
-        if (this.totalRows != 0) {
+        if (this.user_define_quantity && this.child === 'false') {
+            this.maxPercentageForUser = +(this.count_rows * 100 / this.user_define_quantity).toFixed(2);
+        } else if (this.totalRows != 0) {
             this.maxPercentageForUser = +(this.count_rows * 100 / this.totalRows).toFixed(2);
         } else {
             this.maxPercentageForUser = 100
@@ -208,10 +184,13 @@ export class FilterItemComponent implements OnInit {
     }
 
     calculateQuantity() {
-        if (this.clickMessage == 'Quantity'){
+        if (this.clickMessage == 'Quantity') {
             return this.quantity;
-        } else if(this.clickMessage == 'Percentage'){
-            return Math.floor(this.totalRows * this.quantity / 100);
+        } else if (this.clickMessage == 'Percentage') {
+            if (this.user_define_quantity && !this.child_id)
+                return Math.floor(this.user_define_quantity * this.quantity / 100);
+            else
+                return Math.floor(this.totalRows * this.quantity / 100);
         }
     }
 
@@ -262,7 +241,7 @@ export class FilterItemComponent implements OnInit {
             return false;
         }
         else if (this.betweenMin > this.betweenMax ||
-            this.betweenMax == undefined|| this.betweenMin == undefined) {
+            this.betweenMax == undefined || this.betweenMin == undefined) {
             this.rangeValueError = "min value should be lesser than max value";
             return false;
         }
@@ -288,7 +267,7 @@ export class FilterItemComponent implements OnInit {
             this.f_param[this.parent_id]['child'][this.f_index].params = {
                 'column': this.column,
                 'operator': this.operator,
-                'value': {'from':this.betweenMin, 'to':this.betweenMax}
+                'value': {'from': this.betweenMin, 'to': this.betweenMax}
             };
             let child_params = [
                 this.f_param[this.parent_id].params,
@@ -304,7 +283,7 @@ export class FilterItemComponent implements OnInit {
             this.f_param[this.parent_id]['child'][this.child_id]['child'][this.f_index].params = {
                 'column': this.column,
                 'operator': this.operator,
-                'value': {'from':this.betweenMin, 'to':this.betweenMax}
+                'value': {'from': this.betweenMin, 'to': this.betweenMax}
             };
             let last_child_params = [
                 this.f_param[this.parent_id].params,
@@ -322,7 +301,7 @@ export class FilterItemComponent implements OnInit {
             this.f_param[this.f_index].params = {
                 'column': this.column,
                 'operator': this.operator,
-                'value': {'from':this.betweenMin, 'to':this.betweenMax}
+                'value': {'from': this.betweenMin, 'to': this.betweenMax}
             };
             this.http
                 .post('/api/count_rows', {'file_id': this.file_id, 'params': this.f_param[this.f_index].params})
@@ -359,10 +338,10 @@ export class FilterItemComponent implements OnInit {
         }
 
         if (this.operator == 'range') {
-            if(!this.checkMaxBetweenValue() || !this.checkMinBetweenValue()) {
+            if (!this.checkMaxBetweenValue() || !this.checkMinBetweenValue()) {
                 return false;
             }
-            this.valueToSend = {'from':this.betweenMin, 'to': this.betweenMax};
+            this.valueToSend = {'from': this.betweenMin, 'to': this.betweenMax};
         }
         else if (!this.checkRangeValue()) {
             return false;
@@ -372,20 +351,23 @@ export class FilterItemComponent implements OnInit {
     }
 
     addNewColumn() {
-        if(!this.validateBeforeSaving()) {
-           return;
+        if (!this.validateBeforeSaving()) {
+            return;
         }
+        this.disColumn = true;
 
-        this.f_param[this.f_index]= {
+        this.f_param[this.f_index] = {
             'params': {
                 'column': this.column,
                 'operator': this.operator,
                 'value': this.valueToSend,
-                'quantity': this.calculateQuantity() },
-            'settings' : {
+                'quantity': this.calculateQuantity()
+            },
+            'settings': {
                 'count_rows': this.count_rows,
                 'quantity': this.quantity,
-                'qtt_readonly': true },
+                'qtt_readonly': true
+            },
         };
 
         let new_index = Object.keys(this.f_param).length;
@@ -399,81 +381,92 @@ export class FilterItemComponent implements OnInit {
     }
 
     addChild(parentIndex) {
-        if(!this.validateBeforeSaving()) {
-           return;
+        if (!this.validateBeforeSaving()) {
+            return;
         }
 
         this.f_param[this.parent_id]['child'][this.f_index] = {
             'parent_id': this.parent_id,
             'child': false,
-            'settings' : {
+            'settings': {
                 'count_rows': this.count_rows,
                 'quantity': this.quantity,
-                'qtt_readonly': true },
-            'params' : {
+                'qtt_readonly': true
+            },
+            'params': {
                 'column': this.column,
                 'operator': this.operator,
                 'value': this.valueToSend,
-                'quantity': this.calculateQuantity() },
+                'quantity': this.calculateQuantity()
+            },
         };
 
         let new_child_index = Object.keys(this.f_param[parentIndex]['child']).length;
         this.f_param[parentIndex]['child'][new_child_index] = {
             'params': {
-                'column': this.column },
+                'column': this.column
+            },
             'child': false,
             'parent_id': parentIndex,
             'settings': {
                 'count_rows': undefined,
                 'quantity': '',
-                'qtt_readonly': '' },
+                'qtt_readonly': ''
+            },
         };
         this.updateFilterItemParams.emit(this.f_param);
     }
 
     saveParent() {
-        if (!this.validateBeforeSaving()){
+        if (!this.validateBeforeSaving()) {
             return false;
         }
 
         this.f_param[this.f_index] = {
+            'child': false,
+            'parent_id': false,
+            'disabledColumns': [],
             'params': {
                 'column': this.column,
                 'operator': this.operator,
                 'value': this.valueToSend,
-                'quantity': this.calculateQuantity() },
+                'quantity': this.calculateQuantity()
+            },
             'settings': {
                 'count_rows': this.count_rows,
                 'quantity': this.quantity,
-                'qtt_readonly': true },
+                'qtt_readonly': true
+            },
         };
         this.updateFilterItemParams.emit(this.f_param);
     }
 
     saveChild() {
-        if (!this.validateBeforeSaving()){
+        if (!this.validateBeforeSaving()) {
             return false;
         }
 
-        this.f_param[this.parent_id]['child'][this.f_index]= {
-            'params' : {
+        this.f_param[this.parent_id]['child'][this.f_index] = {
+            'params': {
                 'column': this.column,
                 'operator': this.operator,
                 'value': this.valueToSend,
-                'quantity': this.calculateQuantity() },
-            'parent_id' : this.parent_id,
-            'child' : false,
-            'settings' : {
+                'quantity': this.calculateQuantity()
+            },
+            'parent_id': this.parent_id,
+            'child': false,
+            'settings': {
                 'count_rows': this.count_rows,
                 'quantity': this.quantity,
-                'qtt_readonly': true }
+                'qtt_readonly': true
+            }
         };
         this.updateFilterItemParams.emit(this.f_param);
 
     }
 
     addLastChild(parent_id, child_id) {
-        if (!this.validateBeforeSaving()){
+        if (!this.validateBeforeSaving()) {
             return false;
         }
 
@@ -482,11 +475,13 @@ export class FilterItemComponent implements OnInit {
                 'column': this.column,
                 'operator': this.operator,
                 'value': this.valueToSend,
-                'quantity': this.calculateQuantity() },
-            'parent_id' : parent_id,
-            'child' : false,
-            'child_id' : child_id,
-            'settings' : {
+                'quantity': this.calculateQuantity()
+            },
+            'parent_id': parent_id,
+            'disabledColumns': [this.f_param[parent_id]['params']['column'], this.f_param[parent_id]['child'][0]['params']['column']],
+            'child': false,
+            'child_id': child_id,
+            'settings': {
                 'count_rows': this.count_rows,
                 'quantity': this.quantity,
                 'qtt_readonly': true,
@@ -496,10 +491,12 @@ export class FilterItemComponent implements OnInit {
         let last_index = Object.keys(this.f_param[parent_id]['child'][child_id]['child']).length;
         this.f_param[parent_id]['child'][child_id]['child'][last_index] = {
             'params': {
-                'column': this.column },
+                'column': this.column
+            },
             'child': false,
             'parent_id': parent_id,
             'child_id': child_id,
+            'disabledColumns': [this.f_param[parent_id]['params']['column'], this.f_param[parent_id]['child'][0]['params']['column']],
             'settings': {
                 'count_rows': undefined,
                 'quantity': '',
@@ -510,19 +507,21 @@ export class FilterItemComponent implements OnInit {
     }
 
     saveLastChild() {
-        if (!this.validateBeforeSaving()){
+        if (!this.validateBeforeSaving()) {
             return false;
         }
 
         this.f_param[this.parent_id]['child'][this.child_id]['child'][this.f_index] = {
-            'params' : {
+            'params': {
                 'column': this.column,
                 'operator': this.operator,
                 'value': this.valueToSend,
-                'quantity': this.calculateQuantity() },
-            'parent_id' : this.parent_id,
-            'child' : false,
-            'settings' : {
+                'quantity': this.calculateQuantity()
+            },
+            'disabledColumns': [this.f_param[this.parent_id]['params']['column'], this.f_param[this.parent_id]['child'][0]['params']['column']],
+            'parent_id': this.parent_id,
+            'child': false,
+            'settings': {
                 'count_rows': this.count_rows,
                 'quantity': this.quantity,
                 'qtt_readonly': true,
@@ -532,8 +531,8 @@ export class FilterItemComponent implements OnInit {
         this.updateFilterItemParams.emit(this.f_param);
     }
 
-    stanOfButton(){
-        if(this.clickMessage == "Percentage"){
+    stanOfButton() {
+        if (this.clickMessage == "Percentage") {
             this.clickMessage = "Quantity";
         }
         else {
