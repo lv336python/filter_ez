@@ -1,6 +1,6 @@
-'''
+"""
 Initialization of app, mail, manager, database objects
-'''
+"""
 import eventlet
 import redis
 
@@ -39,4 +39,13 @@ LOGGER = make_logger(APP.config['LOG_FILE_PATH'])
 
 SOCKETIO = SocketIO(APP, async_mode='eventlet', message_queue=APP.config['BROKER_URL'])
 
-from app.routers import *  # pylint: disable=C0413, W0401
+from app.routers import (
+    auth,
+    file_data,
+    file_manage,
+    filters,
+    notification,
+    main,
+    temp_link,
+    user_data,
+)  # pylint: disable=C0413
