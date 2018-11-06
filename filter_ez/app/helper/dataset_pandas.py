@@ -55,7 +55,7 @@ class DataSetPandas(IDataSet):
         file = Ufm(self.dataset_id)
         reserved = [x.get('included_rows') for x in file.datasets]
         drop_list = [ids for subset in reserved if subset for ids in subset]
-        self.dataframe = self.dataframe.drop(self.dataframe.index[drop_list])
+        self.dataframe = self.dataframe.drop(drop_list)
 
     def filter_set(self, fltr):
         """
@@ -99,7 +99,7 @@ class DataSetPandas(IDataSet):
         :param included_rows:
         :return:
         """
-        rows = self.dataframe.iloc[included_rows].values.tolist()
+        rows = self.dataframe.loc[included_rows].values.tolist()
         return rows
 
     def filter_rows(self, included_rows):
