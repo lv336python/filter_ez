@@ -205,3 +205,16 @@ class DataBaseManager:
         DB.session.add(dataset)
         DB.session.commit()
         return dataset
+
+    @classmethod
+    def add_filter(cls, name, parameters):
+        """
+        Function saves filter to DB
+        :param parameters: filter parameters to be saved.
+        :param name: name of filter which appear in DB table
+        :return: new created filter
+        """
+        new_filter = Filter(name=name, params=parameters)
+        DB.session.add(new_filter)
+        DB.session.commit()
+        return new_filter

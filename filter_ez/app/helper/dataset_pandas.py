@@ -1,6 +1,5 @@
-# pylint: disable=invalid-name
 """
-ToDo
+    Module with real class which implements IDataset interface using pandas library
 """
 from os.path import splitext
 import pandas as pd
