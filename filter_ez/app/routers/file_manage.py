@@ -160,6 +160,7 @@ def getfiles():
 
 
 @APP.route('/api/delete_dataset/<int:dataset_id>')
+@login_required
 def delete_dataset(dataset_id):
     '''
     Delete dataset from DB
@@ -168,12 +169,18 @@ def delete_dataset(dataset_id):
              404 - such dataset doesn't exist
              200 - dataset was
     '''
+    user_id = int(session['user_id'])
+
     dataset = DataBaseManager.get_dataset_by_id(dataset_id)
-    new_filter = DataBaseManager.get_filter_by_id(dataset.filter_id)
     if not dataset:
         return jsonify({
             'message': 'dataset was not found'
         }), Status.HTTP_404_NOT_FOUND
+    if not dataset.user_id == user_id:
+        return jsonify({
+            'message': ' forbidden'
+        }), Status.HTTP_403_FORBIDDEN
+    new_filter = DataBaseManager.get_filter_by_id(dataset.filter_id)
     DataBaseManager.delete_record_from_db(dataset)
     DataBaseManager.delete_record_from_db(new_filter)
     return jsonify({
@@ -182,6 +189,7 @@ def delete_dataset(dataset_id):
 
 
 @APP.route('/api/delete_filter/<int:filter_id>')
+@login_required
 def delete_filter(filter_id):
     '''
     Delete filter from database
@@ -192,13 +200,21 @@ def delete_filter(filter_id):
              403 - you can`t delete filter because datasets are linked with it
              202 - dataset was deleted
     '''
+    user_id = int(session['user_id'])
+
     new_filter = DataBaseManager.get_filter_by_id(filter_id)
     if not new_filter:
         return jsonify({
             'message': 'there is no such filter'
         }), Status.HTTP_404_NOT_FOUND
+
     datasets = DataBaseManager.get_datasets_by_filter(filter_id)
+
     for dataset in datasets:
+        if not dataset.user_id == user_id:
+            return jsonify({
+                'message': 'forbidden'
+            }), Status.HTTP_403_FORBIDDEN
         if dataset.included_rows:
             return jsonify({
                 'message': 'there are datasets that depended on this filter'
