@@ -1,5 +1,3 @@
-<!-- <button *ngIf="!showDatasetStat" class="stat" (click)="getStatDataset()">Stat</button> -->
-
 
 <h3>{{ userdataset.name }}</h3>
 <div class="row">
@@ -20,11 +18,12 @@
             <ul class="dropdown-menu">
                 <li><a href="api/download/{{ userdataset.id }}">
                 <button class="btn btn-sm btn-outline-success button-download">Download</button>
-            </a>
-            
+            </a></li>
             <li><button type="button" id='data-target'
             class="btn btn-outline-success btn-sm" data-toggle="modal" [attr.data-target]="'#myModalSend' + userdataset.id">Send  file
             </button></li>
+            <li><button class="btn btn-sm btn-outline-danger "(click)="deleteDataset(userdataset.id)">Delete</button></li>
+
             </ul>
     </div>
 

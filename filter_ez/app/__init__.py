@@ -2,7 +2,6 @@
 Initialization of app, mail, manager, database objects
 """
 import eventlet
-import redis
 
 from flask import Flask
 from flask_login import LoginManager
@@ -11,6 +10,7 @@ from flask_script import Manager
 from flask_socketio import SocketIO
 from flask_sqlalchemy import SQLAlchemy
 from flask_mail import Mail
+import redis
 
 from app.config import Config
 from app.celery_manage import create_celery

@@ -29,7 +29,7 @@ def download(dataset_id):
     user_id = int(session.get('user_id', 0))
 
     if not DataBaseManager.get_dataset_by_id(dataset_id):
-        return jsonify({'message': 'file does not exist'}),\
+        return jsonify({'message': 'file does not exist'}), \
                Status.HTTP_404_NOT_FOUND
 
     dataset = UsersDataset(dataset_id)
@@ -71,7 +71,7 @@ def upload():
             attributes = file_manager.upload_file(file)
 
             if not attributes:
-                return jsonify({'error': 'first column not unique values'}),\
+                return jsonify({'error': 'first column not unique values'}), \
                        Status.HTTP_422_UNPROCESSABLE_ENTITY
 
             user_id = int(session['user_id'])
@@ -98,10 +98,10 @@ def upload():
             return jsonify({'error': 'bad file type'}), \
                    Status.HTTP_415_UNSUPPORTED_MEDIA_TYPE
 
-        return jsonify(response),\
+        return jsonify(response), \
                Status.HTTP_201_CREATED
     else:
-        return jsonify({'error': 'no file, empty form'}),\
+        return jsonify({'error': 'no file, empty form'}), \
                Status.HTTP_400_BAD_REQUEST
 
 
@@ -137,7 +137,7 @@ def delete_file(file_id):
         DataBaseManager.delete_record_from_db(file)
 
     return jsonify({"message": "file deleted"}), \
-        Status.HTTP_200_OK
+           Status.HTTP_200_OK
 
 
 @APP.route('/api/get_files', methods=['POST'])
@@ -145,7 +145,7 @@ def delete_file(file_id):
 def getfiles():
     """
     Retrieves list of user files
-    :return: list of dicts:
+    :return: list of dicts:public
         [{
             'id': int
             'name': int
@@ -156,4 +156,73 @@ def getfiles():
     """
     files = UserDataCollector(int(session['user_id']))
     return jsonify(files.get_files_info()), \
-        Status.HTTP_200_OK
+           Status.HTTP_200_OK
+
+
+@APP.route('/api/delete_dataset/<int:dataset_id>')
+@login_required
+def delete_dataset(dataset_id):
+    '''
+    Delete dataset from DB
+    :param dataset_id: dataset id
+    :return: response with codes:
+             404 - such dataset doesn't exist
+             200 - dataset was
+    '''
+    user_id = int(session['user_id'])
+
+    dataset = DataBaseManager.get_dataset_by_id(dataset_id)
+    if not dataset:
+        return jsonify({
+            'message': 'dataset was not found'
+        }), Status.HTTP_404_NOT_FOUND
+    if not dataset.user_id == user_id:
+        return jsonify({
+            'message': ' forbidden'
+        }), Status.HTTP_403_FORBIDDEN
+    new_filter = DataBaseManager.get_filter_by_id(dataset.filter_id)
+    DataBaseManager.delete_record_from_db(dataset)
+    DataBaseManager.delete_record_from_db(new_filter)
+    return jsonify({
+        'message': 'dataset and filter  was deleted'
+    }), Status.HTTP_200_OK
+
+
+@APP.route('/api/delete_filter/<int:filter_id>')
+@login_required
+def delete_filter(filter_id):
+    '''
+    Delete filter from database
+
+    :param filter_id: filter id
+    :return: response with codes:
+             404 - such filter doesn't exist
+             403 - you can`t delete filter because datasets are linked with it
+             202 - dataset was deleted
+    '''
+    user_id = int(session['user_id'])
+
+    new_filter = DataBaseManager.get_filter_by_id(filter_id)
+    if not new_filter:
+        return jsonify({
+            'message': 'there is no such filter'
+        }), Status.HTTP_404_NOT_FOUND
+
+    datasets = DataBaseManager.get_datasets_by_filter(filter_id)
+
+    for dataset in datasets:
+        if not dataset.user_id == user_id:
+            return jsonify({
+                'message': 'forbidden'
+            }), Status.HTTP_403_FORBIDDEN
+        if dataset.included_rows:
+            return jsonify({
+                'message': 'there are datasets that depended on this filter'
+            }), Status.HTTP_403_FORBIDDEN
+    for dataset in datasets:
+        DataBaseManager.delete_record_from_db(dataset)
+    DataBaseManager.delete_record_from_db(new_filter)
+
+    return jsonify({
+        'message': 'filter was deleted'
+    }), Status.HTTP_202_ACCEPTED

@@ -7,7 +7,7 @@ from app.models.files import File, Dataset, Filter
 from app import DB
 
 
-class DataBaseManager:
+class DataBaseManager: # pylint: disable=too-many-public-methods
     """
     Class for working with database. It provides all necessary functionality
     to work with databasedb
@@ -179,6 +179,15 @@ class DataBaseManager:
         return Dataset.query.filter(Dataset.file_id == file_id)
 
     @classmethod
+    def get_datasets_by_filter(cls, filter_id):
+        '''
+        return dataset objects
+        :param filter_id: id of filter
+        :return: dataset object
+        '''
+        return Dataset.query.filter(Dataset.filter_id == filter_id)
+
+    @classmethod
     def add_file(cls, file_name, attributes):
         """
         Adds file with given fields to database
@@ -217,4 +226,14 @@ class DataBaseManager:
         new_filter = Filter(name=name, params=parameters)
         DB.session.add(new_filter)
         DB.session.commit()
+        return new_filter
+
+    @classmethod
+    def get_filter_by_id(cls, filter_id):
+        '''
+        return filter with selected id
+        :param filter_id: filter id
+        :return: filter object
+        '''
+        new_filter = Filter.query.filter(Filter.id == filter_id).first()
         return new_filter
