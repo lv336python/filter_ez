@@ -33,7 +33,7 @@ def load_user(user_id):
 def login():
     """
     POST method that handles login process
-    :return: Eather logged in user
+    :return: Either logged in user
     or incorrect responses
     """
     data = request.get_json()

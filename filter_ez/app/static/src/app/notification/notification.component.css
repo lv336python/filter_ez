@@ -39,3 +39,7 @@
     transition: .5s all;
     color: black;
 }
+
+.error {
+    background-color: red;
+}
