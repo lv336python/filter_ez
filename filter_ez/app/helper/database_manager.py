@@ -7,7 +7,7 @@ from app.models.files import File, Dataset, Filter
 from app import DB
 
 
-class DataBaseManager:
+class DataBaseManager: # pylint: disable=too-many-public-methods
     """
     Class for working with database. It provides all necessary functionality
     to work with databasedb
@@ -180,6 +180,11 @@ class DataBaseManager:
 
     @classmethod
     def get_datasets_by_filter(cls, filter_id):
+        '''
+        return dataset objects
+        :param filter_id: id of filter
+        :return: dataset object
+        '''
         return Dataset.query.filter(Dataset.filter_id == filter_id)
 
     @classmethod
@@ -225,5 +230,10 @@ class DataBaseManager:
 
     @classmethod
     def get_filter_by_id(cls, filter_id):
+        '''
+        return filter with selected id
+        :param filter_id: filter id
+        :return: filter object
+        '''
         new_filter = Filter.query.filter(Filter.id == filter_id).first()
         return new_filter
