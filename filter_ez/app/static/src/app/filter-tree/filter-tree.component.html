@@ -7,17 +7,30 @@
 </ngx-spinner>
 <div class="jumbotron" style="margin-bottom: 0; padding-top: 30px; padding-bottom: 40px;">
     <div class="row justify-content-md-center">
-        <div class="col col-md-auto">
+        <div class="col col-md-2">
+            <label for="">Filter Name</label>
             <input type="text" placeholder="Filter name" style="width: 200px; margin-bottom: 20px"
                    [className]="filter_name ? 'form-control' : 'form-control is-invalid'"
                    [ngModel]="filter_name"
                    (ngModelChange)="setFilterName($event)">
-            <div class="invalid-feedback">
-                                This field is required
-            </div>
+        </div>
+         <div class="col col-md-2">
+            <span>Add resulted number of rows?</span>
+            <label class="switch">
+                <input type="checkbox" name=""
+                      (click)='addResultedQuantity($event)'>
+                <span class="slider round"></span>
+            </label>
+        </div>
+        <div *ngIf="addQuantity" class="col col-md-2">
+            <label for="">Total Quantity</label>
+            <input type="number" placeholder="Total number" style="width: 200px; margin-bottom: 20px"
+                   [className]="resultedQuantity ? 'form-control' : 'form-control is-invalid'"
+                   [ngModel]="resultedQuantity"
+                   (ngModelChange)="setResultedQuantity($event)">
         </div>
     </div>
-    </div>
+</div>
 <table class="table table-hover" *ngIf="file_id">
     <tbody>
     <tr *ngFor="let index of  filter_params | keyvalue">
@@ -27,10 +40,11 @@
                     [columns]="columns"
                     [f_index]="index.key"
                     [file_id]="file_id"
-                    [child]="false"
+                    [child]="'false'"
                     [parent_id]="false"
                     [child_id]="false"
                     [totalRows]="totalRows"
+                    [user_define_quantity]="resultedQuantity"
                     [metadata]="metadata"
                     [f_param]="filter_params"
                     [totalParentRows]="totalRows"
@@ -50,6 +64,7 @@
                                 [parent_id]="index.key"
                                 [child_id]="false"
                                 [totalRows]="totalAmount[index.key]"
+                                [user_define_quantity]="resultedQuantity"
                                 [metadata]="metadata"
                                 [f_param]="filter_params"
                                 [totalParentRows]="index.value.params.quantity"
@@ -69,13 +84,14 @@
                                             [parent_id]="index.key"
                                             [child_id]="ch_index.key"
                                             [totalRows]="totalAmountLastChild[ch_index.key]"
+                                            [user_define_quantity]="resultedQuantity"
                                             [metadata]="metadata"
                                             [f_param]="filter_params"
                                             [totalParentRows]="ch_index.value.params.quantity"
                                             (updateFilterItemParams)="updateFilterParams($event)"
                                     ></filter-item>
-                                    {{ onReduceAmountLastChild(ch_index.key, ls_ch_index.value.params.quantity) }}
                                 </td>
+                                {{ onReduceAmountLastChild(ch_index.key, ls_ch_index.value.params.quantity) }}
                             </tr>
                         </table>
                         <ng-template #last_child>
@@ -94,14 +110,14 @@
     </tbody>
 </table>
 <div class="row justify-content-md-center" *ngIf="file_id">
-    <div class="col col-md-4">
+    <div class="col col-md-3">
         <hr class="my-4">
 
         <button type="button" class="btn btn-sm btn-primary btn-lg btn-block" (click)="saveFilter(apply=true)">Apply</button>
         <button type="button" class="btn btn-sm btn-primary btn-lg btn-block" (click)="saveFilter(apply=false)">Save</button>
 
         <div class="filter-incomplite" *ngIf="save_error">
-                              {{ save_error }}
+            {{ save_error }}
         </div>
     </div>
 </div>
