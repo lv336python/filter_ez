@@ -13,7 +13,6 @@ import { trigger, state, style, animate, transition  } from '@angular/animations
     animations: [
     trigger('changeState', [
       state('state1', style({
-        backgroundColor: '#4d9ef4',
         transform: 'scale(1)'
       })),
       state('state2', style({
@@ -57,7 +56,7 @@ export class NotificationComponent implements OnInit, OnDestroy {
                 data => {
                     let elem = {'id': this.count,
                                 'msg': data['data'],
-                                'status': data['status']};
+                                'status': data['status'].toLowerCase()};
 
                     this.messages.push(elem);
                     setTimeout(() => {
