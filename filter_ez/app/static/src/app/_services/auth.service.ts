@@ -48,6 +48,10 @@ export class AuthService {
             {'password': password})
     }
 
+    toCheckUsedToken(token): Observable<any> {
+        return this.httpClient.get<any>(this.resetPasswordConfirmUrl + '/' + token)
+    }
+
     confirmEmail(token: string): Observable<any> {
 
         return this.httpClient.get<any>(this.confirmUrl + token);

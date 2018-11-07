@@ -7,6 +7,7 @@ import 'rxjs/add/operator/map';
 import 'rxjs/add/operator/catch';
 import 'rxjs/add/observable/throw';
 import {UserData} from '../_models/data';
+import {ModalService} from "./modal.service";
 
 
 @Injectable({
@@ -17,7 +18,8 @@ export class UserDataService {
   private newUserData = new BehaviorSubject<any>(null);
   castUserData = this.newUserData.asObservable();
 
-  constructor(private http: HttpClient) {
+  constructor(private http: HttpClient,
+              private modalService: ModalService) {
   }
 
   getUserData() {

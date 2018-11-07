@@ -33,7 +33,6 @@ class Config:# pylint: disable=R0903
     """
     SECRET_KEY = 'this-really-needs-to-be-changed'
     SECURITY_PASSWORD_SALT = 'my_precious_two'
-
     SQLALCHEMY_TRACK_MODIFICATIONS = False
 
     if IS_IN_DOCKER:
@@ -67,13 +66,17 @@ class Config:# pylint: disable=R0903
 
     ALLOWED_EXTENSIONS = ('csv', 'xls', 'xlsx')
 
-    #Celery configurations
+    # Celery and Redis configurations
     RESULT_BACKEND = 'rpc://'
+
+    REDIS_PORT = 6379
 
     if IS_IN_DOCKER:
         BROKER_URL = 'amqp://rabbitmq:rabbitmq@rabbitmq:5672/'
+        REDIS_URL = 'carstatistics_redis'
     else:
         BROKER_URL = 'amqp://guest@localhost//'
+        REDIS_URL = 'localhost'
 
     CELERY_ACCEPT_CONTENT = ['json', 'pickle']
     CELERY_ROUTES = {

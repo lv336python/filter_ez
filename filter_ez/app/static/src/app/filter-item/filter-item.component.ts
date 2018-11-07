@@ -1,5 +1,7 @@
 import {Component, OnInit, EventEmitter, Input, Output} from '@angular/core';
 import {HttpClient} from "@angular/common/http";
+import {el} from "@angular/platform-browser/testing/src/browser_util";
+
 
 @Component({
     selector: 'filter-item',
@@ -53,6 +55,7 @@ export class FilterItemComponent implements OnInit {
     @Input() child: string;
     @Input() parent_id: number;
     @Input() child_id: number;
+    @Input() totalParentRows: number;
 
     constructor(private http: HttpClient) {
     }
@@ -118,15 +121,18 @@ export class FilterItemComponent implements OnInit {
 
     selectedColumnName(column) {
         this.column = column;
-        this.value = '';
-        if ('min' in this.metadata[column] && 'max' in this.metadata[column]) {
-            this.valueMaxMin = {
-                'min': this.metadata[column]['min'],
-                'max': this.metadata[column]['max']
-        }
-        } else {
-            this.values = this.metadata[column];
-            this.valueMaxMin = {};
+        if (this.metadata) {
+            this.column = column;
+            this.value = '';
+            if ('min' in this.metadata[column] && 'max' in this.metadata[column]) {
+                this.valueMaxMin = {
+                    'min': this.metadata[column]['min'],
+                    'max': this.metadata[column]['max']
+                }
+            } else {
+                this.values = this.metadata[column];
+                this.valueMaxMin = {};
+            }
         }
     }
 
@@ -199,9 +205,9 @@ export class FilterItemComponent implements OnInit {
             if(this.count_rows > this.totalRows) {
                 this.count_rows = this.totalRows;
             }
-            this.maxPercentageForUser = +(this.count_rows * 100 / this.totalRows).toFixed(2);
+            this.maxPercentageForUser = +(this.count_rows * 100 / this.totalParentRows).toFixed(2);
         } else {
-            this.maxPercentageForUser = 100
+            this.maxPercentageForUser = 100;
         }
     }
 
@@ -214,7 +220,7 @@ export class FilterItemComponent implements OnInit {
         if (this.clickMessage == 'Quantity'){
             return this.quantity;
         } else if(this.clickMessage == 'Percentage'){
-            return Math.floor(this.totalRows * this.quantity / 100);
+            return Math.floor(this.totalParentRows * this.quantity / 100);
         }
     }
 

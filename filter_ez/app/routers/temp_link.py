@@ -1,17 +1,14 @@
 """
 Module for temp link view
 """
-import json
-
-from flask import send_file
-from flask import request, session
+from flask import request, session, send_file, jsonify
 from flask_login import login_required
 
-from app.models import Dataset
 from app import APP
+from app.helper import UsersDataset, Status
 from app.services.temp_link_service import send_to_user
 from app.services.token_service import confirm_token
-from app.helper.constant_status_codes import Status
+
 
 @APP.route("/api/temp_link/<token>", methods=['GET'])
 @login_required
@@ -36,14 +33,14 @@ def temp_link(dataset_id):
     :return: file to the email
     """
     emails = request.get_json()['emails']
-    dataset = Dataset.query.get(dataset_id)
+    dataset = UsersDataset(dataset_id)
 
-    if not dataset.user_id == int(session['user_id']):
-        return json.dumps({
+    if not dataset.is_owner(session['user_id']):
+        return jsonify({
             'message': 'Access forbidden'
         }), Status.HTTP_403_FORBIDDEN
 
     res = send_to_user(dataset, emails)
-    return json.dumps({
+    return jsonify({
         'message': res
-    }), 201
+    }), Status.HTTP_200_OK

@@ -2,7 +2,8 @@
 Module for constant status codes
 """
 
-class Status:# pylint: disable=R0903
+
+class Status:  # pylint: disable=R0903
     """
     class that includes status codes
     """
@@ -43,6 +44,7 @@ class Status:# pylint: disable=R0903
     HTTP_415_UNSUPPORTED_MEDIA_TYPE = 415
     HTTP_416_REQUESTED_RANGE_NOT_SATISFIABLE = 416
     HTTP_417_EXPECTATION_FAILED = 417
+    HTTP_422_UNPROCESSABLE_ENTITY = 422
     HTTP_428_PRECONDITION_REQUIRED = 428
     HTTP_429_TOO_MANY_REQUESTS = 429
     HTTP_431_REQUEST_HEADER_FIELDS_TOO_LARGE = 431

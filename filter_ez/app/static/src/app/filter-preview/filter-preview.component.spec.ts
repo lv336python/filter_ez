@@ -1,20 +1,20 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { ModalsComponent } from './modals.component';
+import { FilterPreviewComponent } from './filter-preview.component';
 
-describe('ModalsComponent', () => {
-  let component: ModalsComponent;
-  let fixture: ComponentFixture<ModalsComponent>;
+describe('FilterPreviewComponent', () => {
+  let component: FilterPreviewComponent;
+  let fixture: ComponentFixture<FilterPreviewComponent>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ ModalsComponent ]
+      declarations: [ FilterPreviewComponent ]
     })
     .compileComponents();
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(ModalsComponent);
+    fixture = TestBed.createComponent(FilterPreviewComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

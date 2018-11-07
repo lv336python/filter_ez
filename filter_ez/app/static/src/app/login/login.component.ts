@@ -37,6 +37,8 @@ export class LoginComponent implements OnInit {
             .subscribe(
                 res => {
                     this.emitter.sendMessage("loggedIn");
+                    let email = this.loginGroup.controls['email'].value
+                    document.cookie = "email="+this.loginGroup.controls['email'].value;
                     this.router.navigate([this.returnUrl]);
                 },
                 err => {

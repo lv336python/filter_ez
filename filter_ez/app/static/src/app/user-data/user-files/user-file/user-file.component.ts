@@ -2,6 +2,9 @@ import {Component, Input, OnInit} from '@angular/core';
 import {File} from '../../../_models/data';
 import {from} from 'rxjs';
 import {UserFileService} from "../../../_services/user-file.service";
+import {ModalService} from "../../../_services/modal.service";
+import {UserDataService} from "../../../_services/user-data.service";
+import {UserDataComponent} from "../../user-data.component";
 
 
 @Component({
@@ -14,22 +17,13 @@ export class UserFileComponent implements OnInit {
   @Input() file_index; //for files numeration
   @Input() dataset_id;
   @Input() file_id;
-  showDatasetStat: boolean = false;
-  fileDeleted: boolean = false;
+  fileDeleted = false;
   errorMessage: string;
   confirmed: boolean;
 
-  getStatDataset() {
-    if (this.showDatasetStat == true) {
-      this.showDatasetStat = false;
-    }
-    else {
-      this.showDatasetStat = true
-    }
-  }
 
   bytestToMBytes(bytes): number {
-    return Math.round(bytes / (1024.0 * 1024) * 100) / 100
+    return Math.round(bytes / (1024.0 * 1024) * 100) / 100;
   }
 
 
@@ -44,13 +38,19 @@ export class UserFileComponent implements OnInit {
         let error_data = JSON.parse(data_txt);
         this.errorMessage = error_data.error.message.toString();
       }
-    )
+    );
   }
 
-  constructor(private file: UserFileService) {
+  constructor(private file: UserFileService,
+              private modalService: ModalService,
+              private userData: UserDataComponent) {
   }
 
   ngOnInit() {
   }
 
+  openStat() {
+    this.modalService.open('statModal');
+    this.userData.addItem(this.userfile.datasetId, this.userfile.name);
+  }
 }

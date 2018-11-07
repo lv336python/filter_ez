@@ -100,11 +100,11 @@
         <button type="button" *ngIf="!parent_id" class="btn btn-info" (click)="saveParent()">Save</button>
     </div>
     <div *ngIf="quantity && !qtt_readonly && parent_id && !child_id" class="col-md-9 button-justify">
-        <button type="button" class="btn btn-info" (click)="addChild(parent_id)">Add Child</button>
+        <button type="button" *ngIf="((totalRows - calculateQuantity())>0)" class="btn btn-info" (click)="addChild(parent_id)">Add Child</button>
         <button type="button" *ngIf="parent_id" class="btn btn-info" (click)="saveChild()">Save</button>
     </div>
     <div *ngIf="quantity && !qtt_readonly && parent_id && child_id" class="col-md-9 button-justify">
-        <button type="button" class="btn btn-info" (click)="addLastChild(parent_id, child_id)">Add New</button>
+        <button type="button" *ngIf="((totalRows - calculateQuantity())>0)" class="btn btn-info" (click)="addLastChild(parent_id, child_id)">Add New</button>
         <button type="button" *ngIf="parent_id" class="btn btn-info" (click)="saveLastChild()">Save</button>
     </div>
 </div>

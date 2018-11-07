@@ -75,7 +75,7 @@ class UserDataCollector:
             'createDate': dts.date,
             'nItems': len(dts.included_rows),
             'name': self.get_dataset_name(dts.file_id, dts.filter_id)
-        } for dts in self.datasets if dts.filter_id]
+        } for dts in self.datasets if dts.filter_id and dts.included_rows]
         return user_datasets
 
     def get_files_info(self):
@@ -104,8 +104,11 @@ class UserDataCollector:
         """
         filters = [{
             'id': item.id,
-            'name': item.name
-        } for item in self.filters]
+            'name': item.name,
+            'fileId': dts.file_id
+        } for item in self.filters
+                   for dts in self.datasets
+                   if dts.filter_id == item.id]
         return filters
 
     def get_all_data(self):
@@ -115,4 +118,6 @@ class UserDataCollector:
         user_files = self.get_files_info()
         user_filters = self.get_filters_info()
         user_datasets = self.get_datasets_info()
-        return {'userFiles': user_files, 'userFilters': user_filters, 'userDataSets': user_datasets}
+        return {'userFiles': user_files,
+                'userFilters': user_filters,
+                'userDataSets': user_datasets}

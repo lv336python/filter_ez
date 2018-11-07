@@ -15,7 +15,7 @@ def data_validator(func):
     """
     Decorator that validates login view
     :param func:
-    :return: Eather login view or bad response
+    :return: Either login view or bad response
     """
     @wraps(func)
     def decorated_view(*args, **kwargs):

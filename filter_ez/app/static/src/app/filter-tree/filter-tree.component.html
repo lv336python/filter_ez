@@ -1,3 +1,10 @@
+<ngx-spinner
+  bdColor="rgba(51,51,51,0.8)"
+  size="medium"
+  color="#fff"
+  type="ball-scale-multiple">
+ <p style="font-size: 20px; color: white">Loading...</p>
+</ngx-spinner>
 <div class="jumbotron" style="margin-bottom: 0; padding-top: 30px; padding-bottom: 40px;">
     <div class="row justify-content-md-center">
         <div class="col col-md-auto">
@@ -26,6 +33,7 @@
                     [totalRows]="totalRows"
                     [metadata]="metadata"
                     [f_param]="filter_params"
+                    [totalParentRows]="totalRows"
                     (updateFilterItemParams)="updateFilterParams($event)"
             ></filter-item>
         </td>
@@ -44,6 +52,7 @@
                                 [totalRows]="totalAmount[index.key]"
                                 [metadata]="metadata"
                                 [f_param]="filter_params"
+                                [totalParentRows]="index.value.params.quantity"
                                 (updateFilterItemParams)="updateFilterParams($event)"
                         ></filter-item>
                     </td>
@@ -62,6 +71,7 @@
                                             [totalRows]="totalAmountLastChild[ch_index.key]"
                                             [metadata]="metadata"
                                             [f_param]="filter_params"
+                                            [totalParentRows]="ch_index.value.params.quantity"
                                             (updateFilterItemParams)="updateFilterParams($event)"
                                     ></filter-item>
                                     {{ onReduceAmountLastChild(ch_index.key, ls_ch_index.value.params.quantity) }}
@@ -86,7 +96,10 @@
 <div class="row justify-content-md-center" *ngIf="file_id">
     <div class="col col-md-4">
         <hr class="my-4">
-        <button type="button" class="btn btn-primary btn-lg btn-block" (click)="saveFilter()">Save filter</button>
+
+        <button type="button" class="btn btn-sm btn-primary btn-lg btn-block" (click)="saveFilter(apply=true)">Apply</button>
+        <button type="button" class="btn btn-sm btn-primary btn-lg btn-block" (click)="saveFilter(apply=false)">Save</button>
+
         <div class="filter-incomplite" *ngIf="save_error">
                               {{ save_error }}
         </div>
