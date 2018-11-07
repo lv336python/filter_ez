@@ -179,6 +179,10 @@ class DataBaseManager:
         return Dataset.query.filter(Dataset.file_id == file_id)
 
     @classmethod
+    def get_datasets_by_filter(cls, filter_id):
+        return Dataset.query.filter(Dataset.filter_id == filter_id)
+
+    @classmethod
     def add_file(cls, file_name, attributes):
         """
         Adds file with given fields to database
@@ -217,4 +221,9 @@ class DataBaseManager:
         new_filter = Filter(name=name, params=parameters)
         DB.session.add(new_filter)
         DB.session.commit()
+        return new_filter
+
+    @classmethod
+    def get_filter_by_id(cls, filter_id):
+        new_filter = Filter.query.filter(Filter.id == filter_id).first()
         return new_filter

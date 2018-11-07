@@ -14,10 +14,12 @@ import {UserDataComponent} from "../../user-data.component";
 })
 export class UserDataSetComponent implements OnInit {
   @Input() userdataset: DataSet;
-
+  datasetDeleted : boolean;
+  errorMessage : string;
   constructor(private file: UserFileService,
               private modalService: ModalService,
-              private userData: UserDataComponent) {
+              private userData: UserDataComponent,
+              private userDataService : UserDataService) {
   }
 
 
@@ -35,6 +37,20 @@ export class UserDataSetComponent implements OnInit {
   openStat() {
         this.modalService.open('statModal');
         this.userData.addItem(this.userdataset.id, this.userdataset.name);
+    }
+    deleteDataset(datasetId) {
+
+      this.file.deleteUserDataset(datasetId).subscribe(
+        res => {
+          this.datasetDeleted = true;
+          this.userDataService.getUserData();
+        },
+        err => {
+          let data_txt = (JSON.stringify(err));
+          let error_data = JSON.parse(data_txt);
+          this.errorMessage = error_data.error.message.toString();
+        }
+      );
     }
 
 }

@@ -145,7 +145,7 @@ def delete_file(file_id):
 def getfiles():
     """
     Retrieves list of user files
-    :return: list of dicts:
+    :return: list of dicts:public
         [{
             'id': int
             'name': int
@@ -157,3 +157,58 @@ def getfiles():
     files = UserDataCollector(int(session['user_id']))
     return jsonify(files.get_files_info()), \
         Status.HTTP_200_OK
+
+
+@APP.route('/api/delete_dataset/<int:dataset_id>')
+def delete_dataset(dataset_id):
+    '''
+    Delete dataset from DB
+    :param dataset_id: dataset id
+    :return: response with codes:
+             404 - such dataset doesn't exist
+             200 - dataset was
+    '''
+    dataset = DataBaseManager.get_dataset_by_id(dataset_id)
+    filter = DataBaseManager.get_filter_by_id(dataset.filter_id)
+    if not dataset:
+        return jsonify({
+                'message': 'dataset was not found'
+            }), Status.HTTP_404_NOT_FOUND
+    DataBaseManager.delete_record_from_db(dataset)
+    DataBaseManager.delete_record_from_db(filter)
+    return jsonify({
+            'message' : 'dataset and filter  was deleted'
+        }), Status.HTTP_200_OK
+
+
+
+
+@APP.route('/api/delete_filter/<int:filter_id>')
+def delete_filter(filter_id):
+    '''
+    Delete filter from database
+
+    :param filter_id: filter id
+    :return: response with codes:
+             404 - such filter doesn't exist
+             403 - you can`t delete filter because datasets are linked with it
+             200 - dataset was deleted
+    '''
+    new_filter = DataBaseManager.get_filter_by_id(filter_id)
+    if not new_filter:
+        return jsonify({
+            'message': 'there is no such filter'
+        }), Status.HTTP_404_NOT_FOUND
+    datasets = DataBaseManager.get_datasets_by_filter(filter_id)
+    for dataset in datasets:
+        if dataset.included_rows:
+            return jsonify({
+                'message': 'there are datasets that depended on this filter'
+            }), Status.HTTP_403_FORBIDDEN
+    for dataset in datasets:
+        DataBaseManager.delete_record_from_db(dataset)
+    DataBaseManager.delete_record_from_db(new_filter)
+
+    return jsonify({
+        'message': 'filter was deleted'
+    }), Status.HTTP_202_ACCEPTED

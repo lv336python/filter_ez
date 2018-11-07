@@ -7,6 +7,9 @@ import {Observable} from "rxjs";
 export class UserFileService {
     deleteUserFileUrl = '/api/delete_file';
     downloadDataSetUrl = '/api/download';
+    deleteUserFilterUrl = '/api/delete_filter';
+    deleteUserDatasetUrl = '/api/delete_dataset';
+
 
     constructor( private _http : HttpClient) { }
 
@@ -18,4 +21,10 @@ export class UserFileService {
         return this._http.get<any>(this.downloadDataSetUrl + '/' + datasetId)
     }
 
+    deleteUserFilter(filterId) : Observable<any>{
+        return this._http.get<any>(this.deleteUserFilterUrl + '/' + filterId)
+    }
+    deleteUserDataset(datasetId) : Observable<any>{
+        return this._http.get<any>(this.deleteUserDatasetUrl + '/' + datasetId)
+    }
 }
