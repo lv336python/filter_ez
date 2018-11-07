@@ -8,10 +8,11 @@ from flask_login import login_required
 
 import pandas as pd
 
-from app import APP
+from app import APP, LOGGER
 from app.helper import FileManager, DataBaseManager, Status
 from app.services.file_data import fields_definition
 from app.services.filtration_service import FilterApplier
+from app.services.mail_service import notify_user
 
 
 @login_required
@@ -31,12 +32,23 @@ def apply_filter():
     filter_id = DataBaseManager.add_filter(name, parameters).id
     dataset_id = DataBaseManager.get_datasets_by_file(file_id).first().id
 
-    filter_applier = FilterApplier(dataset_id, filter_id)
-    included_rows = filter_applier.filter_apply()
+    try:
+        filter_applier = FilterApplier(dataset_id, filter_id)
+        included_rows = filter_applier.filter_apply()
 
-    DataBaseManager.add_dataset(user_id=user_id, file_id=file_id, filter_id=filter_id,
-                                included_rows=included_rows)
-
+        DataBaseManager.add_dataset(user_id=user_id, file_id=file_id, filter_id=filter_id,
+                                    included_rows=included_rows)
+    except ValueError as error:
+        notify_user('error', 'file doesnt contain needed amount of items', int(session['user_id']))
+        LOGGER.error(f"Error when trying apply Filter {filter_id} to DataSet {dataset_id}", error)
+    except AttributeError as error:
+        notify_user('error', 'filtration process was not complete', int(session['user_id']))
+        LOGGER.error(f"Error when trying apply Filter {filter_id} to DataSet {dataset_id}", error)
+    except TypeError as error:
+        notify_user('error', 'filtration process was not complete', int(session['user_id']))
+        LOGGER.error(f"Error when trying apply Filter {filter_id} to DataSet {dataset_id}", error)
+    else:
+        notify_user('success', 'filtration complete', int(session['user_id']))
     return jsonify({'success': 'filter was successfully saved'}), \
         Status.HTTP_200_OK
 
