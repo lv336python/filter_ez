@@ -52,6 +52,7 @@ export class FilterItemComponent implements OnInit {
     @Input() child: string;
     @Input() parent_id: number;
     @Input() child_id: number;
+    @Input() totalParentRows: number;
     @Input() user_define_quantity: any;
 
     constructor(private http: HttpClient) {
@@ -72,7 +73,7 @@ export class FilterItemComponent implements OnInit {
             }
             this.parseSettings(this.f_param[this.parent_id]['child'][this.f_index]['settings']);
         } else if (this.parent_id && this.child_id) {
-            this.disable_columns = this.f_param[this.parent_id]['child'][0]['child'][0]['disabledColumns'];
+            this.disable_columns = this.f_param[this.parent_id]['child'][this.child_id]['child'][this.f_index]['disabledColumns'];
 
             if (this.f_param[this.parent_id]['child'][this.child_id]['child'][this.f_index]['params']['column']) {
                 this.selectedColumnName(this.f_param[this.parent_id]['child'][this.child_id]['child'][this.f_index]['params']['column']);
@@ -179,9 +180,12 @@ export class FilterItemComponent implements OnInit {
         if (this.user_define_quantity && this.child === 'false') {
             this.maxPercentageForUser = +(this.count_rows * 100 / this.user_define_quantity).toFixed(2);
         } else if (this.totalRows != 0) {
-            this.maxPercentageForUser = +(this.count_rows * 100 / this.totalRows).toFixed(2);
+             if(this.count_rows > this.totalRows) {
+                this.count_rows = this.totalRows;
+             }
+             this.maxPercentageForUser = +(this.count_rows * 100 / this.totalParentRows).toFixed(2);
         } else {
-            this.maxPercentageForUser = 100
+            this.maxPercentageForUser = 100;
         }
     }
 
@@ -197,7 +201,7 @@ export class FilterItemComponent implements OnInit {
             if (this.user_define_quantity && !this.child_id)
                 return Math.floor(this.user_define_quantity * this.quantity / 100);
             else
-                return Math.floor(this.totalRows * this.quantity / 100);
+                return Math.floor(this.totalParentRows * this.quantity / 100);
         }
     }
 
@@ -461,7 +465,6 @@ export class FilterItemComponent implements OnInit {
                 'qtt_readonly': true }
         };
         this.updateFilterItemParams.emit(this.f_param);
-
     }
 
     addLastChild(parent_id, child_id) {

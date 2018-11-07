@@ -34,6 +34,7 @@
 <table class="table table-hover" *ngIf="file_id">
     <tbody>
     <tr *ngFor="let index of  filter_params | keyvalue">
+                {{ onSetAmount(index.key, index.value.params.quantity) }}
         <td class="per30">
             <filter-item
                     [columns]="columns"
@@ -46,12 +47,14 @@
                     [user_define_quantity]="resultedQuantity"
                     [metadata]="metadata"
                     [f_param]="filter_params"
+                    [totalParentRows]="totalRows"
                     (updateFilterItemParams)="updateFilterParams($event)"
             ></filter-item>
         </td>
         <td>
             <table *ngIf="index.value.child; else chl" class="table table-hover">
                 <tr *ngFor="let ch_index of  index.value.child | keyvalue">
+                    {{ onSetAmountLastChild(ch_index.key, ch_index.value.params.quantity) }}
                     <td>
                         <filter-item
                                 [columns]="columns"
@@ -60,13 +63,15 @@
                                 [child]="'first'"
                                 [parent_id]="index.key"
                                 [child_id]="false"
-                                [totalRows]="index.value.params.quantity"
+                                [totalRows]="totalAmount[index.key]"
                                 [user_define_quantity]="resultedQuantity"
                                 [metadata]="metadata"
                                 [f_param]="filter_params"
+                                [totalParentRows]="index.value.params.quantity"
                                 (updateFilterItemParams)="updateFilterParams($event)"
                         ></filter-item>
                     </td>
+                    {{ onReduceAmount(index.key, ch_index.value.params.quantity) }}
                     <td>
                         <table *ngIf="ch_index.value.child ; else last_child" class="table table-hover">
                             <tr *ngFor="let ls_ch_index of  ch_index.value.child | keyvalue">
@@ -78,13 +83,15 @@
                                             [child]="false"
                                             [parent_id]="index.key"
                                             [child_id]="ch_index.key"
-                                            [totalRows]="ch_index.value.params.quantity"
+                                            [totalRows]="totalAmountLastChild[ch_index.key]"
                                             [user_define_quantity]="resultedQuantity"
                                             [metadata]="metadata"
                                             [f_param]="filter_params"
+                                            [totalParentRows]="ch_index.value.params.quantity"
                                             (updateFilterItemParams)="updateFilterParams($event)"
                                     ></filter-item>
                                 </td>
+                                {{ onReduceAmountLastChild(ch_index.key, ls_ch_index.value.params.quantity) }}
                             </tr>
                         </table>
                         <ng-template #last_child>
