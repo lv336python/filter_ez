@@ -39,14 +39,14 @@ def apply_filter():
         DataBaseManager.add_dataset(user_id=user_id, file_id=file_id, filter_id=filter_id,
                                     included_rows=included_rows)
     except ValueError as error:
-        notify_user('error', 'file doesnt contain needed amount of items', int(session['user_id']))
-        LOGGER.error(f"Error when trying apply Filter {filter_id} to DataSet {dataset_id}", error)
+        notify_user('fail', 'file doesnt contain needed amount of items', int(session['user_id']))
+        LOGGER.error("Error when apply Filter %s to DataSet %s %s", dataset_id, filter_id, error)
     except AttributeError as error:
-        notify_user('error', 'filtration process was not complete', int(session['user_id']))
-        LOGGER.error(f"Error when trying apply Filter {filter_id} to DataSet {dataset_id}", error)
+        notify_user('fail', 'filtration process was not complete', int(session['user_id']))
+        LOGGER.error("Error when apply Filter %s to DataSet %s %s", dataset_id, filter_id, error)
     except TypeError as error:
-        notify_user('error', 'filtration process was not complete', int(session['user_id']))
-        LOGGER.error(f"Error when trying apply Filter {filter_id} to DataSet {dataset_id}", error)
+        notify_user('fail', 'filtration process was not complete', int(session['user_id']))
+        LOGGER.error("Error when apply Filter %s to DataSet %s %s", dataset_id, filter_id, error)
     else:
         notify_user('success', 'filtration complete', int(session['user_id']))
     return jsonify({'success': 'filter was successfully saved'}), \
