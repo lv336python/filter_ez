@@ -53,7 +53,8 @@ export class NotificationComponent implements OnInit, OnDestroy {
             .subscribe(
                 data => {
                     let elem = {'id': this.count,
-                                'msg': data['data']};
+                                'msg': data['data'],
+                                'status': data['status']};
 
                     this.messages.push(elem);
                     setTimeout(() => {

@@ -1,8 +1,10 @@
 
 <div class="notification">
-  <div class="notification-box" *ngFor="let msg of messages; let i = index" [@changeState]="toState[i]" (mouseover)="changeState(i)" (mouseleave)="changeState_back(i)"  >
+    <div *ngFor="let msg of messages; let i = index">
+  <div class="notification-box" [ngClass]="{'error': !msg.status == 'Success'}" [@changeState]="toState[i]" (mouseover)="changeState(i)" (mouseleave)="changeState_back(i)"  >
     <span title="delete notification" class="closebtn" (click)="removeNotification($event.target, i)">x</span>
       <p *ngIf="!toState[i] || toState[i] == 'state1'">{{ msg.msg }}</p>
       <p *ngIf="toState[i] == 'state2'">Delete me!</p>
   </div>
+    </div>
 </div>
