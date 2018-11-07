@@ -13,7 +13,6 @@ import { trigger, state, style, animate, transition  } from '@angular/animations
     animations: [
     trigger('changeState', [
       state('state1', style({
-        backgroundColor: '#4d9ef4',
         transform: 'scale(1)'
       })),
       state('state2', style({
@@ -21,7 +20,7 @@ import { trigger, state, style, animate, transition  } from '@angular/animations
         transform: 'scale(1.3)'
       })),
       transition('*=>state1', animate('300ms')),
-      transition('*=>state2', animate('900ms'))
+      transition('*=>state2', animate('600ms'))
     ])
   ]
 })
@@ -39,6 +38,9 @@ export class NotificationComponent implements OnInit, OnDestroy {
 
     changeState(index: number): void{
         this.toState[index] = 'state2';
+        setTimeout(() => {
+            this.toState[index] = 'state1'
+        }, 10000)
     }
 
     changeState_back(index: number): void{
@@ -53,7 +55,8 @@ export class NotificationComponent implements OnInit, OnDestroy {
             .subscribe(
                 data => {
                     let elem = {'id': this.count,
-                                'msg': data['data']};
+                                'msg': data['data'],
+                                'status': data['status'].toLowerCase()};
 
                     this.messages.push(elem);
                     setTimeout(() => {
