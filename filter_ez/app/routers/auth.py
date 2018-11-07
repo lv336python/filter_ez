@@ -13,7 +13,7 @@ from app.models import User, UserSchema
 from app.services.schema_validate import data_validator
 from app.services.mail_service import send_email
 from app.services.token_service import generate_confirmation_token, confirm_token
-from app.helper import Status, DateTimeManager
+from app.helper import Status, DateTimeManager, DataBaseManager
 
 
 @LOGIN_MANAGER.user_loader
@@ -23,7 +23,7 @@ def load_user(user_id):
     :param user_id:
     :return: user if is logged in or None
     """
-    user = User.query.get(user_id)
+    user = DataBaseManager.get_user_by_id(user_id)
 
     return user
 
@@ -37,13 +37,14 @@ def login():
     or incorrect responses
     """
     data = request.get_json()
+    email = data['email']
 
     if 'user_id' in session:
         return jsonify({
             'message': 'User is already logged in'
         }), Status.HTTP_401_UNAUTHORIZED
 
-    user = User.query.filter(User.email == data['email']).first()
+    user = DataBaseManager.get_user_by_email(email)
 
     if not user:
         return jsonify({
@@ -124,7 +125,7 @@ def register():
     send_email(user.email, subject, html)
 
     return jsonify({
-        'message': f'Please confirm registration'
+        'message': f'Please confirm registration via email'
     }), Status.HTTP_201_CREATED
 
 
@@ -145,7 +146,7 @@ def confirm_email(token):
             'message': 'Link expired'
         }), Status.HTTP_400_BAD_REQUEST
 
-    user = User.query.filter(User.email == email).first()
+    user = DataBaseManager.get_user_by_email(email)
 
     user.confirmed = True
     user.confirmed_date = DateTimeManager.get_current_time()
@@ -182,7 +183,7 @@ def reset_request():
             'message': 'Email is invalid'
             }), Status.HTTP_415_UNSUPPORTED_MEDIA_TYPE
 
-    user = User.query.filter(User.email == email).first()
+    user = DataBaseManager.get_user_by_email(email)
     if not user:
         return jsonify({
             'message': f'Email {email} not found'
@@ -205,7 +206,7 @@ def reset_request():
 @APP.route('/api/password_reset/<token>', methods=['PUT', 'GET'])
 def password_reset(token):
     """
-    PUT view tht updates password in our DB
+    PUT view that updates password in our DB
     :param token:
     :return: updated password for user
     """
@@ -239,7 +240,7 @@ def password_reset(token):
 
     password = generate_password_hash(data['password'])
 
-    user = User.query.filter(User.email == email).first()
+    user = DataBaseManager.get_user_by_email(email)
     user.password = password
     DB.session.add(user)
     DB.session.commit()
