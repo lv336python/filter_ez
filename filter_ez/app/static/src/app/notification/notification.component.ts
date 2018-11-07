@@ -21,7 +21,7 @@ import { trigger, state, style, animate, transition  } from '@angular/animations
         transform: 'scale(1.3)'
       })),
       transition('*=>state1', animate('300ms')),
-      transition('*=>state2', animate('900ms'))
+      transition('*=>state2', animate('600ms'))
     ])
   ]
 })
@@ -39,6 +39,9 @@ export class NotificationComponent implements OnInit, OnDestroy {
 
     changeState(index: number): void{
         this.toState[index] = 'state2';
+        setTimeout(() => {
+            this.toState[index] = 'state1'
+        }, 10000)
     }
 
     changeState_back(index: number): void{

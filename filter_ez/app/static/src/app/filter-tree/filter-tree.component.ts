@@ -30,10 +30,13 @@ export class FilterTreeComponent implements OnInit {
             },
         }
     };
+
     filter_params_ready : object;
 
     metadata: object = null;
     columns: string[];
+    addQuantity: boolean;
+    resultedQuantity: any;
 
     constructor(private http: HttpClient,
                 private router: Router,
@@ -167,20 +170,29 @@ export class FilterTreeComponent implements OnInit {
 
 
         }
-
-
-        // deleteUnnecessaryElem(object_data) {
-        //     delete object_data.parent_id;
-        //     delete object_data.child_id;
-        //     delete object_data.settings;
-        //     return object_data;
-        // }
     }
+
+    deleteUnnecessaryElem(object_data){
+        delete object_data.parent_id;
+        delete object_data.child_id;
+        delete object_data.settings;
+        return object_data;
+    }
+
     checkParams(filter) {
         return Object.keys(filter.params).length < 4;
     }
 
     setFilterName(value) {
         this.filter_name = value;
+    }
+
+    addResultedQuantity(event){
+        if(false == event.target.checked)
+            this.resultedQuantity = false;
+        this.addQuantity = event.target.checked;
+    }
+     setResultedQuantity(quantity){
+        this.resultedQuantity = quantity;
     }
 }
