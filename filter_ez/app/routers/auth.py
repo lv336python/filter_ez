@@ -100,7 +100,7 @@ def register():
     email = data['email']
     password = data['password']
 
-    user = User.query.filter(User.email == email).first()
+    user = DataBaseManager.get_user_by_email(email)
     if user:
         if user.confirmed:
             return jsonify({
