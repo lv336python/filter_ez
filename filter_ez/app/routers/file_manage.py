@@ -89,7 +89,9 @@ def upload():
                     'id': db_file.id,
                     'name': attributes['name'],
                     'size': attributes['size'],
-                    'rows': attributes['rows']
+                    'rows': attributes['rows'],
+                    'datasetId': db_dataset.id
+
                 },
                 'dataset_id': db_dataset.id
             }
