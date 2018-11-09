@@ -1,0 +1,49 @@
+<div>
+    <section class="user-data" *ngIf="userdata">
+        <h2 class="heading-user-data">All history of your activity</h2>
+        <hr>
+        <div class="row">
+            <div class="col-md-1"></div>
+            <div class="col-md-3">
+                <app-user-files></app-user-files>
+            </div>
+            <div class="verticalLine"></div>
+            <div class="col-md-3">
+                <app-user-filters></app-user-filters>
+            </div>
+            <div class="verticalLine"></div>
+            <div class="col-md-3">
+                <app-user-data-sets></app-user-data-sets>
+            </div>
+            <div class="col-md-2"></div>
+        </div>
+    </section>
+</div>
+<app-modal id="statModal">
+    <div class="custom-modal">
+        <div class="custom-modal-body">
+            <button (click)="dismiss('statModal')">close</button>
+            <button (click)="hideStat()" class="align-content-end">add</button>
+            <div class="d-flex d-flex flex-wrap">
+                <div class="card" *ngFor="let item of statToDisplay">
+                    <div class="card-header row">
+                        <h3 class="col-9"> {{ item.name }} </h3>
+                        <button class="col-3" (click)="removeItem(item)">remove</button>
+                    </div>
+                    <app-statistics class="card-body" [datasetId]="item.datasetId"></app-statistics>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="custom-modal-background"></div>
+</app-modal>
+<app-modal id="filterPreview">
+    <div class="custom-modal align-content-center">
+        <div class="custom-modal-body" *ngIf="filterFile">
+            <button (click)="dismiss('filterPreview')">x</button>
+            <app-filter-preview [item]="message" [fileid]="filterFile"></app-filter-preview>
+        </div>
+    </div>
+    <div class="custom-modal-background"></div>
+</app-modal>
+

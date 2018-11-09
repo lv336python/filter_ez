@@ -111,15 +111,18 @@ venv.bak/
 .vscode/
 
 # Project
-car-statistics/app/static/node_modules/
-car-statistics/app/static/package-lock.json
-car-statistics/app/static/public/
-car-statistics/usersdata/
-car-statistics/logs/
+filter_ez/app/static/node_modules/
+filter_ez/app/static/package-lock.json
+filter_ez/app/static/public/
+filter_ez/usersdata/
+filter_ez/logs/
+result.xlsx
 result.xls
+result.csv
 
 postgres/
 rabbitmq/
+redis/
 
 #testing files
-car-statistics/testing/
+filter_ez/testing/

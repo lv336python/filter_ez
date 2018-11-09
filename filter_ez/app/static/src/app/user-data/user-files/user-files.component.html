@@ -1,0 +1,18 @@
+<div>
+    <h3>Your files:</h3>
+    <span class="fa fa-search"></span> Search
+      <input [(ngModel)]="term" placeholder="name, size, or any information"style="border-radius: 3px">
+    <div>
+        <app-file-upload-selector></app-file-upload-selector>
+    </div>
+    <app-user-file *ngFor="let item of userfiles|filter:term ; let i = index" [file_index]="i" [userfile]="item"
+                   [file_id]="item.id"></app-user-file>
+</div>
+<div>
+    <input
+        style="display: none"
+        type="file" (change)="onFileSelected($event)"
+        class="custom-file"
+        #fileInput>
+</div>
+

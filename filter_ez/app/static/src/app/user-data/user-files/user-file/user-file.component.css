@@ -1,0 +1,14 @@
+.cancel-button{
+    margin-left: 250px;
+}
+.btn-danger{
+    margin-left: 15px;
+}
+.list-group-item{
+    border-radius: 6px;
+    border-width: 3px;
+}
+.card{
+    border-radius: 6px;
+    border-width : 3px;
+}

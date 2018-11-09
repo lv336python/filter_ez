@@ -1,0 +1,12 @@
+
+.choose_file {
+    min-width: 200px;
+    max-width: 200px;
+    margin-bottom: 20px;
+
+}
+
+.choose_file option{
+  min-width: 200px;
+    max-width: 200px;
+}

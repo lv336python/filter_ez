@@ -1,0 +1,7 @@
+
+<app-file-upload-selector></app-file-upload-selector>
+<br>
+
+<app-statistics (mouseover)="changeMarked()" *ngIf="datasetId" [datasetId]="datasetId"> Loading statistics... </app-statistics>
+<filter-tree *ngIf="fileId" [file_id]="fileId"></filter-tree>
+<app-table *ngIf="datasetId" [datasetId]="datasetId">Loading preview table...</app-table>

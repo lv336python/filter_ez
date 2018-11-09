@@ -1,0 +1,110 @@
+<div class="row">
+    <div class="form-row col-md-12">
+        <div class="col-md-4">
+            <select class="form-control" *ngIf="!column || !disColumn; else disableColumn"
+                    (change)="selectedColumnName($event.target.value)">
+                <option value="" disabled selected>Chose column</option>
+                <option *ngFor="let row of columns" [disabled]="disable_columns.includes(row)">
+                    {{ row }}
+                </option>
+            </select>
+            <ng-template #disableColumn>
+                <select class="form-control" disabled>
+                    <option value="" selected>{{ column }}</option>
+                </select>
+            </ng-template>
+        </div>
+        <div class="button-group col-md-4" *ngIf="column">
+            <button type="button" class="btn btn-primary btn-sm"
+                    [ngClass]="{'operator-active':operator=='=='}" (click)="addOperator('==')">=</button>
+            <button type="button" class="btn btn-primary btn-sm"
+                    [ngClass]="{'operator-active':operator=='!='}" (click)="addOperator('!=')">!=</button>
+            <button type="button" *ngIf="valueMaxMin.max" class="btn btn-primary btn-sm"
+                    [ngClass]="{'operator-active':operator=='<'}" (click)="addOperator('<')"><</button>
+            <button type="button" *ngIf="valueMaxMin.max" class="btn btn-primary btn-sm"
+                    [ngClass]="{'operator-active':operator=='>'}" (click)="addOperator('>')">></button>
+            <button type="button" *ngIf="valueMaxMin.max" class="btn btn-primary btn-sm"
+                    [ngClass]="{'operator-active':operator=='range'}" (click)="addOperator('range')"><></button>
+        </div>
+        <div class="col-md-4 input-field">
+            <select class="form-control" *ngIf="operator && !valueMaxMin.max && !disValue"
+                    (change)="addValue($event.target.value)"
+                    [disabled]="disValue">
+                <option value="" disabled selected>Choose value</option>
+                <option *ngFor="let row of values">
+                    {{ row }}
+                </option>
+            </select>
+            <input *ngIf="operator != '' && operator !='range' && valueMaxMin.max && !disValue" type="number"
+                   name="range_value"
+                   [ngModel]="rangeValue"
+                   (ngModelChange)="setRangeValue($event)"
+                   [className]="rangeValueError ? 'form-control input-item  is-invalid' : 'form-control input-item'"
+                   placeholder="Min: {{ valueMaxMin.min }} Max: {{ valueMaxMin.max }}">
+            <input *ngIf="operator == 'range' && !disValue" type="number"
+                   name="min_value" [ngModel]="betweenMin" (ngModelChange)="setBetweenMin($event)"
+                   [className]="rangeValueError ? 'form-control input-item  is-invalid' : 'form-control input-item'"
+                   placeholder="Min: {{ valueMaxMin.min }}">
+            <input *ngIf="operator == 'range' && !disValue" type="number"
+                   name="max_value" [ngModel]="betweenMax" (ngModelChange)="setBetweenMax($event)"
+                   [className]="rangeValueError ? 'form-control input-item  is-invalid' : 'form-control input-item'"
+                   placeholder="Max: {{ valueMaxMin.max }}">
+
+            <div class="invalid-feedback">
+                {{ rangeValueError }}
+            </div>
+            <select class="form-control" *ngIf="operator != '' && operator != 'range'
+                && value && disValue" [disabled]="disValue">
+                <option value="" disabled selected>{{ value }}</option>
+            </select>
+            <input class="form-control" *ngIf="operator == 'range' && value && disValue"
+                   value="From: {{value['from']}}" disabled>
+            <input class="form-control" *ngIf="operator == 'range' && value && disValue"
+                   value="To: {{value['to']}}" disabled>
+        </div>
+    </div>
+</div>
+<div class="row" *ngIf="count_rows != undefined">
+    <div class="form-row col-md-12">
+        <div class="col-md-4">
+            <span class="btn btn-success span-width">{{ count_rows + ' / ' + totalRows }}</span>
+        </div>
+        <button type="button" class="btn btn-primary btn-sm" (click)="stanOfButton()">{{ clickMessage }}</button>
+        <div class="col-md-5 quantity-group input-group" *ngIf="clickMessage == 'Percentage'">
+            <input type="number" name="user_quantity"  [ngModel]="quantity"
+                   (ngModelChange)="setQuantity($event)"
+                   [className]="valid_quantity ? 'form-control' : 'form-control is-invalid'"
+                   placeholder="Max {{ maxPercentageForUser }}"
+                   [readonly]="qtt_readonly"
+            >
+            <div class="invalid-feedback">
+                {{ quantityError }}
+            </div>
+        </div>
+        <div class="col-md-5 quantity-group input-group" *ngIf="clickMessage == 'Quantity'">
+            <input type="number" name="user_quantity"  [ngModel]="quantity"
+                   (ngModelChange)="setQuantity($event)"
+                   [className]="valid_quantity ? 'form-control' : 'form-control is-invalid'"
+                   placeholder="Rows: {{ count_rows }}"
+                   [readonly]="qtt_readonly"
+            >
+            <div class="invalid-feedback">
+                {{ quantityError }}
+            </div>
+        </div>
+    </div>
+</div>
+<div class="row">
+    <div *ngIf="quantity && !qtt_readonly && !parent_id && !child_id" class="col-md-9 button-justify">
+        <button type="button" class="btn btn-info" (click)="addNewColumn()">Add Column</button>
+        <button type="button" *ngIf="!parent_id" class="btn btn-info" (click)="saveParent()">Save</button>
+    </div>
+    <div *ngIf="quantity && !qtt_readonly && parent_id && !child_id" class="col-md-9 button-justify">
+        <button type="button" *ngIf="((totalRows - calculateQuantity())>0)" class="btn btn-info" (click)="addChild(parent_id)">Add Child</button>
+        <button type="button" *ngIf="parent_id" class="btn btn-info" (click)="saveChild()">Save</button>
+    </div>
+    <div *ngIf="quantity && !qtt_readonly && parent_id && child_id" class="col-md-9 button-justify">
+        <button type="button" *ngIf="((totalRows - calculateQuantity())>0)" class="btn btn-info" (click)="addLastChild(parent_id, child_id)">Add New</button>
+        <button type="button" *ngIf="parent_id" class="btn btn-info" (click)="saveLastChild()">Save</button>
+    </div>
+</div>
