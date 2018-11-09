@@ -143,6 +143,7 @@ export class FilterTreeComponent implements OnInit {
         console.log(this.filter_params);
 
 
+        
         if (apply == true) {
             console.log(this.filter_params);
             this.http
@@ -151,7 +152,7 @@ export class FilterTreeComponent implements OnInit {
                     'name': this.filter_name,
                     'file_id': this.file_id
                 })
-                .subscribe(data => this.router.navigate(['/']),
+                .subscribe(data => this.router.navigate(['/data']),
                     error => {
                         console.log(error);
                     });
