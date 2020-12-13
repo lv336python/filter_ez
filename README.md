@@ -1,6 +1,6 @@
 # ![Database migrations](https://s2.gifyu.com/images/ezgif.com-gif-maker-1c6f49329b9912280.gif)
 
-FilterEz is a web-application for filtering spreadsheet files in excel and csv format created by python-lv336 group.
+FilterEz is a web-application for filtering spreadsheet files in excel and csv format.
 
 Application gives to users an interactive way of filtering their data sets retrieving only needed information. Before getting to filtering user, will get statistical information about uploaded file in form of graphical charts and preview table.  
 
@@ -94,3 +94,5 @@ With this application user can store all uploaded files and filtering results, d
     pytest --cov-report html  --cov=app tests/  
     pytest --cov-report html --cov-config .coveragerc  --cov=app tests/ 
 ```
+User vovapetryna1995@outlook.com
+password qwerty1111
